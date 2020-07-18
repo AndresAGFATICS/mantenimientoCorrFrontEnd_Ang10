@@ -32,7 +32,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   //  {prefix: "./assets/i18n/", suffix: ".json"},
   //  {prefix: "./assets_modules/i18n/", suffix: ".json"},
   //]);
-
   //return new TranslateHttpLoader(http);
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   // /assets_modules/i18n/es.json

@@ -28,11 +28,11 @@ export class GeneralService {
     //  this._API_ENDPOINT_GATEWAY = 'http://localhost:8080/forestWS/forest';
     //}
     if(sessionStorage.length === 0 || this._IN_DEVELOP) {
-      this._API_ENDPOINT_GATEWAY = 'http://localhost:8080/forestWS/forest';
+      this._API_ENDPOINT_GATEWAY = 'http://localhost:8080/forestWS';
       console.log('Local')
     }
     else{
-      this._API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/forest";
+      this._API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS";
     }
     //console.log('API_ENDPONT = ' + this._API_ENDPOINT_GATEWAY);
     return this._API_ENDPOINT_GATEWAY + this._URL_SERVICE
