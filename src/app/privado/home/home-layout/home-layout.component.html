@@ -1,0 +1,30 @@
+<p-toast position="top-right"></p-toast>
+<div class="layout-wrapper" (click)="onLayoutClick()" [ngClass]="{'layout-menu-slim': slimMenu, 
+                'layout-menu-overlay': overlayMenu, 
+                'layout-menu-static': staticMenu,
+                'layout-menu-static-inactive': staticMenuInactive,
+                'layout-menu-overlay-active': overlayMenuActive,
+                'layout-menu-active': mobileMenuActive}">
+    <app-topbar></app-topbar>
+
+    <div class="layout-main">
+        <app-menu [slimMenu]="slimMenuActive" [reset]="resetSlim"></app-menu>
+
+        <div class="layout-content">
+            <div class="ui-fluid" style="margin-bottom: 15px;">
+
+                <p-confirmDialog id="confirmHome" width="1000px"></p-confirmDialog>
+
+
+
+                <div class="ui-fluid ui-g-12 ui-md-12" style="font-weight: bold; margin-top: -12px">
+                    {{ migaPan }}
+                </div>
+            </div>
+
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+    <div class="layout-mask" *ngIf="mobileMenuActive"></div>
+</div>

@@ -1,0 +1,56 @@
+@media (max-width: 800px) {
+  #titleForest {display: none}
+
+  .accesibilidad {
+    display: none;
+  }
+
+  
+  /* CSS pantallas de 320px o superior */
+  @media (min-width: 320px) {
+
+    .mi-iframe {
+      width: 200px;
+      height: 150px;
+    }
+  }
+
+  /* CSS pantalla 768px o superior */
+  @media (min-width: 768px) {
+
+    .topbar-item-name {
+      width: 500px;
+      height: 350px;
+    }    
+
+  }
+
+}
+
+@media (max-width: 900px) {
+  .accesibilidad900 {
+    display: none;
+  }
+}
+
+/*
+@media (max-width: 650px) {
+  #titleForest {display: none}
+}
+*/
+
+.compactoInfoUser {
+  text-align: right !important;
+}
+
+.ajusteInfoUserDependence {
+  padding-top: 3px;
+}
+
+.menucus{
+  position: absolute;
+    right: 15px;
+    top: 70px;
+    width: 250px;
+
+}

@@ -1,0 +1,13 @@
+<a routerLink="{{menu.codigo_forma}}" *ngFor="let menu of actividades">
+    <p-card class="cardA" [style]="{width: '180px', height: '200px'}">
+
+        <img class="imagenFavoritos" *ngIf="validURL(menu.icono) else icono" ng-src="/resources/img/favoritos.png" src={{menu.icono}}>
+
+        <ng-template #icono>
+            <i class="ng-tns-c19-6 {{menu.icono}}"></i>
+        </ng-template>
+
+        <p class="textoFavoritos">{{menu.title}}</p>
+
+    </p-card>
+</a>

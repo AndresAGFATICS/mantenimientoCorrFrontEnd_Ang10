@@ -1,0 +1,11 @@
+<p>&nbsp;</p>
+<div id="parentFrames" class="p-grid" style="margin-top: .5em">
+    <div class="p-col-fixed" id="col{{i}}" *ngFor="let col of columns; let i=index" [@animation]="'visible'">
+        <div class="box" style = "width: 200px;height: 200px;">
+            <p style="font-weight: bold; margin:0px; background-color: #3984b8; color: white;overflow:hidden;height: 30px;" title="{{col.title}}">{{col.title}}</p>
+            <div id="box{{col.id}}">
+                <iframe src="about:blank" style="width:100%;height:100%;border: none;" sandbox="allow-same-origin allow-scripts allow-forms" scrolling="no"  name="frame_{{col.codigo_forma}}_{{col.id}}" id="iframe_{{col.codigo_forma}}_{{col.id}}"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

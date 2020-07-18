@@ -1,0 +1,79 @@
+<div class="ui-fluid">
+  <p-toast position="top-center"></p-toast>
+  <p-fieldset legend="{{ varText.default.CUMCO010.titulo }}">
+    <p>
+      {{ varText.default.CUMCO010.tituloDevolucion }}
+    </p>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <p-autoComplete [(ngModel)]="seleccionFiltro" field="descripcion" [immutable]="false" [suggestions]="filtroDevolucion" (completeMethod)="searchDevolucion($event)"
+          [dropdown]="true" placeholder="{{ varText.default.CUMCO010.filtroDevolucion }}"
+          [forceSelection]="true"></p-autoComplete>
+          <p-button icon="pi pi-times" (click)="borrarFiltro()"></p-button>
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+
+  <p-fieldset legend="{{ varText.default.CUMCO010.tituloTabla }}">
+    <p-table [columns]="columnasAdjuntos" [value]="rows" [(selection)]="seleccionDevolucion" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="single" showCurrentPageReport="true"
+      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <div class="button-sup-grid">
+            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="{{ varText.default.BOTON.guardar }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarConfiguracion()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex"
+        [ngStyle]="gteRowColorState(row)"
+        *ngIf="(seleccionFiltro === undefined || seleccionFiltro.id === row.id) || (row.state === 'new')">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+              <div *ngSwitchCase="0"> {{rowIndex}}</div>
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.descripcion" [maxlength]="100" (focusout)="editedDevolucion(rowIndex)" (keydown.enter)="editedDevolucion(rowIndex)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="2">
+                <p-checkbox name="groupname" [(ngModel)]="row.activo" binary="true" (onChange)="onChangeActivo(rowIndex)"></p-checkbox>  
+              </div>
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <div style="padding: 100%">
+        </div>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+
+
+
+<!--  
+</div>
+<div style="text-align:center">
+  <button pButton type="button" label="Finalizar" class="btn btn-primary"></button>
+</div>
+-->

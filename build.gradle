@@ -1,0 +1,186 @@
+
+  //String angularLib = ""
+
+
+task angularBuild (){
+    doLast {
+
+		//se definen los modulos a cargar en el Workplace
+        def jsonFile = file('modulos.json')
+		
+		
+		
+		
+		//Se genera un parse de json  para iterar y efectuar la instalacion de los modulos
+		def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+		
+		
+		def modulos = new File("modulos.txt");
+        def routes = new File("routes.txt");
+        def actividad = new File("actividad.txt");
+        def modulosNuevos = new File("modulestmp.txt")
+        
+		def templateRouting = new File ("src/app/privado/home/home-routing-temp.module.ts").getText('UTF-8');//El texto de la plantilla
+		def templateApp = new File ("angular-template.json").getText('UTF-8');//El texto de la app
+		def templateAppModule = new File ("src/app/app.module.ts.template").getText('UTF-8');//inclusiones en app principal idiomas
+        def modulosPath = "src/app/privado/core/verdaccio-config-temp.module.ts"
+		
+		//Lista de modulos a instalar.
+		def allModules = '';
+		//apilan versiones para ejecucion del programa NPM
+		def array = new java.util.ArrayList();
+		
+		array.push(System.properties['os.name'].toLowerCase().contains('windows')?"npm.cmd":"npm");
+		array.push("install");
+	
+		parsedJson.each { libreria ->
+		   allModules += "$libreria.name" + "@" +"$libreria.version" + " ";
+		   array.push("$libreria.name" + "@" +"$libreria.version");
+		}
+	
+		println "Instalando librerias en el workplace:  " +  allModules;
+		
+		//armando array para invocacion del proceso
+		def arrayProcess =  new String[array.size()];
+		for(def i=0;i< array.size();++i){
+		arrayProcess[i] = "" +array.get(i);
+		
+		}
+	
+		
+		//disparando proceso NPM
+		def process = new ProcessBuilder(arrayProcess)
+		.directory(new File("."))
+        .redirectErrorStream(true)
+		.start();
+		
+		
+		//Generando  salida de proceso  a la consola
+		process.inputStream.eachLine {println it}
+		//Esperar que termine instalacion de componentes
+		process.waitFor();
+		
+		parsedJson.each { libreria ->
+		
+		println "Cargando  configuraciones de los modulos verdaccio: $libreria.name"
+		def folder = new File("node_modules/$libreria.name")
+            if(folder.exists()){
+                File config = new File ("node_modules/$libreria.name/config.ts")
+                if(config.exists()){
+				    modulos.append "//----------------\n//$libreria.name\n//----------vvv---------\n"
+                    config.eachLine {
+                        line -> modulos.append "$line\n"
+                    }
+					modulos.append "//----------------\n//$libreria.name\n//----------^^^---------\n"
+                } else {
+                    println "No se encontro el archivo config.ts en $libreria.name"
+                }
+        
+                File path = new File ("node_modules/$libreria.name/path.json")
+                if(path.exists()){
+				    routes.append "//----------------\n//$libreria.name\n//----------vvv---------\n"
+                    path.eachLine {
+                        line -> routes.append  "$line\n"            
+                    }
+					routes.append "//----------------\n//$libreria.name\n//----------^^^---------\n"
+                }else {
+                    println "No se encontro el archivo path.json en $libreria.name"
+                }
+    
+                File actividadjson = new File ("node_modules/$libreria.name/actividad.json")
+                if(actividadjson.exists()){
+				actividad.append "//----------------\n//$libreria.name\n//----------vvv---------\n"
+                    actividadjson.eachLine {
+                        line -> actividad.append  "$line\n"            
+                    }
+				actividad.append "//----------------\n//$libreria.name\n//----------^^^---------\n"	
+                }else {
+                    println "No se encontro el archivo actividad.json en $libreria.name"
+                }
+			
+				  File lang = new File ("node_modules/$libreria.name/assets/i18n/es.json")
+                  
+                if(lang.exists()){
+                    templateApp = templateApp.replace("\"src/assets\"","\"src/assets\",\n\"src/assets/\",\n{ \"input\": \"./node_modules/$libreria.name/assets/i18n\", \"glob\": \"**/*\", \"output\": \"/assets/$libreria.name/i18n/\" }");
+                    templateAppModule = templateAppModule.replace("//lang","//lang\n,{prefix: \"./assets/$libreria.name/i18n/\", suffix: \".json\"}");
+                    def sirDir = file("src/assets/$libreria.name/i18n")
+                   sirDir.mkdirs();
+
+                   copy {
+                    from "node_modules/$libreria.name/assets/i18n"
+                    into "src/assets/$libreria.name/i18n"
+                    include '*.json'
+                    }
+
+                }
+				
+				
+            } else{
+                println "La libreria $libreria.name no se instalo"
+            }
+		}
+
+       def versionFile = "<html><header><title>Componentes Instalados</title></header><body><b>Fecha de construcci&oacute;n</b>: "+new Date().format("yyyy-MM-dd HH:mm:ss") +"<ul>\n";
+	   def paquetes = new groovy.json.JsonSlurper().parseText(new File ("package.json").text);
+                
+		parsedJson.each { libreria ->
+		   versionFile += "<li> <b>$libreria.name Versi&oacute;n</b>: "+paquetes.dependencies["$libreria.name"]+"</li>\n" ;
+		}
+        //.substring(1)
+		versionFile +="</li></body></html>";
+		def file =  new File("src/assets/version.html");
+		file.delete();
+		file.text = versionFile;
+        
+       
+        if(routes.exists()){
+		    def newRoutes = routes.getText('UTF-8').replace("[",",").replace("]","").replace('"path"',"path").replace('"loadChildren"',"loadChildren");
+		    templateRouting = templateRouting.replace("//#routeAgregar", newRoutes + "\n//#routeAgregar" );
+           
+		   if(actividad.length() > 0){
+                templateRouting = templateRouting.replace("//#actividadesAgregar", actividad.getText('UTF-8').replace("[","").replace("]",",").replace('"path"',"path").replace('"loadChildren"',"loadChildren")+"\n//#actividadesAgregar")
+            }
+        
+            //routerNuevos.append  "$nuevoRouting\n"
+
+            delete fileTree("/src/app/privado/home"){
+                include "**/home-routing.module.ts"
+            }
+            
+            
+            
+        }
+        //Fin de agregar routers a el archivo home-routing.module.ts
+
+        // Inicio de agregar modulos a el archivo verdaccio-config.module.ts
+        if(modulos.exists()){
+            File verdacciold = new File (modulosPath)
+            def nuevoModule = verdacciold.getText('UTF-8').replace("//#modulosVerdacio", modulos.getText('UTF-8'))
+        
+            modulosNuevos.append  "$nuevoModule\n"
+
+            delete fileTree("/src/app/privado/core"){
+                include "**/verdaccio-config.module.ts"
+            }
+
+            File verdaccionew = new File ("src/app/privado/core/verdaccio-config.module.ts")
+            verdaccionew.append modulosNuevos.getText('UTF-8')
+        }
+        //Fin de agregar modulos a el archivo verdaccio-config.module.ts
+
+        delete fileTree(".") {
+            include "**/modulos.txt"
+            include "**/routes.txt"
+            
+            include "**/modulestmp.txt"
+			include "**/actividad.txt"
+        }
+	
+	   //sobreescribiendo  el routing
+       def homenew = new File ("src/app/privado/home/home-routing.module.ts")
+       homenew.setText(templateRouting);
+	   new File ("angular.json").setText(templateApp);
+       new File ("src/app/app.module.ts").setText(templateAppModule);
+    }
+}
+

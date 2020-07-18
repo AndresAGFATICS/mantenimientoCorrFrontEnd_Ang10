@@ -1,0 +1,151 @@
+/*
+ en el body re remueve
+-moz-osx-font-smoothing: grayscale;
+*/
+.layout-wrapper .layout-menu-wrapper.layout-menu-dark .layout-menu li a.active-menuitem-routerlink {
+  color: #93bfde;
+}
+
+.layout-wrapper .layout-menu-wrapper.layout-menu-dark .layout-menu li a.active-menuitem-routerlink {
+  color: #93bfde;
+}
+
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+}
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-bar {
+  background-color: #aaaaaa;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-hidden {
+  display: block;
+  visibility: hidden;
+}
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .layout-menu-container {
+  width: 258px;
+  padding-right: 18px;
+}
+
+  .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel {
+    border: none;
+    border-radius: 0;
+  }
+  .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-wrapper {
+    overflow: visible;
+  }
+  .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-wrapper .ui-scrollpanel-content {
+    overflow: visible;
+  }
+  .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-bar {
+    display: none;
+  }
+  .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .layout-menu-container {
+    width: 92px;
+  }
+
+/******************default *****************/
+
+.layout-wrapper .layout-menu-wrapper.layout-menu-dark .layout-menu li a.active-menuitem-routerlink {
+    color: #93bfde;
+}
+
+
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel {
+    background: transparent;
+    border-radius: 0;
+    border: none;
+}
+
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-bar {
+    background-color: #aaaaaa;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+}
+
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-hidden {
+    display: block;
+    visibility: hidden;
+}
+
+.layout-wrapper .layout-menu-wrapper .ui-scrollpanel .layout-menu-container {
+    width: 258px;
+    padding-right: 18px;
+}
+
+ .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel {
+        border: none;
+        border-radius: 0;
+    }
+    .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-wrapper {
+        overflow: visible;
+    }
+    .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-wrapper .ui-scrollpanel-content {
+        overflow: visible;
+    }
+    .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .ui-scrollpanel-bar {
+        display: none;
+    }
+    .layout-wrapper.layout-menu-slim .layout-menu-wrapper .ui-scrollpanel .layout-menu-container {
+        width: 92px;
+    }
+	.ui-timepicker.ui-widget-header.ui-corner-all.ng-tns-c28-44.ng-star-inserted {
+    background-color: white;
+}
+
+/*** theme ***/
+/* Add your customizations of the theme here */
+
+.ui-table-wrapper.ng-star-inserted {
+    border: 1px solid #c7cdd1;
+}
+
+.ui-paginator-bottom.ui-paginator.ui-widget.ui-widget-header.ui-unselectable-text.ui-helper-clearfix.ng-star-inserted {
+    background: #ebebeb;
+    border: 1px solid #c7cdd1;
+}
+
+body .ui-paginator .ui-paginator-pages {
+    border: 1px solid #c7cdd1;
+    padding: 0 0 20px 0;
+}
+
+a.ui-paginator-page.ui-paginator-element.ui-state-default.ui-corner-all.ui-state-active.ng-star-inserted {
+    color: white;
+    background-color: #3984b8;
+}
+
+.ui-table-caption.ui-widget-header.ng-star-inserted {
+    background: #e3e3e3;
+    height: 40px;
+}
+
+table {
+    background-color: white;
+}
+
+p-card.cardA {
+    background-color: white;
+}
+
+.ui-multiselect .ui-multiselect-panel {
+    background-color: #3984b8 !important;
+}
+
+li.ui-multiselect-item.ui-corner-all {
+    background-color: #3984b8 !important;
+    border: 1px solid #3984b8;
+    margin: 0%;
+}
+
+span.pi.pi-times {
+    color: white;
+}
+
+.ui-dialog-footer.ui-widget-content.ng-tns-c13-0.ng-star-inserted {
+    text-align: center;
+}
+
+

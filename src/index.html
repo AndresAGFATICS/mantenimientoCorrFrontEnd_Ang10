@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FOREST" />
+    <meta name="keywords" content="forest, forestWorkplace, workplace" />
+
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+
+    <title id="titulo"></title>
+    <script>
+        //funciones iniciales de recapcha
+        function initRecaptcha() {};
+
+        function loadCaptcha() {};
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=initRecaptcha" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=loadCaptcha" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" id="icon" href="">
+    <link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/theme-blue.css">
+    <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-default.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script style="text/javascript" src="../appConfig/workplace.js"></script>
+    <script style="text/javascript" src="assets/producto.js"></script>
+    <style>
+        .loader {
+            border: 15px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+        /* Safari */
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /*Alcides: heredando de workplace 1 Kenneth: Estilos para el showAlert */
+        
+        .showAlertIcon_info {
+            /*background-image: url("../img/kyo-tux-delikate-info.ico");*/
+            background-image: url("assets/images/icons/kyo-tux-delikate-info.png");
+            background-repeat: no-repeat;
+            background-size: 32px 32px;
+        }
+        
+        .showAlertIcon_error {
+            background-image: url("assets/images/icons/boton-de-error-icono-5371-128.png");
+            background-repeat: no-repeat;
+            background-size: 32px 32px;
+        }
+        
+        .showAlertIcon_warning {
+            background-image: url("assets/images/icons/warning-icon.png");
+            background-repeat: no-repeat;
+            background-size: 32px 32px;
+        }
+        
+        .showAlertIconDiv {
+            text-align: center;
+            display: table-cell;
+            vertical-align: middle;
+            min-width: 32px;
+            height: 32px;
+            background-repeat: no-repeat;
+        }
+        
+        .showAlertText {
+            display: table-cell;
+            vertical-align: middle;
+            width: 90%;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-weight: bolder;
+        }
+        
+        .hiddenRow {
+            display: none;
+        }
+        /* 
+        .xui-link {}
+        
+        .xui-link a:hover,
+        .xui-link a:link,
+        .xui-link a:active,
+        .xui-link a:active {
+            text-decoration: underline;
+            color: green;
+        }*/
+    </style>
+</head>
+<script>
+    var content;
+    if (!localStorage.getItem("topbar")) {
+        $.getJSON("assets/topbar.json").done(res => {
+            localStorage.setItem("topbar", JSON.stringify(res));
+        });
+    }
+
+    $("#titulo").html(window['PRODUCTO'].name);
+    $("#icon").attr("href", window['PRODUCTO'].icon);
+
+    function __global_resize(evento) {
+        var height = jQuery(window).height() - jQuery(".topbar").height() - 60;
+        if (jQuery("#ifr_panel_form_content").length > 0 && jQuery("#ifr_panel_form_content").height() != height) {
+            jQuery("#ifr_panel_form_content").height(height);
+            jQuery("#ifr_panel_form_content").css("overflow-x", "hidden");
+        }
+        setTimeout(__global_resize, 1000);
+    }
+    window.onresize = __global_resize;
+    __global_resize();
+</script>
+<script>
+    window.FOREST = {
+        "url_gateway": "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/",
+        "client_id": "HxfYKNNtQ_u4hLkCZLYQtLapyXUa",
+        "scope": "openid users_system",
+        "client_secret": "azkaljf5J3zxbJrKAgQS3QNzUZ0a",
+        "urlDirectorioServicios": "https://alcaldiadevcaliforest5.forestbpms.co/api/am/store/v0.14/apis",
+        "url_pub": "https://alcaldiadevcaliforest5.forestbpms.co/",
+        "url_formas_contexto": "xuiForms",
+        "downloads_notify": "https://alcaldiadevcaliforest5.forestbpms.co/downloads/forestNotify5/notify.jnlp",
+        "downloads_scanner": "https://alcaldiadevcaliforest5.forestbpms.co/downloads/forestScanner.exe",
+        "downloads_ms": "https://alcaldiadevcaliforest5.forestbpms.co/downloads/Forest_BPMS_Components.exe",
+        "url_resources": "/resources",
+        "theme": "vista",
+        "build_timestamp": "2018-08-21 14:52:26 COT",
+        "app_name": "FOREST BPM : Modelo Integral de Respuesta Amigable, VersÃ¡til y Eficaz",
+        "google_data_sitekey": "6LeEmMEUAAAAACjC6iqvDnTZj8gEGQ9VdwhP728X",
+        "context_menu": "workplaceServicesComponent/0.0.1/api/work-place/listWorkplaceMenu?_rnd_=",
+        "urlCaracterizador": "https://automatizacionforest5.forestbpms.co/resources/caracterizador/",
+        "urlMediosMagneticos": "http://servicios.cali.gov.co:9292/FormulariosAD/FrontController?service=AutodeclaracionService&action=validateFormNumber&data=",
+        "url_inicioSesion": "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/workplaceServicesComponent/0.0.1/api/work-place/iniciarSesion"
+    };
+</script>
+</head>
+
+<body style="height:100%" class="body">
+
+    <div class="loader" style="display:none;"></div>
+    <app-root>
+        <div class="splash-screen">
+            <div class="splash-screen-loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </app-root>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+.cardA {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    width: 180px;
+    height: 200px;
+    position: relative;
+    display: inline-flex;
+    margin: 0.4%;
+}
+
+.cardA:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    font-size: 0.86rem;
+}
+
+.center {
+    margin: 12px !important;
+    width: 50%;
+    padding: 10px;
+}
+
+.imagenFavoritos {
+    height: 10%;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 14%;
+}
+
+.textoFavoritos {
+    text-align: center;
+    font-size: 0.85rem;
+    display: block;
+    font-weight: bold;
+}
+
+.material-icons {
+    font-size: 76px;
+    height: 10%;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 14%;
+}
+.fa {
+    font-size: 116px;
+}

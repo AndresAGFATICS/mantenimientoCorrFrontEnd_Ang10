@@ -1,0 +1,22 @@
+p {
+    margin: 5px;
+}
+
+span {
+    position: absolute;
+    font-size: 1.2em;
+}
+
+img {
+    width: 500px;
+}
+
+.Container{
+    margin: 2.5%;
+}
+
+.acerca{
+    border-top: #dee4e9 0.2px solid;
+    margin-bottom: 30px;
+    border-bottom: #dee4e9 0.2px solid;
+}

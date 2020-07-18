@@ -1,0 +1,18 @@
+{
+    "token": {
+        "access_token": "11",
+        "expires_in": 3435,
+        "id_token": "21s",
+        "refresh_token": "as21",
+        "scope": "openid",
+        "token_type": "Bearer"
+    },
+    "usuario": {
+        "NOMFUN": "Usuario",
+        "CODFUN": "Usuario",
+        "NOMDEPENDENCIA": "DEPENDENCIA",
+        "IMG_USUARIO": true,
+        "EMAIL": "us@gmail.com",
+        "FIRMA_CLAVE": ""
+    }
+}

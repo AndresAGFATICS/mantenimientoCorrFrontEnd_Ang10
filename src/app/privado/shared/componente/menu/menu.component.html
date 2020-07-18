@@ -1,0 +1,21 @@
+<div class="layout-menu-wrapper menu_completo" style="overflow: hidden;" [class.layout-menu-dark]="app.darkMenu" (click)="onWrapperClick($event)">
+
+    <div *ngIf="!slimMenu" class="ui-inputgroup layout-menu-search ui-fluid">
+        <span class="ui-inputgroup-addon"><i class="pi pi-search"></i></span>
+        <p-autoComplete [(ngModel)]="patronBusqueda" (completeMethod)="buscarItemsMenu($event)" [minLength]="0" [suggestions]="filteredMenu" placeholder="{{ 'GENERAL.buscarMenu' | translate }}"></p-autoComplete>
+
+    </div>
+    <p-scrollPanel #layoutMenuScroller [style]="{height: '100%'}">
+        <div class="layout-menu-container menu_completo">
+            <div class="mobile-search">
+                <i class="fa fa-fw fa-search topbar-search-icon"></i>
+                <input type="text" class="topbar-search" placeholder="Type your search here" />
+            </div>
+
+            <ul class="layout-menu">
+                <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true" [slimMenu]="slimMenu"></li>
+            </ul>
+        </div>
+    </p-scrollPanel>
+
+</div>

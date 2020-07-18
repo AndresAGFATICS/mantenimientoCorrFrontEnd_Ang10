@@ -1,0 +1,139 @@
+<div class="ui-fluid">
+  <p-toast position="top-center"></p-toast>
+  <p-fieldset legend="{{ varText.default.CUMCO006.titulo }}">
+    <div class="p-grid ui-fluid">
+      <div class="p-col-12 p-md-4">
+        <p>{{ varText.default.CUMCO006.canalConfigurar }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ varText.default.MENSAJES.seleccionFiltro }}" (onChange) ="actualizarHora()"></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <p>{{ varText.default.CUMCO006.horaInicio }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <p-calendar  [timeOnly]="true" [(ngModel)]="hora.horaInicial" dataType="string"   [disabled]="seleccionCanal===undefined"></p-calendar>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <p>{{ varText.default.CUMCO006.horaFin }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <p-calendar  [timeOnly]="true" [(ngModel)]="hora.horaFinal" dataType="string" [disabled]="seleccionCanal===undefined"></p-calendar>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <br>
+
+  </p-fieldset>
+
+
+  <p-fieldset legend="Configurar Horario de Radicación Comunicaciónes Oficiales (COF)">
+    <div class="p-grid ui-fluid">
+
+      <div class="p-col-12 p-md-4">
+        <p>{{ varText.default.CUMCO006.horaInicio }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <p-calendar  [timeOnly]="true" [(ngModel)]="horaCof.horaInicial" dataType="string"></p-calendar>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <p>{{ varText.default.CUMCO006.horaFin }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <p-calendar  [timeOnly]="true" [(ngModel)]="horaCof.horaFinal" dataType="string"></p-calendar>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <br>
+
+  </p-fieldset>
+
+  <p-fieldset legend="{{ varText.default.CUMCO006.tituloTablaFestivos }}">
+
+    <!-- Start Table -->
+    <p-table [columns]="cols" [value]="listaFestivo" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="seleccionFestivo">
+
+      <!-- Table Caption -->
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <!-- Buttons -->
+          <div class="button-sup-grid">
+            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+            <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Table Heardes -->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Content -->
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+              <div *ngSwitchCase="0"> {{rowIndex}} </div>
+              <div *ngSwitchCase="1">
+
+                  <div class="ui-g">
+                    <div class="ui-g-12">
+                      <p-calendar [(ngModel)]="row.fechaHabilitada" dateFormat="yy-mm-dd" [locale]="es"
+                                  [disabled]="row.state === 'delete'"
+                                  dataType="string"
+                                  (click) ="desSelectRow()"
+                                  (onSelect) ="edited(rowIndex)">
+                      </p-calendar>
+                    </div>
+                  </div>
+
+
+              </div>
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+    <!-- End Table -->
+
+  </p-fieldset>
+
+
+
+</div>

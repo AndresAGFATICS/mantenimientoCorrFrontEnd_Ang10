@@ -1,0 +1,11 @@
+<p-dropdown id="user-display" class="accesibilidad ubicarIdioma" [options]="idiomas" [(ngModel)]="idiomaSeleccionado"
+    (onChange)="seleccionarIdioma()" [style]="{'width':'60px'}">
+    <ng-template let-item pTemplate="selectedItem">
+        <img src="assets/images/icons/{{item.value}}.svg" style="width:25px;vertical-align:middle" />
+    </ng-template>
+    <ng-template let-idioma pTemplate="item">
+        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <img src="assets/images/icons/{{idioma.value}}.svg" style="width:24px;position:absolute;top:1px;left:5px" />
+        </div>
+    </ng-template>
+</p-dropdown>

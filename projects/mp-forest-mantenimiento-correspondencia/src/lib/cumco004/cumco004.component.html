@@ -1,0 +1,88 @@
+<div class="ui-fluid">
+  <p-toast position="top-center"></p-toast>
+  <p-fieldset legend="{{ varText.default.CUMCO004.titulo }}">
+    <p>
+      {{ varText.default.CUMCO004.filtro }}
+    </p>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field = "codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
+           [dropdown]="true" placeholder="{{ varText.default.CUMCO004.filtroPlaceHolder }}" [required]="true"></p-autoComplete>
+          <p-button icon="pi pi-times" (click) ="onClicBorrarAutoComplete()"></p-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Table -->
+    <p-table [columns]="cols" [value]="rows"
+    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+    selectionMode="single" [(selection)]="selectedRows" sortField="tipo_documental" >
+    <!-- [scrollable]="true" scrollHeight="500px" > -->
+
+      <!-- Table Caption -->
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+      <!-- Buttons -->
+          <div class="button-sup-grid">
+            <p-button icon="pi pi-save" label="{{ varText.default.BOTON.guardar }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Table Heardes -->
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+          </tr>
+      </ng-template>
+
+      <!-- Table Content -->
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" *ngIf="textAutocompleteTipoDocumental.length === 0 || row.id_tipo_documental === textAutocompleteTipoDocumental.id" [ngStyle]="gteRowColorState(row)">
+              <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                  <div [ngSwitch]="i">
+                      <div *ngSwitchCase="0">
+                          <p-cellEditor>
+
+                              <ng-template pTemplate="input" >
+
+                                 <input type="text" [(ngModel)]="row.tipo_documental" [maxlength]="100" [disabled]="true">
+
+                              </ng-template>
+
+                              <ng-template pTemplate="output">
+
+                                  {{row.tipo_documental}}
+
+                              </ng-template>
+
+                          </p-cellEditor>
+                      </div>
+                      <div *ngSwitchCase="1">
+                        <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                  <p-dropdown [required]="true" [(ngModel)]="row.accion"
+                                  [options]="listaAcciones"  [style]="{'width':'100%', 'height':'100%'}"
+                                  optionLabel="accion" (onChange)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-dropdown>
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                  {{row.accion.accion}}
+                              </ng-template>
+                          </p-cellEditor>
+                      </div>
+
+                  </div>
+
+              </td>
+          </tr>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+</div>

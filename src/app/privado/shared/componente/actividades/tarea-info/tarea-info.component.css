@@ -1,0 +1,165 @@
+/*.iframe-container {
+    overflow: hidden;
+    padding-top: 160.25%;
+    position: relative;
+}*/
+
+@media (min-width: 500px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 425.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 641px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 752%;
+        position: relative;
+    }
+}
+
+@media (min-width: 700px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 571.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 800px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 503.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 900px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 422.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1000px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 355.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1100px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 278.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1200px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 247.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1300px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 223.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1400px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 202.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1500px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 184.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1600px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 170.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1700px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 160.25%;
+        position: relative;
+    }
+}
+
+@media (min-width: 1800px) {
+    .iframe-container {
+        overflow: hidden;
+        padding-top: 151.25%;
+        position: relative;
+    }
+}
+
+.iframe-container iframe {
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.icoInfo {
+    color: #888;
+    width: 30px;
+    height: 30px;
+    text-align: right;
+
+    position: absolute;
+    left: 96%;
+    z-index: 50;
+    cursor: pointer;
+    transition: color 0.5s ease-in; 
+    top: 100px;
+
+}
+.icoInfo>i {
+    font-size: 25px;
+  
+}
+
+.anima{
+    position:fixed;
+    -webkit-clip-path: inset(0 0 0 100% );
+    clip-path: inset(0 0 0 100% );
+    transition: ease-in-out .3s;
+    right: 20px;
+    top: 150px;
+   
+}
+
+
+
+.menudos {
+    -webkit-clip-path: inset(0 0 0 0%);
+    clip-path: inset(0 0 0 0%);
+    transition: ease-in-out .3s;
+    background: white;
+    padding: 10px;
+}

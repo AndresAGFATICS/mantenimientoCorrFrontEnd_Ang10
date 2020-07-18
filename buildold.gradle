@@ -1,0 +1,108 @@
+
+
+task angularBuild {
+    doLast {
+
+        def jsonFile = file('modulos.json')
+		def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+		def modulos = new File("modulos.txt");
+        def routes = new File("routes.txt");
+        def actividad = new File("actividad.txt");
+        def routerNuevos = new File("routestmp.txt")
+        def modulosNuevos = new File("modulestmp.txt")
+        def rutasPath = "src/app/privado/home/home-routing-temp.module.ts"
+        def modulosPath = "src/app/privado/core/verdaccio-config-temp.module.ts"
+		parsedJson.each { libreria ->
+        def folder = new File("node_modules/$libreria.name")
+            if(folder.exists()){
+                File config = new File ("node_modules/$libreria.name/config.ts")
+                if(config.exists()){
+                    config.eachLine {
+                        line -> modulos.append "$line\n"
+                    }
+                } else {
+                    println "No se encontro el archivo config.ts en $libreria.name"
+                }
+        
+                File path = new File ("node_modules/$libreria.name/path.json")
+                if(path.exists()){
+                    path.eachLine {
+                        line -> routes.append  "$line\n"            
+                    }
+                }else {
+                    println "No se encontro el archivo path.json en $libreria.name"
+                }
+    
+                File actividadjson = new File ("node_modules/$libreria.name/actividad.json")
+                if(actividadjson.exists()){
+                    actividadjson.eachLine {
+                        line -> actividad.append  "$line\n"            
+                    }
+                }else {
+                    println "No se encontro el archivo actividad.json en $libreria.name"
+                }
+            } else{
+                println "La libreria $libreria.name no se instalo"
+            }
+		}
+
+        // Inicio de agregar routers a el archivo home-routing.module.ts
+        File homeold = new File (rutasPath)
+        
+        if(routes.exists()){
+            def nuevoRouting = homeold.getText('UTF-8').replace("//#routeAgregar", routes.getText('UTF-8').replace("[",",").replace("]","").replace('"path"',"path").replace('"loadChildren"',"loadChildren"))
+            if(actividad.length() > 0){
+                nuevoRouting = nuevoRouting.replace("//#actividadesAgregar", actividad.getText('UTF-8').replace("[","").replace("]",",").replace('"path"',"path").replace('"loadChildren"',"loadChildren"))
+            }
+        
+            routerNuevos.append  "$nuevoRouting\n"
+
+            delete fileTree("/src/app/privado/home"){
+                include "**/home-routing.module.ts"
+            }
+            
+            File homenew = new File ("src/app/privado/home/home-routing.module.ts")
+            homenew.append routerNuevos.getText('UTF-8')
+            
+        }
+        //Fin de agregar routers a el archivo home-routing.module.ts
+
+        // Inicio de agregar modulos a el archivo verdaccio-config.module.ts
+        if(modulos.exists()){
+            File verdacciold = new File (modulosPath)
+            def nuevoModule = verdacciold.getText('UTF-8').replace("//#modulosVerdacio", modulos.getText('UTF-8'))
+        
+            modulosNuevos.append  "$nuevoModule\n"
+
+            delete fileTree("/src/app/privado/core"){
+                include "**/verdaccio-config.module.ts"
+            }
+
+            File verdaccionew = new File ("src/app/privado/core/verdaccio-config.module.ts")
+            verdaccionew.append modulosNuevos.getText('UTF-8')
+        }
+        //Fin de agregar modulos a el archivo verdaccio-config.module.ts
+
+        delete fileTree(".") {
+            include "**/modulos.txt"
+            include "**/routes.txt"
+            include "**/routestmp.txt"
+            include "**/modulestmp.txt"
+        }
+        println "fin"
+    }
+}
+
+
+task prueba {
+     doLast {
+        def rutasPath = "src/app/privado/home/home-routing-temp.modulea.ts"
+        File homeold = new File (rutasPath)
+        println "asdda "
+        if(homeold.exists())
+        {
+            println "hola"
+        }
+
+    }
+}

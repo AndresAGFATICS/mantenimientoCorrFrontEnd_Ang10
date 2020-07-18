@@ -1,0 +1,53 @@
+<form [formGroup]="formApp" autocomplete="off">
+    <div class="login-body bgLogin">
+        <div class="login-panel ui-fluid">
+            <div class="ui-g">
+                <div class="ui-g-12 logo-container">
+                    <img [src]="producto.imagen" class="logo">
+                    <img src="assets/layout/images/login/icon-login.png" class="login-icon">
+                    <h1>{{producto.name}}</h1>
+                </div>
+                <div class="ui-g-12">
+                    <label for="username">Usuario</label>
+                    <div class="input-wrapper">
+                        <input type="text" pInputText formControlName="usuario" class="form-control ui-inputtext ui-widget" maxlength="100" placeholder="{{ 'LOGIN.usuarioTooltip' | translate }}" [ngClass]="{ 'is-invalid': submitted && form.usuario.errors }">
+                        <img src="assets/layout/images/login/user.png" class="user-icon">
+                    </div>
+                    <div *ngIf="form.usuario.errors && form.usuario.dirty" class="invalid-feedback">
+                        <p-message severity="error" text="{{ 'USUARIO.usuarioRequerido' | translate }}" *ngIf="form.usuario.errors.required"></p-message>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <label for="password">Contraseña</label>
+                    <div class="input-wrapper">
+                        <input type="password" pPassword formControlName="clave" class="form-control ui-inputtext ui-widget" [feedback]="false" maxlength="50" placeholder="{{ 'LOGIN.claveTooltip' | translate }}" (keydown.enter)="iniciarSesion(formApp.value)">
+                        <img src="assets/layout/images/login/lock.png" class="lock-icon">
+                    </div>
+                    <div *ngIf="form.clave.errors && form.clave.dirty" class="invalid-feedback">
+                        <p-message severity="error" text="{{ 'MENSAJES.claveRequerido' | translate }}" *ngIf="form.clave.errors.required"></p-message>
+                    </div>
+                </div>
+                <div class="ui-g-12 chkbox-container">
+                    <p-checkbox formControlName="isRecordar" binary="true"></p-checkbox>
+                    {{ 'GENERAL.recordarme' | translate }}
+                </div>
+
+                <div *ngIf="msgs.length > 0" class="ui-g-12 invalid-feedback">
+                    <p-messages [(value)]="msgs"></p-messages>
+                </div>
+                <div id="divCaptcha" class="ui-g-12" *ngIf="producto.captcha == true">
+                    <p-captcha #captchaLogin siteKey="{{dataKeyGoogle}}" language="es" (onResponse)="showResponse($event)"></p-captcha>
+                </div>
+                <div class="ui-g-12 button-container">
+                    <button pButton type="button" (click)="iniciarSesion(formApp.value)" class=" ui-widget blue-btn raised-btn" label="{{ 'BOTON.ingresar' | translate }}" [disabled]="validarCampoIngresar()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p-confirmDialog #cd>
+    <p-footer>
+        <button type="button" pButton label="{{ 'BOTON.ok' | translate }}" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>

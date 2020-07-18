@@ -1,0 +1,124 @@
+<div class="ui-fluid">
+  <p-toast position="top-center"></p-toast>
+  <p-fieldset legend="Filtros">
+
+    <p>Tipo Anexo Físico</p>
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [(ngModel)]="seleccionTipoAnexoFisicos" field="descripcion" [immutable]="false" [suggestions]="tipoAnexoFisicos" (completeMethod)="searchTipoanexo($event)" [dropdown]="true" [forceSelection]="true"
+            placeholder="Ingrese aquí el tipo de radicado a filtrar"></p-autoComplete>
+
+          <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteTipo()"></p-button>
+        </div>
+      </div>
+    </div>
+
+    <p>Anexo Físico</p>
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [(ngModel)]="seleccionAnexoFisicos" field="descripcion" [immutable]="false" [suggestions]="anexosFisicos" (completeMethod)="searchAnexo($event)" [dropdown]="true" [forceSelection]="true"
+            placeholder="Ingrese aquí el organismo o dependencia a filtrar"></p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteAnexo()"></p-button>
+        </div>
+      </div>
+    </div>
+
+  </p-fieldset>
+
+  <br>
+
+  <p-fieldset legend="Configurar Anexos Físicos">
+
+    <!-- Start Table -->
+    <!-- Start Table -->
+    <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedRow" sortField="tipo_documental">
+
+      <!-- Table Caption -->
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <!-- Buttons -->
+          <div class="button-sup-grid">
+            <p-button label="agregar" icon="pi pi-plus" [disabled]="buttonDisabled" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onClicAgregar()"></p-button>
+            <p-button label="eliminar" icon="pi pi-minus" [disabled]="buttonDisabled" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onClicEliminar()"></p-button>
+            <p-button label="guardar" icon="pi pi-save" [disabled]="buttonDisabled" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onGuardarColumna()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Table Heardes -->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Content -->
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)"
+        *ngIf="(seleccionTipoAnexoFisicos === undefined || seleccionTipoAnexoFisicos.descripcion === row.claseAnexo.descripcion) && (seleccionAnexoFisicos === undefined ||seleccionAnexoFisicos.descripcion === row.tipoAnexoFisico.descripcion)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+              <div *ngSwitchCase="0"> {{ rowIndex + 1 }} </div>
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-autoComplete [(ngModel)]="row.claseAnexo" field="descripcion" [suggestions]="tipoAnexoFisicos"
+                    (onSelect) = "edited(rowIndex)" [immutable]="false" (completeMethod)="searchTipoanexo($event)" (click)="onClickElminiarSelected()"
+                    (onSelect)="checkBox(rowIndex)" [dropdown]="true" [forceSelection]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.claseAnexo.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="2">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-autoComplete [(ngModel)]="row.tipoAnexoFisico" field="descripcion" [suggestions]="anexosFisicos"
+                    (onSelect) = "edited(rowIndex)" [immutable]="false" (completeMethod)="searchAnexo($event)" (click)="onClickElminiarSelected()"
+                    [dropdown]="true" [forceSelection]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.tipoAnexoFisico.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="3">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.observacion" [maxlength]="200" (change) = "edited(rowIndex)"
+                    [disabled]="row.state === 'delete'">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.observacion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="4" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.isCarpeta" binary="true" (ngModelChange)="row.isCarpeta = $event ? 1 : 0"
+                (onChange) = "edited(rowIndex)" [disabled]="row.claseAnexo.descripcion !== 'Físico' || row.state === 'delete'"></p-checkbox>
+              </div>
+
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+    <!-- End Table -->
+
+  </p-fieldset>
+
+
+</div>

@@ -1,0 +1,48 @@
+    /* You can add global styles to this file, and also import other style files */
+    
+     :root {
+        --var-font-size: 13;
+        --font-size: 12px;
+    }
+    
+    * {
+        font-size: var(--font-size);
+        /*font-size: calc(var(--var-font-size) * 1px)*/
+    }
+    
+    .reqP {
+        color: #ff2b2b;
+        font-size: 85%;
+        font-style: oblique;
+        padding-bottom: 0.5%;
+        margin: 1px !important;
+    }
+    
+    .reqSpan {
+        color: #ff5454;
+    }
+    
+    .reqInput input {
+        box-shadow: 0 0 1px #ff2b2b;
+    }
+    
+    .reqInput * {
+        border-color: #f58686 !important;
+    }
+    
+    .reqInput * ::placeholder {
+        border-color: #ff2b2b !important;
+        color: #ff2b2b !important;
+    }
+    
+    .misactividades p-paginator.ng-star-inserted {
+        position: fixed !important;
+        bottom: 0px !important;
+        width: 100% !important;
+    }
+    
+    @media (min-width: 641px) {
+        .layout-wrapper.layout-menu-slim #menu-button {
+            display: initial !important;
+        }
+    }

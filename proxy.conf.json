@@ -1,0 +1,38 @@
+{
+  "/igacArchivo1/*": {
+    "target": "http://25.55.6.22",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/igacArchivo1": ""
+    }
+  },
+  "/automatizacion/*": {
+    "target": "https://automatizacionforest5.forestbpms.co",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/automatizacion": ""
+    }
+  },
+  "/automatizacion2/*": {
+    "target": "http://pruebasqaforest5.forestbpms.co",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/automatizacion2": ""
+    }
+  },
+  "/report/*": {
+    "target": "https://pruebasqaforest5.forestbpms.co",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/report": ""
+    }
+  }
+}

@@ -1,0 +1,174 @@
+<p-tabView>
+    <p-tabPanel header="Tipo de Empresa">
+
+      <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+        currentPageReportTemplate="Page {currentPage} of {totalPages}">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix menu-sup-grid">
+            <div class="button-sup-grid">
+              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.tipEmp">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.tipEmp}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.act" required>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.act}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <div style="padding: 100%">
+          </div>
+        </ng-template>
+
+      </p-table>
+
+    </p-tabPanel>
+    <p-tabPanel header="Clasificación de la Organización">
+      <p-table [columns]="columnasOrganizacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+        currentPageReportTemplate="Page {currentPage} of {totalPages}">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix menu-sup-grid">
+            <div class="button-sup-grid">
+              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.clasOrg">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.clasOrg}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.act" required>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.act}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <div style="padding: 100%">
+          </div>
+        </ng-template>
+
+      </p-table>
+    </p-tabPanel>
+    <p-tabPanel header="Actividad Económica de la Organización">
+
+      <p-table [columns]="columnasEconomica" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+        currentPageReportTemplate="Page {currentPage} of {totalPages}">
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix menu-sup-grid">
+            <div class="button-sup-grid">
+              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.actEcon">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.actEcon}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.act" required>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.act}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <div style="padding: 100%">
+          </div>
+        </ng-template>
+
+      </p-table>
+
+    </p-tabPanel>
+</p-tabView>

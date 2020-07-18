@@ -1,0 +1,128 @@
+<div class="ui-fluid">
+  <p-fieldset legend="Filtros">
+
+      <p>Canal</p>
+
+      <div class="ui-g">
+          <div class="ui-g-12">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="Ingrese aquí el canal a filtrar"></p-autoComplete>
+                  <p-button icon="pi pi-times"></p-button>
+              </div>
+          </div>
+      </div>
+
+      <p>Medio de Envío</p>
+
+      <div class="ui-g">
+          <div class="ui-g-12">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="Ingrese aquí el medio de envío a filtrar"></p-autoComplete>
+                  <p-button icon="pi pi-times"></p-button>
+              </div>
+          </div>
+      </div>
+
+      <br>
+
+  </p-fieldset> 
+
+  <p-fieldset legend="Configurar Canales">
+
+          <!-- Start Table -->
+          <p-table [columns]="cols" [value]="rows" 
+          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+          selectionMode="multiple" [(selection)]="selectedRows">
+
+              <!-- Table Caption -->
+              <ng-template pTemplate="caption">
+                  <div class="ui-helper-clearfix menu-sup-grid">
+                      <!-- Buttons -->
+                      <div class="button-sup-grid">
+                          <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                          <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                          <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                      </div>
+                  </div>      
+              </ng-template>
+
+              <!-- Table Heardes -->
+              <ng-template pTemplate="header" let-columns>
+                  <tr>
+                      <th *ngFor="let col of columns"> 
+                          {{col.header}}
+                      </th>
+                  </tr>
+              </ng-template>
+
+              <!-- Table Content -->
+              <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                  <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                      <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                        <div [ngSwitch]="i">
+                          <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+                          <div *ngSwitchDefault> {{row[col.field]}}  </div>
+                        </div>
+                      
+                      </td>
+                  </tr>
+              </ng-template>
+
+          </p-table>
+          <!-- End Table -->
+
+    </p-fieldset>
+
+
+    <p-fieldset legend="Vincular Medios de Envío con Canales">
+
+      <!-- Start Table -->
+      <p-table [columns]="cols2" [value]="rows2" 
+      [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+      selectionMode="multiple">
+
+          <!-- Table Caption -->
+          <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix menu-sup-grid">
+                  <!-- Buttons -->
+                  <div class="button-sup-grid">
+                      <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                      <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                      <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                  </div>
+              </div>      
+          </ng-template>
+
+          <!-- Table Heardes -->
+          <ng-template pTemplate="header" let-columns>
+              <tr>
+                  <th *ngFor="let col of columns"> 
+                      {{col.header}}
+                  </th>
+              </tr>
+          </ng-template>
+
+          <!-- Table Content -->
+          <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+              <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                  <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                    <div [ngSwitch]="i">
+                      <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+                      <div *ngSwitchDefault> {{row[col.field]}}  </div>
+                    </div>
+                  
+                  </td>
+              </tr>
+          </ng-template>
+
+      </p-table>
+      <!-- End Table -->
+
+</p-fieldset>
+
+  
+</div>

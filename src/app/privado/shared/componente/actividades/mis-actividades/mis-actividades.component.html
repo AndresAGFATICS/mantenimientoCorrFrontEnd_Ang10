@@ -1,0 +1,61 @@
+<p-toast>
+</p-toast>
+
+<p-messages [(value)]="msgs"></p-messages>
+<p-tabView [controlClose]="true" (onClose)="closeItem($event)" [activeIndex]="1">
+    <p-tabPanel header="Mis Actividades" leftIcon="pi pi-inbox" [selected]="!formaSeleccionada">
+
+        <div style="text-align:left">
+            <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                        selectedItemsLabel="{0} columnas seleccionadas" [style]="{minWidth: '200px'}" defaultLabel="Seleccionar Columnas"></p-multiSelect>
+        </div>
+        <p-table [columns]="cols" [value]="actividadesUsuario" [paginator]="true" [totalRecords]="totalRecords"
+         [first]="paginador" selectionMode="single" [(selection)]="actividadSeleccionada"
+          [rows]="pageSize" [lazy]="true" (onLazyLoad)="cargaActividadesLazy($event)"
+            [loading]="loading" [resizableColumns]="true"  [scrollable]="true" scrollHeight="60vh"
+            sortField="fechaAsignacionActividad" [sortOrder]="-1"
+            >
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of _selectedColumns" [pSortableColumn]="col.field" pResizableColumn [ngStyle]="{'display': col.hidden?'none':''}">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field" ariaLabel="Activar Ordenamiento" ariaLabelDesc="Activar ordenamiento descendente" ariaLabelAsc="Activar ordenamiento ascendente"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData" (dblclick)="onRowDblClick(rowData)">
+                    <td *ngFor="let col of _selectedColumns" class="ui-resizable-column" [ngStyle]="{'display': col.hidden?'none':''}">
+                        {{rowData[col.field]}}
+                    </td>
+                    <!--td>
+                      <label *ngIf="diasTerminos < 8" [ngStyle]="{'color':diasTerminos < 8 ? '#32CD32' : 'black'}">{{!diasTerminos?'':diasTerminos}}</label> 
+                      <label *ngIf="diasTerminos > 8 && diasTerminos < 12" [ngStyle]="{'color':diasTerminos > 8 && diasTerminos < 12 ? '#F7CF4A' : 'black'}">{{!diasTerminos?'':diasTerminos}}</label>
+                      <label *ngIf="diasTerminos > 11 && diasTerminos < 16" [ngStyle]="{'color':diasTerminos > 11 && diasTerminos < 16 ? '#FF0000' : 'black'}">{{!diasTerminos?'':diasTerminos}}</label> 
+                      <label *ngIf="diasTerminos > 15" [ngStyle]="{'color':diasTerminos > 15? '#B404AE' : 'black'}">{{!diasTerminos?'':diasTerminos}}</label>
+                      <label *ngIf="!diasTerminos" style="color: #32CD32;">0</label>
+                    </td-->
+                </tr>
+                <tr></tr>
+            </ng-template>
+
+
+
+            <ng-template pTemplate="emptymessage">
+                <div style="margin: 30%; padding-left: 250%; padding-top: 50%;padding-bottom: 50%;">
+
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="paginatorleft" let-state>
+                <div class="ui-g-12">
+                    <p-dropdown [options]="paginas" [(ngModel)]="pageSize" (onChange)="cambioPagina()" [style]="{'width':'50px'}"></p-dropdown>
+                </div>
+            </ng-template>
+        </p-table>
+
+    </p-tabPanel>
+    <p-tabPanel [header]="item.label" *ngFor="let item of actividades; let i = index" [closable]="true" leftIcon="item.icon" [selected]="formaSeleccionada" [style]="item.style" [cache]="false">
+        <app-tarea-info [idActividadSeleccionada]="item.idActividad" [numeroTab]="i + 1"></app-tarea-info>
+    </p-tabPanel>
+</p-tabView>

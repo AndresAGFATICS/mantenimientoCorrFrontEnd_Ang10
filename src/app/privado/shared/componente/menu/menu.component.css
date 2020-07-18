@@ -1,0 +1,29 @@
+@media (max-width: 640px) {
+    .menu_completo {
+      box-sizing: unset;
+      width: 100% !important;
+      /* border: red 1px solid;*/
+      left: -640px;
+    }
+    .menu_item_completo {
+        box-sizing: unset;
+        /*border: blue 1px solid;*/
+    }
+  }
+
+  @keyframes ui-progress-spinner-color {
+    100%,
+    0% {
+        stroke: #2d6891;
+    }
+    40% {
+        stroke: #2d6891;
+    }
+    66% {
+        stroke: #2d6891;
+    }
+    80%,
+    90% {
+        stroke: #2d6891;
+    }
+}

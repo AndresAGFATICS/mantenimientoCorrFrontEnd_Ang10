@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { Cumco005Component } from './cumco005.component';
+
+const routes: Routes = [
+  {path: '', component: Cumco005Component},
+  {path: 'mantenimiento_correspondencia/configurar_anexos_fisicos_005', component: Cumco005Component}
+];
+
+export const routersCUMCO005 = RouterModule.forChild(routes);
+
+@NgModule({
+  imports: [routersCUMCO005],
+  exports: [RouterModule]
+})
+export class Cumco005RoutingModule { }

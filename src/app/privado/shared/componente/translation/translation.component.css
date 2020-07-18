@@ -1,0 +1,38 @@
+@media (max-width: 640px) {
+    .accesibilidad {
+      display: none;
+    }
+  
+    
+  /* CSS pantallas de 320px o superior */
+  @media (min-width: 320px) {
+  
+    .mi-iframe {
+      width: 200px;
+      height: 150px;
+    } 
+  
+  }
+  
+  /* CSS pantalla 768px o superior */
+  @media (min-width: 768px) {
+  
+    .topbar-item-name {
+      width: 500px;
+      height: 350px;
+    } 
+  
+  }
+  
+  }
+
+  .ubicarIdioma {
+    vertical-align: middle;
+    width: 40px;
+    margin-right: 8px;
+
+    float: left;
+    text-align: right;
+    margin-top: 2px;
+    text-decoration: none;
+  }

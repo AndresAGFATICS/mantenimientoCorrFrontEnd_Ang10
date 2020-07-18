@@ -1,0 +1,64 @@
+[
+    {
+        "path": "mantenimiento_correspondencia/asignar_responsable_atencion_tipo_radicado_001",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO001Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configuracion_carta_modelo_003",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco003Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/definir_acciones_para_tipos_documentales_004",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO004Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_anexos_fisicos_005",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco005Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_horario_radicacion_006",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco006Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_canales_medios_envio_008",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco008Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_tipos_persona_tipos_identificacion_009",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO009Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_motivos_devolucion_010",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO010Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_recorridos_reparto_fisico_012",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO012Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_caracteristicas_terceros_013",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO013Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_tipos_radicados014",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO014Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/mantenimiento_correspondencia/configurar_ejes_tematicos_016",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco016Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/administrar_grupos_seguridad_017",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco017Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_mensajeria_018",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO018Module)"
+    },
+    {
+        "path": "mantenimiento_correspondencia/configurar_firmantes_tipo_comunicacion_019",
+        "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO019Module)"
+    }
+]
+
+

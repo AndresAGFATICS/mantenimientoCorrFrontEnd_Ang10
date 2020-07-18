@@ -1,0 +1,170 @@
+<div class="ui-fluid">
+  <p-toast position="top-center"></p-toast>
+  <p-fieldset legend="{{ varText.default.CUMCO009.titulo }}">
+    <p>
+      {{ varText.default.CUMCO009.tituloPersona }}
+    </p>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [(ngModel)]="filtroTipoPersona" field="idDescripcion" [immutable]="false" [suggestions]="tablaPersonasFiltro" (completeMethod)="searchPersona($event)"
+          [dropdown]="true" placeholder="{{ varText.default.CUMCO009.placeholderFiltroTipoPersona }}"
+          [forceSelection]="true" (onSelect) = "seleccion()"></p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePersona()"></p-button>
+        </div>
+      </div>
+    </div>
+    <p>{{ varText.default.CUMCO009.tituloIdentificacion }}</p>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [(ngModel)]="filtroTipoIdentificacion" field="idDescripcion" [immutable]="false" [suggestions]="tablaIdentificacionFiltro" (completeMethod)="searchTipoIdentificacion($event)"
+          [dropdown]="true" placeholder="{{ varText.default.CUMCO009.placeholderFiltroIdentificacion }}" [required]="true"></p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteIdentificacion()"></p-button>
+        </div>
+      </div>
+    </div>
+
+  </p-fieldset>
+
+  <p-fieldset legend="{{ varText.default.CUMCO009.tablaPersona }}">
+    <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [(selection)]="seleccionPersona" selectionMode="single" (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <div class="button-sup-grid">
+            <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"
+        *ngIf="(filtroTipoPersona === undefined || filtroTipoPersona.id === row.id)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+              <div *ngSwitchCase="0"> {{rowIndex}} </div>
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.codigo" [disabled]="true">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.codigo}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="2">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.nombreTipoPersona" [disabled]="true">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.nombreTipoPersona}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="3">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input type="text" [(ngModel)]="row.descripcion" [maxlength]="200" (focusout) = "editedPerson(rowIndex)" (keydown.enter)= "editedPerson(rowIndex)">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{row.descripcion}}
+                    </ng-template>
+                  </p-cellEditor>
+              </div>
+
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <div style="padding: 100%">
+        </div>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+
+  <p-fieldset legend="{{ varText.default.CUMCO009.tablaTipoId }}">
+    <p>{{ varText.default.CUMCO009.textoTipoId }}</p>
+    <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="single" showCurrentPageReport="true"
+      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <div class="button-sup-grid">
+            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="{{ varText.default.BOTON.guardar }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarConfiguracion()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex"
+        [ngStyle]="gteRowColorState(row)" 
+        *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+              <div *ngSwitchCase="0"> {{rowIndex}}</div>
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.tipoPersona.nombreTipoPersona" [disabled]= "true">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.tipoPersona.nombreTipoPersona}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="2">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.id" [disabled]= "true">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.id}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+              <div *ngSwitchCase="3">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.descripcion" [maxlength]="50"
+                     (focusout)="editedIdentification(rowIndex, $event)" (keydown.enter)="editedIdentification(rowIndex, $event)" [disabled]= "row.editable === 0">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <div style="padding: 100%">
+        </div>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+</div>

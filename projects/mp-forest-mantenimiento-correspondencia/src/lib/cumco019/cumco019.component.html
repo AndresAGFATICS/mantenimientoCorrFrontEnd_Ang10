@@ -1,0 +1,142 @@
+<div class="ui-fluid">
+  <p-fieldset legend="Filtros">
+    <p>
+      Tipo de comunicación Oficial:
+    </p>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <p-autoComplete [dropdown]="true" placeholder="Seleccione el tipo de comunicación oficial" [required]="true"></p-autoComplete>
+        </div>
+      </div>
+    </div>
+    <p>Cargo:</p>
+
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [dropdown]="true" placeholder="Ingrese aquí el cargo a filtrar" [required]="true"></p-autoComplete>
+          <p-button icon="pi pi-times"></p-button>
+        </div>
+      </div>
+    </div>
+
+  </p-fieldset>
+
+  <p-fieldset legend="Tipos de Comuniación Oficial">
+    <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 3em">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="rowData.cod">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.cod}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="rowData.nom" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.nom}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="rowData.clasdoc" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.clasdoc}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <div style="padding: 100%">
+        </div>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+
+  <p-fieldset legend="Configurar firmantes por tipo de Comunicación">
+    <p>Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada.</p>
+    <p-table [columns]="columnasAdjuntosComunicacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <div class="button-sup-grid">
+            <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+            <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 3em">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="rowData.codEsp">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.codEsp}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="rowData.cargo" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{rowData.cargo}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <div style="padding: 100%">
+        </div>
+      </ng-template>
+
+    </p-table>
+  </p-fieldset>
+</div>

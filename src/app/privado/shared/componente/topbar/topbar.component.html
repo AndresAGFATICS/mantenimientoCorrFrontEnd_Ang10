@@ -1,0 +1,73 @@
+<div class="topbar">
+    <a href="#" style="margin-left: 0px !important" id="menu-button" (click)="app.onMenuButtonClick($event)">
+        <i class="fa fa-bars"></i>
+    </a>
+    <a routerLink="/" class="topbar-logo">
+        <img src="{{producto.imagen}}" style="border: 0 none">
+    </a>
+
+    <span id="titleForest" style="margin-left: 30px !important;">
+        <b>{{ producto.descripcion }}</b>
+    </span>
+
+    <a id="user-display" class="compactoInfoUser" (click)="menu.toggle($event)">
+        <div>
+            <div *ngIf="!tieneImagen else imagenDB">
+                <img src="assets/images/user_default.svg" style="border: 0px;">
+                <i class="fa fa-angle-down"></i>
+            </div>
+            <ng-template #imagenDB>
+                <img style="border-radius: 30px;height: 40px;" src="data:image/jpeg;base64,{{imagenUsuario}}">
+                <i class="fa fa-angle-down"></i>
+            </ng-template>
+
+        </div>
+    </a>
+
+    <a [routerLink]="" id="user-display" class="accesibilidad" (click)="cambioContraste()">
+        <img src="assets/images/icons/logos-09.png" style="border: 1px;" title="{{ 'GENERAL.contraste' | translate }}">
+    </a>
+
+    <a [routerLink]="" id="user-display" class="accesibilidad" (click)="aumentarTamanioFuente()">
+        <img src="assets/images/icons/logos-15.png" style="border: 1px;" title="{{ 'GENERAL.fuenteAumentar' | translate }}">
+    </a>
+    <a [routerLink]="" id="user-display" class="accesibilidad" (click)="restablecerTamanioFuente()">
+        <img src="assets/images/icons/logos-30.svg" style="border: 1px;" title="{{ 'GENERAL.fuenteOriginalSize' | translate }}">
+    </a>
+    <a [routerLink]="" id="user-display" class="accesibilidad" (click)="disminuirTamanioFuente()">
+        <img src="assets/images/icons/logos-18.png" style="border: 1px;" title="{{ 'GENERAL.fuenteDisminuir' | translate }}">
+    </a>
+
+    <p-dropdown id="user-display" class="accesibilidad ubicarIdioma" [options]="idiomas" [(ngModel)]="idiomaSeleccionado" (onChange)="seleccionarIdioma()" [style]="{'width':'60px', 'border': 'none', 'margin-top': '6px'}">
+        <ng-template let-item pTemplate="selectedItem">
+            <img src="assets/images/icons/{{item.value}}.svg" style="width:25px;vertical-align:middle" />
+        </ng-template>
+        <ng-template let-idioma pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                <img src="assets/images/icons/{{idioma.value}}.svg" style="width:24px;position:absolute;top:1px;left:5px" />
+            </div>
+        </ng-template>
+    </p-dropdown>
+
+    <p-menu #menu [popup]="true" [model]="items" [style]="{'text-align':'left'}"></p-menu>
+
+    <div class="compactoInfoUser accesibilidad">
+
+        <div style="/*padding-top: 21px;*/ font-weight: bold">
+            <div *ngIf="tipoDelegado != 'NORMAL'" style="color: blue">
+                <span *ngIf="tipoDelegado == 'DELEGADO'">
+                    {{ 'GENERAL.delegadoDe' | translate }}:
+                </span>
+                <span *ngIf="tipoDelegado == 'DEP_DELEGADO'">
+                    {{ 'GENERAL.dependencia' | translate }}:
+                </span> {{userInfo.DEP_DELEGADO}}
+            </div>
+            <span *ngIf="tipoDelegado == 'NORMAL'">
+                {{userInfo.NOMDEPENDENCIA}}
+            </span> /
+            <span class="username">{{userInfo.NOMFUN}}</span>
+        </div>
+
+    </div>
+
+</div>

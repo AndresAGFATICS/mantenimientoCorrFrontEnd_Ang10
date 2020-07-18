@@ -1,0 +1,10 @@
+.ui-fieldset-legend {
+    font-weight: bold;
+  }
+
+  .boldParragraph {
+    font-weight: bold;
+  }
+p-cellEditor {
+  word-break: break-all;
+}

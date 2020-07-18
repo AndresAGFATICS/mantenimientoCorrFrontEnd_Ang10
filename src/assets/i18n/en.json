@@ -1,0 +1,42 @@
+{
+    "BOTONESTABLA": {
+        "agregar": "Add",
+        "eliminar": "Delete",
+        "guardar": "Save"
+    },
+    
+    "CUMCO001": {
+        "titulo": "Allocate Responsable for Direct Attention of File Type",
+        "TipoRadicado": "File Type",
+        "FILTROS": {
+            "filtroTipoRadicado": "File Type",
+            "filtroTipoRadicadoPlaceHolder": "Put here the File Type to be filtered",
+            "filtroOrganismoDependencia": "Organism or Dependency",
+            "filtroOrganismoDependenciaPlaceHolder": "Put here the Organism or Dependency to be filtered"
+        },
+        "MENSAJES": {
+            "guardar":"Save",
+            "exito":"Task executed successfully",
+            "asignarResponsableError": "Error at getting Allocate Responsable data",
+            "tipoRadicadoError": "Error at getting File Type data",
+            "organismoDependenciaError": "Error at getting Organism or Dependency data",
+            "subtipoRadicadoError" : "Error at getting File Subtype data",
+            "FuncionarioSuplenteError" : "Error at getting Substitute Functionary data",
+            "guardarError" : "Error at saving",
+            "campoFilaVacioError": "Row {{filaVacia}}: The field {{campoVacio}} can not be empty",
+            "responsableCDCError" : "Row {{filaVacia}}: it must be selected one field CDC or Responsable",
+            "repetidoSubtipoRadicadoError" : "Rows {{filaRep1}} y {{filaRep2}} : The fild {{campoRep}} is repeated"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "File Type",
+            "headerTabla2": "File Subtype",
+            "headerTabla3": "Organism or Dependency",
+            "headerTabla4": "CDC",
+            "headerTabla5": "Responsable",
+            "headerTabla6": "Substitute Functionary"
+        }
+
+    }
+
+}

@@ -1,0 +1,41 @@
+{
+    "BOTONESTABLA": {
+        "agregar": "Agregar",
+        "eliminar": "Eliminar",
+        "guardar": "Guardar"
+    },
+    
+    "CUMCO001": {
+        "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
+        "TipoRadicado": "Tipo de Radicado",
+        "FILTROS": {
+            "filtroTipoRadicado": "Tipo de Radicado",
+            "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
+            "filtroOrganismoDependencia": "Organismo o Dependencia",
+            "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
+            "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+            "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
+            "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+            "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
+            "guardarError" : "Error al guardar",
+            "campoFilaVacioError": "Fila {{filaVacia}}: El campo {{campoVacio}} no puede estar vacío",
+            "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos CDC o Responsable",
+            "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El campo {{campoRep}} se encuentra repetido"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Tipo de Radicado",
+            "headerTabla2": "Subtipo de radicado",
+            "headerTabla3": "Organismo o Dependencia",
+            "headerTabla4": "CDC",
+            "headerTabla5": "Responsable",
+            "headerTabla6": "Funcionario Sumplente"
+        }
+    }
+
+}

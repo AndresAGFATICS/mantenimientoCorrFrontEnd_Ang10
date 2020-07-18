@@ -1,0 +1,81 @@
+{
+    "menu_formas": [{
+            "title": "Formularios Electrónicos",
+            "orden": 3,
+            "favorito": false,
+            "hijos": [{
+                    "title": "Enviar Formularios",
+                    "codigo_forma": "/home/enviar-formularios-electronico",
+                    "favorito": false
+                },
+                {
+                    "title": "Estado Formularios",
+                    "codigo_forma": "/home/estado-formularios-electronico",
+                    "favorito": false
+                }
+            ]
+        },
+        {
+            "title": "Documentos Electrónicos",
+            "orden": 4,
+            "favorito": false,
+            "hijos": [{
+                    "title": "Consultar y Enviar Documentos",
+                    "codigo_forma": "/home/enviar-documentos-electronicos",
+                    "favorito": false
+                }
+            ]
+        },
+        {
+            "title": "Autorizaciones",
+            "orden": 5,
+            "favorito": false,
+            "hijos": [{
+                "title": "Consultar Autorizaciones",
+                "codigo_forma": "/home/consultar-autorizaciones",
+                "favorito": false
+            }]
+        },
+        {
+            "title": "Certificado",
+            "orden": 6,
+            "favorito": false,
+            "hijos": [{
+                "title": "Generar Certificado",
+                "codigo_forma": "/home/generar-certificados",
+                "favorito": false
+            }]
+        },
+        {
+            "title": "Gestionar Usuarios",
+            "orden": 7,
+            "favorito": false,
+            "hijos": [{
+                    "title": "Cambiar Contraseña",
+                    "codigo_forma": "/home/cambiar-contrasena",
+                    "favorito": false
+                },
+                {
+                    "title": "Datos Usuarios",
+                    "codigo_forma": "/home/usuarios",
+                    "favorito": false
+                },
+                {
+                    "title": "Actualizar Datos Basicos",
+                    "codigo_forma": "/home/editar-entidad",
+                    "favorito": false
+                }
+            ]
+        },
+        {
+            "title": "Reportes",
+            "orden": 8,
+            "favorito": false,
+            "hijos": [{
+                "title": "Ver Reportes",
+                "codigo_forma": "",
+                "favorito": false
+            }]
+        }
+    ]
+}

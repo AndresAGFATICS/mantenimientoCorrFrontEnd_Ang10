@@ -1,0 +1,49 @@
+{
+    "menu": [{
+            "label": "Mi Perfil",
+            "url": "#/home/perfil",
+            "icon": "pi pi-user"
+        },
+        {
+            "label": "Mis Escritorios",
+            "url": "#/home/mis-escritorios",
+            "icon": "pi pi-globe"
+        },
+        {
+            "label": "Mis datos",
+            "url": "#/home/editarInformacion",
+            "icon": "pi pi-align-justify"
+        },
+        {
+            "label": "Mis Opciones",
+            "url": "#/home/mis-favoritos",
+            "icon": "pi pi-th-large"
+        },
+        {
+            "label": "Descargas",
+            "url": "#/home/descargas",
+            "icon": "pi pi-download"
+        }
+    ],
+    "producto": {
+        "labelHome": "Workplace",
+        "name": "Forest Workplace",
+        "imagen": "assets/images/logo-forest-bpms.png",
+        "descripcion": "Modelo Integral de Respuesta Amigable, Versátil y Eficaz.",
+        "icon": "assets/images/camunda.115.png",
+        "isWso2": true,
+        "captcha": false
+    },
+    "configuracion": {
+        "url_gateway": "",
+        "url_pub": "",
+        "build_timestamp": "",
+        "logo": "",
+        "client_id": "",
+        "client_secret": "",
+        "context_menu": "",
+        "downloads_notify": "",
+        "downloads_scanner": "",
+        "downloads_ms": ""
+    }
+}

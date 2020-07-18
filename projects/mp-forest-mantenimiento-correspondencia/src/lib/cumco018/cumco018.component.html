@@ -1,0 +1,267 @@
+<p-tabView>
+  <p-tabPanel header="Rutas">
+
+    <div class="ui-fluid">
+      <p-fieldset legend="Parametrizar Rutas">
+
+        <p>Ruta</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí la ruta a filtrar."></p-autoComplete>
+              <p-button icon="pi pi-times"></p-button>
+            </div>
+          </div>
+        </div>
+
+        <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+          currentPageReportTemplate="Page {currentPage} of {totalPages}">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix menu-sup-grid">
+              <div class="button-sup-grid">
+                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3em">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.codRuta">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.codRuta}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.nomRuta" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.nomRuta}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.actRuta" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.actRuta}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <div style="padding: 100%">
+            </div>
+          </ng-template>
+
+        </p-table>
+
+      </p-fieldset>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Mensajeros">
+
+    <div class="ui-fluid">
+      <p-fieldset legend="Parametrizar Mensajero">
+
+        <p>Mensajero</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí el mensajero a filtrar."></p-autoComplete>
+              <p-button icon="pi pi-times"></p-button>
+            </div>
+          </div>
+        </div>
+
+        <p-table [columns]="columnasOrganizacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+          currentPageReportTemplate="Page {currentPage} of {totalPages}">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix menu-sup-grid">
+              <div class="button-sup-grid">
+                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3em">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.codMens">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.codMens}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.depMens">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.depMens}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.nomMens">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.nomMens}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.actMens" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.actMens}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <div style="padding: 100%">
+            </div>
+          </ng-template>
+
+        </p-table>
+
+      </p-fieldset>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Empresa Mensajería">
+
+    <div class="ui-fluid">
+      <p-fieldset legend="Parametrizar Empresa">
+
+        <p>Empresa Mensajería</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí la empresa de mensajería a filtrar."></p-autoComplete>
+              <p-button icon="pi pi-times"></p-button>
+            </div>
+          </div>
+        </div>
+
+        <p-table [columns]="columnasEconomica" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+          currentPageReportTemplate="Page {currentPage} of {totalPages}">
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix menu-sup-grid">
+              <div class="button-sup-grid">
+                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3em">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.codEmp">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.codEmp}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.nomEmp" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.nomEmp}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn>
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" [(ngModel)]="rowData.actEmp" required>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.actEmp}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <div style="padding: 100%">
+            </div>
+          </ng-template>
+
+        </p-table>
+      </p-fieldset>
+    </div>
+
+  </p-tabPanel>
+</p-tabView>
