@@ -14,6 +14,7 @@ import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
+import { translateModule } from '../cumco001/cumco001.module';
 
 @NgModule({
   declarations: [
@@ -31,8 +32,11 @@ import {ToastModule} from 'primeng/toast';
     ToolbarModule,
     TableModule,
     CheckboxModule,
-    ToastModule
-  ]
+    ToastModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [CUMCO010Component]
 })
 
 export class CUMCO010Module { }

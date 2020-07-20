@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco013',
@@ -15,27 +16,38 @@ export class CUMCO013Component implements OnInit {
   adjunto: any[];
   adjuntosSeleccionados: any[];
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.results = [
       'a', 'b', 'c'
     ];
-    this.onCargarColumnas();
+
   }
-  onCargarColumnas() {
-      this.columnasAdjuntos = [
-        { field: 'tipEmp', header: 'Tipo de Empresa' },
-        { field: 'act', header: 'Activo' }
-      ];
-      this.columnasOrganizacion = [
-        { field: 'clasOrg', header: 'Clasificación de la Organización' },
-        { field: 'act', header: 'Activo' }
-      ];
-      this.columnasEconomica = [
-        { field: 'actEcon', header: 'Actividad Económica de la Organización' },
-        { field: 'act', header: 'Activo' }
-      ];
+  subcribeSetColumns() {
+      this.translate.get(['']).subscribe(translations => {
+
+
+        this.columnasAdjuntos = [
+          { field: 'tipEmp', header: this.translate.instant('CUMCO013.TABLA1.headerTabla1') },
+          { field: 'act', header: this.translate.instant('CUMCO013.TABLA1.headerTabla2') }
+        ];
+        this.columnasOrganizacion = [
+          { field: 'clasOrg', header: this.translate.instant('CUMCO013.TABLA2.headerTabla1') },
+          { field: 'act', header: this.translate.instant('CUMCO013.TABLA2.headerTabla2') }
+        ];
+        this.columnasEconomica = [
+          { field: 'actEcon', header: this.translate.instant('CUMCO013.TABLA3.headerTabla1') },
+          { field: 'act', header: this.translate.instant('CUMCO013.TABLA3.headerTabla2') }
+        ];
+      });
+
     }
     onClickBorrarAutoComplete() {
       this.text = '';

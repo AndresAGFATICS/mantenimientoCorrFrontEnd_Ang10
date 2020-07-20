@@ -4,7 +4,7 @@
         "eliminar": "Eliminar",
         "guardar": "Guardar"
     },
-    
+
     "CUMCO001": {
         "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
         "TipoRadicado": "Tipo de Radicado",
@@ -36,6 +36,532 @@
             "headerTabla5": "Responsable",
             "headerTabla6": "Funcionario Sumplente"
         }
-    }
+    },
 
+    "CUMCO003": {
+        "titulo": "Configurar Plantillas",
+        "TipoRadicado": "Tipo de Radicado:",
+        "pestana1": "Plantillas",
+        "pestana2": "Tipo Comunicación Ofcicial",
+        "FILTROS": {
+            "filtroPlantilla": "Plantilla:",
+            "filtroPlantillaPlaceHolder": "Ingresar aquí plantilla a filtrar",
+            "filtroTipoRadicado": "Tipo de Radicado:",
+            "filtroTipoRadicadoPlaceHolder" : "Ingrese aquí el tipo de radicado a filtrar",
+            "filtroClaseDocumental": "Clase Documental:",
+            "filtroClaseDocumentalPlaceHolder": "Seleccione la clase documental"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
+            "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+            "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
+            "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+            "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
+            "guardarError" : "Error al guardar",
+            "campoFilaVacioError": "Fila {{filaVacia}}: El campo {{campoVacio}} no puede estar vacío",
+            "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos CDC o Responsable",
+            "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El campo {{campoRep}} se encuentra repetido",
+            "seleccioneTipoRadicado": "Por Favor Seleccione un tipo de radicado para la fila",
+            "claseDocNoRequierePlantilla": "La clase documental Entrada no requiere una selección de plantilla, si continúa se borrará la plantilla seleccionada al inicio",
+            "detalleClaseDocNoRequierePlantilla": "¿Desea continuar?",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "repetidoComunicacion": "El tipo de comunicación oficial {{NombreComunicacionOficial}} ya se encuentra creado",
+            "repetidosPlantillaSubtipoTipo": "El registro con la plantilla {{nombrePlantilla}} , subtipo de radicado {{nombreSubtipo}} y tipo documental {{nombreTipoDoc}} está repetido",
+            "repetidosPlantillaSubtipoClase": "Para el registro con la plantilla {{nombrePlantilla}}, Subtipo de radicado {{nombreSubtipo}}, la clase documental {{claseDocumental}} no debe ser diferente.",
+            "repetidosSubtipoClase": "El registro con el subtipo de radicado {{nombreSubtipo}} y tipo documental {{claseDocumental}} está repetido"
+
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Plantilla",
+            "headerTabla2": "Tipo Radicado",
+            "headerTabla3": "Subtipo Radicado",
+            "headerTabla4": "Tipo Documental",
+            "headerTabla5": "Clase Documental",
+            "headerTabla6": "Termino Requerimiento",
+            "headerTabla7": "Días Requerimiento",
+            "headerTabla8": "Prórroga entidad",
+            "headerTabla9": "Prórroga Peticionario",
+            "headerTabla10": "Días Prórroga",
+            "headerTabla11": "Tipo Comunicacion",
+            "headerTabla12": "Código",
+            "headerTabla13": "Nombre",
+            "headerTabla14": "Clase Documental"
+        },
+        "TABLA2": {
+            "headerTabla1": "Código",
+            "headerTabla2": "Nombre",
+            "headerTabla3": "Clase Documental"
+        }
+    },
+
+    "CUMCO004": {
+        "titulo": "Definir Acciones para los Tipos Documentales",
+        "TipoRadicado": "Tipo de Radicado:",
+        "pestana1": "Plantillas",
+        "pestana2": "Tipo Comunicación Ofcicial",
+        "FILTROS": {
+            "filtroTipoDocumental": "Buscar Tipo Documental",
+            "filtroTipoDocumentalPlaceHolder": "Ingrese aquí el tipo documental a filtrar."
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales"
+
+
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Tipo Documental",
+            "headerTabla2": "Acción"
+        }
+    },
+
+    "CUMCO005": {
+        "titulo": "Filtros",
+        "configurarAnexosFisicos": "Configurar Anexos Físicos",
+        "pestana1": "Plantillas",
+        "pestana2": "Tipo Comunicación Ofcicial",
+        "FILTROS": {
+            "filtroTipoAnexoFisico": "Tipo Anexo Físico",
+            "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
+            "filtroAnexoFisico": "Anexo Físico",
+            "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
+            "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Tipo de Anexo Físico",
+            "headerTabla2": "Anexo Físico",
+            "headerTabla3": "Descripción",
+            "headerTabla4": "Ubicar Folios en Carpetas"
+        }
+    },
+
+    "CUMCO006": {
+        "titulo": "Configurar Horario Ventanilla Entrada",
+        "tituloTablaFestivos": "Configurar Anexos Físicos",
+        "FILTROS": {
+            "filtroCanalConfigurar": "Canal a Configurar",
+            "filtroCanalConfigurarPlaceHolder": "Seleccione un filtro",
+            "filtroHoraInicio": "Hora Inicio:",
+            "filtroHoraFin": "Hora Fin:",
+            "tituloTabla": "Configurar Horario de Radicación Comunicaciónes Oficiales (COF)"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
+            "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "errorHora": "La hora final seleccionada debe ser superior a la hora de inicio ingresada",
+            "errorFecha": "La fecha Festivo se encuentra repetida por favor validar"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Fecha Festivo"
+        }
+    },
+
+    "CUMCO008": {
+        "titulo": "Filtros",
+        "configurarCanales": "Configurar Canales",
+        "vincularCanales": "Vincular Medios de Envío con Canales",
+        "FILTROS": {
+            "filtroCanal": "Canal",
+            "filtroCanalPlaceHolder": "Ingrese aquí el canal a filtrar",
+            "filtroMedioEnvio":"Medio de Envío",
+            "filtroMedioEnvioPlaceHolder": "Ingrese aquí el medio de envío a filtrar"
+
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+            "falloGuardar": "Se ha presentado un error al guardar"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Código",
+            "headerTabla2": "Descripción",
+            "headerTabla3": "Activo",
+            "headerTabla4": "Virtual",
+            "headerTabla5": "Presencial",
+            "headerTabla6": "Telefónico"
+        },
+        "TABLA2": {
+          "headerTabla0": "",
+          "headerTabla1": "Medio de Envío",
+          "headerTabla2": "Fuente",
+          "headerTabla3": "Ventanilla Virtual"
+        }
+    },
+
+    "CUMCO009": {
+        "titulo": "Filtros",
+        "FILTROS": {
+            "filtrotituloPersona": "Tipo de Persona:",
+            "filtrotituloPersonaPlaceHolder": "Ingrese aquí el tipo de persona a filtrar",
+            "filtrotituloIdentificacion": "Tipo de identificación:",
+            "filtrotituloIdentificacionPlaceHolder": "Ingrese aquí el tipo de identificación a filtrar",
+            "tablaPersona": "Configurar Tipos de Persona",
+            "tablaTipoId":"Configurar firmantes por tipos de Identificación",
+            "textoTipoId": "Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+            "falloGuardar": "Se ha presentado un error al guardar"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Código Tipo de Persona",
+            "headerTabla2": "Tipo de Persona",
+            "headerTabla3": "Descripción"
+        },
+        "TABLA2": {
+          "headerTabla0": "",
+          "headerTabla1": "Tipo de Persona",
+          "headerTabla2": "Código tipo de Identificación",
+          "headerTabla3": "Tipo de Identificación"
+        }
+    },
+
+    "CUMCO010": {
+        "titulo": "Filtro",
+        "FILTROS": {
+            "filtroTituloDevolucion": "Motivo de devolución:",
+            "filtroTituloDevolucionPlaceHolder": "Ingrese aquí el motivo de la devolución",
+            "tituloTabla": "Configurar Motivos de devolución"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+            "falloGuardar": "Se ha presentado un error al guardar",
+            "guardarError" : "Error al guardar",
+            "identificacionRepetida": "El motivo de devolución {{motivoDevolucion}}, se encuentra repetido, por favor validar"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Motivo de devolución",
+            "headerTabla2": "Activo"
+        }
+    },
+
+    "CUMCO012": {
+        "titulo": "Configurar Recorridos de Reparto de Documentos Físicos",
+        "FILTROS": {
+            "filtroOrganizmo": "Organismo a Configurar",
+            "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
+            "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+            "falloGuardar": "Se ha presentado un error al guardar",
+            "guardarError" : "Error al guardar",
+            "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+            "eliminarFallido1": "El recorrido ",
+            "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo"
+        },
+        "TABLA1": {
+            "headerTabla0": "",
+            "headerTabla1": "Nombre Recorrido",
+            "headerTabla2": "Hora Inicio",
+            "headerTabla3": "Hora Fin",
+            "headerTabla4": "Activo"
+        }
+      },
+
+    "CUMCO013": {
+        "titulo": "Tipo de Empresa",
+        "clasificacionOrg": "Clasificación de la Organización",
+        "actividadEconomica": "Actividad Económica de la Organización",
+        "FILTROS": {
+            "filtroOrganizmo": "Organismo a Configurar",
+            "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
+            "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+        },
+        "MENSAJES": {
+            "guardar":"Guardar",
+            "exito":"Operación de guardar ejecutada con exito",
+            "falloGuardar":"Se ha presentado un error al guardar",
+            "errorGuardar": "Diligenciar todos los campos requeridos",
+            "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+            "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+            "falloGuardar": "Se ha presentado un error al guardar",
+            "guardarError" : "Error al guardar",
+            "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+            "eliminarFallido1": "El recorrido ",
+            "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo"
+        },
+        "TABLA1": {
+            "headerTabla1": "Tipo de Empresa",
+            "headerTabla2": "Activo"
+        },
+        "TABLA2": {
+            "headerTabla1": "Clasificación de la Organización",
+            "headerTabla2": "Activo"
+        },
+        "TABLA3": {
+            "headerTabla1": "Actividad Económica de la Organización",
+            "headerTabla2": "Activo"
+        }
+    },
+
+    "CUMCO014": {
+      "titulo": "Configurar Tipos de Radicado",
+      "pestana1": "Tipos de Radicaco",
+      "clasificacionOrg": "Clasificación de la Organización",
+      "actividadEconomica": "Actividad Económica de la Organización",
+      "titulo2": "Configurar Tipos de Radicado con Subtipos y Trámite",
+      "FILTROS": {
+          "filtroRadicado": "Filtar por Tipo Radicado",
+          "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+          "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+          "falloGuardar": "Se ha presentado un error al guardar",
+          "guardarError" : "Error al guardar",
+          "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+          "eliminarFallido1": "El recorrido ",
+          "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
+          "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Descripción Tipo de Radciado",
+          "headerTabla3": "Categoria",
+          "headerTabla4": "Activo"
+      },
+      "TABLA2": {
+          "headerTabla1": "Código Tipo Radicado",
+          "headerTabla2": "Descripción (Subtipo de Radicado)",
+          "headerTabla3": "Tramite",
+          "headerTabla4": "Días Termino",
+          "headerTabla5": "Días Hábiles",
+          "headerTabla6": "Modificar Días",
+          "headerTabla7": "Activo",
+          "headerTabla8": "Ventanila de Entrada",
+          "headerTabla9": "Radicación Verval",
+          "headerTabla10": "Comunicaciones Oficiales",
+          "headerTabla11": "Ventanilla Virtual",
+          "headerTabla12": "Anónimo"
+      }
+    },
+
+    "CUMCO016": {
+      "titulo": "Configurar Ejes Temáticos",
+      "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
+      "FILTROS": {
+        "filtroPlaceHolder": "Buscar por",
+          "organismos": "Organismos o Dependecias",
+          "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+          "ejes": "Ejes Temáticos",
+          "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
+          "placeHolderEjes": "Buscar por Ejes"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+          "falloGuardar": "Se ha presentado un error al guardar",
+          "guardarError" : "Error al guardar",
+          "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+          "eliminarFallido1": "El recorrido ",
+          "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
+          "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Descripción",
+          "headerTabla3": "Activo"
+      }
+    },
+
+    "CUMCO017": {
+      "titulo": "Configurar Tipos de Radicado",
+      "pestana1": "Tipos de Radicado",
+      "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
+      "confTipoRadicado": "Configurar Tipos de Radicado con Subtipos y Trámite",
+      "categoriaRadicado": "Categorias de Radicado",
+      "confRadicado": "Configurar Tipos de Radicado con Subtipos y Trámite",
+      "listaReq": "Lista de Requisitos",
+      "parametrizarLista": "Parametrizar Lista de Requisitos",
+      "asociarTipo": "Asociar Tipo de Radicado con Requisitos",
+      "asociarLista": "Asociar List de Requisitos",
+      "FILTROS": {
+        "filtroRadicado": "Filtrar por Tipo de Radicado",
+        "filtroRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
+        "filtroDescripcion": "Filtrar por Descripción (Subtipo de Radicado)",
+        "filtroSubTipo": "Filtrar por Descripción (Subtipo de Radicado)",
+        "filtroTipoRadicado": "Tipo de de Radicado",
+        "filtroSubTipoRadicado": "Subtipo de Radicado"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloGuardar": "Se ha presentado un error al guardar"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Descripción Tipo Radicado",
+          "headerTabla3": "Categoria",
+          "headerTabla4": "Activo"
+      },
+      "TABLA2": {
+          "headerTabla0": "",
+          "headerTabla1": "Código Tipo Radicado",
+          "headerTabla2": "Descripción (Subtipo de Radicado)",
+          "headerTabla3": "Trámite",
+          "headerTabla4": "Días Termino",
+          "headerTabla5": "Días Habiles",
+          "headerTabla6": "Activo",
+          "headerTabla7": "Ventanilla de Entrada",
+          "headerTabla8": "Radicación Verbal",
+          "headerTabla9": "Comunicaciones Oficiales",
+          "headerTabla10": "Ventanilla Virtual",
+          "headerTabla11": "Anónimo"
+      },
+      "TABLA3": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Lista de Requisitos"
+      },
+      "TABLA4": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Descripción",
+          "headerTabla4": "Activo",
+          "headerTabla5": "Requerido",
+          "headerTabla6": "Requerido",
+          "headerTabla7": "Formato de Archivo (Ventanilla virtual)",
+          "headerTabla8": "Cargar de Formulario (Ventanilla virtual)"
+      },
+      "TABLA5": {
+          "headerTabla0": "",
+          "headerTabla1": "Requisito"
+      }
+    },
+
+    "CUMCO018": {
+      "titulo": "Parametrizar Rutas",
+      "mensajeros": "Mensajeros",
+      "parametrizarMensajero": "Parametrizar Mensajero",
+      "empresaMensajeria": "Empresa Mensajería",
+      "parametrizarEmpresa": "Parametrizar Empresa",
+      "FILTROS": {
+        "filtroRuta": "Ruta",
+        "filtroRutaPlaceHolder": "Ingrese aquí la ruta a filtrar.",
+        "filtroMensajero": "Mensajero",
+        "filtroMensajeroPlaceHolder": "Ingrese aquí el mensajero a filtrar.",
+        "filtroEmpresaMensajeria": "Empresa Mensajería",
+        "filtroEmpresaMensajeriaPlaceHolder": "Ingrese aquí la empresa de mensajería a filtrar."
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloGuardar": "Se ha presentado un error al guardar"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Activo"
+      },
+      "TABLA2": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Dependencia",
+          "headerTabla3": "Nombre",
+          "headerTabla4": "Activo"
+      },
+      "TABLA3": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Activo"
+      }
+    },
+
+    "CUMCO019": {
+      "titulo": "Filtros",
+      "mensajeros": "Mensajeros",
+      "parametrizarMensajero": "Parametrizar Mensajero",
+      "empresaMensajeria": "Empresa Mensajería",
+      "parametrizarEmpresa": "Parametrizar Empresa",
+      "tipoComunicacion": "Tipos de Comuniación Oficial",
+      "configurarFirmantes": "Configurar firmantes por tipo de Comunicación",
+      "FILTROS": {
+        "filtroComunicacion": "Tipo de comunicación Oficial:",
+        "filtroComunicacionPlaceHolder": "Seleccione el tipo de comunicación oficial",
+        "filtroCargo": "Cargo:",
+        "filtroCargoPlaceHolder": "Ingrese aquí el cargo a filtrar",
+        "filtroCargoFuncionario": "Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloGuardar": "Se ha presentado un error al guardar"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Clase Documental"
+      },
+      "TABLA2": {
+          "headerTabla0": "",
+          "headerTabla1": "Código tipo de Comunicación Oficial",
+          "headerTabla2": "Cargo Firmante"
+      }
+    }
 }

@@ -1,15 +1,15 @@
 <div class="ui-fluid">
   <p-toast position="top-center"></p-toast>
-  <p-fieldset legend="{{ varText.default.CUMCO004.titulo }}">
+  <p-fieldset legend="{{ 'CUMCO004.titulo' | translate }}">
     <p>
-      {{ varText.default.CUMCO004.filtro }}
+      {{ 'CUMCO004.FILTROS.filtroTipoDocumental' | translate }}
     </p>
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field = "codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
-           [dropdown]="true" placeholder="{{ varText.default.CUMCO004.filtroPlaceHolder }}" [required]="true"></p-autoComplete>
+           [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
           <p-button icon="pi pi-times" (click) ="onClicBorrarAutoComplete()"></p-button>
         </div>
       </div>
@@ -26,7 +26,7 @@
         <div class="ui-helper-clearfix menu-sup-grid">
       <!-- Buttons -->
           <div class="button-sup-grid">
-            <p-button icon="pi pi-save" label="{{ varText.default.BOTON.guardar }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
           </div>
         </div>
       </ng-template>

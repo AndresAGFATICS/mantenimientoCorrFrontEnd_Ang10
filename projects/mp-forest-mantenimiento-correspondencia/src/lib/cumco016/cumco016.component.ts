@@ -3,6 +3,7 @@ import { Table } from 'primeng/table';
 //import * as confJson from '../../assets/i18n/es.json';
 import {TreeNode} from 'primeng/api';
 import { EjeTematicoService } from './servicio/eje-tematico.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco016',
@@ -11,118 +12,6 @@ import { EjeTematicoService } from './servicio/eje-tematico.service';
   encapsulation: ViewEncapsulation.None
 })
 export class Cumco016Component implements OnInit {
-
-  // Variables de texto
-  //varText:any = confJson;
-
-  varText: any = {
-    "default": {
-        "MENSAJES": {
-          "eliminarFallido1": "El recorrido ",
-          "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-          "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-          "errorGuardar": "Diligenciar todos los campos requeridos",
-          "exitoGuardar": "Operación ejecutada con éxito",
-          "falloGuardar": "Se ha presentado un error al guardar",
-          "repetidos":"Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-          "repetidosAnexoTipo":"Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-          "identificacionRepetida":"El tipo de identificación, se encuentra repetido, por favor validar"
-        },
-        "CALENDARIO": {
-            "firstDayOfWeek": 1,
-            "dayNames": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-            "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-            "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
-            "monthNames": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-            "monthNamesShort": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-            "today": "Hoy",
-            "clear": "Borrar"
-        },
-        "GENERAL": {
-
-        },
-        "TABLAS": {
-          "codigo": "Código",
-          "descripcion": "Descripción",
-          "activo": "Activo",
-          "tipoDocumental": "Tipo Documental",
-          "accion": "Acción",
-          "codigoTipoPersona":"Código Tipo de Persona",
-          "tipoPersona":"Tipo de Persona",
-          "codigoTipoIdentificacion":"Código tipo de Identificación",
-          "tipoIdentificacion":"Tipo de Identificación",
-          "motivoDevolucion":"Motivo de devolución"
-        },
-        "BOTON": {
-          "agregar": "Agregar",
-          "eliminar": "Eliminar",
-          "guardar": "Guardar"
-
-        },
-
-        "CUMCO001": {
-          "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
-          "filtroTipoRadicado": "Tipo de Radicado",
-          "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
-          "filtroOrganismoDependencia": "Organismo o Dependencia",
-          "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar",
-          "headerTabla0": "",
-          "headerTabla1": "Tipo de Radicado",
-          "headerTabla2": "Subtipo de radicado",
-          "headerTabla3": "Organismo o Dependencia",
-          "headerTabla4": "CDC",
-          "headerTabla5": "Responsable",
-          "headerTabla6": "Funcionario Sumplente"
-        },
-
-        "CUMCO004": {
-          "titulo": "Definir Acciones para los Tipos Documentales",
-          "filtro": "Buscar Tipo Documental",
-          "filtroPlaceHolder": "Ingrese aquí el tipo documental a filtrar."
-        },
-        "CUMCO005": {
-
-        },
-        "CUMCO009": {
-          "titulo": "Filtros",
-          "tituloPersona": "Tipo de Persona:",
-          "placeholderFiltroTipoPersona": "Ingrese aquí el tipo de persona a filtrar",
-          "tituloIdentificacion": "Tipo de identificación:",
-          "placeholderFiltroIdentificacion": "Ingrese aquí el tipo de identificación a filtrar",
-          "tablaPersona":"Configurar Tipos de Persona",
-          "tablaTipoId":"Configurar firmantes por tipo de Comunicación",
-          "textoTipoId":"Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
-        },
-        "CUMCO010": {
-          "titulo": "Filtro",
-          "tituloDevolucion": "Motivo de devolución:",
-          "filtroDevolucion": "Ingrese aquí el motivo de la devolución",
-          "tituloTabla": "Configurar Motivos de devolución"
-        },
-        "CUMCO012": {
-          "titulo": "Configurar Recorridos de Reparto de Documentos Físicos",
-          "filtro": "Organismo a Configurar",
-          "filtroPlaceHolder": "Ingrese aquí el organismo a configurar",
-          "tituloTabla": "Recorridos de Reparto Documentos Físicos",
-          "headerTabla1": "Nombre Recorrido",
-          "headerTabla2": "Hora Inicio",
-          "headerTabla3": "Hora Fin",
-          "headerTabla4": "Activo"
-        },
-        "CUMCO016": {
-            "titulo": "Configurar Ejes Temáticos",
-            "placeHolder": "Buscar por",
-            "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
-            "organismos": "Organismos o Dependecias",
-            "ejes": "Ejes Temáticos",
-            "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
-            "placeHolderEjes": "Buscar por Ejes"
-        }
-
-    }
-
-
-  }
 
   // Variables de los srevicios
   confEjeTematico: any[];
@@ -145,22 +34,36 @@ export class Cumco016Component implements OnInit {
 
   selectedFile: TreeNode;
 
-  constructor(private ejeTematicoService: EjeTematicoService) {
+  constructor(private ejeTematicoService: EjeTematicoService,
+  private translate: TranslateService) {
     this.rows = [];
 
-    this.cols = [
-      { field: 'codigo', header: this.varText.default.TABLAS.codigo },
-      { field: 'descripcion', header: this.varText.default.TABLAS.descripcion },
-      { field: 'activo', header: this.varText.default.TABLAS.activo }
-    ];
+
 
 }
 
 
 
   ngOnInit() {
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.subcribeServiceEjeTematico('','');
     this.subscribeDependenciaLista('','');
+  }
+  subcribeSetColumns() {
+    this.translate.get(['']).subscribe(translations => {
+
+      this.cols = [
+        { field: 'codigo', header: this.translate.instant('CUMCO016.TABLA1.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO016.TABLA1.headerTabla2') },
+        { field: 'activo', header: this.translate.instant('CUMCO016.TABLA1.headerTabla3') }
+      ];
+
+    });
   }
 
   subscribeEjeTematicoDependencia(idDependencia:string) {

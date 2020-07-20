@@ -9,18 +9,18 @@ export class AnexosFisicosClaseService extends GeneralService {
 
   constructor(public _http: HttpClient) {
     super(_http);
-  }  
+  }
 
   public getAnexosFisicos() {
-    return this.get("/sistema/1.0.0/anexosFisicos");
+    return this.get("/forest/sistema/1.0.0/anexosFisicos");
   }
   public getTipoAnexoFisico() {
-    return this.get("/sistema/1.0.0/tipoAnexoFisico");
+    return this.get("/forest/sistema/1.0.0/tipoAnexoFisico");
   }
   public getCodigoDescripcion(clase: any, tipo: any) {
-    return this.get("/sistema/1.0.0/anexosFisicosClase?clase=" + clase + "&tipo=" + tipo);
+    return this.get("/forest/sistema/1.0.0/anexosFisicosClase?clase=" + clase + "&tipo=" + tipo);
   }
   public postGuardarAccionTipoDocumental(body: any) {
-    return this.post('/sistema/1.0.0/guardarConfiguracionAnexoFisico',body);
+    return this.post('/forest/sistema/1.0.0/guardarConfiguracionAnexoFisico',body);
   }
 }

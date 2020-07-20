@@ -1,14 +1,14 @@
 <p-tabView>
-    <p-tabPanel header="Tipo de Empresa">
+    <p-tabPanel header="{{ 'CUMCO013.titulo' | translate }}">
 
       <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
         currentPageReportTemplate="Page {currentPage} of {totalPages}">
         <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix menu-sup-grid">
             <div class="button-sup-grid">
-              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -57,15 +57,15 @@
       </p-table>
 
     </p-tabPanel>
-    <p-tabPanel header="Clasificación de la Organización">
+    <p-tabPanel header="{{ 'CUMCO013.clasificacionOrg' | translate }}">
       <p-table [columns]="columnasOrganizacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
         currentPageReportTemplate="Page {currentPage} of {totalPages}">
         <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix menu-sup-grid">
             <div class="button-sup-grid">
-              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -113,16 +113,16 @@
 
       </p-table>
     </p-tabPanel>
-    <p-tabPanel header="Actividad Económica de la Organización">
+    <p-tabPanel header="{{ 'CUMCO013.actividadEconomica' | translate }}">
 
       <p-table [columns]="columnasEconomica" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
         currentPageReportTemplate="Page {currentPage} of {totalPages}">
         <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix menu-sup-grid">
             <div class="button-sup-grid">
-              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-              <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+              <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
             </div>
           </div>
         </ng-template>

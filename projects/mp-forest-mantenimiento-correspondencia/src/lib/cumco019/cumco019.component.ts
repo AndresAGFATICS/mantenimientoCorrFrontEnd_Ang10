@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco019',
@@ -15,25 +16,34 @@ export class CUMCO019Component implements OnInit {
   adjunto: any[];
   adjuntosSeleccionados: any[];
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.results = [
       'a', 'b', 'c'
     ];
-    this.onCargarColumnas();
   }
-  onCargarColumnas() {
-      this.columnasAdjuntos = [
-        { field: 'cod', header: 'Código' },
-        { field: 'nom', header: 'Nombre' },
-        { field: 'clasDoc', header: 'Clase Documental' }
-      ];
-      this.columnasAdjuntosComunicacion = [
-        { field: 'codEsp', header: 'Código tipo de Comunicación Oficial' },
-        { field: 'cargo', header: 'Cargo Firmante' }
-      ];
-    }
+  subcribeSetColumns() {
+    this.translate.get(['']).subscribe(translations => {
+    this.columnasAdjuntos = [
+      { field: 'cod', header: this.translate.instant('CUMCO019.TABLA1.headerTabla1')},
+      { field: 'nom', header: this.translate.instant('CUMCO019.TABLA1.headerTabla2') },
+      { field: 'clasDoc', header: this.translate.instant('CUMCO019.TABLA1.headerTabla3') }
+    ];
+    this.columnasAdjuntosComunicacion = [
+      { field: 'codEsp', header: this.translate.instant('CUMCO019.TABLA2.headerTabla1') },
+      { field: 'cargo', header: this.translate.instant('CUMCO019.TABLA2.headerTabla2') }
+    ];
+  });
+  }
+
     onClickBorrarAutoComplete() {
       this.text = '';
     }

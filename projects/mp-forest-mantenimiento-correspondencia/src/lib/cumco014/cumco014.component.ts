@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Cumco014Service } from './servicio/cumco014.service';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 //import * as confJson from '../../assets/i18n/es.json';
 
 @Component({
@@ -16,108 +17,13 @@ export class CUMCO014Component implements OnInit {
 
 
   constructor(private cumco014Service: Cumco014Service,
-    private messageService: MessageService) {
-    this.cols = [
-      { field: 'id', header: '' },
-      { field: 'codigo', header: this.varText.default.TABLAS.codigo },
-      { field: 'nombre', header: this.varText.default.TABLAS.descripcionRadicado },
-      { field: 'clase_documental', header: this.varText.default.TABLAS.categoria },
-      { field: 'activo', header: this.varText.default.TABLAS.activo }
-    ];
-    this.cols2 = [
-      { field: 'id', header: 'Código Tipo Radicado' },
-      { field: 'codigo', header: 'Descripción (Subtipo de Radicado)' },
-      { field: 'nombre', header: 'Tramite' },
-      { field: 'clase_documental', header: 'Días Termino' },
-      { field: 'item_4', header: 'Días Hábiles' },
-      { field: 'item_5', header: 'Modificar Días' },
-      { field: 'item_6', header: 'Activo' },
-      { field: 'item_7', header: 'Ventanila de Entrada' },
-      { field: 'item_8', header: 'Radicación Verval' },
-      { field: 'item_9', header: 'Comunicaciones Oficiales' },
-      { field: 'item_10', header: 'Ventanilla Virtual' },
-      { field: 'item_11', header: 'Anónimo' }
-    ];
+    private messageService: MessageService,
+    private translate: TranslateService) {
+
     this.idRow = 0;
     this.suggestionsAutoCompleteSubTipoRadicado = [];
   }
 
-  //varText: any = confJson;
-  varText: any = {
-    "default":
-    {
-      "MENSAJES": {
-        "eliminarFallido1": "El recorrido ",
-        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "exitoGuardar": "Operación ejecutada con éxito",
-        "falloGuardar": "Se ha presentado un error al guardar",
-        "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-        "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-        "seleccioneTipoRadicado": "Por Favor Seleccione un tipo de radicado para la fila",
-        "claseDocNoRequierePlantilla": "La clase documental Entrada no requiere una selección de plantilla, si continúa se borrará la plantilla seleccionada al inicio",
-        "detalleClaseDocNoRequierePlantilla": "¿Desea continuar?",
-        "repetidosPlantillaSubtipoTipo": "El registro con la plantilla, subtipo de radicado y tipo documental está repetido",
-        "repetidosPlantillaSubtipoClase": "Para el registro con la plantilla, Subtipo de radicado, la clase documental no debe ser diferente.",
-        "repetidosSubtipoClase": "El registro con el subtipo de radicado y tipo documental está repetido"
-      },
-      "CALENDARIO": {
-        "firstDayOfWeek": 1,
-        "dayNames": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-        "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-        "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
-        "monthNames": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-        "monthNamesShort": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-        "today": "Hoy",
-        "clear": "Borrar"
-      },
-      "GENERAL": {
-
-      },
-      "TABLAS": {
-        "codigo": "Código",
-        "nombre": "Nombre",
-        "descripcion": "Descripción",
-        "activo": "Activo",
-        "tipoDocumental": "Tipo Documental",
-        "accion": "Acción",
-        "codigoTipoPersona": "Código Tipo de Persona",
-        "tipoPersona": "Tipo de Persona",
-        "codigoTipoIdentificacion": "Código tipo de Identificación",
-        "tipoIdentificacion": "Tipo de Identificación",
-        "motivoDevolucion": "Motivo de devolución",
-        "plantilla": "Plantilla",
-        "tipoRadicado": "Tipo Radicado",
-        "subtipoRadicado": "Subtipo Radicado",
-        "claseDocumental": "Clase Documental",
-        "TerminoReq": "Termino Requerimiento",
-        "prorrogaEntidad": "Prórroga entidad",
-        "prorrogaPeticionario": "Prórroga Peticionario",
-        "diasProrroga": "Días Prórroga",
-        "tipoComunicacion": "Tipo Comunicacion",
-        "diasRequerimiento": "Días Requerimiento",
-        "descripcionRadicado": "Descripción Tipo de Radciado",
-        "categoria": "Categoria"
-      },
-      "BOTON": {
-        "agregar": "Agregar",
-        "eliminar": "Eliminar",
-        "guardar": "Guardar"
-
-      },
-      "CUMCO014": {
-        "pestana1": "Tipos de Radicaco",
-        "titulo1": "Configurar Tipos de Radicado",
-        "tituloAutoCompletarRadicado": "Filtar por Tipo Radicado",
-        "titulo2": "Configurar Tipos de Radicado con Subtipos y Trámite",
-        "tituloAutoCompletarSubRadicado": "Filtar por Descripción (Subtipo de Radicado)"
-  
-      }
-
-    }
-  };
 
   cols: any[];
   seleccionRadicado: any;
@@ -140,8 +46,52 @@ export class CUMCO014Component implements OnInit {
 
 
   ngOnInit() {
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.subscribeRadicado('');
     this.subscribeTablaRadicado('');
+  }
+  subcribeSetColumns() {
+
+    this.translate.get(['']).subscribe(translations => {
+    this.cols = [
+      { field: 'id', header: this.translate.instant('CUMCO014.TABLA1.headerTabla0') },
+      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla1') },
+      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA1.headerTabla2') },
+      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA1.headerTabla3') },
+      { field: 'activo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla4') }
+    ];
+    this.cols2 = [
+      { field: 'id', header: this.translate.instant('CUMCO014.TABLA2.headerTabla1') },
+      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA2.headerTabla2') },
+      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA2.headerTabla3') },
+      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA2.headerTabla4') },
+      { field: 'item_4', header: this.translate.instant('CUMCO014.TABLA2.headerTabla5') },
+      { field: 'item_5', header: this.translate.instant('CUMCO014.TABLA2.headerTabla6') },
+      { field: 'item_6', header: this.translate.instant('CUMCO014.TABLA2.headerTabla7') },
+      { field: 'item_7', header: this.translate.instant('CUMCO014.TABLA2.headerTabla8') },
+      { field: 'item_8', header: this.translate.instant('CUMCO014.TABLA2.headerTabla9') },
+      { field: 'item_9', header: this.translate.instant('CUMCO014.TABLA2.headerTabla10') },
+      { field: 'item_10', header: this.translate.instant('CUMCO014.TABLA2.headerTabla11') },
+      { field: 'item_11', header: this.translate.instant('CUMCO014.TABLA2.headerTabla12') }
+    ];
+
+
+      this.cols = [
+        { field: 'rowIndex', header: this.translate.instant('CUMCO001.TABLA1.headerTabla0') },
+        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla1') },
+        { field: 'tramiteTipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla2') },
+        { field: 'dependencia.nombreCodigo', header: this.translate.instant('CUMCO001.TABLA1.headerTabla3') },
+        { field: 'atiendeDependencia', header: this.translate.instant('CUMCO001.TABLA1.headerTabla4') },
+        { field: 'atiendeResponsable', header: this.translate.instant('CUMCO001.TABLA1.headerTabla5') },
+        { field: 'funcionario.codigoNombre', header:  this.translate.instant('CUMCO001.TABLA1.headerTabla6') }
+      ];
+    });
+
   }
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
@@ -233,7 +183,7 @@ export class CUMCO014Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        const error = this.varText.default.MENSAJES.falloGuardar;
+        const error = this.translate.instant('CUMCO014.MENSAJES.falloGuardar');
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
@@ -264,7 +214,7 @@ export class CUMCO014Component implements OnInit {
 
   // SUSCRIBIRSE a '/documentos/1.0.0/tipoRadicadoTramite' (Tabla)
   subcribeServiceSubTipoRadicado(getParameters: string) {
-    this.cumco014Service.getSubTipoRadicado(getParameters).subscribe( 
+    this.cumco014Service.getSubTipoRadicado(getParameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
         this.responseGetSubcribe = getRes;
@@ -372,10 +322,10 @@ export class CUMCO014Component implements OnInit {
 
   onClicGuardarRadicado() {
      if (!this.camposValidosRadicado()) {
-       const error = this.varText.default.MENSAJES.errorGuardar;
+       const error = this.translate.instant('CUMCO014.MENSAJES.errorGuardar');
        this.showMessage(error, "error");
     } else if (!this.validarRepetidosRadicado()) {
-      const error = this.varText.default.MENSAJES.repetidos;
+      const error = this.translate.instant('CUMCO014.MENSAJES.repetidos');
       this.showMessage(error, "error");
     } else {
       this.subcribeRecorridoRepartoFisico(this.buildJsonRadicado());

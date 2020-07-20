@@ -15,6 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { DropdownModule } from 'primeng';
 import { ToastModule } from 'primeng/toast';
 
+import { HttpLoaderFactory } from '../cumco001/cumco001.module';
+import { translateModule } from '../cumco001/cumco001.module';
+
 
 
 @NgModule({
@@ -33,7 +36,10 @@ import { ToastModule } from 'primeng/toast';
     ToolbarModule,
     TableModule,
     DropdownModule,
-    ToastModule
-  ]
+    ToastModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [CUMCO004Component]
 })
 export class CUMCO004Module { }

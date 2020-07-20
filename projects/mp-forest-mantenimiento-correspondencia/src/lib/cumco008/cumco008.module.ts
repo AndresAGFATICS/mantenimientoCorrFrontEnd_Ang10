@@ -16,6 +16,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 
+import { translateModule } from '../cumco001/cumco001.module';
+
 
 
 @NgModule({
@@ -32,7 +34,10 @@ import { TableModule } from 'primeng/table';
     ButtonModule,
     TabViewModule,
     ToolbarModule,
-    TableModule
-  ]
+    TableModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [Cumco008Component]
 })
 export class Cumco008Module { }

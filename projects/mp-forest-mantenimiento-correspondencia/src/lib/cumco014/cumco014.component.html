@@ -1,11 +1,11 @@
 <div class="ui-fluid">
   <p-tabView>
     <p-toast position="top-center"></p-toast>
-    <p-tabPanel header="{{ varText.default.CUMCO014.pestana1 }}">
+    <p-tabPanel header="{{ 'CUMCO014.pestana1' | translate }}">
 
-      <p-fieldset legend="{{ varText.default.CUMCO014.titulo1 }}">
+      <p-fieldset legend="{{ 'CUMCO014.titulo' | translate }}">
 
-        <p>{{ varText.default.CUMCO014.tituloAutoCompletarRadicado }}</p>
+        <p>{{ 'CUMCO014.FILTROS.filtroRadicado' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -26,8 +26,8 @@
 
 
         <!-- Start Table -->
-        <p-table [columns]="cols" [value]="tablaTipoRadicado" 
-        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+        <p-table [columns]="cols" [value]="tablaTipoRadicado"
+        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
         selectionMode="single" [(selection)]="seleccionTablaRadicado"
         (onRowSelect)="onRowSelect($event, seleccionTablaRadicado)">
 
@@ -36,9 +36,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons -->
               <div class="button-sup-grid">
-                <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarRadicado()"></p-button>
-                <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarRadicado()"></p-button>
-                <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarRadicado()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarRadicado()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarRadicado()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarRadicado()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -103,9 +103,9 @@
 
       </p-fieldset>
 
-      <p-fieldset legend="{{ varText.default.CUMCO014.titulo2 }}">
+      <p-fieldset legend="{{ 'CUMCO014.titulo2' | translate }}">
 
-        <p>{{ varText.default.CUMCO014.tituloAutoCompletarSubRadicado }}</p>
+        <p>{{ 'CUMCO014.FILTROS.subRadicado' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -131,8 +131,8 @@
 
 
         <!-- Start Table 2 -->
-        <p-table [columns]="cols2" [value]="listaSubRadicado" 
-        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+        <p-table [columns]="cols2" [value]="listaSubRadicado"
+        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
         selectionMode="single" [(selection)]="seleccionSubRadicado">
 
           <!-- Table Caption 2 -->
@@ -140,11 +140,11 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 2 -->
               <div class="button-sup-grid">
-                <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarSubRadicado()"
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarSubRadicado()"
                 [disabled]="seleccionTablaRadicado === undefined|| seleccionTablaRadicado === null"></p-button>
-                <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarSubRadicado()"
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarSubRadicado()"
                 [disabled]="seleccionTablaRadicado === undefined|| seleccionTablaRadicado === null"></p-button>
-                <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarSubRadicado()"
+                <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarSubRadicado()"
                 [disabled]="seleccionTablaRadicado === undefined|| seleccionTablaRadicado === null"></p-button>
               </div>
             </div>
@@ -166,7 +166,7 @@
 
                 <div [ngSwitch]="i">
                   <div *ngSwitchCase="0"> {{row.tipoRadicado.codigo}}</div>
-                  
+
                   <div *ngSwitchCase="1">
                     {{row.tipoRadicado.descripcion}}
                   </div>
@@ -177,7 +177,7 @@
                      <p-autoComplete [dropdown]="true" [required]="true" [style]="{'width':'100%', 'height':'100%'}"
                                                             [(ngModel)]="tableTextAutoCompleteTramite"
                                                             [disabled]="row.postState === 'delete'"
-                                                            [suggestions]="suggestionsAutoCompleteTramite"  
+                                                            [suggestions]="suggestionsAutoCompleteTramite"
                                                             (completeMethod)="searchFilterTramite($event)"
                                                             (onSelect)="onSelectTramite(rowData, rowIndex)">
                       </p-autoComplete>
@@ -236,7 +236,7 @@
 
                 </div>
 
-                
+
 
 
               </td>

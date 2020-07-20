@@ -2,15 +2,15 @@
   <p-tabPanel header="Rutas">
 
     <div class="ui-fluid">
-      <p-fieldset legend="Parametrizar Rutas">
+      <p-fieldset legend="{{ 'CUMCO018.titulo' | translate }}">
 
-        <p>Ruta</p>
+        <p>{{ 'CUMCO018.FILTROS.filtroRuta' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí la ruta a filtrar."></p-autoComplete>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO018.FILTROS.filtroRutaPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times"></p-button>
             </div>
           </div>
@@ -21,9 +21,9 @@
           <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix menu-sup-grid">
               <div class="button-sup-grid">
-                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -84,18 +84,18 @@
       </p-fieldset>
     </div>
   </p-tabPanel>
-  <p-tabPanel header="Mensajeros">
+  <p-tabPanel header="{{ 'CUMCO018.mensajeros' | translate }}">
 
     <div class="ui-fluid">
-      <p-fieldset legend="Parametrizar Mensajero">
+      <p-fieldset legend="{{ 'CUMCO018.parametrizarMensajero' | translate }}">
 
-        <p>Mensajero</p>
+        <p>{{ 'CUMCO018.FILTROS.filtroMensajero' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí el mensajero a filtrar."></p-autoComplete>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO018.FILTROS.filtroMensajeroPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times"></p-button>
             </div>
           </div>
@@ -106,9 +106,9 @@
           <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix menu-sup-grid">
               <div class="button-sup-grid">
-                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -179,18 +179,18 @@
       </p-fieldset>
     </div>
   </p-tabPanel>
-  <p-tabPanel header="Empresa Mensajería">
+  <p-tabPanel header="{{ 'CUMCO018.empresaMensajeria' | translate }}">
 
     <div class="ui-fluid">
-      <p-fieldset legend="Parametrizar Empresa">
+      <p-fieldset legend="{{ 'CUMCO018.parametrizarEmpresa' | translate }}">
 
-        <p>Empresa Mensajería</p>
+        <p>{{ 'CUMCO018.FILTROS.filtroEmpresaMensajeria' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="Ingrese aquí la empresa de mensajería a filtrar."></p-autoComplete>
+              <p-autoComplete [(ngModel)]="text" [suggestions]="results" (completeMethod)="search($event)" [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO018.FILTROS.filtroEmpresaMensajeriaPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times"></p-button>
             </div>
           </div>
@@ -201,9 +201,9 @@
           <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix menu-sup-grid">
               <div class="button-sup-grid">
-                <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-                <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-                <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
               </div>
             </div>
           </ng-template>

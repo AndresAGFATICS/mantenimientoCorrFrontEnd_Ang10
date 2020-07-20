@@ -17,7 +17,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu';
 
-
+import { translateModule } from '../cumco001/cumco001.module';
 
 
 
@@ -37,7 +37,10 @@ import { MenuModule } from 'primeng/menu';
     TabViewModule,
     ToolbarModule,
     TableModule,
-    MenuModule
-  ]
+    MenuModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [Cumco017Component]
 })
 export class Cumco017Module { }

@@ -18,6 +18,8 @@ import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 
+import { translateModule } from '../cumco001/cumco001.module';
+
 
 
 
@@ -37,7 +39,10 @@ import { ToastModule } from 'primeng/toast';
     ToolbarModule,
     TableModule,
     CheckboxModule,
-    ToastModule
-  ]
+    ToastModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [Cumco005Component]
 })
 export class Cumco005Module { }

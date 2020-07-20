@@ -1,27 +1,27 @@
 <div class="ui-fluid">
   <p-toast position="top-center"></p-toast>
-  <p-fieldset legend="{{ varText.default.CUMCO009.titulo }}">
+  <p-fieldset legend="{{ 'CUMCO009.titulo' | translate }}">
     <p>
-      {{ varText.default.CUMCO009.tituloPersona }}
+      {{ 'CUMCO009.FILTROS.filtrotituloPersona' | translate }}
     </p>
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="filtroTipoPersona" field="idDescripcion" [immutable]="false" [suggestions]="tablaPersonasFiltro" (completeMethod)="searchPersona($event)"
-          [dropdown]="true" placeholder="{{ varText.default.CUMCO009.placeholderFiltroTipoPersona }}"
+          [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloPersonaPlaceHolder' | translate }}"
           [forceSelection]="true" (onSelect) = "seleccion()"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePersona()"></p-button>
         </div>
       </div>
     </div>
-    <p>{{ varText.default.CUMCO009.tituloIdentificacion }}</p>
+    <p>{{ 'CUMCO009.FILTROS.filtrotituloIdentificacion' | translate }}</p>
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="filtroTipoIdentificacion" field="idDescripcion" [immutable]="false" [suggestions]="tablaIdentificacionFiltro" (completeMethod)="searchTipoIdentificacion($event)"
-          [dropdown]="true" placeholder="{{ varText.default.CUMCO009.placeholderFiltroIdentificacion }}" [required]="true"></p-autoComplete>
+          [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloIdentificacionPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteIdentificacion()"></p-button>
         </div>
       </div>
@@ -29,12 +29,12 @@
 
   </p-fieldset>
 
-  <p-fieldset legend="{{ varText.default.CUMCO009.tablaPersona }}">
+  <p-fieldset legend="{{ 'CUMCO009.FILTROS.tablaPersona' | translate }}">
     <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [(selection)]="seleccionPersona" selectionMode="single" (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
-            <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
           </div>
         </div>
       </ng-template>
@@ -96,16 +96,16 @@
     </p-table>
   </p-fieldset>
 
-  <p-fieldset legend="{{ varText.default.CUMCO009.tablaTipoId }}">
-    <p>{{ varText.default.CUMCO009.textoTipoId }}</p>
+  <p-fieldset legend="{{ 'CUMCO009.FILTROS.tablaTipoId' | translate }}">
+    <p>{{ 'CUMCO009.FILTROS.textoTipoId' | translate }}</p>
     <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="single" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
-            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-            <p-button icon="pi pi-save" label="{{ varText.default.BOTON.guardar }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarConfiguracion()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarConfiguracion()"></p-button>
           </div>
         </div>
       </ng-template>
@@ -118,7 +118,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
         <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex"
-        [ngStyle]="gteRowColorState(row)" 
+        [ngStyle]="gteRowColorState(row)"
         *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)">
           <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 

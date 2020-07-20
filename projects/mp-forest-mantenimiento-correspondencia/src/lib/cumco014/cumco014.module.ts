@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
 import {DropdownModule} from 'primeng/dropdown';
+import { translateModule } from '../cumco001/cumco001.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,11 @@ import {DropdownModule} from 'primeng/dropdown';
     TableModule,
     CheckboxModule,
     ToastModule,
-    DropdownModule
-  ]
+    DropdownModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [CUMCO014Component]
 })
 
 export class CUMCO014Module { }

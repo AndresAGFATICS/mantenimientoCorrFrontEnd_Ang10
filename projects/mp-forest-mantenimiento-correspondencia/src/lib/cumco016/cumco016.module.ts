@@ -19,7 +19,7 @@ import { TreeModule } from 'primeng/tree';
 import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
 
-
+import { translateModule } from '../cumco001/cumco001.module';
 
 
 @NgModule({
@@ -39,7 +39,10 @@ import { CheckboxModule } from 'primeng/checkbox';
     TableModule,
     TreeModule,
     PickListModule,
-    CheckboxModule
-  ]
+    CheckboxModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [Cumco016Component]
 })
 export class Cumco016Module { }

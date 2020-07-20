@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco008',
@@ -9,7 +10,7 @@ import { Table } from 'primeng/table';
 })
 export class Cumco008Component implements OnInit {
 
-  constructor() { }
+  constructor( private translate: TranslateService) { }
 
   rowIndex = 0;
 
@@ -25,25 +26,41 @@ export class Cumco008Component implements OnInit {
 
   ngOnInit() {
 
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
+
     this.rows = [];
 
-    this.cols = [
-      { field: 'id', header: '' },
-      { field: 'codigo', header: 'Código' },
-      { field: 'descripcion', header: 'Descripción' },
-      { field: 'activo', header: 'Activo' },
-      { field: 'virtual', header: 'Virtual' },
-      { field: 'presencial', header: 'Presencial' },
-      { field: 'telefonico', header: 'Telefónico' }
-    ];
 
-    this.cols2 = [
-      { field: 'id', header: '' },
-      { field: 'medio_de_envio', header: 'Medio de Envío' },
-      { field: 'fuente', header: 'Fuente' },
-      { field: 'ventanilla_virtual', header: 'Ventanilla Virtual' }
-    ];
 
+  }
+  subcribeSetColumns() {
+
+
+
+
+    this.translate.get(['']).subscribe(translations => {
+      this.cols = [
+        { field: 'id', header: this.translate.instant('CUMCO008.TABLA1.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO008.TABLA1.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO008.TABLA1.headerTabla2') },
+        { field: 'activo', header: this.translate.instant('CUMCO008.TABLA1.headerTabla3') },
+        { field: 'virtual', header: this.translate.instant('CUMCO008.TABLA1.headerTabla4') },
+        { field: 'presencial', header: this.translate.instant('CUMCO008.TABLA1.headerTabla5') },
+        { field: 'telefonico', header: this.translate.instant('CUMCO008.TABLA1.headerTabla6') }
+      ];
+
+      this.cols2 = [
+        { field: 'id', header: this.translate.instant('CUMCO008.TABLA2.headerTabla0') },
+        { field: 'medio_de_envio', header: this.translate.instant('CUMCO008.TABLA2.headerTabla1') },
+        { field: 'fuente', header: this.translate.instant('CUMCO008.TABLA2.headerTabla2') },
+        { field: 'ventanilla_virtual', header: this.translate.instant('CUMCO008.TABLA2.headerTabla3')}
+      ];
+    });
   }
 
   onClicAgregar() {
@@ -90,4 +107,3 @@ export interface Row2 {
   fuente;
   ventanilla_virtual;
 }
-

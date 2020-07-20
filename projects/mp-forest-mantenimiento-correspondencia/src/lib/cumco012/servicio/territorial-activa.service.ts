@@ -13,15 +13,15 @@ export class TerritorialActivaService extends GeneralService{
   }
 
   public getTerritorialActivaConsultaService(codigoNombre: string) {
-    return this.get("/sistema/1.0.0/dependencia/territorialActiva" + codigoNombre);
+    return this.get("/forest/sistema/1.0.0/dependencia/territorialActiva" + codigoNombre);
   }
 
   public getRecorridoRepartoFisico(codigoNombre: string) {
-    return this.get('/documentos/1.0.0/recorridoRepartofisico?idTerritorial=' + codigoNombre);
+    return this.get('/forest/documentos/1.0.0/recorridoRepartofisico?idTerritorial=' + codigoNombre);
   }
 
   public postRecorridoRepartoFisico(body: any) {
-    return this.post('/documentos/1.0.0/guardarRecorridoRepartoFisico',body);
+    return this.post('/forest/documentos/1.0.0/guardarRecorridoRepartoFisico',body);
   }
 
 
