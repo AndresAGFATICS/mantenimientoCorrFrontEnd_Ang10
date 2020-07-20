@@ -1,6 +1,6 @@
 <div class="ui-fluid">
 
-  <p-fieldset legend="{{ varText.default.CUMCO016.titulo }}">
+  <p-fieldset legend="{{ 'CUMCO016.titulo' | translate }}">
 
     <!-- Start Table -->
     <p-table #dt [columns]="cols" [value]="rows" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [(selection)]="selectedRows">
@@ -10,9 +10,9 @@
         <div class="ui-helper-clearfix menu-sup-grid">
           <!-- Buttons -->
           <div class="button-sup-grid">
-            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-            <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
           </div>
         </div>
       </ng-template>
@@ -28,7 +28,7 @@
         </tr>
         <tr>
           <th *ngFor="let col of columns">
-            <input pInputText type="text" placeholder="{{ varText.default.CUMCO016.placeHolder }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')">
+            <input pInputText type="text" placeholder="{{ 'CUMCO016.FILTROS.filtroPlaceHolder' | translate }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')">
           </th>
         </tr>
       </ng-template>
@@ -59,20 +59,20 @@
 
   <br>
 
-  <p-fieldset legend="{{ varText.default.CUMCO016.tituloVincular }}">
+  <p-fieldset legend="{{ 'CUMCO016.tituloVincular' | translate }}">
     <div class="p-grid ui-fluid">
 
       <div class="p-col-12 p-md-4">
         <ng-template pTemplate="header" let-columns> </ng-template>
-        <p>{{ varText.default.CUMCO016.organismos }}</p>
+        <p>{{ 'CUMCO016.FILTROS.organismos' | translate }}</p>
         <p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"
         (onNodeSelect)="onNodeSelect($event)"></p-tree>
       </div>
 
       <div class="p-col-12 p-md-8">
 
-        <p-pickList [source]="sourceRows" [target]="targetRows" sourceHeader="{{ varText.default.CUMCO016.ejes }}" targetHeader="{{ varText.default.CUMCO016.ejesOrganismo }}" [responsive]="true" filterBy="descripcion" dragdrop="true"
-          sourceFilterPlaceholder="{{ varText.default.CUMCO016.placeHolderEjes }}" targetFilterPlaceholder="{{ varText.default.CUMCO016.placeHolderEjes }}" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+        <p-pickList [source]="sourceRows" [target]="targetRows" sourceHeader="{{ 'CUMCO016.FILTROS.ejes' | translate }}" targetHeader="{{ 'CUMCO016.FILTROS.ejesOrganismo' | translate }}" [responsive]="true" filterBy="descripcion" dragdrop="true"
+          sourceFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" targetFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
 
           <ng-template let-row pTemplate="item">
             <div class="ui-helper-clearfix">

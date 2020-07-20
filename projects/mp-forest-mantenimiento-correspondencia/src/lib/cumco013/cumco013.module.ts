@@ -12,6 +12,7 @@ import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { CUMCO013Component } from './cumco013.component';
 import { CUMCO013RoutingModule } from './cumco013-routing.module';
+import { translateModule } from '../cumco001/cumco001.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,10 @@ import { CUMCO013RoutingModule } from './cumco013-routing.module';
     ButtonModule,
     TabViewModule,
     ToolbarModule,
-    TableModule
-  ]
+    TableModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [CUMCO013Component]
 })
 export class CUMCO013Module { }

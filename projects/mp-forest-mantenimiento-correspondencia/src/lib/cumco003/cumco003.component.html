@@ -18,44 +18,44 @@
         </div>
       </ng-template>
     </p-toast>
-    <p-tabPanel header="{{ varText.default.CUMCO003.pestana1 }}">
+    <p-tabPanel header="{{ 'CUMCO003.pestana1' | translate }}">
 
-      <p-fieldset legend="{{ varText.default.CUMCO003.titulo1 }}">
+      <p-fieldset legend="{{ 'CUMCO003.titulo' | translate }}">
 
-        <p>{{ varText.default.CUMCO003.tituloAutocompletarPlantilla }}</p>
+        <p>{{ 'CUMCO003.FILTROS.filtroPlantilla' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
               <p-autoComplete [(ngModel)]="seleccionPlantilla" field="codigo" [suggestions]="listaPlantilla" (completeMethod)="searchPlantilla($event)" [dropdown]="true" [forceSelection]="true"
-                placeholder="{{ varText.default.CUMCO003.placeHolderAutoCompletarPlantilla }}"></p-autoComplete>
+                placeholder="{{ 'CUMCO003.FILTROS.filtroPlantillaPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePlantilla()"></p-button>
             </div>
           </div>
         </div>
 
-        <p>{{ varText.default.CUMCO003.tituloAutoCompletarTipoRadicado }}</p>
+        <p>{{ 'CUMCO003.TipoRadicado' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
               <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion" [suggestions]="listaRadicado" (completeMethod)="searchRadicado($event)" [dropdown]="true" [forceSelection]="true"
-                placeholder="{{ varText.default.CUMCO003.placeHolderAutoCompletarTipoRadicado }}"></p-autoComplete>
+                placeholder="{{ 'CUMCO003.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteRadicado()"></p-button>
             </div>
           </div>
         </div>
 
-        <p>{{ varText.default.CUMCO003.tituloAutoCompletarClaseDocumental }}</p>
+        <p>{{ 'CUMCO003.FILTROS.filtroClaseDocumental' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
               <p-autoComplete [(ngModel)]="seleccionClaseDocumental" field="codigoDescripcion" [suggestions]="listaClaseDocumental" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true" [forceSelection]="true"
-                placeholder="{{ varText.default.CUMCO003.placeHolderAutoCompletarClaseDocumental }}"></p-autoComplete>
+                placeholder="{{ 'CUMCO003.FILTROS.filtroClaseDocumentalPlaceHolder' | translate }}"></p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteDocumento()"></p-button>
             </div>
           </div>
@@ -74,9 +74,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons -->
               <div class="button-sup-grid">
-                <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-                <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-                <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -150,9 +150,9 @@
                       <ng-template pTemplate="input">
                         <p-autoComplete [(ngModel)]="row.claseDocumental" field="codigoDescripcion" (click)="onClickElminiarSelected()" [suggestions]="listaClaseDocumental" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true" [forceSelection]="true"
                         ></p-autoComplete>
-                          
+
                         <!-- <p-dropdown [options]="listaClaseDocumental" optionLabel="codigoDescripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="validacionEntrada(rowIndex)" (click)="onClickElminiarSelected()"> </p-dropdown> -->
-                        
+
                       </ng-template>
                       <ng-template pTemplate="output">
                         {{row.claseDocumental.codigoDescripcion}}
@@ -216,7 +216,7 @@
 
     </p-tabPanel>
 
-    <p-tabPanel header="{{ varText.default.CUMCO003.pestana2 }}">
+    <p-tabPanel header="{{ 'CUMCO003.pestana2' | translate }}">
 
       <!-- Start Table -->
       <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedRowDocument">
@@ -226,9 +226,9 @@
           <div class="ui-helper-clearfix menu-sup-grid">
             <!-- Buttons -->
             <div class="button-sup-grid">
-              <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
-              <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
-              <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
             </div>
           </div>
         </ng-template>

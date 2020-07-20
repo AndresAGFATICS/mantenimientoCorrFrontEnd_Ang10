@@ -19,6 +19,8 @@ import { DropdownModule } from 'primeng';
 import { CalendarModule } from 'primeng/calendar';
 import {ToastModule} from 'primeng/toast';
 
+import { translateModule } from '../cumco001/cumco001.module';
+
 
 
 @NgModule({
@@ -39,8 +41,11 @@ import {ToastModule} from 'primeng/toast';
     CheckboxModule,
     DropdownModule,
     CalendarModule,
-    ToastModule
+    ToastModule,
+    translateModule
 
-  ]
+  ],
+  providers: [],
+  bootstrap: [CUMCO012Component]
 })
 export class CUMCO012Module { }

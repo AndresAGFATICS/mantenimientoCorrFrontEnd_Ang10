@@ -11,9 +11,9 @@ export class Cumco010Service extends GeneralService{
     super(_http);
   }
   public getMotivoDevolucion() {
-    return this.get("/documentos/1.0.0/motivoDevolucion");
+    return this.get("/forest/documentos/1.0.0/motivoDevolucion");
   }
   public postGuardarPersonas(body: any) {
-    return this.post('/documentos/1.0.0/guardarMotivoDevolucion',body);
+    return this.post('/forest/documentos/1.0.0/guardarMotivoDevolucion',body);
   }
 }

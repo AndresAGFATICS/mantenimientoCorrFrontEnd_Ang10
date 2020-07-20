@@ -14,12 +14,12 @@ export class EjeTematicoService extends GeneralService{
   }
 
   public getEjeTematico(descripcion: string, activo: string) {
-    return this.get("/documentos/1.0.0/ejeTematico?activo=" + activo + "&descripcion=" + descripcion);
+    return this.get("/forest/documentos/1.0.0/ejeTematico?activo=" + activo + "&descripcion=" + descripcion);
   }
   public getDependenciaLista(codNombre: string, activo: string) {
-    return this.get("/documentos/1.0.0/dependencia/lista?activo" + activo+ "&codigoNombre=" + codNombre);
+    return this.get("/forest/documentos/1.0.0/dependencia/lista?activo" + activo+ "&codigoNombre=" + codNombre);
   }
   public getEjeTematicoDependencia(idDependencia: string) {
-    return this.get("/documentos/1.0.0/ejeTematico/dependencia?idDependencia=" + idDependencia);
+    return this.get("/forest/documentos/1.0.0/ejeTematico/dependencia?idDependencia=" + idDependencia);
   }
 }

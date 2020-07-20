@@ -1,22 +1,22 @@
 <div class="ui-fluid">
-  <p-fieldset legend="Filtros">
+  <p-fieldset legend="{{ 'CUMCO019.titulo' | translate }}">
     <p>
-      Tipo de comunicación Oficial:
+      {{ 'CUMCO019.FILTROS.filtroComunicacion' | translate }}
     </p>
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
-          <p-autoComplete [dropdown]="true" placeholder="Seleccione el tipo de comunicación oficial" [required]="true"></p-autoComplete>
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroComunicacionPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
         </div>
       </div>
     </div>
-    <p>Cargo:</p>
+    <p>{{ 'CUMCO019.FILTROS.filtroCargo' | translate }}</p>
 
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [dropdown]="true" placeholder="Ingrese aquí el cargo a filtrar" [required]="true"></p-autoComplete>
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroCargoPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
           <p-button icon="pi pi-times"></p-button>
         </div>
       </div>
@@ -24,7 +24,7 @@
 
   </p-fieldset>
 
-  <p-fieldset legend="Tipos de Comuniación Oficial">
+  <p-fieldset legend="{{ 'CUMCO019.tipoComunicacion' | translate }}">
     <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
       <ng-template pTemplate="header" let-columns>
@@ -82,16 +82,16 @@
     </p-table>
   </p-fieldset>
 
-  <p-fieldset legend="Configurar firmantes por tipo de Comunicación">
-    <p>Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada.</p>
+  <p-fieldset legend="{{ 'CUMCO019.configurarFirmantes' | translate }}">
+    <p>{{ 'CUMCO019.FILTROS.filtroCargoFuncionario' | translate }}</p>
     <p-table [columns]="columnasAdjuntosComunicacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
-            <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-            <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-            <p-button icon="pi pi-save" label="Guardar" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
           </div>
         </div>
       </ng-template>

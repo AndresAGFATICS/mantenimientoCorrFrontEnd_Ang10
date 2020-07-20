@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 
 import { MenuItem } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco017',
@@ -11,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class Cumco017Component implements OnInit {
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   rowIndex = 0;
 
@@ -33,55 +34,68 @@ export class Cumco017Component implements OnInit {
 
   ngOnInit() {
 
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
+
     this.rows = [];
 
 
-    this.cols = [
-      { field: 'id', header: '' },
-      { field: 'codigo', header: 'Código' },
-      { field: 'descripcion_tipo_radicado', header: 'Descripción Tipo Radicado' },
-      { field: 'categoria', header: 'Categoria' },
-      { field: 'activo', header: 'Activo' }
-    ];
-
-    this.cols2 = [
-      { field: 'codigo_tipo_radicado', header: 'Código Tipo Radicado' },
-      { field: 'descripcion', header: 'Descripción (Subtipo de Radicado)' },
-      { field: 'tramite', header: 'Trámite' },
-      { field: 'dias_termino', header: 'Días Termino' },
-      { field: 'dias_habiles', header: 'Días Habiles' },
-      { field: 'activo', header: 'Activo' },
-      { field: 'ventanilla_de_entrada', header: 'Ventanilla de Entrada' },
-      { field: 'radicacion_verbal', header: 'Radicación Verbal' },
-      { field: 'comunicaciones_oficiales', header: 'Comunicaciones Oficiales' },
-      { field: 'ventanilla_virtual', header: 'Ventanilla Virtual' },
-      { field: 'anonimo', header: 'Anónimo' },
-
-    ];
-
-    this.cols3 = [
-      { field: 'id', header: '' },
-      { field: 'codigo', header: 'Código' },
-      { field: 'nombre', header: 'Nombre' },
-      { field: 'lista de_requisitos', header: 'Lista de Requisitos' }
-    ];
-
-    this.cols4 = [
-      { field: 'codigo', header: 'Código' },
-      { field: 'nombre', header: 'Nombre' },
-      { field: 'descripcion', header: 'Descripción' },
-      { field: 'activo', header: 'Activo' },
-      { field: 'requerido', header: 'Requerido' },
-      { field: 'requerido', header: 'Requerido' },
-      { field: 'formato_de_archivo', header: 'Formato de Archivo (Ventanilla virtual)' },
-      { field: 'cargar_formulario', header: 'Cargar de Formulario (Ventanilla virtual)' }
-    ];
-
-    this.cols5 = [
-      { field: 'requisito', header: 'Requisito' }
-    ];
 
 
+
+  }
+  subcribeSetColumns() {
+    this.translate.get(['']).subscribe(translations => {
+
+      this.cols = [
+        { field: 'id', header: this.translate.instant('CUMCO017.TABLA1.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO017.TABLA1.headerTabla1') },
+        { field: 'descripcion_tipo_radicado', header: this.translate.instant('CUMCO017.TABLA1.headerTabla2') },
+        { field: 'categoria', header: this.translate.instant('CUMCO017.TABLA1.headerTabla3') },
+        { field: 'activo', header: this.translate.instant('CUMCO017.TABLA1.headerTabla4') }
+      ];
+
+      this.cols2 = [
+        { field: 'codigo_tipo_radicado', header: this.translate.instant('CUMCO017.TABLA2.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA2.headerTabla2') },
+        { field: 'tramite', header: this.translate.instant('CUMCO017.TABLA2.headerTabla3') },
+        { field: 'dias_termino', header: this.translate.instant('CUMCO017.TABLA2.headerTabla4') },
+        { field: 'dias_habiles', header: this.translate.instant('CUMCO017.TABLA2.headerTabla5') },
+        { field: 'activo', header: this.translate.instant('CUMCO017.TABLA2.headerTabla6') },
+        { field: 'ventanilla_de_entrada', header: this.translate.instant('CUMCO017.TABLA2.headerTabla7') },
+        { field: 'radicacion_verbal', header: this.translate.instant('CUMCO017.TABLA2.headerTabla8') },
+        { field: 'comunicaciones_oficiales', header: this.translate.instant('CUMCO017.TABLA2.headerTabla9') },
+        { field: 'ventanilla_virtual', header: this.translate.instant('CUMCO017.TABLA2.headerTabla10') },
+        { field: 'anonimo', header: this.translate.instant('CUMCO017.TABLA2.headerTabla11') },
+
+      ];
+
+      this.cols3 = [
+        { field: 'id', header: this.translate.instant('CUMCO017.TABLA3.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO017.TABLA3.headerTabla1') },
+        { field: 'nombre', header: this.translate.instant('CUMCO017.TABLA3.headerTabla2') },
+        { field: 'lista de_requisitos', header: this.translate.instant('CUMCO017.TABLA3.headerTabla3') }
+      ];
+
+      this.cols4 = [
+        { field: 'codigo', header: this.translate.instant('CUMCO017.TABLA4.headerTabla1') },
+        { field: 'nombre', header: this.translate.instant('CUMCO017.TABLA4.headerTabla2') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA4.headerTabla3')},
+        { field: 'activo', header: this.translate.instant('CUMCO017.TABLA4.headerTabla4') },
+        { field: 'requerido', header: this.translate.instant('CUMCO017.TABLA4.headerTabla5')},
+        { field: 'requerido', header: this.translate.instant('CUMCO017.TABLA4.headerTabla6') },
+        { field: 'formato_de_archivo', header: this.translate.instant('CUMCO017.TABLA4.headerTabla7') },
+        { field: 'cargar_formulario', header: this.translate.instant('CUMCO017.TABLA4.headerTabla8') }
+      ];
+  
+      this.cols5 = [
+        { field: 'requisito', header: this.translate.instant('CUMCO017.TABLA5.headerTabla1') }
+      ];
+    });
   }
 
   onClicAgregar() {

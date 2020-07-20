@@ -11,20 +11,20 @@ export class Cumco006Service extends GeneralService{
     super(_http);
   }
   public getCanal() {
-    return this.get('/documentos/1.0.0/canalEnvio');
+    return this.get('/forest/documentos/1.0.0/canalEnvio');
   }
 
   public getHora(idCanal:any) {
-    return this.get('/documentos/1.0.0/horarioRadicacion/entrada?idCanal=' + idCanal);
+    return this.get('/forest/documentos/1.0.0/horarioRadicacion/entrada?idCanal=' + idCanal);
   }
 
   public getHoraCof() {
-    return this.get('/documentos/1.0.0/horarioRadicacion/cof');
+    return this.get('/forest/documentos/1.0.0/horarioRadicacion/cof');
   }
   public getFestivo() {
-    return this.get('/documentos/1.0.0/horarioRadicacion/festivos');
+    return this.get('/forest/documentos/1.0.0/horarioRadicacion/festivos');
   }
   public postGuardarHorarioRadicado(body: any) {
-    return this.post('/documentos/1.0.0/horarioRadicacion/configurar',body);
+    return this.post('/forest/documentos/1.0.0/horarioRadicacion/configurar',body);
   }
 }

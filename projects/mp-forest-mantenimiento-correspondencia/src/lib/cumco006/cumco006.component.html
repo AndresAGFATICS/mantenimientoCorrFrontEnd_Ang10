@@ -1,14 +1,14 @@
 <div class="ui-fluid">
   <p-toast position="top-center"></p-toast>
-  <p-fieldset legend="{{ varText.default.CUMCO006.titulo }}">
+  <p-fieldset legend="{{ 'CUMCO006.titulo' | translate }}">
     <div class="p-grid ui-fluid">
       <div class="p-col-12 p-md-4">
-        <p>{{ varText.default.CUMCO006.canalConfigurar }}</p>
+        <p>{{ 'CUMCO006.FILTROS.filtroCanalConfigurar' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
-              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ varText.default.MENSAJES.seleccionFiltro }}" (onChange) ="actualizarHora()"></p-dropdown>
+              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ 'CUMCO006.FILTROS.filtroCanalConfigurarPlaceHolder' | translate }}" (onChange) ="actualizarHora()"></p-dropdown>
             </div>
           </div>
         </div>
@@ -16,7 +16,7 @@
       </div>
 
       <div class="p-col-12 p-md-4">
-        <p>{{ varText.default.CUMCO006.horaInicio }}</p>
+        <p>{{ 'CUMCO006.FILTROS.filtroHoraInicio' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -27,7 +27,7 @@
       </div>
 
       <div class="p-col-12 p-md-4">
-        <p>{{ varText.default.CUMCO006.horaFin }}</p>
+        <p>{{ 'CUMCO006.FILTROS.filtroHoraFin' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -44,11 +44,11 @@
   </p-fieldset>
 
 
-  <p-fieldset legend="Configurar Horario de Radicación Comunicaciónes Oficiales (COF)">
+  <p-fieldset legend="{{ 'CUMCO006.FILTROS.tituloTabla' | translate }}">
     <div class="p-grid ui-fluid">
 
       <div class="p-col-12 p-md-4">
-        <p>{{ varText.default.CUMCO006.horaInicio }}</p>
+        <p>{{ 'CUMCO006.FILTROS.filtroHoraInicio' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -59,7 +59,7 @@
       </div>
 
       <div class="p-col-12 p-md-4">
-        <p>{{ varText.default.CUMCO006.horaFin }}</p>
+        <p>{{ 'CUMCO006.FILTROS.filtroHoraFin' | translate }}</p>
 
         <div class="ui-g">
           <div class="ui-g-12">
@@ -75,7 +75,7 @@
 
   </p-fieldset>
 
-  <p-fieldset legend="{{ varText.default.CUMCO006.tituloTablaFestivos }}">
+  <p-fieldset legend="{{ 'CUMCO006.tituloTablaFestivos' | translate }}">
 
     <!-- Start Table -->
     <p-table [columns]="cols" [value]="listaFestivo" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="seleccionFestivo">
@@ -85,9 +85,9 @@
         <div class="ui-helper-clearfix menu-sup-grid">
           <!-- Buttons -->
           <div class="button-sup-grid">
-            <p-button label="{{ varText.default.BOTON.agregar }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-            <p-button label="{{ varText.default.BOTON.eliminar }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-            <p-button label="{{ varText.default.BOTON.guardar }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
           </div>
         </div>
       </ng-template>

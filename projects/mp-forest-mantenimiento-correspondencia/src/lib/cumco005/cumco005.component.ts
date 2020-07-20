@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { AnexosFisicosClaseService } from './servicio/anexos-fisicos-clase.service';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 // import * as confJson from '../../assets/i18n/es.json';
 
 @Component({
@@ -13,30 +14,7 @@ import { MessageService } from 'primeng/api';
 })
 export class Cumco005Component implements OnInit {
 
-  varText: any = {
-    "default": {
-      "MENSAJES": {
-        "eliminarFallido1": "El recorrido ",
-        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "exitoGuardar": "Operación ejecutada con éxito",
-        "falloGuardar": "Se ha presentado un error al guardar",
-        "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-        "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar"
-      },
-      "BOTON": {
-        "agregar": "Agregar",
-        "eliminar": "Eliminar",
-        "guardar": "Guardar"
 
-      },
-      "CUMCO005": {
-
-      }
-    }
-  };
 
   // Variables de texto
   //varText: any = confJson;
@@ -62,7 +40,8 @@ export class Cumco005Component implements OnInit {
 
 
   constructor(private anexosFisicosClaseService: AnexosFisicosClaseService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private translate: TranslateService) {
     this.cols = [
       { field: 'id', header: '' },
       { field: 'claseAnexo.descripcion', header: 'Tipo de Anexo Físico' },
@@ -91,10 +70,26 @@ export class Cumco005Component implements OnInit {
   tipoDeRadicado: any[];
 
   ngOnInit() {
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.subscribeCodigoDescripcion('', '');
     this.subscribeAnexosFisicos();
     this.subscribeTipoAnexoFisico();
 
+  }
+  subcribeSetColumns() {
+    this.translate.get(['']).subscribe(translations => {
+
+      this.cols = [
+        { field: 'id', header: this.translate.instant('CUMCO005.TABLA1.headerTabla0') },
+        { field: 'claseAnexo.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla1') },
+        { field: 'tipoAnexoFisico.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla2') },
+        { field: 'observacion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla3') },
+        { field: 'isCarpeta', header: this.translate.instant('CUMCO005.TABLA1.headerTabla4') }
+      ];
+    });
   }
 
   onClickElminiarSelected(){
@@ -131,7 +126,8 @@ export class Cumco005Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        const error = this.varText.default.MENSAJES.falloGuardar;
+
+        const error = this.translate.instant('CUMCO005.MENSAJES.falloGuardar');
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
@@ -274,13 +270,13 @@ export class Cumco005Component implements OnInit {
 
   onGuardarColumna() {
     if (!this.camposValidos()) {
-      const error = this.varText.default.MENSAJES.errorGuardar;
+      const error = this.translate.instant('CUMCO005.MENSAJES.falloGuardar');
       this.showMessage(error, "error");
     } else if (!this.validarRepetidos()) {
-      const error = this.varText.default.MENSAJES.repetidos;
+      const error = this.translate.instant('CUMCO005.MENSAJES.repetidos');
       this.showMessage(error, "error");
     } else if (!this.validarAnexoRepetidoTipo()) {
-      const error = this.varText.default.MENSAJES.repetidosAnexoTipo;
+      const error = this.translate.instant('CUMCO005.MENSAJES.repetidosAnexoTipo');
       this.showMessage(error, "error");
     } else {
       this.subcribeRecorridoRepartoFisico(this.buildJson());

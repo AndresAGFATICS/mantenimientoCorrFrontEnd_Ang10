@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cumco018',
@@ -16,31 +17,40 @@ export class CUMCO018Component implements OnInit {
   adjunto: any[];
   adjuntosSeleccionados: any[];
 
-  constructor() { }
+  constructor(private translate: TranslateService) { }
 
   ngOnInit() {
+
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+
+
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumns();
     this.results = [
       'a', 'b', 'c'
     ];
-    this.onCargarColumnas();
+
   }
-  onCargarColumnas() {
+  subcribeSetColumns() {
+      this.translate.get(['']).subscribe(translations => {
       this.columnasAdjuntos = [
-        { field: 'codRuta', header: 'Código' },
-        { field: 'nomRuta', header: 'Nombre' },
-        { field: 'actRuta', header: 'Activo' }
+        { field: 'codRuta', header: this.translate.instant('CUMCO018.TABLA1.headerTabla1') },
+        { field: 'nomRuta', header: this.translate.instant('CUMCO018.TABLA1.headerTabla2') },
+        { field: 'actRuta', header: this.translate.instant('CUMCO018.TABLA1.headerTabla3') }
       ];
       this.columnasOrganizacion = [
-        { field: 'codMens', header: 'Código' },
-        { field: 'depMens', header: 'Dependencia' },
-        { field: 'nomMens', header: 'Nombre' },
-        { field: 'actMens', header: 'Activo' }
+        { field: 'codMens', header: this.translate.instant('CUMCO018.TABLA2.headerTabla1')},
+        { field: 'depMens', header: this.translate.instant('CUMCO018.TABLA2.headerTabla2') },
+        { field: 'nomMens', header: this.translate.instant('CUMCO018.TABLA2.headerTabla3') },
+        { field: 'actMens', header: this.translate.instant('CUMCO018.TABLA2.headerTabla4') }
       ];
       this.columnasEconomica = [
-        { field: 'codEmp', header: 'Código' },
-        { field: 'nomEmp', header: 'Nombre' },
-        { field: 'actEmp', header: 'Activo' }
+        { field: 'codEmp', header: this.translate.instant('CUMCO018.TABLA3.headerTabla1') },
+        { field: 'nomEmp', header: this.translate.instant('CUMCO018.TABLA3.headerTabla2') },
+        { field: 'actEmp', header: this.translate.instant('CUMCO018.TABLA3.headerTabla3') }
       ];
+    });
     }
     onClickBorrarAutoComplete() {
       this.text = '';

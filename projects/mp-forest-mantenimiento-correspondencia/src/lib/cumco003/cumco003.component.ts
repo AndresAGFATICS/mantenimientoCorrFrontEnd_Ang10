@@ -9,6 +9,11 @@ import { HostListener } from '@angular/core';
 
 import { Cumco003Service } from './servicio/cumco003.service';
 
+// Importacion Modulo de Para el Traslate
+import { TranslateService } from '@ngx-translate/core';
+
+import { ElementRef } from '@angular/core';
+
 @Component({
   selector: 'app-cumco003',
   templateUrl: './cumco003.component.html',
@@ -21,169 +26,15 @@ export class Cumco003Component implements OnInit {
 
 
   constructor(private cumco003Service: Cumco003Service,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private translate: TranslateService) {
     this.rows = [];
 
-    this.cols = [
-      { field: 'ID', header: '' },
-      { field: 'plantilla.codigo', header: this.varText.default.TABLAS.plantilla },
-      { field: 'tipoRadicado.codigoDescripcion', header: this.varText.default.TABLAS.tipoRadicado },
-      { field: 'tramiteTipoRadicado.descripcion', header: this.varText.default.TABLAS.subtipoRadicado },
-      { field: 'tipoDocumental.codigoDescripcion', header: this.varText.default.TABLAS.tipoDocumental },
-      { field: 'claseDocumental.codigoDescripcion', header: this.varText.default.TABLAS.claseDocumental },
-      { field: 'terminoRequerimiento', header: this.varText.default.TABLAS.TerminoReq },
-      { field: 'diasRequerimiento', header: this.varText.default.TABLAS.diasRequerimiento },
-      { field: 'prorrogaEntidad', header: this.varText.default.TABLAS.prorrogaEntidad },
-      { field: 'prorrogaPeticionario', header: this.varText.default.TABLAS.prorrogaPeticionario },
-      { field: 'diasProrroga', header: this.varText.default.TABLAS.diasProrroga },
-      { field: 'tipoComunicacion.codigoDescripcion', header: this.varText.default.TABLAS.tipoComunicacion },
-    ];
-
-    this.cols2 = [
-      { field: 'codigo', header: this.varText.default.TABLAS.codigo },
-      { field: 'descripcion', header: this.varText.default.TABLAS.nombre },
-      { field: 'claseDocumental.descripcion', header: this.varText.default.TABLAS.claseDocumental }
-    ];
 
     this.tablaDocumentos = [];
     this.idRow = 0;
   }
-  varText: any = {
-    "default":
-    {
-      "MENSAJES": {
-        "eliminarFallido1": "El recorrido ",
-        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "exitoGuardar": "Operación ejecutada con éxito",
-        "falloGuardar": "Se ha presentado un error al guardar",
-        "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-        "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-        "seleccioneTipoRadicado": "Por Favor Seleccione un tipo de radicado para la fila",
-        "claseDocNoRequierePlantilla": "La clase documental Entrada no requiere una selección de plantilla, si continúa se borrará la plantilla seleccionada al inicio",
-        "detalleClaseDocNoRequierePlantilla": "¿Desea continuar?",
-        "repetidosPlantillaSubtipoTipo": "El registro con la plantilla, subtipo de radicado y tipo documental está repetido",
-        "repetidosPlantillaSubtipoClase": "Para el registro con la plantilla, Subtipo de radicado, la clase documental no debe ser diferente.",
-        "repetidosSubtipoClase": "El registro con el subtipo de radicado y tipo documental está repetido"
-      },
-      "CALENDARIO": {
-        "firstDayOfWeek": 1,
-        "dayNames": ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
-        "dayNamesShort": ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
-        "dayNamesMin": ["D", "L", "M", "X", "J", "V", "S"],
-        "monthNames": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-        "monthNamesShort": ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
-        "today": "Hoy",
-        "clear": "Borrar"
-      },
-      "GENERAL": {
 
-      },
-      "TABLAS": {
-        "codigo": "Código",
-        "nombre": "Nombre",
-        "descripcion": "Descripción",
-        "activo": "Activo",
-        "tipoDocumental": "Tipo Documental",
-        "accion": "Acción",
-        "codigoTipoPersona": "Código Tipo de Persona",
-        "tipoPersona": "Tipo de Persona",
-        "codigoTipoIdentificacion": "Código tipo de Identificación",
-        "tipoIdentificacion": "Tipo de Identificación",
-        "motivoDevolucion": "Motivo de devolución",
-        "plantilla": "Plantilla",
-        "tipoRadicado": "Tipo Radicado",
-        "subtipoRadicado": "Subtipo Radicado",
-        "claseDocumental": "Clase Documental",
-        "TerminoReq": "Termino Requerimiento",
-        "prorrogaEntidad": "Prórroga entidad",
-        "prorrogaPeticionario": "Prórroga Peticionario",
-        "diasProrroga": "Días Prórroga",
-        "tipoComunicacion": "Tipo Comunicacion",
-        "diasRequerimiento": "Días Requerimiento"
-      },
-      "BOTON": {
-        "agregar": "Agregar",
-        "eliminar": "Eliminar",
-        "guardar": "Guardar"
-
-      },
-
-      "CUMCO001": {
-        "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
-        "filtroTipoRadicado": "Tipo de Radicado",
-        "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
-        "filtroOrganismoDependencia": "Organismo o Dependencia",
-        "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar",
-        "headerTabla0": "",
-        "headerTabla1": "Tipo de Radicado",
-        "headerTabla2": "Subtipo de radicado",
-        "headerTabla3": "Organismo o Dependencia",
-        "headerTabla4": "CDC",
-        "headerTabla5": "Responsable",
-        "headerTabla6": "Funcionario Sumplente"
-      },
-      "CUMCO003": {
-        "pestana1": "Plantillas",
-        "titulo1": "Configurar Plantillas",
-        "tituloAutocompletarPlantilla": "Plantilla:",
-        "placeHolderAutoCompletarPlantilla": "Ingresar aquí plantilla a filtrar",
-        "tituloAutoCompletarTipoRadicado": "Tipo de Radicado:",
-        "placeHolderAutoCompletarTipoRadicado": "Ingrese aquí el tipo de radicado a filtrar",
-        "tituloAutoCompletarClaseDocumental": "Clase Documental:",
-        "placeHolderAutoCompletarClaseDocumental": "Seleccione la clase documental",
-        "pestana2": "Tipo Comunicación Ofcicial",
-
-      },
-
-      "CUMCO004": {
-        "titulo": "Definir Acciones para los Tipos Documentales",
-        "filtro": "Buscar Tipo Documental",
-        "filtroPlaceHolder": "Ingrese aquí el tipo documental a filtrar."
-      },
-      "CUMCO005": {
-
-      },
-      "CUMCO009": {
-        "titulo": "Filtros",
-        "tituloPersona": "Tipo de Persona:",
-        "placeholderFiltroTipoPersona": "Ingrese aquí el tipo de persona a filtrar",
-        "tituloIdentificacion": "Tipo de identificación:",
-        "placeholderFiltroIdentificacion": "Ingrese aquí el tipo de identificación a filtrar",
-        "tablaPersona": "Configurar Tipos de Persona",
-        "tablaTipoId": "Configurar firmantes por tipo de Comunicación",
-        "textoTipoId": "Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
-      },
-      "CUMCO010": {
-        "titulo": "Filtro",
-        "tituloDevolucion": "Motivo de devolución:",
-        "filtroDevolucion": "Ingrese aquí el motivo de la devolución",
-        "tituloTabla": "Configurar Motivos de devolución"
-      },
-      "CUMCO012": {
-        "titulo": "Configurar Recorridos de Reparto de Documentos Físicos",
-        "filtro": "Organismo a Configurar",
-        "filtroPlaceHolder": "Ingrese aquí el organismo a configurar",
-        "tituloTabla": "Recorridos de Reparto Documentos Físicos",
-        "headerTabla1": "Nombre Recorrido",
-        "headerTabla2": "Hora Inicio",
-        "headerTabla3": "Hora Fin",
-        "headerTabla4": "Activo"
-      },
-      "CUMCO016": {
-        "titulo": "Configurar Ejes Temáticos",
-        "placeHolder": "Buscar por",
-        "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
-        "organismos": "Organismos o Dependecias",
-        "ejes": "Ejes Temáticos",
-        "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
-        "placeHolderEjes": "Buscar por Ejes"
-      }
-
-    }
-  };
 
 
   //autocompletePlantilla
@@ -199,6 +50,11 @@ export class Cumco003Component implements OnInit {
 
   seleccionClaseDocumental: any;
   listaClaseDocumental: any[];
+
+  //ValorRepetido
+
+  repetido: any;
+  repetidoPlantilla: Row;
 
 
   //TABLAS
@@ -227,6 +83,10 @@ export class Cumco003Component implements OnInit {
 
 
   ngOnInit() {
+    // Setting lenguaje por defecto
+    this.translate.setDefaultLang('es');
+    // Nombrar las columnas de la primera tabla
+    this.subcribeSetColumnsTraslations();
     this.subscribePlantilla('');
     this.subscribeRadicado('');
     this.subscribeDocumento('');
@@ -241,6 +101,34 @@ export class Cumco003Component implements OnInit {
 
   onClickElminiarSelected2(){
     this.selectedRowDocument = undefined;
+  }
+
+  // SUSCRIBIRSE para Obtener los valores de los headers de la tabla
+  subcribeSetColumnsTraslations(){
+
+    this.translate.get(['']).subscribe(translations => {
+      this.cols = [
+        { field: 'ID', header: this.translate.instant('CUMCO003.TABLA1.headerTabla0') },
+        { field: 'plantilla.codigo', header: this.translate.instant('CUMCO003.TABLA1.headerTabla1') },
+        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla2') },
+        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla3') },
+        { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla4') },
+        { field: 'claseDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla5') },
+        { field: 'terminoRequerimiento', header: this.translate.instant('CUMCO003.TABLA1.headerTabla6') },
+        { field: 'diasRequerimiento', header: this.translate.instant('CUMCO003.TABLA1.headerTabla7') },
+        { field: 'prorrogaEntidad', header: this.translate.instant('CUMCO003.TABLA1.headerTabla8') },
+        { field: 'prorrogaPeticionario', header: this.translate.instant('CUMCO003.TABLA1.headerTabla9') },
+        { field: 'diasProrroga', header: this.translate.instant('CUMCO003.TABLA1.headerTabla10') },
+        { field: 'tipoComunicacion.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla11') },
+      ];
+
+      this.cols2 = [
+        { field: 'codigo', header:this.translate.instant('CUMCO003.TABLA2.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2')},
+        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla3') }
+      ];
+    });
+
   }
 
   subscribePlantilla(codigo: any) {
@@ -391,7 +279,7 @@ export class Cumco003Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        const error = this.varText.default.MENSAJES.falloGuardar;
+        const error = this.translate.instant('CUMCO003.MENSAJES.guardarError');
         this.showMessage('error', 'Error ', error);
       },
       () => {                 // Fin del suscribe
@@ -411,7 +299,7 @@ export class Cumco003Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        const error = this.varText.default.MENSAJES.falloGuardar;
+        const error = this.translate.instant('CUMCO003.MENSAJES.guardarError');
         this.showMessage('error', 'Guardar ', error);
       },
       () => {                 // Fin del suscribe
@@ -433,7 +321,7 @@ export class Cumco003Component implements OnInit {
     if (this.rows[rowIndex].tipoRadicado.id || this.rows[rowIndex].tipoRadicado.id) {
       this.subscribeSubTipoRadicado(event.query ? event.query : '', this.rows[rowIndex].tipoRadicado.id)
     } else {
-      const error = this.varText.default.MENSAJES.seleccioneTipoRadicado;
+      const error = this.translate.instant('CUMCO003.MENSAJES.seleccioneTipoRadicado');
       this.showMessage('error', 'Error ', error);
     }
 
@@ -453,8 +341,8 @@ export class Cumco003Component implements OnInit {
       this.messageService.clear();
       this.messageService.add({
         key: 'c', sticky: true, severity: 'warn',
-        summary: this.varText.default.MENSAJES.claseDocNoRequierePlantilla,
-        detail: this.varText.default.MENSAJES.detalleClaseDocNoRequierePlantilla
+        summary: this.translate.instant('CUMCO003.MENSAJES.claseDocNoRequierePlantilla'),
+        detail: this.translate.instant('CUMCO003.MENSAJES.detalleClaseDocNoRequierePlantilla')
       });
     }else{
       this.edited(rowIndex);
@@ -600,10 +488,11 @@ export class Cumco003Component implements OnInit {
 
   onClicGuardarComuniacion() {
     if (!this.camposValidos()) {
-      const error = this.varText.default.MENSAJES.errorGuardar;
+      const error = this.translate.instant('CUMCO003.MENSAJES.errorGuardar');
       this.showMessage('error', 'Error ', error);
     } else if (!this.validarRepetidos()) {
-      const error = this.varText.default.MENSAJES.repetidos;
+      const error = this.translate.instant('CUMCO003.MENSAJES.repetidos',
+      {NombreComunicacionOficial: this.repetido } );
       this.showMessage('error', 'Error ', error);
     } else {
       this.subcribeRecorridoRepartoFisico(this.buildJsonComunicacion());
@@ -615,7 +504,7 @@ export class Cumco003Component implements OnInit {
     let counter = {};
     var result = [];
     this.tablaDocumentos.forEach(row => {
-      couples.push(row.codigo + row.claseDocumental.codigo);
+      couples.push(row.codigo + row.claseDocumental.descripcion);
     })
 
     couples.forEach(function(couple) {
@@ -628,6 +517,7 @@ export class Cumco003Component implements OnInit {
     for (var prop in counter) {
       if (counter[prop] >= 2) {
         result.push(prop);
+        this.repetido = prop;
       }
     }
     return result.length === 0 ? true : false;
@@ -645,16 +535,24 @@ export class Cumco003Component implements OnInit {
 
   onClicGuardar() {
     if (!this.validarCamposPlantilla()) {
-      const error = this.varText.default.MENSAJES.errorGuardar;
+      const error = this.translate.instant('CUMCO003.MENSAJES.errorGuardar');
       this.showMessage('error', 'Error ', error);
     } else if (!this.validarRepetidosPlantillaSubtipoTipo()) {
-      const error = this.varText.default.MENSAJES.repetidosPlantillaSubtipoTipo;
+      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosPlantillaSubtipoTipo',
+      {nombrePlantilla: this.repetidoPlantilla.plantilla.codigo,
+       nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
+       nombreTipoDoc: this.repetidoPlantilla.tipoDocumental.descripcion } );
       this.showMessage('error', 'Error ', error);
     } else if (!this.validarRepetidosPlantillaSubtipoClase()) {
-      const error = this.varText.default.MENSAJES.repetidosPlantillaSubtipoClase;
+      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosPlantillaSubtipoClase',
+      {nombrePlantilla: this.repetidoPlantilla.plantilla.codigo,
+       nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
+    claseDocumental: this.repetidoPlantilla.claseDocumental.descripcion} );
       this.showMessage('error', 'Error ', error);
     } else if (!this.validarRepetidosSubtipoClase()) {
-      const error = this.varText.default.MENSAJES.repetidosSubtipoClase;
+      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosSubtipoClase',
+      {nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
+      claseDocumental: this.repetidoPlantilla.claseDocumental.descripcion} );
       this.showMessage('error', 'Error ', error);
     } else {
       this.subcribeGuardarPlantilla(this.buildJsonPlantilla());
@@ -679,6 +577,7 @@ export class Cumco003Component implements OnInit {
     var result = [];
     this.rows.forEach(row => {
       couples.push(row.plantilla.id + row.tramiteTipoRadicado.id + row.tipoDocumental.id);
+      this.repetidoPlantilla = row;
     })
 
     couples.forEach(function(couple) {
@@ -691,6 +590,11 @@ export class Cumco003Component implements OnInit {
     for (var prop in counter) {
       if (counter[prop] >= 2) {
         result.push(prop);
+        this.rows.forEach(row => {
+          if(prop === row.plantilla.id + row.tramiteTipoRadicado.id + row.tipoDocumental.id) {
+            this.repetidoPlantilla = row;
+          }
+        })
       }
     }
     return result.length === 0 ? true : false;
@@ -703,6 +607,7 @@ export class Cumco003Component implements OnInit {
     var result = [];
     this.rows.forEach(row => {
       couples.push(row.plantilla.id + row.tramiteTipoRadicado.id + row.claseDocumental.id);
+      this.repetidoPlantilla = row;
     })
 
     couples.forEach(function(couple) {
@@ -715,6 +620,11 @@ export class Cumco003Component implements OnInit {
     for (var prop in counter) {
       if (counter[prop] >= 2) {
         result.push(prop);
+        this.rows.forEach(row => {
+          if(prop === row.plantilla.id + row.tramiteTipoRadicado.id + row.claseDocumental.id) {
+            this.repetidoPlantilla = row;
+          }
+        })
       }
     }
     return result.length === 0 ? true : false;
@@ -727,6 +637,7 @@ export class Cumco003Component implements OnInit {
     var result = [];
     this.rows.forEach(row => {
       couples.push(row.tramiteTipoRadicado.id + row.claseDocumental.id);
+      this.repetidoPlantilla = row;
     })
 
     couples.forEach(function(couple) {
@@ -739,6 +650,11 @@ export class Cumco003Component implements OnInit {
     for (var prop in counter) {
       if (counter[prop] >= 2) {
         result.push(prop);
+        this.rows.forEach(row => {
+          if(prop === row.tramiteTipoRadicado.id + row.claseDocumental.id) {
+            this.repetidoPlantilla = row;
+          }
+        })
       }
     }
     return result.length === 0 ? true : false;

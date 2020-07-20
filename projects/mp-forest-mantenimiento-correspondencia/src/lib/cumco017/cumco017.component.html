@@ -1,16 +1,16 @@
 <p-tabView>
 
-  <p-tabPanel header="Tipos de Radicado">
+  <p-tabPanel header="{{ 'CUMCO017.pestana1' | translate }}">
 
-    <p-fieldset legend="Configurar Tipos de Radicado">
+    <p-fieldset legend="{{ 'CUMCO017.titulo' | translate }}">
 
-      <p>Filtrar por Tipo de Radicado</p>
+      <p>{{ 'CUMCO017.FILTROS.filtroRadicado' | translate }}</p>
 
       <div class="ui-g">
           <div class="ui-g-12">
               <div class="ui-inputgroup">
                   <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="Ingrese aquí el tipo de radicado a filtrar"></p-autoComplete>
+                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO017.FILTROS.filtroRadicadoPlaceHolder' | translate }}"></p-autoComplete>
                   <p-button icon="pi pi-times"></p-button>
               </div>
           </div>
@@ -18,11 +18,11 @@
 
       <br>
 
-  
+
 
           <!-- Start Table -->
-          <p-table [columns]="cols" [value]="rows" 
-          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+          <p-table [columns]="cols" [value]="rows"
+          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
           selectionMode="multiple" [(selection)]="selectedRows">
 
               <!-- Table Caption -->
@@ -30,17 +30,17 @@
                   <div class="ui-helper-clearfix menu-sup-grid">
                       <!-- Buttons -->
                       <div class="button-sup-grid">
-                          <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-                          <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-                          <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
                       </div>
-                  </div>      
+                  </div>
               </ng-template>
 
               <!-- Table Heardes -->
               <ng-template pTemplate="header" let-columns>
                   <tr>
-                      <th *ngFor="let col of columns"> 
+                      <th *ngFor="let col of columns">
                           {{col.header}}
                       </th>
                   </tr>
@@ -55,7 +55,7 @@
                           <div *ngSwitchCase="0"> {{row[col.field]}} </div>
                           <div *ngSwitchDefault> {{row[col.field]}}  </div>
                         </div>
-                      
+
                       </td>
                   </tr>
               </ng-template>
@@ -63,80 +63,12 @@
           </p-table>
           <!-- End Table -->
 
-    </p-fieldset> 
+    </p-fieldset>
 
 
-    <p-fieldset legend="Configurar Tipos de Radicado con Subtipos y Trámite">
+    <p-fieldset legend="{{ 'CUMCO017.confTipoRadicado' | translate }}">
 
-      <p>Filtrar por Descripción (Subtipo de Radicado)</p>
-
-      <div class="ui-g">
-          <div class="ui-g-12">
-              <div class="ui-inputgroup">
-                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                  <p-autoComplete [dropdown]="true" [required]="true"></p-autoComplete>
-                  <p-button icon="pi pi-times"></p-button>
-              </div>
-          </div>
-      </div>
-
-      <br>
-
-  
-
-          <!-- Start Table -->
-          <p-table [columns]="cols2" [value]="rows2" 
-          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
-          selectionMode="multiple" [(selection)]="selectedRows">
-
-              <!-- Table Caption -->
-              <ng-template pTemplate="caption">
-                  <div class="ui-helper-clearfix menu-sup-grid">
-                      <!-- Buttons -->
-                      <div class="button-sup-grid">
-                          <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                          <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                          <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                      </div>
-                  </div>      
-              </ng-template>
-
-              <!-- Table Heardes -->
-              <ng-template pTemplate="header" let-columns>
-                  <tr>
-                      <th *ngFor="let col of columns"> 
-                          {{col.header}}
-                      </th>
-                  </tr>
-              </ng-template>
-
-              <!-- Table Content -->
-              <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                  <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                      <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
-
-                        <div [ngSwitch]="i">
-                          <div *ngSwitchCase="0"> {{row[col.field]}} </div>
-                          <div *ngSwitchDefault> {{row[col.field]}}  </div>
-                        </div>
-                      
-                      </td>
-                  </tr>
-              </ng-template>
-
-          </p-table>
-          <!-- End Table -->
-
-    </p-fieldset> 
-
-
-  </p-tabPanel>  
-
-  <p-tabPanel header="Categorias de Radicado">
-
-    <p-fieldset legend="Configurar Tipos de Radicado con Subtipos y Trámite">
-
-      <p>Filtrar por Descripción (Subtipo de Radicado)</p>
+      <p>{{ 'CUMCO017.FILTROS.filtroDescripcion' | translate }}</p>
 
       <div class="ui-g">
           <div class="ui-g-12">
@@ -150,11 +82,11 @@
 
       <br>
 
-  
+
 
           <!-- Start Table -->
-          <p-table [columns]="cols3" [value]="rows3" 
-          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+          <p-table [columns]="cols2" [value]="rows2"
+          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
           selectionMode="multiple" [(selection)]="selectedRows">
 
               <!-- Table Caption -->
@@ -162,17 +94,17 @@
                   <div class="ui-helper-clearfix menu-sup-grid">
                       <!-- Buttons -->
                       <div class="button-sup-grid">
-                          <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                          <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                          <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
                       </div>
-                  </div>      
+                  </div>
               </ng-template>
 
               <!-- Table Heardes -->
               <ng-template pTemplate="header" let-columns>
                   <tr>
-                      <th *ngFor="let col of columns"> 
+                      <th *ngFor="let col of columns">
                           {{col.header}}
                       </th>
                   </tr>
@@ -187,7 +119,7 @@
                           <div *ngSwitchCase="0"> {{row[col.field]}} </div>
                           <div *ngSwitchDefault> {{row[col.field]}}  </div>
                         </div>
-                      
+
                       </td>
                   </tr>
               </ng-template>
@@ -195,19 +127,87 @@
           </p-table>
           <!-- End Table -->
 
-    </p-fieldset> 
+    </p-fieldset>
 
-  </p-tabPanel>  
 
-  <p-tabPanel header="Lista de Requisitos">
+  </p-tabPanel>
+
+  <p-tabPanel header="{{ 'CUMCO017.categoriaRadicado' | translate }}">
+
+    <p-fieldset legend="{{ 'CUMCO017.confRadicado' | translate }}">
+
+      <p>{{ 'CUMCO017.FILTROS.filtroSubTipo' | translate }}</p>
+
+      <div class="ui-g">
+          <div class="ui-g-12">
+              <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [dropdown]="true" [required]="true"></p-autoComplete>
+                  <p-button icon="pi pi-times"></p-button>
+              </div>
+          </div>
+      </div>
+
+      <br>
+
+
+
+          <!-- Start Table -->
+          <p-table [columns]="cols3" [value]="rows3"
+          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+          selectionMode="multiple" [(selection)]="selectedRows">
+
+              <!-- Table Caption -->
+              <ng-template pTemplate="caption">
+                  <div class="ui-helper-clearfix menu-sup-grid">
+                      <!-- Buttons -->
+                      <div class="button-sup-grid">
+                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                      </div>
+                  </div>
+              </ng-template>
+
+              <!-- Table Heardes -->
+              <ng-template pTemplate="header" let-columns>
+                  <tr>
+                      <th *ngFor="let col of columns">
+                          {{col.header}}
+                      </th>
+                  </tr>
+              </ng-template>
+
+              <!-- Table Content -->
+              <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                  <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                      <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                        <div [ngSwitch]="i">
+                          <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+                          <div *ngSwitchDefault> {{row[col.field]}}  </div>
+                        </div>
+
+                      </td>
+                  </tr>
+              </ng-template>
+
+          </p-table>
+          <!-- End Table -->
+
+    </p-fieldset>
+
+  </p-tabPanel>
+
+  <p-tabPanel header="{{ 'CUMCO017.listaReq' | translate }}">
 
     <p-tabView orientation="left">
 
-      <p-tabPanel header="Parametrizar Lista de Requisitos">
+      <p-tabPanel header="parametrizarLista">
 
         <!-- Start Table -->
-        <p-table [columns]="cols4" [value]="rows4" 
-        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+        <p-table [columns]="cols4" [value]="rows4"
+        [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
         selectionMode="multiple" [(selection)]="selectedRows">
 
             <!-- Table Caption -->
@@ -215,17 +215,17 @@
                 <div class="ui-helper-clearfix menu-sup-grid">
                     <!-- Buttons -->
                     <div class="button-sup-grid">
-                        <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                        <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                        <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                        <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                        <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                        <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
                     </div>
-                </div>      
+                </div>
             </ng-template>
 
             <!-- Table Heardes -->
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th *ngFor="let col of columns"> 
+                    <th *ngFor="let col of columns">
                         {{col.header}}
                     </th>
                 </tr>
@@ -240,7 +240,7 @@
                         <div *ngSwitchCase="0"> {{row[col.field]}} </div>
                         <div *ngSwitchDefault> {{row[col.field]}}  </div>
                       </div>
-                    
+
                     </td>
                 </tr>
             </ng-template>
@@ -251,12 +251,12 @@
 
       </p-tabPanel>
 
-      <p-tabPanel header="Asociar Tipo de Radicado con Requisitos">
+      <p-tabPanel header="{{ 'CUMCO017.asociarTipo' | translate }}">
 
-        <p-fieldset legend="Asociar List de Requisitos">
+        <p-fieldset legend="{{ 'CUMCO017.asociarLista' | translate }}">
 
-          <p>Tipo de de Radicado</p>
-    
+          <p>{{ 'CUMCO017.filtroTipoRadicado' | translate }}</p>
+
           <div class="ui-g">
               <div class="ui-g-12">
                   <div class="ui-inputgroup">
@@ -267,7 +267,7 @@
               </div>
           </div>
 
-          <p>Subtipo de Radicado</p>
+          <p>{{ 'CUMCO017.filtroSubTipoRadicado' | translate }}</p>
 
           <div class="ui-g">
             <div class="ui-g-12">
@@ -278,55 +278,55 @@
                 </div>
             </div>
         </div>
-    
+
           <br>
-    
-      
-    
+
+
+
               <!-- Start Table -->
-              <p-table [columns]="cols5" [value]="rows5" 
-              [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" 
+              <p-table [columns]="cols5" [value]="rows5"
+              [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
               selectionMode="multiple" [(selection)]="selectedRows">
-    
+
                   <!-- Table Caption -->
                   <ng-template pTemplate="caption">
                       <div class="ui-helper-clearfix menu-sup-grid">
                           <!-- Buttons -->
                           <div class="button-sup-grid">
-                              <p-button label="Agregar" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                              <p-button label="Eliminar" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                              <p-button label="Guardar" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+                              <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
                           </div>
-                      </div>      
+                      </div>
                   </ng-template>
-    
+
                   <!-- Table Heardes -->
                   <ng-template pTemplate="header" let-columns>
                       <tr>
-                          <th *ngFor="let col of columns"> 
+                          <th *ngFor="let col of columns">
                               {{col.header}}
                           </th>
                       </tr>
                   </ng-template>
-    
+
                   <!-- Table Content -->
                   <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
                       <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                           <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
-    
+
                             <div [ngSwitch]="i">
                               <div *ngSwitchCase="0"> {{row[col.field]}} </div>
                               <div *ngSwitchDefault> {{row[col.field]}}  </div>
                             </div>
-                          
+
                           </td>
                       </tr>
                   </ng-template>
-    
+
               </p-table>
               <!-- End Table -->
-    
-        </p-fieldset> 
+
+        </p-fieldset>
 
       </p-tabPanel>
 
@@ -335,5 +335,5 @@
 
 
   </p-tabPanel>
-  
+
 </p-tabView>

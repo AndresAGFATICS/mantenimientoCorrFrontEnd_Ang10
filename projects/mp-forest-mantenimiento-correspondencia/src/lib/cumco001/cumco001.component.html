@@ -4,14 +4,14 @@
     <div class="p-col-12 p-md-12">
     <div class="card card-w-title">
     <p-fieldset legend="{{ 'CUMCO001.titulo' | translate }}">
-    
+
         <p>{{ 'CUMCO001.FILTROS.filtroTipoRadicado' | translate }}</p>
         <div class="ui-g">
             <div class="ui-g-12">
                 <div class="ui-inputgroup">
                     <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
                     <p-autoComplete [dropdown]="true" [required]="true" [forceSelection]="true"
-                                    placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}" 
+                                    placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteTipoRadicado" [suggestions]="suggestionsAutoCompleteTipoRadicado"
                                     (completeMethod)="searchFilterTipoRadicado($event)"
                                     (onSelect)="onSelectFilterTipoRadicadoOrOrganismoDependencia($event)">
@@ -28,24 +28,24 @@
                 <div class="ui-inputgroup">
                     <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
                     <p-autoComplete [dropdown]="true" [required]="true"
-                                    placeholder="{{ 'CUMCO001.FILTROS.filtroOrganismoDependenciaPlaceHolder' | translate }}" 
+                                    placeholder="{{ 'CUMCO001.FILTROS.filtroOrganismoDependenciaPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteOrganismoDependencia" [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
                                     (completeMethod)="searchFilterOrganismoDependencia($event)"
                                     (onSelect)="onSelectFilterTipoRadicadoOrOrganismoDependencia($event)">
                     </p-autoComplete>
                     <p-button icon="pi pi-times" (click) ="onClicBorrarFilterOrganismoDependencia()"></p-button>
-        
+
                 </div>
             </div>
         </div>
-    
+
         <p-messages [(value)]="msgs"></p-messages>
 
         <p-fieldset legend="{{ 'CUMCO001.TipoRadicado' | translate }}">
 
             <!-- Start Table -->
-            <p-table [columns]="cols" [value]="asignarResponsableData"  editMode="row" 
-            [paginator]="true" [rows]="nRows" [rowsPerPageOptions]="nRowsOptions" 
+            <p-table [columns]="cols" [value]="asignarResponsableData"  editMode="row"
+            [paginator]="true" [rows]="nRows" [rowsPerPageOptions]="nRowsOptions"
             selectionMode="single" [(selection)]="selectedRow">
             <!--(onRowSelect)="onRowSelect($event, selectedRow)"> -->
             <!-- [scrollable]="true" scrollHeight="500px"> -->
@@ -59,13 +59,13 @@
                             <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
                             <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()" id="buttonGuardar"></p-button>
                         </div>
-                    </div>      
+                    </div>
                 </ng-template>
 
                 <!-- Table Heardes -->
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field"> 
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                             {{col.header}}
                             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                         </th>
@@ -74,10 +74,10 @@
 
                 <!-- Table Content -->
                 <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex" let-editing="editing">
-                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pEditableRow]="rowData" [ngStyle]="gteRowColorState(row)"> 
+                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pEditableRow]="rowData" [ngStyle]="gteRowColorState(row)">
                         <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
-                            <div [ngSwitch]="i"> 
+                            <div [ngSwitch]="i">
                                 <div *ngSwitchCase="0"> {{ rowIndex + 1 }} </div> <!-- 0 case -->
                                 <div *ngSwitchCase="1">   <!-- Tipo de Radicado case -->
                                     <p-cellEditor>
@@ -86,15 +86,15 @@
                                                             [(ngModel)]="tableTextAutoCompleteTipoRadicado"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteTipoRadicado"
-                                                            (click)="onClickElminiarSelected()"  
+                                                            (click)="onClickElminiarSelected()"
                                                             (completeMethod)="searchFilterTipoRadicado($event)"
                                                             (onSelect)="onSelectTableTipoRadicado(rowData, rowIndex)" >
                                             </p-autoComplete>
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             <!-- {{row[col.field]}} -->
-                                            {{ row.tipoRadicado.codigoDescripcion  }} 
-                                        </ng-template> 
+                                            {{ row.tipoRadicado.codigoDescripcion  }}
+                                        </ng-template>
                                     </p-cellEditor>
                                 </div>
                                 <div *ngSwitchCase="2" style="text-align: center"> <!-- Subtipo de Radicado case -->
@@ -104,16 +104,16 @@
                                                             [(ngModel)]="tableTextAutoCompleteSubtipoRadicado"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteSubTipoRadicado"
-                                                            (click)="onClickElminiarSelected()"    
+                                                            (click)="onClickElminiarSelected()"
                                                             (completeMethod)="searchFilterSubtipoRadicado(rowData, rowIndex, $event)"
                                                             (onSelect)="onSelectTableSubRadicado(rowData, rowIndex)">
                                             </p-autoComplete>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{ row.tramiteTipoRadicado.codigoDescripcion  }} 
-                                        </ng-template> 
+                                            {{ row.tramiteTipoRadicado.codigoDescripcion  }}
+                                        </ng-template>
                                     </p-cellEditor>
-                                </div> 
+                                </div>
                                 <div *ngSwitchCase="3" style="text-align: center"> <!-- Organismo o Dependencia case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
@@ -121,28 +121,28 @@
                                                             [(ngModel)]="tableTextAutoCompleteOrganismoDependencia"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
-                                                            (click)="onClickElminiarSelected()"    
+                                                            (click)="onClickElminiarSelected()"
                                                             (completeMethod)="searchFilterOrganismoDependencia($event)"
                                                             (onSelect)="onSelectOrganismoDependencia(rowData, rowIndex)" >
                                             </p-autoComplete>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{ row.dependencia.nombreCodigo  }} 
-                                        </ng-template> 
+                                            {{ row.dependencia.nombreCodigo  }}
+                                        </ng-template>
                                     </p-cellEditor>
-                                </div> 
+                                </div>
                                 <div *ngSwitchCase="4" style="text-align: center"> <!-- CDC case -->
                                     <p-checkbox name="groupname" [(ngModel)]="row.atiendeDependencia" [binary]="true"
-                                                [disabled]="row.postState === 'delete'" 
+                                                [disabled]="row.postState === 'delete'"
                                                 (onChange)="onChangeCDC(rowData, rowIndex)">
                                     </p-checkbox>
-                                </div> 
+                                </div>
                                 <div *ngSwitchCase="5" style="text-align: center"> <!-- Responsable case -->
                                     <p-checkbox name="groupname" [(ngModel)]="row.atiendeResponsable" [binary]="true"
                                                 [disabled]="row.postState === 'delete'"
                                                 (onChange)="onChangeResponsable(rowData, rowIndex)">
-                                    </p-checkbox>  
-                                </div> 
+                                    </p-checkbox>
+                                </div>
                                 <div *ngSwitchCase="6" style="text-align: center"> <!-- Funcionario Suplente case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
@@ -150,19 +150,19 @@
                                                             [(ngModel)]="tableTextAutoCompleteFuncionarioSuplente"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteFuncionarioSuplente"
-                                                            (click)="onClickElminiarSelected()"    
+                                                            (click)="onClickElminiarSelected()"
                                                             (completeMethod)="searchFilterFuncionarioSuplente($event)"
                                                             (onSelect)="onSelectFuncionarioSuplente(rowData, rowIndex)">
                                             </p-autoComplete>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            {{ row.funcionario.codigoNombre }} 
-                                        </ng-template> 
+                                            {{ row.funcionario.codigoNombre }}
+                                        </ng-template>
                                     </p-cellEditor>
-                                </div> 
-                                
-                                
-                                <div *ngSwitchDefault> {{ row.funcionario.codigoNombre  }}  </div> 
+                                </div>
+
+
+                                <div *ngSwitchDefault> {{ row.funcionario.codigoNombre  }}  </div>
                             </div>
 
                         </td>
@@ -193,5 +193,5 @@
 
      <!-- Notification Message -->
     <!--  <p-toast position="top-center" key="topMessage"></p-toast> -->
-    
+
 </div>

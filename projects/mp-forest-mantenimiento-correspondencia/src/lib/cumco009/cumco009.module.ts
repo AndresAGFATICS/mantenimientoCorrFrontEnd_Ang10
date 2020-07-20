@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CUMCO009RoutingModule } from './cumco009-routing.module';
 import { ToastModule } from 'primeng/toast';
 
+import { translateModule } from '../cumco001/cumco001.module';
+
 @NgModule({
   declarations: [
     CUMCO009Component
@@ -29,8 +31,11 @@ import { ToastModule } from 'primeng/toast';
     TabViewModule,
     ToolbarModule,
     TableModule,
-    ToastModule
-  ]
+    ToastModule,
+    translateModule
+  ],
+  providers: [],
+  bootstrap: [CUMCO009Component]
 })
 
   export class CUMCO009Module { }
