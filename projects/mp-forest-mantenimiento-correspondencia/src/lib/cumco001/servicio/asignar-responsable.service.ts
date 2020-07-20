@@ -26,7 +26,7 @@ export class AsignarResponsableService extends GeneralService{
   public getOrganismoDependencia(getParameters: string) {
     return this.get('/forest/documentos/1.0.0/dependencia/lista' + getParameters);
   }
-
+ 
   public getFuncionarioSuplente(getParameters: string) {
     return this.get('/forest/sistema/1.0.0/funcionarios/dependenciaAsociados' + getParameters);
   }

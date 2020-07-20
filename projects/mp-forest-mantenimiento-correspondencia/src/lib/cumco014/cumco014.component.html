@@ -11,7 +11,7 @@
           <div class="ui-g-12">
             <div class="ui-inputgroup">
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion" [immutable]="false" [suggestions]="listaRadicado" (completeMethod)="searchRadicado($event)"
+              <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion" [suggestions]="listaRadicado" (completeMethod)="searchRadicado($event)"
               [dropdown]="true" [forceSelection]="true" (onSelect)="actualizarTablaRadicado()">
               </p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteRadicado()"></p-button>
@@ -54,7 +54,7 @@
 
           <!-- Table Content -->
           <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="{'background-color': row.state === 'delete'?'#FFBABA':''}">
+            <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
               <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
                 <div [ngSwitch]="i">
@@ -75,7 +75,11 @@
                   <div *ngSwitchCase="3">
                     <p-cellEditor>
                       <ng-template pTemplate="input">
-                        <p-dropdown [options]="listaRadicado" optionLabel="codigoDescripcion" [(ngModel)]="row.categoria" [disabled]="row.state === 'delete'" (onChange)="editedRadicado(rowIndex)"></p-dropdown>
+                        <p-autoComplete [(ngModel)]="row.categoria" [suggestions]="listadoCategoria" (completeMethod)="searchCategoria($event)"
+                                        [dropdown]="true" [forceSelection]="true">
+                        </p-autoComplete>
+
+                        <p-dropdown [options]="listadoCategoria" optionLabel="codigoDescripcion" [(ngModel)]="row.categoria" [disabled]="row.state === 'delete'" (onChange)="editedRadicado(rowIndex)"></p-dropdown>
                       </ng-template>
                       <ng-template pTemplate="output">
                         {{row.categoria.codigoDescripcion}}

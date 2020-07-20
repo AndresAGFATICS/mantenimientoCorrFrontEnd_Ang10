@@ -11,18 +11,18 @@ export class Cumco014Service extends GeneralService {
     super(_http);
   }
   public getTipoRadicado(codigo: any) {
-    return this.get('/documentos/1.0.0/tipoRadicado?codigoDescripcion=' + codigo);
+    return this.get('/forest/documentos/1.0.0/tipoRadicado?codigoDescripcion=' + codigo);
   }
   public getTablaTipoRadicado(codigo: any) {
-    return this.get('/documentos/1.0.0/tipoRadicado?&codigoDescripcion=' + codigo);
+    return this.get('/forest/documentos/1.0.0/tipoRadicado?&codigoDescripcion=' + codigo);
   }
   public getSubTipoRadicado(getParameters: string) {
-    return this.get('/documentos/1.0.0/tipoRadicadoTramite' + getParameters);
+    return this.get('/forest/documentos/1.0.0/tipoRadicadoTramite' + getParameters);
   }
   public getTramiteActivo(parameters: string) {
-    return this.get('/forest/sistema/1.0.0/tramite/activo' + parameters ); // activo?=tr&activo=1&size=10&page=1'
+    return this.get('/forest/forest/sistema/1.0.0/tramite/activo' + parameters ); // activo?=tr&activo=1&size=10&page=1'
   }
   public postGuardarRadicado(body: any) {
-    return this.post('/documentos/1.0.0/tipoRadicado/guardar',body);
+    return this.post('/forest/documentos/1.0.0/tipoRadicado/guardar',body);
   }
 }

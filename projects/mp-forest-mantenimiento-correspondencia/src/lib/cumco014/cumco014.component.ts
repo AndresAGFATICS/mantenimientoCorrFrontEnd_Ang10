@@ -170,9 +170,9 @@ export class CUMCO014Component implements OnInit {
     this.cumco014Service.getTipoRadicado(codigo).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
-        this.listaRadicado = [];
+        this.listadoCategoria = [];
         getRes.forEach(res => {
-          this.listaRadicado.push(res);
+          this.listadoCategoria.push(res);
         })
         return getRes;
       },
@@ -558,6 +558,30 @@ export class CUMCO014Component implements OnInit {
   }
 
   edited(event){
+
+  }
+
+
+  gteRowColorState(rowData: any){
+
+    switch(rowData.state) {
+      case 'new': {
+        return {'background-color': '#77DD77'};
+        break;
+      }
+      case 'delete': {
+        return {'background-color': '#D36E70'};
+        break;
+      }
+      case 'edit': {
+        return {'background-color': '#E3B778'};
+        break;
+      }
+      default: {
+        return {};
+        break;
+      }
+   }
 
   }
 
