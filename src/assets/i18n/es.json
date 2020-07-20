@@ -128,9 +128,9 @@
         "pestana2": "Tipo Comunicación Ofcicial",
         "FILTROS": {
             "filtroTipoAnexoFisico": "Tipo Anexo Físico",
-            "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
+            "filtroAnexoTipoFisicoPlaceHolder": "Ingrese aquí el tipo de de anexo físico filtrar",
             "filtroAnexoFisico": "Anexo Físico",
-            "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
+            "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el anexo físico a filtrar"
         },
         "MENSAJES": {
             "guardar":"Guardar",
@@ -403,7 +403,6 @@
           "errorGuardar": "Diligenciar todos los campos requeridos",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
           "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-          "falloGuardar": "Se ha presentado un error al guardar",
           "guardarError" : "Error al guardar",
           "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
           "eliminarFallido1": "El recorrido ",
@@ -441,8 +440,7 @@
           "guardar":"Guardar",
           "exito":"Operación de guardar ejecutada con exito",
           "falloGuardar":"Se ha presentado un error al guardar",
-          "errorGuardar": "Diligenciar todos los campos requeridos",
-          "falloGuardar": "Se ha presentado un error al guardar"
+          "errorGuardar": "Diligenciar todos los campos requeridos"
       },
       "TABLA1": {
           "headerTabla0": "",
@@ -506,8 +504,7 @@
           "guardar":"Guardar",
           "exito":"Operación de guardar ejecutada con exito",
           "falloGuardar":"Se ha presentado un error al guardar",
-          "errorGuardar": "Diligenciar todos los campos requeridos",
-          "falloGuardar": "Se ha presentado un error al guardar"
+          "errorGuardar": "Diligenciar todos los campos requeridos"
       },
       "TABLA1": {
           "headerTabla0": "",
@@ -549,8 +546,7 @@
           "guardar":"Guardar",
           "exito":"Operación de guardar ejecutada con exito",
           "falloGuardar":"Se ha presentado un error al guardar",
-          "errorGuardar": "Diligenciar todos los campos requeridos",
-          "falloGuardar": "Se ha presentado un error al guardar"
+          "errorGuardar": "Diligenciar todos los campos requeridos"
       },
       "TABLA1": {
           "headerTabla0": "",
