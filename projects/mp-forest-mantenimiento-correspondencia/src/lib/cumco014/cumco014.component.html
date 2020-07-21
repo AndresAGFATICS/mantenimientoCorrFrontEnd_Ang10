@@ -76,10 +76,9 @@
                     <p-cellEditor>
                       <ng-template pTemplate="input">
                         <p-autoComplete [(ngModel)]="row.categoria" [suggestions]="listadoCategoria" (completeMethod)="searchCategoria($event)"
-                                        [dropdown]="true" [forceSelection]="true">
+                                        [dropdown]="true" [forceSelection]="true" [disabled]="row.state === 'delete'" field = "codigoDescripcion"
+                                        (onSelect)="editedRadicado(rowIndex)" (click)="onClickElminiarSelected()">
                         </p-autoComplete>
-
-                        <p-dropdown [options]="listadoCategoria" optionLabel="codigoDescripcion" [(ngModel)]="row.categoria" [disabled]="row.state === 'delete'" (onChange)="editedRadicado(rowIndex)"></p-dropdown>
                       </ng-template>
                       <ng-template pTemplate="output">
                         {{row.categoria.codigoDescripcion}}

@@ -186,6 +186,10 @@ export class CUMCO004Component implements OnInit {
     this.subscribeDependenciaLista(event.query, '1');
   }
 
+  searchAction(event) {
+    this.subscribeAccionDocumental();
+  }
+
   edited(rowIndex) {
     this.rows[rowIndex].state = 'edit';
   }
