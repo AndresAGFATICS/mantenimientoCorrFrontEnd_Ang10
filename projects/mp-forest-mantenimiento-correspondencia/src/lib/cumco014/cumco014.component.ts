@@ -249,6 +249,10 @@ export class CUMCO014Component implements OnInit {
     this.subscribeCategoria(event.query ? event.query : '')
   }
 
+  onClickElminiarSelected(event) {
+    this.seleccionTablaRadicado = undefined;
+  }
+
   searchFilterTramite(event) {
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }

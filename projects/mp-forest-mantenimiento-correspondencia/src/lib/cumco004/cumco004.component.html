@@ -67,9 +67,12 @@
                       <div *ngSwitchCase="1">
                         <p-cellEditor>
                               <ng-template pTemplate="input">
-                                  <p-dropdown [required]="true" [(ngModel)]="row.accion"
-                                  [options]="listaAcciones"  [style]="{'width':'100%', 'height':'100%'}"
-                                  optionLabel="accion" (onChange)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-dropdown>
+
+
+                                  <p-autoComplete [(ngModel)]="row.accion" field = "accion" [suggestions]="listaAcciones" (completeMethod)="searchAction($event)"
+                                   [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" [required]="true"
+                                   (onSelect)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-autoComplete>
+
                               </ng-template>
                               <ng-template pTemplate="output">
                                   {{row.accion.accion}}

@@ -148,7 +148,7 @@
                   <div *ngSwitchCase="5">
                     <p-cellEditor>
                       <ng-template pTemplate="input">
-                        <p-autoComplete [(ngModel)]="row.claseDocumental" field="codigoDescripcion" (click)="onClickElminiarSelected()" [suggestions]="listaClaseDocumental" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true" [forceSelection]="true"
+                        <p-autoComplete [(ngModel)]="row.claseDocumental" field="codigoDescripcion" (onSelect)="edited(rowIndex)" (click)="onClickElminiarSelected()" [suggestions]="listaClaseDocumental" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true" [forceSelection]="true"
                         ></p-autoComplete>
 
                         <!-- <p-dropdown [options]="listaClaseDocumental" optionLabel="codigoDescripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="validacionEntrada(rowIndex)" (click)="onClickElminiarSelected()"> </p-dropdown> -->
@@ -195,7 +195,10 @@
                   <div *ngSwitchCase="11">
                     <p-cellEditor>
                       <ng-template pTemplate="input">
-                        <p-dropdown [options]="tablaDocumentos" optionLabel="codigoDescripcion" [(ngModel)]="row.tipoComunicacion" [disabled]="row.state === 'delete'" (onChange)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-dropdown>
+                        <p-autoComplete [(ngModel)]="row.tipoComunicacion" [suggestions]="tablaDocumentos" (completeMethod)="searchTabla($event)"
+                                        [dropdown]="true" [forceSelection]="true" [disabled]="row.state === 'delete'" field = "codigoDescripcion"
+                                        (onSelect)="edited(rowIndex)" (click)="onClickElminiarSelected()">
+                        </p-autoComplete>
                       </ng-template>
                       <ng-template pTemplate="output">
                         {{row.tipoComunicacion.codigoDescripcion}}
