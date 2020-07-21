@@ -325,7 +325,7 @@ export class Cumco005Component implements OnInit {
         "required": false
       },
       {
-        "name": "tipoAnexoFisico.isCarpeta",
+        "name": "UBICARPETA",
         "type": "checkbox",
         "required": false
       }
@@ -343,7 +343,7 @@ export class Cumco005Component implements OnInit {
             "tipoAnexoFisico.descripcion": row.tipoAnexoFisico.descripcion,
             "observacion": row.observacion,
             "tipoAnexoFisico.idDescripcion": row.idDescripcion,
-            "tipoAnexoFisico.isCarpeta": row.isCarpeta
+            "UBICARPETA": row.isCarpeta
           },
           "state": row.state
         })

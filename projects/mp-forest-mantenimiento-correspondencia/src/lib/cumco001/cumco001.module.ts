@@ -28,14 +28,15 @@ import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
 
-  //return new MultiTranslateHttpLoader(http, [
-  //  {prefix: "./assets/i18n/", suffix: ".json"},
-  //  {prefix: "./assets_modules/i18n/", suffix: ".json"},
-  //]);
+  return new MultiTranslateHttpLoader(http, [
+    {prefix: "./assets/i18n/", suffix: ".json"},
+      //lang
+    {prefix: "./assets/mp-forest-mantenimiento-correspondencia/i18n/", suffix: ".json"}
+  ]);
   //return new TranslateHttpLoader(http);
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  //return new TranslateHttpLoader(http, './assets/i18n/', '.json');
   // /assets_modules/i18n/es.json
-  //return new TranslateHttpLoader(http, './../../assets/i18n/', '.json');
+  //return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
   //return new TranslateHttpLoader(http, './../projects/mp-forest-mantenimiento-correspondencia/src/assets/i18n/', '.json');
 }
 

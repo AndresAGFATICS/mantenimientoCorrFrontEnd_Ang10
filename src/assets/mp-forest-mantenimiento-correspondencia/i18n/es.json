@@ -66,7 +66,7 @@
     },
 
     "CUMCO001": {
-      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado 090909",
+      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
       "filtroTipoRadicado": "Tipo de Radicado",
       "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
       "filtroOrganismoDependencia": "Organismo o Dependencia",

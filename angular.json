@@ -22,6 +22,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/assets/",
               { "input": "./projects/mp-forest-mantenimiento-correspondencia/src/assets/i18n",
                 "glob": "**/*",
                 "output": "/assets_modules/i18n/"}

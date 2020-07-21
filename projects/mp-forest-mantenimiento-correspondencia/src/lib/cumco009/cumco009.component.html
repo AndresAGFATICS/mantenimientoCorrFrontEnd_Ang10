@@ -8,7 +8,7 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="filtroTipoPersona" field="idDescripcion" [immutable]="false" [suggestions]="tablaPersonasFiltro" (completeMethod)="searchPersona($event)"
+          <p-autoComplete [(ngModel)]="filtroTipoPersona" field="idDescripcion" [suggestions]="tablaPersonasFiltro" (completeMethod)="searchPersona($event)"
           [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloPersonaPlaceHolder' | translate }}"
           [forceSelection]="true" (onSelect) = "seleccion()"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePersona()"></p-button>
@@ -20,7 +20,7 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="filtroTipoIdentificacion" field="idDescripcion" [immutable]="false" [suggestions]="tablaIdentificacionFiltro" (completeMethod)="searchTipoIdentificacion($event)"
+          <p-autoComplete [(ngModel)]="filtroTipoIdentificacion" field="idDescripcion" [suggestions]="tablaIdentificacionFiltro" (completeMethod)="searchTipoIdentificacion($event)"
           [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloIdentificacionPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteIdentificacion()"></p-button>
         </div>
@@ -148,7 +148,7 @@
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <input type="text" [(ngModel)]="row.descripcion" [maxlength]="50"
-                     (focusout)="editedIdentification(rowIndex, $event)" (keydown.enter)="editedIdentification(rowIndex, $event)" [disabled]= "row.editable === 0">
+                     (focusout)="editedIdentification(rowIndex, $event)" (keydown.enter)="editedIdentification(rowIndex, $event)" [disabled]="row.editable === 0">
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{row.descripcion}}

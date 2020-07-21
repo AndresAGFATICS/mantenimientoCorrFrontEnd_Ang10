@@ -60,6 +60,7 @@ export class CUMCO009Component implements OnInit {
     this.subscribePersona();
     this.subscribeIdentficacion();
   }
+
   subcribeSetColumns() {
     this.translate.get(['']).subscribe(translations => {
 
@@ -174,18 +175,24 @@ export class CUMCO009Component implements OnInit {
   editedIdentification(rowIndex, event) {
     let count = 0;
     this.tablaIdentificacion.forEach(row => {
-      count = count + (row.descripcion.toLowerCase() === this.rows[rowIndex].descripcion.toLowerCase() ? 1 : 0);
+      if(row.descripcion.toLowerCase() === this.rows[rowIndex].descripcion.toLowerCase() && row.id != this.rows[rowIndex].id){
+        count = count + 1;
+      }
+      //count = count + (row.descripcion.toLowerCase() === this.rows[rowIndex].descripcion.toLowerCase() ? 1 : 0);
     })
-    if (count === 1) {
+    console.log(count);
+    if (count >= 1) {
       this.rows[rowIndex].descripcion = '';
       const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida');
       this.showMessage(error, "error");
     }
     this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
   }
+
   seleccion() {
     console.log(this.filtroTipoPersona);
   }
+
   searchPersona(event) {
 
     event = event === undefined || event === '' ? '' : event;
@@ -197,6 +204,7 @@ export class CUMCO009Component implements OnInit {
       }
     }
   }
+
   searchTipoIdentificacion(event) {
     event = event === undefined || event === '' ? '' : event;
     this.tablaIdentificacionFiltro = [];
@@ -253,10 +261,13 @@ export class CUMCO009Component implements OnInit {
           this.showMessage(this.responseGuardar.message, "error");
         }
         else {
-          this.showMessage(this.responseGuardar.message, "success");
-          this.showMessage(exito, "success");
           this.subscribePersona();
           this.subscribeIdentficacion();
+          if (this.seleccionPersona) {
+            this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
+          }
+          this.showMessage(this.responseGuardar.message, "success");
+          this.showMessage(exito, "success");
         }
       });
   }
@@ -344,6 +355,11 @@ export class CUMCO009Component implements OnInit {
         "name": "editable",
         "type": "input",
         "required": false
+      },
+      {
+        "name":"codigo",
+        "type":"input",
+        "required": false
       }
     ];
     let features = [];
@@ -358,7 +374,8 @@ export class CUMCO009Component implements OnInit {
           "tipoPersona.descripcion": "",
           "tipoPersona.id": row.tipoPersona.id,
           "tipoPersona.idDescripcion": "",
-          "editable": row.state === 'new' ? row.editable.toString() : row.editable
+          "editable": row.state === 'new' ? row.editable.toString() : row.editable,
+          "codigo": this.generateCodigo(row.descripcion)
         },
         "state": row.state
       })
@@ -475,6 +492,45 @@ export class CUMCO009Component implements OnInit {
     }
 
   }
+
+  generateCodigo(stringName: string): string {
+    var codigo: string;
+    const upperCase = stringName.toLocaleUpperCase();
+    var splitted = upperCase.split(" ");
+    if (splitted.length >= 4){
+      codigo = splitted[0] + splitted[1] + splitted[2] + splitted[3];
+    }
+    else if (splitted.length === 3){
+      if (splitted[0].length >= 2){
+        codigo = splitted[0].substr(0, 2) + splitted[1] + splitted[2];
+      }
+      else{
+        codigo = splitted[0] + splitted[1] + splitted[2];
+      }
+    }
+    else if (splitted.length === 2){
+      if (splitted[0].length >= 2 && splitted[1].length >= 2){
+        codigo = splitted[0].substr(0, 2) + splitted[1].substr(0, 2);
+      }
+      else if(splitted[0].length >= 3){
+        codigo = splitted[0].substr(0, 3) + splitted[1];
+      }
+      else{
+        codigo = splitted[0] + splitted[1];
+      }
+    }
+    else{
+      if (splitted[0].length >= 4){
+        codigo = splitted[0].substr(0, 4);
+      }
+      else{
+        codigo = splitted[0];
+      }
+    }
+    return codigo;
+
+  }
+
 }
 
 export interface Row {
