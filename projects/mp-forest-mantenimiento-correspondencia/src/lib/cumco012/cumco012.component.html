@@ -22,7 +22,7 @@
 
           <!-- Start Table -->
           <p-table [columns]="cols" [value]="rows"
-          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
+          [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
           selectionMode="single" [(selection)]="selectedRow">
 
               <!-- Table Caption -->
@@ -86,7 +86,7 @@
                                 </div>
                               </div>
                               <div *ngSwitchCase="4" style="text-align: center">
-                                <p-checkbox name="groupname" [(ngModel)]="row[col.field]" binary="true"></p-checkbox>
+                                <p-checkbox name="groupname" [(ngModel)]="row[col.field]" binary="true" (onChange)="edited(rowIndex)"></p-checkbox>
                               </div>
 
                           </div>

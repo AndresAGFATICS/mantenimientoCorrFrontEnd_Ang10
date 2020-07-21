@@ -276,8 +276,9 @@
                 <div *ngSwitchCase="2">
                   <p-cellEditor>
                     <ng-template pTemplate="input">
-                      <p-dropdown [options]="listaClaseDocumental" optionLabel="descripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="editedDocument(rowIndex)" (click)="onClickElminiarSelected2()">
-                      </p-dropdown>
+                      <!--<p-dropdown [options]="listaClaseDocumental" optionLabel="descripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="editedDocument(rowIndex)" (click)="onClickElminiarSelected2()"></p-dropdown> (completeMethod)="searchDocumento($event)" -->
+                      <p-autoComplete [(ngModel)]="row.claseDocumental" field="codigoDescripcion" [suggestions]="listaClaseDocumental" (onSelect)="editedDocument(rowIndex)" (completeMethod)="searchClaseDocumento($event)" 
+                      (click)="onClickElminiarSelected2()" [dropdown]="true" [forceSelection]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
                     </ng-template>
                     <ng-template pTemplate="output">
                       {{row.claseDocumental.descripcion}}

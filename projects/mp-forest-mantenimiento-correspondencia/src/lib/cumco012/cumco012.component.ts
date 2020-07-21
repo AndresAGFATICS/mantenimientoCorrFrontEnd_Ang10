@@ -204,6 +204,7 @@ export class CUMCO012Component implements OnInit {
           const exito = this.translate.instant('CUMCO012.MENSAJES.exito');
           this.showMessage(exito, "success");
           this.subcribeServiceTiporadicado('');
+          this.getTableInfo();
         }
       });
   }
@@ -216,7 +217,7 @@ export class CUMCO012Component implements OnInit {
     for (const data of dataArray) {
       //const index = this.rows.indexOf(selectedRow);
       this.rows.push({
-        id: '',
+        id: data.id,
         nombre_recorrido: data.nombreRecorrido,
         hora_inicio: data.horaInicio,
         hora_fin: data.horaFin,
@@ -329,11 +330,15 @@ export class CUMCO012Component implements OnInit {
   onGuardarColumna() {
     if (this.validarNombres()) {
       let body = this.generateJsonBody();
-      this.subcribeRecorridoRepartoFisico(body);
-
+      if(body){
+        this.subcribeRecorridoRepartoFisico(body);
+      }
+      else{
+        this.showMessage('No se han agregado o cambiadod datos', "error");
+      }
     } else {
-      const error = this.translate.instant('CUMCO012.MENSAJES.guardarError');
-      this.showMessage(error, "succes");
+      const error = this.translate.instant('ERROR campo vacio');
+      this.showMessage(error, "error");
     }
   }
 
@@ -422,14 +427,14 @@ export class CUMCO012Component implements OnInit {
     let features = []
 
     this.rows.forEach(row => {
-      if (row.state === 'new') {
-
+      if (row.state === 'new' || row.state === 'edit') {
+        console.log(row);
         features.push({
           "attributes": {
             "nombreRecorrido": row.nombre_recorrido,
             "horaInicio": row.hora_inicio,
             "horaFin": row.hora_fin,
-            "activo": row.activo === 1 ? true : false,
+            "activo": row.activo,
             "dependenciaTerritorial.codigo": this.findOrganismByName(this.textAutoComlpeteOrganismoConfigurar),
             "dependenciaTerritorial.dependenciasHijas": "",
             "dependenciaTerritorial.fechaFinVigencia": "",
@@ -438,7 +443,7 @@ export class CUMCO012Component implements OnInit {
             "dependenciaTerritorial.listaFuncionarios": "",
             "dependenciaTerritorial.nombre": "",
             "dependenciaTerritorial.nombreCodigo": "",
-            "id": "",
+            "id": row.id,
             "dependenciaTerritorial.codigoGestion": "",
             "dependenciaTerritorial.idTercero": "",
             "dependenciaTerritorial.nombreCodigoGuion": ""
@@ -450,16 +455,20 @@ export class CUMCO012Component implements OnInit {
       }
     })
 
-    return {
-      grd_reparto_fisico: JSON.stringify({
-        fields,
-        features
-      })
+    if(features.length === 0){
+      return false;
+    }
+    else{
+      return {
+        grd_reparto_fisico: JSON.stringify({
+          fields,
+          features
+        })
+      }
     }
 
-
-
   }
+
   validarNombres(): boolean {
     let resp = true;
     if (this.rows.length !== 0) {

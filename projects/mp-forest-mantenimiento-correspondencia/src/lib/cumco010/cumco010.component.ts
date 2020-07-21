@@ -118,7 +118,7 @@ export class CUMCO010Component implements OnInit {
 
     if(!this.rows.some(row => row.descripcion.toLowerCase() ===  this.rows[rowIndex].descripcion.toLowerCase())) {
 
-      this.showMessage('error', this.translate.instant('CUMCO010.MENSAJES.identificacionRepetida',
+      this.showMessage('error', this.translate.instant('CUMCO010.MENSAJES.tipoDevolucionRepetida',
                         {motivoDevolucion: this.rows[rowIndex].descripcion } ));
       this.rows[rowIndex].descripcion ='';
 

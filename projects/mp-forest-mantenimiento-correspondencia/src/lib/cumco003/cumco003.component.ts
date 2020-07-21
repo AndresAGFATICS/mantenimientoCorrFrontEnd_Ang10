@@ -458,6 +458,10 @@ export class Cumco003Component implements OnInit {
     this.subscribeTablaDocumento();
   }
 
+  searchClaseDocumental($event) {
+    this.subscribeTablaDocumento();
+  }
+
   onClicAgregarComunicacion() {
     let element = {
       idRow: this.idRow,
