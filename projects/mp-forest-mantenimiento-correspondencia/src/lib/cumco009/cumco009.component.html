@@ -10,7 +10,7 @@
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="filtroTipoPersona" field="idDescripcion" [suggestions]="tablaPersonasFiltro" (completeMethod)="searchPersona($event)"
           [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloPersonaPlaceHolder' | translate }}"
-          [forceSelection]="true" (onSelect) = "seleccion()"></p-autoComplete>
+           (onSelect) = "seleccion()"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePersona()"></p-button>
         </div>
       </div>
@@ -21,7 +21,7 @@
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="filtroTipoIdentificacion" field="idDescripcion" [suggestions]="tablaIdentificacionFiltro" (completeMethod)="searchTipoIdentificacion($event)"
-          [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloIdentificacionPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
+          [dropdown]="true" placeholder="{{ 'CUMCO009.FILTROS.filtrotituloIdentificacionPlaceHolder' | translate }}" ></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteIdentificacion()"></p-button>
         </div>
       </div>
@@ -30,6 +30,9 @@
   </p-fieldset>
 
   <p-fieldset legend="{{ 'CUMCO009.FILTROS.tablaPersona' | translate }}">
+    
+    <p-messages [(value)]="msgs"></p-messages>
+
     <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [(selection)]="seleccionPersona" selectionMode="single" (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()">
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
@@ -98,6 +101,9 @@
 
   <p-fieldset legend="{{ 'CUMCO009.FILTROS.tablaTipoId' | translate }}">
     <p>{{ 'CUMCO009.FILTROS.textoTipoId' | translate }}</p>
+
+    <p-messages [(value)]="msgs2"></p-messages>
+
     <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="single" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
       <ng-template pTemplate="caption">
@@ -137,7 +143,7 @@
               <div *ngSwitchCase="2">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input type="text" [(ngModel)]="row.id" [disabled]= "true">
+                    <input type="text" [(ngModel)]="row.id">
                   </ng-template>
                   <ng-template pTemplate="output">
                     {{row.id}}

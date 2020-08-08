@@ -15,6 +15,9 @@ import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
+import { CheckboxModule } from 'primeng/checkbox';
+
+import { MessagesModule } from 'primeng/messages';
 
 import { translateModule } from '../cumco001/cumco001.module';
 
@@ -35,6 +38,8 @@ import { translateModule } from '../cumco001/cumco001.module';
     TabViewModule,
     ToolbarModule,
     TableModule,
+    CheckboxModule,
+    MessagesModule,
     translateModule
   ],
   providers: [],

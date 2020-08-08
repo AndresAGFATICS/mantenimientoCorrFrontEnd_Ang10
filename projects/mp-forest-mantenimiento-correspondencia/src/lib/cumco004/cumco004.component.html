@@ -9,15 +9,17 @@
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field = "codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
-           [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
+           [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" ></p-autoComplete>
           <p-button icon="pi pi-times" (click) ="onClicBorrarAutoComplete()"></p-button>
         </div>
       </div>
     </div>
 
+    <p-messages [(value)]="msgs"></p-messages>
+    
     <!-- Start Table -->
     <p-table [columns]="cols" [value]="rows"
-    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
+    [paginator]="true" [rows]="15" [rowsPerPageOptions]="[5,10,15,20]"
     selectionMode="single" [(selection)]="selectedRows" sortField="tipo_documental" >
     <!-- [scrollable]="true" scrollHeight="500px" > -->
 
@@ -70,7 +72,7 @@
 
 
                                   <p-autoComplete [(ngModel)]="row.accion" field = "accion" [suggestions]="listaAcciones" (completeMethod)="searchAction($event)"
-                                   [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" [required]="true"
+                                   [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" 
                                    (onSelect)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-autoComplete>
 
                               </ng-template>

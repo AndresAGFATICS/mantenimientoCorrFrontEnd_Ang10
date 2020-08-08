@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-cumco013',
   templateUrl: './cumco013.component.html',
-  styleUrls: ['./cumco013.component.css']
+  styleUrls: ['./cumco013.component.css']  
 })
 export class CUMCO013Component implements OnInit {
 

@@ -10,13 +10,13 @@
             <div class="ui-g-12">
                 <div class="ui-inputgroup">
                     <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                    <p-autoComplete [dropdown]="true" [required]="true" [forceSelection]="true"
+                    <p-autoComplete [dropdown]="true"  [forceSelection]="true"
                                     placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteTipoRadicado" [suggestions]="suggestionsAutoCompleteTipoRadicado"
                                     (completeMethod)="searchFilterTipoRadicado($event)"
                                     (onSelect)="onSelectFilterTipoRadicadoOrOrganismoDependencia($event)">
                     </p-autoComplete>
-                    <p-button icon="pi pi-times" (click) ="onClicBorrarFilterTipoRadicado()"></p-button>
+                    <p-button icon="pi pi-times" (click)="onClicBorrarFilterTipoRadicado()"></p-button>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
             <div class="ui-g-12">
                 <div class="ui-inputgroup">
                     <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                    <p-autoComplete [dropdown]="true" [required]="true"
+                    <p-autoComplete [dropdown]="true" 
                                     placeholder="{{ 'CUMCO001.FILTROS.filtroOrganismoDependenciaPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteOrganismoDependencia" [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
                                     (completeMethod)="searchFilterOrganismoDependencia($event)"
@@ -39,12 +39,13 @@
             </div>
         </div>
 
-        <p-messages [(value)]="msgs"></p-messages>
+        
 
         <p-fieldset legend="{{ 'CUMCO001.TipoRadicado' | translate }}">
 
+            <p-messages [(value)]="msgs"></p-messages>
             <!-- Start Table -->
-            <p-table [columns]="cols" [value]="asignarResponsableData"  editMode="row"
+            <p-table [columns]="cols" [value]="asignarResponsableData"  editMode="row" 
             [paginator]="true" [rows]="nRows" [rowsPerPageOptions]="nRowsOptions"
             selectionMode="single" [(selection)]="selectedRow">
             <!--(onRowSelect)="onRowSelect($event, selectedRow)"> -->
@@ -79,16 +80,17 @@
 
                             <div [ngSwitch]="i">
                                 <div *ngSwitchCase="0"> {{ rowIndex + 1 }} </div> <!-- 0 case -->
+                                
                                 <div *ngSwitchCase="1">   <!-- Tipo de Radicado case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-autoComplete [dropdown]="true" [required]="true" [style]="{'width':'100%', 'height':'100%'}"
+                                            <p-autoComplete [dropdown]="true"  [style]="{'width':'100%', 'height':'100%'}"
                                                             [(ngModel)]="tableTextAutoCompleteTipoRadicado"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteTipoRadicado"
                                                             (click)="onClickElminiarSelected()"
                                                             (completeMethod)="searchFilterTipoRadicado($event)"
-                                                            (onSelect)="onSelectTableTipoRadicado(rowData, rowIndex)" >
+                                                            (onSelect)="onSelectTableTipoRadicado(rowData, rowIndex)" > 
                                             </p-autoComplete>
                                         </ng-template>
                                         <ng-template pTemplate="output">
@@ -100,11 +102,12 @@
                                 <div *ngSwitchCase="2" style="text-align: center"> <!-- Subtipo de Radicado case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-autoComplete [dropdown]="true" [required]="true" [style]="{'width':'100%', 'height':'100%'}"
+                                            <p-autoComplete [dropdown]="true" [style]="{'width':'100%', 'height':'100%'}"
                                                             [(ngModel)]="tableTextAutoCompleteSubtipoRadicado"
-                                                            [disabled]="row.postState === 'delete'"
+                                                            [disabled]="row.postState === 'delete' || !row.tipoRadicado.codigoDescripcion"
                                                             [suggestions]="suggestionsAutoCompleteSubTipoRadicado"
                                                             (click)="onClickElminiarSelected()"
+                                                            
                                                             (completeMethod)="searchFilterSubtipoRadicado(rowData, rowIndex, $event)"
                                                             (onSelect)="onSelectTableSubRadicado(rowData, rowIndex)">
                                             </p-autoComplete>
@@ -117,7 +120,7 @@
                                 <div *ngSwitchCase="3" style="text-align: center"> <!-- Organismo o Dependencia case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-autoComplete [dropdown]="true" [required]="true" [style]="{'width':'100%', 'height':'100%'}"
+                                            <p-autoComplete [dropdown]="true" [style]="{'width':'100%', 'height':'100%'}"
                                                             [(ngModel)]="tableTextAutoCompleteOrganismoDependencia"
                                                             [disabled]="row.postState === 'delete'"
                                                             [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
@@ -146,12 +149,12 @@
                                 <div *ngSwitchCase="6" style="text-align: center"> <!-- Funcionario Suplente case -->
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-autoComplete [dropdown]="true" [required]="true" [style]="{'width':'100%', 'height':'100%'}"
+                                            <p-autoComplete [dropdown]="true"  [style]="{'width':'100%', 'height':'100%'}"
                                                             [(ngModel)]="tableTextAutoCompleteFuncionarioSuplente"
-                                                            [disabled]="row.postState === 'delete'"
+                                                            [disabled]="row.postState === 'delete' || row.dependencia.id === '' "
                                                             [suggestions]="suggestionsAutoCompleteFuncionarioSuplente"
                                                             (click)="onClickElminiarSelected()"
-                                                            (completeMethod)="searchFilterFuncionarioSuplente($event)"
+                                                            (completeMethod)="searchFilterFuncionarioSuplente($event, row)"
                                                             (onSelect)="onSelectFuncionarioSuplente(rowData, rowIndex)">
                                             </p-autoComplete>
                                         </ng-template>

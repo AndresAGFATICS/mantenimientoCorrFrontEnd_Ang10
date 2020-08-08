@@ -4,7 +4,7 @@ import { Cumco005Component } from './cumco005.component';
 
 const routes: Routes = [
   {path: '', component: Cumco005Component},
-  {path: 'mantenimiento_correspondencia/configurar_anexos_fisicos_005', component: Cumco005Component}
+  {path: 'mant-corr/configurar-anexos', component: Cumco005Component}
 ];
 
 export const routersCUMCO005 = RouterModule.forChild(routes);

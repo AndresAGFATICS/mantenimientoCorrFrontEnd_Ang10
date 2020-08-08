@@ -19,7 +19,7 @@
       <br>
       <p class=boldParragraph>{{ 'CUMCO012.FILTROS.tituloTabla' | translate }}</p>
       <br>
-
+          <p-messages [(value)]="msgs"></p-messages>
           <!-- Start Table -->
           <p-table [columns]="cols" [value]="rows"
           [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"

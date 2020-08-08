@@ -27,7 +27,7 @@ import { ElementRef } from '@angular/core';
 
 export class CUMCO001Component implements OnInit {
 
-  constructor(private asignarResponsableService: AsignarResponsableService,
+  constructor(private asignarResponsableService: AsignarResponsableService, 
               private confirmationService: ConfirmationService,
               private messageService: MessageService,
               private translate: TranslateService,
@@ -50,9 +50,9 @@ export class CUMCO001Component implements OnInit {
   asignarResponsableData: any[];
   cols: any[];
   selectedRow: any;
-  nRowsOptions: number[];
-  nRows: number;
   nRowSelect: number;
+  nRowsOptions = [1,5,10,15,20,25,50];
+  nRows = 15;
 
 
   // Variables de los servicios de subcripcion
@@ -92,12 +92,6 @@ export class CUMCO001Component implements OnInit {
 
      // Obteniendo todos los datos iniclaes de la tabal en el servicio 'asignarResponsableSubtipoRadicado'
     this.subcribeServiceAsignarResponsable('?codigoDescripcion=&activo=1');
-
-    // Ajustando los valores de las filas de la tabla
-    //this.nRowsOptions = [1, 5, 10, 15, 20, 25, 30];
-    this.nRowsOptions = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
-    //this.nRowSelect = 15;
-    this.nRows = 15;
     
     //this.nRows = 5;
     //this.onResize();
@@ -137,6 +131,9 @@ export class CUMCO001Component implements OnInit {
 
         for (const data of responseData) {
           this.asignarResponsableData.push( { ...data, postState: 'noedit'} );
+          if (!data.funcionario){
+            data.funcionario = {codigoNombre: ''};
+          }
         }
 
         if (this.initiaLState){
@@ -243,7 +240,7 @@ export class CUMCO001Component implements OnInit {
         this.initiaLState = true;
         this.subcribeServiceAsignarResponsable('?codigoDescripcion=&activo=1');
         this.ngOnInit();
-        this.showMessage('success', this.translate.instant('CUMCO001.MENSAJES.guardar'), this.translate.instant('CUMCO001.MENSAJES.exito'));
+        this.showMessage('success', this.translate.instant('CUMCO001.MENSAJES.exito'), '');
     });
   }
 
@@ -329,7 +326,7 @@ export class CUMCO001Component implements OnInit {
       this.asignarResponsableData = this.asignarResponsableData.filter(obj => obj.newID !== this.selectedRow.newID)
     }
     else{
-      this.invocarConfirmacionEliminar();
+      this.selectedRow.postState = 'delete';
     }
 
     
@@ -342,34 +339,34 @@ export class CUMCO001Component implements OnInit {
     // Revisar si hay algún valor vacío
     for(var _i = 0; _i < this.asignarResponsableData.length; _i++){
       let errIndex = _i + 1
-      if(!this.asignarResponsableData[_i].tipoRadicado.codigoDescripcion){
-        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+      if(!this.asignarResponsableData[_i].tipoRadicado.id){
+        this.showMessage('error',
                           this.translate.instant('CUMCO001.MENSAJES.campoFilaVacioError',
-                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla1') } ));
+                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla1') } ), '');
         return;
       }
-      if(!this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion){
-        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+      if(!this.asignarResponsableData[_i].tramiteTipoRadicado.id){
+        this.showMessage('error',
                           this.translate.instant('CUMCO001.MENSAJES.campoFilaVacioError',
-                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla2') } ));
+                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla2') } ), '');
         return;
       }
-      if(!this.asignarResponsableData[_i].dependencia.nombreCodigo){
-        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+      if(!this.asignarResponsableData[_i].dependencia.id){
+        this.showMessage('error',
                           this.translate.instant('CUMCO001.MENSAJES.campoFilaVacioError',
-                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla3') } ));
+                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla3') } ), '');
         return;
       }
       if(!this.asignarResponsableData[_i].atiendeDependencia && !this.asignarResponsableData[_i].atiendeResponsable){
-        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+        this.showMessage('error',
                           this.translate.instant('CUMCO001.MENSAJES.responsableCDCError',
-                          {filaVacia: String(errIndex)}) );
+                          {filaVacia: String(errIndex)}), '' );
         return;
       }
-      if(!this.asignarResponsableData[_i].funcionario.codigoNombre){
-        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+      if(!this.asignarResponsableData[_i].funcionario.id){
+        this.showMessage('error',
                           this.translate.instant('CUMCO001.MENSAJES.campoFilaVacioError',
-                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla6') } ));
+                          {filaVacia: String(errIndex), campoVacio: this.translate.instant('CUMCO001.TABLA1.headerTabla6') } ), '');
         return;
       }
     }
@@ -378,14 +375,37 @@ export class CUMCO001Component implements OnInit {
     for(var _i = 0; _i < this.asignarResponsableData.length; _i++){
       let errIndex = _i + 1
       for (var _x = errIndex; _x < this.asignarResponsableData.length; _x++){
-        if(this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion === this.asignarResponsableData[_x].tramiteTipoRadicado.codigoDescripcion){
-          this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.guardarError'),
+        if(this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion === this.asignarResponsableData[_x].tramiteTipoRadicado.codigoDescripcion 
+          && this.asignarResponsableData[_i].postState !== 'delete'
+          && this.asignarResponsableData[_x].postState !== 'delete'){
+          this.showMessage('error', 
                             this.translate.instant('CUMCO001.MENSAJES.repetidoSubtipoRadicadoError',
-                            {filaRep1: String(errIndex), filaRep2: String(_x+1), campoRep: this.translate.instant('CUMCO001.TABLA1.headerTabla2') } ));
+                            {filaRep1: String(errIndex), filaRep2: String(_x+1), descripcion: this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion } ), '');
           return;
         }
       }
     }
+
+
+    // Revisar si hay algún Subtipo de radicado repetido en los datos iniciales cuado se usa un filtro
+    if (this.textAutoCompleteTipoRadicado || this.textAutoCompleteOrganismoDependencia) {
+
+      for(var _i = 0; _i < this.asignarResponsableData.length; _i++){
+        let errIndex = _i + 1
+        for (var _x = 0; _x < this.initialAsignarResponsableData.length; _x++){
+          if(this.asignarResponsableData[_i].id !== this.initialAsignarResponsableData[_x].id &&
+            this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion === this.initialAsignarResponsableData[_x].tramiteTipoRadicado.codigoDescripcion){
+            this.showMessage('error',
+                              this.translate.instant('CUMCO001.MENSAJES.repetidoSubtipoRadicadoFiltroError',
+                              {descripcion: this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion } ), '');
+            return;
+          }
+        }
+      }
+      
+    }
+
+    
 
     this.subcribePostAsignarResponsableSubtipoRadicadoGrid(this.buildJson());
   }
@@ -402,28 +422,37 @@ export class CUMCO001Component implements OnInit {
     this.onSelectFilterTipoRadicadoOrOrganismoDependencia('');
   }
 
+  onClickElminiarSelected(){
+    this.selectedRow = undefined;
+  }
 
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
 
   // Autocompletable SEARCH Tipo de Radicado (Filtro y Tabla) 
   searchFilterTipoRadicado(event) {
+    this.selectedRow = undefined;
     this.subcribeServiceTiporadicado('?codigoDescripcion=' + event.query + '&activo=1');
   }
 
   // Autocompletable SEARCH Organismo o Dependencia (Filtro y Tabla) 
   searchFilterOrganismoDependencia(event) {
+    this.selectedRow = undefined;
     this.subcribeServiceOrganismoDependencia('?codigoNombre=' + event.query + '&activo=1');
   }
 
   // Autocompletable SEARCH Subtipo de Radicado (Tabla) 
   searchFilterSubtipoRadicado(row: any, index: number, event) {
+    this.selectedRow = undefined;
     this.subcribeServiceSubTipoRadicado('?idTipo=' + row.tipoRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1');
   }
 
   // Autocompletable SEARCH Funcionario Suplente (Tabla) 
-  searchFilterFuncionarioSuplente(event) {
-    this.subcribeServiceFuncionarioSuplente('?idDependencia=1003' + '&codigoNombre=' + event.query );
+  searchFilterFuncionarioSuplente(event, row) {
+    this.selectedRow = undefined;
+    if (row.dependencia.id !== ''){
+      this.subcribeServiceFuncionarioSuplente('?activo=1&ausente=0&idDependencia=' +  String(row.dependencia.id)  + '&codigoNombre=' + event.query );
+    }
   }
 
 
@@ -480,7 +509,7 @@ export class CUMCO001Component implements OnInit {
 
       //show as it was edited if it is not new
       if ( this.asignarResponsableData[index].postState !== 'new'){
-        this.asignarResponsableData[index].postState = 'edit';
+        this.compareInitialData();
       }
       
     }
@@ -536,10 +565,17 @@ export class CUMCO001Component implements OnInit {
       this.asignarResponsableData[index].dependencia.codigo = selectedOrganismoDependencia.codigoDescripcion ;
       this.asignarResponsableData[index].dependencia.nombreCodigo = selectedOrganismoDependencia.nombreCodigo ;
 
+      
+
       //show as it was edited if it is not new
       if ( this.asignarResponsableData[index].postState !== 'new'){
         this.compareInitialData();
         //this.asignarResponsableData[index].postState = 'edit';
+      }
+
+      //Quitar elemento Subtipo Radicado
+      if(this.asignarResponsableData[index].state === 'edit' || this.asignarResponsableData[index].state === 'new'){
+        this.asignarResponsableData[index].funcionario = {codigoDescripcion: '', id: ''};
       }
 
     }
@@ -618,26 +654,6 @@ export class CUMCO001Component implements OnInit {
 
   // Metodos Creacion datos Para Guardar -- Metodos Creacion datos Para Guardar
   // Metodos Creacion datos Para Guardar -- Metodos Creacion datos Para Guardar
-
-  invocarConfirmacionEliminar() {
-    this.confirmationService.confirm({
-    message: '¿Está seguro que desea elminar el registro selecionado?',
-    header: 'Confirmación',
-    icon: 'pi pi-exclamation-triangle',
-    accept: () => {
-      this.selectedRow.postState = 'delete';
-    //Accion acepto
-      //this.messageService.add({key: 'topMessage', severity:'success', summary: 'Success Message', detail:'Texto Succes'});
-      
-    },
-    reject: () => {
-    //Accion rechazo
-      //this.messageService.add({key: 'topMessage', severity:'error', summary: 'Success Message', detail:'Texto Error'});
-    
-    }
-    });
- 
-  }
 
   buildJson(){
     let fields = [
@@ -1011,9 +1027,6 @@ export class CUMCO001Component implements OnInit {
 
   }
 
-  onClickElminiarSelected(){
-    this.selectedRow = undefined;
-  }
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
@@ -1129,8 +1142,6 @@ export class CUMCO001Component implements OnInit {
   }
 
   changeLanguage(){
-    this.subcribePrueba('');
-
     console.log(this.lang)
     if(this.lang){
       this.translate.use('en');
@@ -1139,21 +1150,6 @@ export class CUMCO001Component implements OnInit {
       this.translate.use('es');
       //this.subcribeSetColumnsTraslations();
     }
-  }
-
-  subcribePrueba(getParameters: string) {
-    this.asignarResponsableService.pruebaGEt(getParameters).subscribe(
-
-      (getRes: any[]) => {     // Inicio del suscribe
-        this.prueba = getRes;
-        return getRes;
-      },
-      getError => {           // Error del suscribe
-          this.showMessage('error', 'ERROR PRUEBA', getError.error.message);
-      },
-      () => {                 // Fin del suscribe
-        console.log(this.prueba);
-    });
   }
 
 

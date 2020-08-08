@@ -1,3 +1,7 @@
+export * from './lib/mp-forest-mantenimiento-correspondencia.service';
+export * from './lib/mp-forest-mantenimiento-correspondencia.component';
+export * from './lib/mp-forest-mantenimiento-correspondencia.module';
+
 export * from './lib/cumco001/cumco001.module';
 export * from './lib/cumco001/cumco001-routing.module';
 

@@ -1,5 +1,5 @@
 <p-tabView>
-    <p-tabPanel header="{{ 'CUMCO013.titulo' | translate }}">
+    <p-tabPanel header="{{ 'CUMCO013.titulo' | translate }}">  
 
       <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
         currentPageReportTemplate="Page {currentPage} of {totalPages}">

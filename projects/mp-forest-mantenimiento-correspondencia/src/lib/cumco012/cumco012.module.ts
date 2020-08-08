@@ -21,6 +21,8 @@ import {ToastModule} from 'primeng/toast';
 
 import { translateModule } from '../cumco001/cumco001.module';
 
+import { MessagesModule } from 'primeng/messages';
+
 
 
 @NgModule({
@@ -42,6 +44,7 @@ import { translateModule } from '../cumco001/cumco001.module';
     DropdownModule,
     CalendarModule,
     ToastModule,
+    MessagesModule,
     translateModule
 
   ],

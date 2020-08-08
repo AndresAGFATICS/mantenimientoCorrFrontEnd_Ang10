@@ -12,7 +12,8 @@ export class GeneralService {
   //_URL_SERVICE = "/sistema/1.0.0/"
   _API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/forest";
   _URL_SERVICE = "";
-  _IN_DEVELOP = false;
+  _IN_DEVELOP = true;
+  _IN_QA = false;
 
 
   constructor(public http: HttpClient) { }
@@ -30,6 +31,10 @@ export class GeneralService {
     if(sessionStorage.length === 0 || this._IN_DEVELOP) {
       this._API_ENDPOINT_GATEWAY = 'http://localhost:8080/forestWS';
       console.log('Local')
+    }
+    else if(this._IN_QA) {
+      this._API_ENDPOINT_GATEWAY = location.origin + '/forestWS';  // 'https://alcaldiacaliqa.forestbpms.co/forestWS';
+      console.log('QA');
     }
     else{
       this._API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS";

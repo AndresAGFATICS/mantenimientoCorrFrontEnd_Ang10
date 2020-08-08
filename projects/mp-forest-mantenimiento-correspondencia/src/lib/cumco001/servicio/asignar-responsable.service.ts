@@ -34,10 +34,6 @@ export class AsignarResponsableService extends GeneralService{
   public postAsignarResponsableSubtipoRadicadoGrid(body: any) {
     return this.post('/forest/documentos/1.0.0/asignarResponsableSubtipoRadicado', body);
   }
-
-  public pruebaGEt(body: any) {
-    //return this.get('/mnt-corr//1.0.0/grupoSeguridad/grupoSeguridad');
-    return this.get('/mnt-corr/1.0.0/grupoSeguridad');
-  }
+    
 
 }

@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
 import { AnexosFisicosClaseService } from './servicio/anexos-fisicos-clase.service';
-import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-// import * as confJson from '../../assets/i18n/es.json';
+
+// Importacion Modulo de Mensajes
+import { Message } from 'primeng//api';
+import { MessageService } from 'primeng/api';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-cumco005',
@@ -14,7 +17,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class Cumco005Component implements OnInit {
 
-
+  // Variables para los mensajes
+  msgs: Message[] = [];
 
   // Variables de texto
   //varText: any = confJson;
@@ -194,6 +198,7 @@ export class Cumco005Component implements OnInit {
   }
 
   searchTipoanexo(event) {
+    this.selectedRow = undefined;
     this.filtroTipoAnexo = event.query;
     this.subscribeTipoAnexoFisico();
   }
@@ -203,6 +208,7 @@ export class Cumco005Component implements OnInit {
   }
 
   searchAnexo(event) {
+    this.selectedRow = undefined;
     this.filtroAnexo = event.query;
     this.subscribeAnexosFisicos();
 
@@ -262,16 +268,39 @@ export class Cumco005Component implements OnInit {
     this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
   }
 
-  showMessage(mensaje: string, severity: string) {
-    window.scroll(0, 0);
-    this.messageService.clear();
-    this.messageService.add({ severity: severity, summary: mensaje });
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
+   
+  // Metodos para Mostrar MENSAJES
+  showMessage(det: string, sev: string) {
+    this.msgs = [];
+    this.msgs.push({severity: sev, summary: '', detail: det});
+
+    (async () => {
+      const waitTime = 5;
+      await this.messageTimeout(waitTime * 1000);
+      this.hideMessage();
+    })();
   }
+
+  // Metodos para Ocultar MENSAJES
+  hideMessage() {
+    this.msgs = [];
+  }
+
+  // Metodos para Ocultar MENSAJES despues de un tiempo
+  messageTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Metodos para Ocultar MENSAJES al hacer click (mousedouwn) en cualquier lado
+  @HostListener('document:mousedown') clickDOM() {
+    this.hideMessage();
+  };
 
   onGuardarColumna() {
     if (!this.camposValidos()) {
-      const error = this.translate.instant('CUMCO005.MENSAJES.falloGuardar');
-      this.showMessage(error, "error");
+      return;
     } else if (!this.validarRepetidos()) {
       const error = this.translate.instant('CUMCO005.MENSAJES.repetidos');
       this.showMessage(error, "error");
@@ -282,6 +311,7 @@ export class Cumco005Component implements OnInit {
       this.subcribeRecorridoRepartoFisico(this.buildJson());
     }
   }
+
   buildJson(): any {
     let fields = [
       {
@@ -373,6 +403,7 @@ export class Cumco005Component implements OnInit {
       })
     };
   }
+
   validarAnexoRepetidoTipo(): any {
     let counter = {};
     var result = [];
@@ -390,6 +421,7 @@ export class Cumco005Component implements OnInit {
     }
     return result.length === 0 ? true : false;
   }
+
   validarRepetidos(): any {
     let couples: string[] = [];
     let counter = {};
@@ -413,13 +445,39 @@ export class Cumco005Component implements OnInit {
     return result.length === 0 ? true : false;
 
   }
+
   camposValidos(): any {
     let valido = true;
-    this.rows.forEach(row => {
-      valido = valido && (row.claseAnexo.descripcion === '' ? false : true
-        && row.tipoAnexoFisico.descripcion === '' ? false : true
-          && row.observacion === '' ? false : true);
-    })
+
+    for(var _i = 0; _i < this.rows.length; _i++){
+      let errIndex = _i + 1;
+
+      if (this.rows[_i].claseAnexo.descripcion === ''){
+        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
+        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla1') } );
+        this.showMessage(error ,'error');
+        valido = false;
+      }
+      else if (this.rows[_i].tipoAnexoFisico.descripcion === ''){
+        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
+        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla2') } );
+        this.showMessage(error ,'error');
+        valido = false;
+      }
+      else if (this.rows[_i].observacion === ''){
+        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
+        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla3') } );
+        this.showMessage(error ,'error');
+        valido = false;
+      }
+    }
+
+    //this.rows.forEach(row => {
+    //  valido = valido && (row.claseAnexo.descripcion === '' ? false : true
+    //    && row.tipoAnexoFisico.descripcion === '' ? false : true
+    //      && row.observacion === '' ? false : true);
+    //})
+
     return valido;
   }
 

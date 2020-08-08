@@ -7,9 +7,9 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
-          <p-autoComplete [(ngModel)]="seleccionFiltro" field="descripcion" [immutable]="false" [suggestions]="filtroDevolucion" (completeMethod)="searchDevolucion($event)"
+          <p-autoComplete [(ngModel)]="seleccionFiltro" field="descripcion" [suggestions]="filtroDevolucion" (completeMethod)="searchDevolucion($event)"
           [dropdown]="true" placeholder="{{ 'CUMCO010.FILTROS.filtroTituloDevolucionPlaceHolder' | translate }}"
-          [forceSelection]="true"></p-autoComplete>
+          ></p-autoComplete>
           <p-button icon="pi pi-times" (click)="borrarFiltro()"></p-button>
         </div>
       </div>
@@ -17,6 +17,9 @@
   </p-fieldset>
 
   <p-fieldset legend="{{ 'CUMCO010.FILTROS.tituloTabla' | translate }}">
+
+    <p-messages [(value)]="msgs"></p-messages>
+
     <p-table [columns]="columnasAdjuntos" [value]="rows" [(selection)]="seleccionDevolucion" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="single" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
       <ng-template pTemplate="caption">
@@ -53,7 +56,7 @@
                   </ng-template>
                 </p-cellEditor>
               </div>
-              <div *ngSwitchCase="2">
+              <div *ngSwitchCase="2" style="text-align: center">
                 <p-checkbox name="groupname" [(ngModel)]="row.activo" binary="true" (onChange)="onChangeActivo(rowIndex)"></p-checkbox>
               </div>
             </div>

@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { Cumco009Service } from './servicio/cumco009.service';
 import { TranslateService } from '@ngx-translate/core';
-// import * as confJson from '../../assets/i18n/es.json';
+
+// Importacion Modulo de Mensajes
+import { Message } from 'primeng//api';
+import { MessageService } from 'primeng/api';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-cumco009',
@@ -12,6 +15,10 @@ import { TranslateService } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class CUMCO009Component implements OnInit {
+
+  // Variables para los mensajes
+  msgs: Message[] = [];
+  msgs2: Message[] = [];
 
   tablaPersonas: Persona[];
   tablaIdentificacion: any[];
@@ -199,7 +206,7 @@ export class CUMCO009Component implements OnInit {
     this.tablaPersonasFiltro = [];
     for (let i = 0; i < this.tablaPersonas.length; i++) {
       let persona = this.tablaPersonas[i];
-      if (persona.idDescripcion.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1){
         this.tablaPersonasFiltro.push(persona);
       }
     }
@@ -210,7 +217,7 @@ export class CUMCO009Component implements OnInit {
     this.tablaIdentificacionFiltro = [];
     for (let i = 0; i < this.tablaIdentificacion.length; i++) {
       let persona = this.tablaIdentificacion[i];
-      if (persona.idDescripcion.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1) {
         this.tablaIdentificacionFiltro.push(persona);
       }
     }
@@ -253,12 +260,12 @@ export class CUMCO009Component implements OnInit {
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
         const error = this.translate.instant('CUMCO009.MENSAJES.falloGuardar');
-        this.showMessage(error + ' ' + getError.error.message, "error");
+        this.showMessage2(error + ' ' + getError.error.message, "error");
       },
       () => {                 // Fin del suscribe
         const exito = this.translate.instant('CUMCO009.MENSAJES.exito');
         if (!this.responseGuardar.status) {
-          this.showMessage(this.responseGuardar.message, "error");
+          this.showMessage2(this.responseGuardar.message, "error");
         }
         else {
           this.subscribePersona();
@@ -266,18 +273,54 @@ export class CUMCO009Component implements OnInit {
           if (this.seleccionPersona) {
             this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
           }
-          this.showMessage(this.responseGuardar.message, "success");
-          this.showMessage(exito, "success");
+          this.showMessage2(this.responseGuardar.message, "success");
+          this.showMessage2(exito, "success");
         }
       });
   }
 
 
-  showMessage(mensaje: string, severity: string) {
-    window.scroll(0, 0);
-    this.messageService.clear();
-    this.messageService.add({ severity: severity, summary: mensaje });
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+   
+  // Metodos para Mostrar MENSAJES
+  showMessage(det: string, sev: string) {
+    this.msgs = [];
+    this.msgs.push({severity: sev, summary: '', detail: det});
+
+    (async () => {
+      const waitTime = 5;
+      await this.messageTimeout(waitTime * 1000);
+      this.hideMessage();
+    })();
   }
+
+  showMessage2(det: string, sev: string) {
+    this.msgs2 = [];
+    this.msgs2.push({severity: sev, summary: '', detail: det});
+
+    (async () => {
+      const waitTime = 5;
+      await this.messageTimeout(waitTime * 1000);
+      this.hideMessage();
+    })();
+  }
+
+  // Metodos para Ocultar MENSAJES
+  hideMessage() {
+    this.msgs = [];
+    this.msgs2 = [];
+  }
+
+  // Metodos para Ocultar MENSAJES despues de un tiempo
+  messageTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Metodos para Ocultar MENSAJES al hacer click (mousedouwn) en cualquier lado
+  @HostListener('document:mousedown') clickDOM() {
+    this.hideMessage();
+  };
 
 
   onClickBorrarAutoComplete() {
@@ -302,7 +345,7 @@ export class CUMCO009Component implements OnInit {
     if (this.rows !== undefined && this.rows.length !== 0 && this.seleccionPersona !== undefined) {
       if (!this.validarCampos()) {
         const error = this.translate.instant('CUMCO009.MENSAJES.errorGuardar');
-        this.showMessage(error, "error");
+        this.showMessage2(error, "error");
       } else {
         this.subcribeGuardarIdentificacion(this.buildJsonConfiguracion());
       }

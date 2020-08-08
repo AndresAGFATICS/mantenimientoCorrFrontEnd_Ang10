@@ -22,10 +22,13 @@ export class Cumco003Service extends GeneralService{
     return this.get('/forest/sistema/1.0.0/tipoDocumental/codigoDescripcion?activo=1&codigoDescripcion=' + codigo);
   }
   public getTablaDocumento() {
-    return this.get('/forest/documentos/1.0.0/tipoComunicacion');
+    return this.get('/forest/documentos/1.0.0/tipoComunicacion'); 
+  }
+  public getTipoComunicacion(parametros: string) {
+    return this.get('/forest/documentos/1.0.0/tipoComunicacion' + parametros); // ?codigoDescripcion=8
   }
   public getTablaPlantilla() {
-    return this.get('/forest/documentos/1.0.0/configuracionPlantilla/grid');
+    return this.get('/forest/documentos/1.0.0/configuracionPlantilla/grid'); //?idPlantilla=1&idTramite=1&idClaseDocumental=1
   }
   public getClaseDocumental(codigo: any) {
     return this.get('/forest/sistema/1.0.0/claseDocumental?codigoDescripcion=' + codigo)

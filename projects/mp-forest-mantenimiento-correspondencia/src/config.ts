@@ -31,7 +31,7 @@ export class ICumco003Module { }
     imports: [
         //@ts-ignore
         CommonModule,
-        mantenimientoCorrModule.CUMCO004Module
+        mantenimientoCorrModule.CUMCO004Module 
     ]
 })
 export class ICUMCO004Module { }

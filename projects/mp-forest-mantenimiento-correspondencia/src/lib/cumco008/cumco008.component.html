@@ -1,128 +1,239 @@
 <div class="ui-fluid">
   <p-fieldset legend="{{ 'CUMCO008.titulo' | translate }}">
 
-      <p>{{ 'CUMCO008.FILTROS.filtroCanal' | translate }}Canal</p>
+    <p>{{ 'CUMCO008.FILTROS.filtroCanal' | translate }}</p>
 
-      <div class="ui-g">
-          <div class="ui-g-12">
-              <div class="ui-inputgroup">
-                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"></p-autoComplete>
-                  <p-button icon="pi pi-times"></p-button>
-              </div>
-          </div>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"
+            field="codigoDescripcion" [suggestions]="suggestionsFilterCanal" [(ngModel)]="selectionFilterCanal"
+            (completeMethod)="searchCanalFilter($event)" [dropdown]="true" (onSelect)="selectCanalFilter()">
+          </p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClicBorrarSelectedCanalFilter()"></p-button>
+        </div>
       </div>
+    </div>
 
-      <p>{{ 'CUMCO008.FILTROS.filtroMedioEnvio' | translate }}</p>
+    <p>{{ 'CUMCO008.FILTROS.filtroMedioEnvio' | translate }}</p>
 
-      <div class="ui-g">
-          <div class="ui-g-12">
-              <div class="ui-inputgroup">
-                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                  <p-autoComplete [dropdown]="true" [required]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroMedioEnvioPlaceHolder' | translate }}"></p-autoComplete>
-                  <p-button icon="pi pi-times"></p-button>
-              </div>
-          </div>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"
+            field="codigoDescripcion" [suggestions]="suggestionsFilterMedioEnvio" [(ngModel)]="selectionFilterMedioEnvio"
+            (completeMethod)="searchMedioEnvioFilter($event)" [dropdown]="true" (onSelect)="selectMedioEnvioFilter()">
+          </p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClicBorrarSelectedMedioEnvioFilter()"></p-button>
+        </div>
       </div>
+    </div>
 
-      <br>
+    <br>
 
   </p-fieldset>
 
   <p-fieldset legend="{{ 'CUMCO008.configurarCanales' | translate }}">
 
-          <!-- Start Table -->
-          <p-table [columns]="cols" [value]="rows"
-          [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
-          selectionMode="multiple" [(selection)]="selectedRows">
+    <p-messages [(value)]="msgs"></p-messages>
 
-              <!-- Table Caption -->
-              <ng-template pTemplate="caption">
-                  <div class="ui-helper-clearfix menu-sup-grid">
-                      <!-- Buttons -->
-                      <div class="button-sup-grid">
-                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                      </div>
-                  </div>
-              </ng-template>
+    <!-- Start Table 1 -->
+    <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,15,20]"
+      selectionMode="single" [(selection)]="selectionTable1" (onRowSelect)="onRowTable1Select($event, selectionTable1)">
 
-              <!-- Table Heardes -->
-              <ng-template pTemplate="header" let-columns>
-                  <tr>
-                      <th *ngFor="let col of columns">
-                          {{col.header}}
-                      </th>
-                  </tr>
-              </ng-template>
+      <!-- Table Caption 1 -->
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <!-- Buttons 1 -->
+          <div class="button-sup-grid">
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickAgregar1()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickEliminar1()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickGuardar1()"></p-button>
+          </div>
+        </div>
+      </ng-template>
 
-              <!-- Table Content -->
-              <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                  <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                      <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+      <!-- Table Heardes 1 -->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
 
-                        <div [ngSwitch]="i">
-                          <div *ngSwitchCase="0"> {{row[col.field]}} </div>
-                          <div *ngSwitchDefault> {{row[col.field]}}  </div>
-                        </div>
+      <!-- Table Content 1 -->
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
-                      </td>
-                  </tr>
-              </ng-template>
+            <div [ngSwitch]="i">
 
-          </p-table>
-          <!-- End Table -->
-
-    </p-fieldset>
-
-
-    <p-fieldset legend="{{ 'CUMCO008.vincularCanales' | translate }}">
-
-      <!-- Start Table -->
-      <p-table [columns]="cols2" [value]="rows2"
-      [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]"
-      selectionMode="multiple">
-
-          <!-- Table Caption -->
-          <ng-template pTemplate="caption">
-              <div class="ui-helper-clearfix menu-sup-grid">
-                  <!-- Buttons -->
-                  <div class="button-sup-grid">
-                      <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                      <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                      <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
-                  </div>
+              <div *ngSwitchCase="0">
+                {{rowIndex + 1}}
               </div>
-          </ng-template>
 
-          <!-- Table Heardes -->
-          <ng-template pTemplate="header" let-columns>
-              <tr>
-                  <th *ngFor="let col of columns">
-                      {{col.header}}
-                  </th>
-              </tr>
-          </ng-template>
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.codigo" [disabled]="row.state==='delete'"
+                      (focusout)="editedTable1()" (keydown.enter)="editedTable1()" [maxlength]="100">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.codigo}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
 
-          <!-- Table Content -->
-          <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-              <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                  <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+              <div *ngSwitchCase="2">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" [(ngModel)]="row.descripcion" [disabled]="row.state === 'delete'"
+                      (focusout)="editedTable1()" (keydown.enter)="editedTable1()" [maxlength]="255">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
 
-                    <div [ngSwitch]="i">
-                      <div *ngSwitchCase="0"> {{row[col.field]}} </div>
-                      <div *ngSwitchDefault> {{row[col.field]}}  </div>
-                    </div>
+              <div *ngSwitchCase="3" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.activo" [binary]="true"
+                  (ngModelChange)="row.activo = $event ? 1 : 0" (onChange)="editedTable1()"
+                  [disabled]="row.state==='delete'">
+                </p-checkbox>
+              </div>
 
-                  </td>
-              </tr>
-          </ng-template>
+              <div *ngSwitchCase="4" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.virtual" [binary]="true"
+                  (ngModelChange)="row.virtual = $event ? 1 : 0" (onChange)="checkboxVirtualChange(row)"
+                  [disabled]="row.state==='delete'">
+                </p-checkbox>
+              </div>
 
-      </p-table>
-      <!-- End Table -->
+              <div *ngSwitchCase="5" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.presencial" [binary]="true"
+                  (ngModelChange)="row.presencial = $event ? 1 : 0" (onChange)="checkboxPresencialChange(row)"
+                  [disabled]="row.state==='delete'">
+                </p-checkbox>
+              </div>
 
-</p-fieldset>
+              <div *ngSwitchCase="6" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.telefonico" [binary]="true"
+                  (ngModelChange)="row.telefonico = $event ? 1 : 0" (onChange)="checkboxTelefonicoChange(row)"
+                  [disabled]="row.state==='delete'">
+                </p-checkbox>
+              </div>
+
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+    <!-- End Table 1 -->
+  </p-fieldset>
+
+
+  <p-fieldset legend="{{ 'CUMCO008.vincularCanales' | translate }}">
+
+    <p-messages [(value)]="msgs2"></p-messages>
+    
+    <!-- Start Table 2 -->
+    <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+             selectionMode="single" [(selection)]="selectionTable2">
+
+      <!-- Table Caption 2 -->
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix menu-sup-grid">
+          <!-- Buttons 2 -->
+          <div class="button-sup-grid">
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickAgregar2()"
+              [disabled]="selectionTable1 === undefined|| selectionTable1 === null || selectionTable1.state === 'new' ">
+            </p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickEliminar2()"
+              [disabled]="selectionTable1 === undefined|| selectionTable1 === null || selectionTable1.state === 'new' ">
+            </p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onClickGuardar2()"
+              [disabled]="selectionTable1 === undefined|| selectionTable1 === null || selectionTable1.state === 'new' ">
+            </p-button>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Table Heardes 2-->
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Content 2-->
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+
+              <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+
+              <div *ngSwitchCase="1">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-autoComplete [dropdown]="true" [style]="{'width':'100%', 'height':'100%'}"
+                      field="codigoDescripcion" [(ngModel)]="row.medioEnvio" [disabled]="row.state === 'delete'"
+                      [suggestions]="suggestionsFilterMedioEnvio" (completeMethod)="searchMedioEnvioFilter($event)"
+                      (onSelect)="selectMedioEnvioTable()" (click)="onClickElminiarSelected2()">
+                    </p-autoComplete>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.medioEnvio.descripcion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+
+              <div *ngSwitchCase="2">
+                <div *ngIf="row.medioEnvio.fuente !== undefined">
+                  {{ row.medioEnvio.fuente.codigo + ' - ' + row.medioEnvio.fuente.descripcion}}
+                </div>    
+              </div>
+
+              <div *ngSwitchCase="3" style="text-align: center">
+                <p-checkbox name="groupname" [(ngModel)]="row.virtual" [binary]="true"
+                  (ngModelChange)="row.virtual = $event ? 1 : 0" (onChange)="checkboxVentanillaVirtualChange(row)"
+                  [disabled]="row.state==='delete' || !selectionTable1.virtual">
+                </p-checkbox>
+              </div>
+
+
+
+            </div>
+
+          </td>
+        </tr>
+      </ng-template>
+
+    </p-table>
+    <!-- End Table 2 -->
+
+  </p-fieldset>
 
 
 </div>

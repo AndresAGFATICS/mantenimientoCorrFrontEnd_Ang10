@@ -4,7 +4,7 @@ import { Cumco006Component } from './cumco006.component';
 
 const routes: Routes = [
   {path: '', component: Cumco006Component},
-  {path: 'mantenimiento_correspondencia/configurar_horario_radicacion_006', component: Cumco006Component}
+  {path: 'mant-corr/configurar-horario', component: Cumco006Component}
 ];
 
 export const routersCUMCO006 = RouterModule.forChild(routes);

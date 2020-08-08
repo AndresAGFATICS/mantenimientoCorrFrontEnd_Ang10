@@ -13,9 +13,11 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { CheckboxModule } from 'primeng/checkbox';
-import {ToastModule} from 'primeng/toast';
-import {DropdownModule} from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
 import { translateModule } from '../cumco001/cumco001.module';
+
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { translateModule } from '../cumco001/cumco001.module';
     CheckboxModule,
     ToastModule,
     DropdownModule,
+    MessagesModule,
     translateModule
   ],
   providers: [],

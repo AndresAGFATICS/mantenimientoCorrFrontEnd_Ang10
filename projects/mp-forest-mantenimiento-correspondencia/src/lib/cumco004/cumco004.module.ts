@@ -18,6 +18,8 @@ import { ToastModule } from 'primeng/toast';
 import { HttpLoaderFactory } from '../cumco001/cumco001.module';
 import { translateModule } from '../cumco001/cumco001.module';
 
+import { MessagesModule } from 'primeng/messages';
+
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { translateModule } from '../cumco001/cumco001.module';
     TableModule,
     DropdownModule,
     ToastModule,
+    MessagesModule,
     translateModule
   ],
   providers: [],

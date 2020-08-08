@@ -41,6 +41,9 @@ export class Cumco003Component implements OnInit {
   seleccionPlantilla: any;
   listaPlantilla: any[];
 
+  suggestionsTipoComunicacionTabla: any[];
+  event: any;
+
   seleccionRadicado: any;
   listaRadicado: any[];
 
@@ -58,9 +61,18 @@ export class Cumco003Component implements OnInit {
 
 
   //TABLAS
-  rows: Row[];
-  tablaDocumentos: Documento[];
+  rows: any[];
+  initialData1: any[];
+  initialStateRows = true;
+  tablaDocumentos: any[];
+  initialStatetablaDocumentos = true;
+  initialData2: any[];
   selectedRowDocument: any;
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 10;
+
+  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable2 = 10;
 
 
   idRow: number;
@@ -72,12 +84,13 @@ export class Cumco003Component implements OnInit {
 
   cols: any[];
 
-  selectedRows: Row;
+  selectedRows: any;
 
   cols2: any[];
 
   // Variables para los mensajes
   msgs: Message[] = [];
+  msgs2: Message[] = [];
 
 
 
@@ -95,16 +108,11 @@ export class Cumco003Component implements OnInit {
     this.subscribeTablaPlantilla();
   }
 
-  onClickElminiarSelected(){
-    this.selectedRows = undefined;
-  }
-
-  onClickElminiarSelected2(){
-    this.selectedRowDocument = undefined;
-  }
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
   // SUSCRIBIRSE para Obtener los valores de los headers de la tabla
-  subcribeSetColumnsTraslations(){
+  subcribeSetColumnsTraslations() {
 
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
@@ -123,8 +131,8 @@ export class Cumco003Component implements OnInit {
       ];
 
       this.cols2 = [
-        { field: 'codigo', header:this.translate.instant('CUMCO003.TABLA2.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2')},
+        { field: 'codigo', header: this.translate.instant('CUMCO003.TABLA2.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2') },
         { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla3') }
       ];
     });
@@ -221,7 +229,15 @@ export class Cumco003Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+
+
+        if (this.initialStatetablaDocumentos) {
+          this.initialData2 = [];
+          for (const data of this.tablaDocumentos) {
+            this.initialData2.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStatetablaDocumentos = false;
+        }
       });
   }
 
@@ -231,7 +247,8 @@ export class Cumco003Component implements OnInit {
       (getRes: any[]) => {     // Inicio del suscribe
         this.rows = [];
         getRes.forEach(res => {
-          res.tipoComunicacion = res.tipoComunicacion?res.tipoComunicacion:'';
+          res.tipoComunicacion = res.tipoComunicacion ? res.tipoComunicacion : '';
+          res.plantilla = res.plantilla ? res.plantilla : { "id": '', "codigo": '' };
           this.rows.push(res);
         })
         this.rows.forEach(documento => {
@@ -239,15 +256,19 @@ export class Cumco003Component implements OnInit {
 
         })
         let index = this.rows.indexOf(this.selectedRows);
-        this.rows = this.rows.filter(val => val.plantilla !== undefined);
-
         return getRes;
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+        if (this.initialStateRows) {
+          this.initialData1 = [];
+          for (const data of this.rows) {
+            this.initialData1.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStateRows = false;
+        }
       });
   }
 
@@ -280,12 +301,13 @@ export class Cumco003Component implements OnInit {
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
         const error = this.translate.instant('CUMCO003.MENSAJES.guardarError');
-        this.showMessage('error', 'Error ', error);
+        this.showMessage('error', error, '');
       },
       () => {                 // Fin del suscribe
         // const exito = this.varText.default.MENSAJES.exitoGuardar;
-        this.showMessage('success', 'Guardar ', this.responseGuardarComunicacion.message);
+        this.initialStatetablaDocumentos = true;
         this.subscribeTablaDocumento();
+        this.showMessage('success', this.responseGuardarComunicacion.message, '');
       });
   }
 
@@ -303,55 +325,226 @@ export class Cumco003Component implements OnInit {
         this.showMessage('error', 'Guardar ', error);
       },
       () => {                 // Fin del suscribe
-        // const exito = this.varText.default.MENSAJES.exitoGuardar;
-        this.showMessage('success', 'Guardar ', this.responseGuardarPlantilla.message);
+        this.seleccionPlantilla = undefined;
+        this.seleccionRadicado = undefined;
+        this.seleccionClaseDocumental = undefined;
+
+        this.initialStateRows = true;
         this.subscribeTablaPlantilla();
+        this.showMessage('success', this.responseGuardarPlantilla.message, '');
+
       });
   }
 
+  subscribeTipoComunicacion(parameters: string) {
+    this.cumco003Service.getTipoComunicacion(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        this.suggestionsTipoComunicacionTabla = [];
+        getRes.forEach(res => {
+          this.suggestionsTipoComunicacionTabla.push(res);
+        })
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        // this.updateTablePersona();
+      });
+  }
+
+
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
+
   searchPlantilla(event) {
+    this.selectedRows = undefined;
     this.subscribePlantilla(event.query ? event.query : '');
   }
 
   searchRadicado(event) {
+    this.selectedRows = undefined;
     this.subscribeRadicado(event.query ? event.query : '')
   }
 
   searchSubTipoRadicado(event, rowIndex) {
+    this.selectedRows = undefined;
     if (this.rows[rowIndex].tipoRadicado.id || this.rows[rowIndex].tipoRadicado.id) {
       this.subscribeSubTipoRadicado(event.query ? event.query : '', this.rows[rowIndex].tipoRadicado.id)
     } else {
       const error = this.translate.instant('CUMCO003.MENSAJES.seleccioneTipoRadicado');
-      this.showMessage('error', 'Error ', error);
+      this.showMessage('error', error, '');
     }
 
   }
 
   searchClaseDocumento(event) {
+    this.selectedRowDocument = undefined;
+    this.selectedRows = undefined;
     this.subscribeClaseDocumental(event.query ? event.query : '')
   }
 
   searchDocumento(event) {
+    this.selectedRows = undefined;
     this.subscribeDocumento(event.query ? event.query : '')
   }
 
-  validacionEntrada(rowIndex) {
-    this.rowIndexValidation = rowIndex;
-    if (this.rows[rowIndex].claseDocumental.id === 1 && this.rows[rowIndex].plantilla.id !== '') {
-      this.messageService.clear();
-      this.messageService.add({
-        key: 'c', sticky: true, severity: 'warn',
-        summary: this.translate.instant('CUMCO003.MENSAJES.claseDocNoRequierePlantilla'),
-        detail: this.translate.instant('CUMCO003.MENSAJES.detalleClaseDocNoRequierePlantilla')
-      });
-    }else{
-      this.edited(rowIndex);
+  searchClaseDocumental(event) {
+    this.selectedRows = undefined;
+    this.subscribeTablaDocumento();
+  }
+
+  searchTipoComunicacionTabla(event) {
+    this.selectedRows = undefined;
+    this.subscribeTipoComunicacion('?codigoDescripcion=' + event.query);
+  }
+
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+
+  selectPlantillaTabla(event, row) {
+    row.plantilla = event;
+    this.edited(0);
+  }
+
+  selectTipoRadicadoTabla(event, row) {
+    row.tipoRadicado = event;
+    row.tramiteTipoRadicado = { id: '', descripcion: '' };
+    this.edited(0);
+  }
+
+  selectSubtipoRadicadoTabla(event, row) {
+    row.tramiteTipoRadicado = event;
+    this.edited(0);
+  }
+
+  selectTipoDocumentalTabla(event, row) {
+    row.tipoDocumental = event;
+    this.edited(0);
+  }
+
+  selectTipoComunicacionTabla(event, row) {
+    //row.tipoComunicacion = event;
+    this.edited(0);
+  }
+
+  selectClaseDocumentalTabla2(event, row) {
+    row.claseDocumental = event;
+    this.editedDocument(0);
+  }
+
+  selectFilter(event) {
+
+    const copyInitialData: any[] = [];
+    for (const data of this.initialData1) {
+      copyInitialData.push(JSON.parse(JSON.stringify(data)));
+    }
+
+    let filtered: any[] = [];
+    if(this.seleccionPlantilla){
+      if (this.seleccionPlantilla.id !== undefined && this.seleccionPlantilla.id !== '') {
+        filtered = copyInitialData.filter(data => data.plantilla.id === this.seleccionPlantilla.id);
+      }
+      else{
+        copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+      }
+    }
+    else{
+      copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+    }
+
+    let filtered2: any[] = [];
+    if(this.seleccionRadicado){
+      if (this.seleccionRadicado.id !== undefined && this.seleccionRadicado.id !== '') {
+        filtered2 = filtered.filter(data => data.tipoRadicado.id === this.seleccionRadicado.id);
+      }
+      else{
+        filtered2 = filtered;
+      }
+    }
+    else{
+      filtered2 = filtered;
+    }
+
+    let filtered3: any[] = [];
+    if(this.seleccionClaseDocumental){
+      if (this.seleccionClaseDocumental.id !== undefined && this.seleccionClaseDocumental.id !== '') {
+        filtered3 = filtered2.filter(data => data.claseDocumental.id === this.seleccionClaseDocumental.id);
+      }
+      else{
+        filtered3 = filtered2;
+      }
+    }
+    else{
+      filtered3 = filtered2;
+    }
+    
+
+    this.rows = filtered3;
+
+  }
+
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroPlantilla(){
+    if(this.seleccionPlantilla){
+      if (this.seleccionPlantilla.id === undefined || this.seleccionPlantilla.id === ''){
+        this.seleccionPlantilla = undefined;
+        this.selectFilter('');
+      }
+    }
+    else if (this.seleccionPlantilla === ''){
+      this.seleccionPlantilla = undefined;
+      this.selectFilter('');
     }
   }
+
+  focusOutFiltroRadicado(){
+    if(this.seleccionRadicado){
+      if (this.seleccionRadicado.id === undefined || this.seleccionRadicado.id === ''){
+        this.seleccionRadicado = undefined;
+        this.selectFilter('');
+      }
+    }
+    else if (this.seleccionRadicado === ''){
+      this.seleccionRadicado = undefined;
+      this.selectFilter('');
+    }
+  }
+
+  focusOutClaseDocumental(){
+    if(this.seleccionClaseDocumental){
+      if (this.seleccionClaseDocumental.id === undefined || this.seleccionClaseDocumental.id === ''){
+        this.seleccionClaseDocumental = undefined;
+        this.selectFilter('');
+      }
+    }
+    else if (this.seleccionClaseDocumental === ''){
+      this.seleccionClaseDocumental = undefined;
+      this.selectFilter('');
+    }
+  }
+
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+
+  onClickElminiarSelected() {
+    this.selectedRows = undefined;
+  }
+
+  onClickElminiarSelected2() {
+    this.selectedRowDocument = undefined;
+  }
+
   onConfirm() {
     this.messageService.clear('c');
     this.rows[this.rowIndexValidation].plantilla.codigo = '';
     this.rows[this.rowIndexValidation].plantilla.id = '';
+
+
+    this.rows[this.rowIndexValidation].claseDocumental = this.event;
     this.edited(this.rowIndexValidation);
   }
 
@@ -365,25 +558,19 @@ export class Cumco003Component implements OnInit {
     this.subscribeClaseDocumental('');
   }
 
-
-  edited(rowIndex) {
-    this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
-  }
-
-  editedDocument(rowIndex) {
-    this.tablaDocumentos[rowIndex].state = this.tablaDocumentos[rowIndex].state === 'new' ? 'new' : 'edit';
-  }
-
   onClicBorrarAutoCompletePlantilla() {
     this.seleccionPlantilla = undefined;
+    this.selectFilter('');
   }
 
   onClicBorrarAutoCompleteRadicado() {
     this.seleccionRadicado = undefined;
+    this.selectFilter('');
   }
 
   onClicBorrarAutoCompleteDocumento() {
     this.seleccionClaseDocumental = undefined;
+    this.selectFilter('');
   }
 
   onClicAgregar() {
@@ -445,21 +632,13 @@ export class Cumco003Component implements OnInit {
       terminoRequerimiento: 0,
       prorrogaEntidad: 0,
       prorrogaPeticionario: 0,
-      diasRequerimiento: 0,
-      diasProrroga: 0,
+      diasRequerimiento: undefined,
+      diasProrroga: undefined,
       cantidad: 0,
       state: 'new'
     }
     this.rows = [...this.rows, element];
     this.idRow += 1;
-  }
-
-  searchTabla($event) {
-    this.subscribeTablaDocumento();
-  }
-
-  searchClaseDocumental($event) {
-    this.subscribeTablaDocumento();
   }
 
   onClicAgregarComunicacion() {
@@ -472,7 +651,7 @@ export class Cumco003Component implements OnInit {
       codigoDescripcionGuion: '',
       claseDocumental: {
         id: '',
-        descripcion: '',
+        descripcion: String.fromCharCode(127),
         codigo: ''
       },
       editable: 1,
@@ -485,7 +664,13 @@ export class Cumco003Component implements OnInit {
   }
 
   onClicEliminarComunicacion() {
-    if (this.tablaDocumentos && this.selectedRowDocument.state !== 'new') {
+    if (this.selectedRowDocument && !this.selectedRowDocument.editable) {
+      const error = this.translate.instant('CUMCO003.MENSAJES.eliminarRegistroError',
+        { codigo: this.selectedRowDocument.codigo, descripcion: this.selectedRowDocument.descripcion });
+      this.showMessage('error', error, '');
+      return
+    }
+    else if (this.selectedRowDocument && this.selectedRowDocument.state !== 'new') {
       this.tablaDocumentos.find(row => row === this.selectedRowDocument).state = this.selectedRowDocument.state === 'delete' ? 'edit' : 'delete';
     } else if (this.selectedRowDocument && this.selectedRowDocument.state === 'new') {
       let index = this.tablaDocumentos.indexOf(this.selectedRowDocument);
@@ -496,146 +681,457 @@ export class Cumco003Component implements OnInit {
 
   onClicGuardarComuniacion() {
     if (!this.camposValidos()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.errorGuardar');
-      this.showMessage('error', 'Error ', error);
-    } else if (!this.validarRepetidos()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.repetidos',
-      {NombreComunicacionOficial: this.repetido } );
-      this.showMessage('error', 'Error ', error);
+      return
+    }
+    else if (!this.validarRepetidos()) {
+      return;
     } else {
       this.subcribeRecorridoRepartoFisico(this.buildJsonComunicacion());
     }
   }
 
-  validarRepetidos(): any {
-    let couples: string[] = [];
-    let counter = {};
-    var result = [];
-    this.tablaDocumentos.forEach(row => {
-      couples.push(row.codigo + row.claseDocumental.descripcion);
-    })
-
-    couples.forEach(function(couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
-
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-        this.repetido = prop;
-      }
+  onClicEliminar() {
+    if (this.rows && this.selectedRows.state !== 'new') {
+      this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+    } else if (this.selectedRows && this.selectedRows.state === 'new') {
+      let index = this.rows.indexOf(this.selectedRows);
+      this.rows = this.rows.filter((val, i) => i !== index);
+      this.selectedRows = undefined;
     }
-    return result.length === 0 ? true : false;
-
-  }
-  camposValidos(): any {
-    let valido = true;
-    this.tablaDocumentos.forEach(row => {
-      valido = valido && (row.codigo === '' || row.codigo === String.fromCharCode(127) ? false : true
-        && row.claseDocumental.descripcion === '' ? false : true
-          && row.claseDocumental.descripcion === '' ? false : true);
-    })
-    return valido;
   }
 
   onClicGuardar() {
     if (!this.validarCamposPlantilla()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.errorGuardar');
-      this.showMessage('error', 'Error ', error);
+      return
     } else if (!this.validarRepetidosPlantillaSubtipoTipo()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosPlantillaSubtipoTipo',
-      {nombrePlantilla: this.repetidoPlantilla.plantilla.codigo,
-       nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
-       nombreTipoDoc: this.repetidoPlantilla.tipoDocumental.descripcion } );
-      this.showMessage('error', 'Error ', error);
-    } else if (!this.validarRepetidosPlantillaSubtipoClase()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosPlantillaSubtipoClase',
-      {nombrePlantilla: this.repetidoPlantilla.plantilla.codigo,
-       nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
-    claseDocumental: this.repetidoPlantilla.claseDocumental.descripcion} );
-      this.showMessage('error', 'Error ', error);
-    } else if (!this.validarRepetidosSubtipoClase()) {
-      const error = this.translate.instant('CUMCO003.MENSAJES.repetidosSubtipoClase',
-      {nombreSubtipo: this.repetidoPlantilla.tramiteTipoRadicado.descripcion,
-      claseDocumental: this.repetidoPlantilla.claseDocumental.descripcion} );
-      this.showMessage('error', 'Error ', error);
-    } else {
+      return
+    }
+    else if (!this.validarClaseDiferentePlantillaSubtipo()) {
+      return
+    }
+    else if (!this.validarEntradaReactivarTerminos()) {
+      return
+    }
+    else if (!this.validarEntradaSubRadicadoTipoDocumental()) {
+      return
+    }
+    else {
       this.subcribeGuardarPlantilla(this.buildJsonPlantilla());
+    }
+  }
+
+  // Eventos ONCHANGE en CHECKBOX -- Eventos ONCHANGE en CHECKBOX
+  // Eventos ONCHANGE en CHECKBOX -- Eventos ONCHANGE en CHECKBOX}
+
+
+  // Eventos KEYDOWN en INPUT -- Eventos KEYDOWN en INPUT
+  // Eventos KEYDOWN en INPUT -- Eventos KEYDOWN en INPUT
+
+  keyDownDiasRequerimiento(row: any) {
+    if (row.diasRequerimiento < 1) {
+      row.diasRequerimiento = undefined;
+      const error = this.translate.instant('CUMCO003.MENSAJES.diasRequerimientoError');
+      this.showMessage('error', error, '');
+    }
+    this.edited(0);
+  }
+
+  keyDownDiasProrroga(row: any) {
+    if (row.diasProrroga < 1) {
+      row.diasProrroga = undefined;
+      const error = this.translate.instant('CUMCO003.MENSAJES.diasProrrogaError');
+      this.showMessage('error', error, '');
+    }
+    this.edited(0);
+  }
+
+
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+
+  validarRepetidos(): any {
+    for (var _i = 0; _i < this.tablaDocumentos.length; _i++) {
+      for (var _k = _i + 1; _k < this.tablaDocumentos.length; _k++) {
+        if (this.tablaDocumentos[_k].codigo == this.tablaDocumentos[_i].codigo &&
+          this.tablaDocumentos[_k].claseDocumental.id == this.tablaDocumentos[_i].claseDocumental.id) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.repetidos',
+            {
+              filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+              codigo: this.tablaDocumentos[_k].codigo,
+              claseDocumental: this.tablaDocumentos[_k].claseDocumental.descripcion
+            });
+          this.showMessage("error", error, '');
+          return false;
+        }
+        else if (this.tablaDocumentos[_k].descripcion.trim() == this.tablaDocumentos[_i].descripcion.trim()) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.repetidoComunicacion',
+            {
+              filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+              NombreComunicacionOficial: this.tablaDocumentos[_i].descripcion.trim()
+            });
+          this.showMessage("error", error, '');
+          return false;
+        }
+      }
+    }
+    return true;
+
+  }
+
+  camposValidos(): any {
+
+    for (var _i = 0; _i < this.tablaDocumentos.length; _i++) {
+
+      if (this.tablaDocumentos[_i].codigo === '' || this.tablaDocumentos[_i].codigo === String.fromCharCode(127)) {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          {
+            filaRep1: String(_i + 1),
+            campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla1')
+          });
+        this.showMessage("error", error, '');
+        return false;
+      }
+      else if (this.tablaDocumentos[_i].descripcion === '') {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          {
+            filaRep1: String(_i + 1),
+            campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla2')
+          });
+        this.showMessage("error", error, '');
+        return false;
+      }
+      else if (this.tablaDocumentos[_i].claseDocumental.id === '' || this.tablaDocumentos[_i].claseDocumental.id === undefined) {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          {
+            filaRep1: String(_i + 1),
+            campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla3')
+          });
+        this.showMessage("error", error, '');
+        return false;
+      }
+
+    }
+    return true;
+
+  }
+
+  validacionEntrada(rowIndex, event) {
+    this.rowIndexValidation = rowIndex;
+    this.event = event;
+    console.log(this.rows[rowIndex]);
+    if (event.id === 1 && this.rows[rowIndex].plantilla.id !== '') {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 'c', sticky: true, severity: 'warn',
+        summary: this.translate.instant('CUMCO003.MENSAJES.claseDocNoRequierePlantilla'),
+        detail: this.translate.instant('CUMCO003.MENSAJES.detalleClaseDocNoRequierePlantilla')
+      });
+    } else {
+      this.rows[rowIndex].claseDocumental = event;
+      this.edited(rowIndex);
     }
   }
 
   validarCamposPlantilla(): any {
     let valido = true;
-    this.rows.forEach(row => {
-      valido = valido && (row.tipoRadicado.id === '' ? false : true
-        && row.tramiteTipoRadicado.id === '' ? false : true
-          && row.tipoDocumental.id === '' ? false : true
-            && row.claseDocumental.id === '' ? false : true
-              && (row.claseDocumental.id !== 1 && row.plantilla.id === '') ? false : true);
-    })
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      let errIndex = _i + 1;
+
+      if (this.rows[_i].tipoRadicado.id === '') {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla2') });
+        this.showMessage('error', error, '');
+        valido = false;
+      }
+      else if (this.rows[_i].tramiteTipoRadicado.id === '') {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla3') });
+        this.showMessage('error', error, '');
+        valido = false;
+      }
+      else if (this.rows[_i].tipoDocumental.id === '') {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla4') });
+        this.showMessage('error', error, '');
+        valido = false;
+      }
+      else if (this.rows[_i].claseDocumental.id === '') {
+        const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
+          { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla5') });
+        this.showMessage('error', error, '');
+        valido = false;
+      }
+      else if (this.rows[_i].claseDocumental.codigoDescripcion != '2 Entrada') {
+        if (this.rows[_i].plantilla.id === '') {
+          const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaPlantillaVacioError',
+            { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla1') });
+          this.showMessage('error', error, '');
+          valido = false;
+        }
+      }
+      else if (this.rows[_i].terminoRequerimiento) {
+        if (!this.rows[_i].diasRequerimiento) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaDiasReqVacioError',
+            { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla7') });
+          this.showMessage('error', error, '');
+          valido = false;
+        }
+        else if (this.rows[_i].diasRequerimiento <= 0) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaDiasMayorError',
+            { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla7') });
+          this.showMessage('error', error, '');
+          valido = false;
+        }
+      }
+      else if (this.rows[_i].prorrogaEntidad || this.rows[_i].prorrogaPeticionario) {
+        if (!this.rows[_i].diasProrroga) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaDiasProVacioError',
+            { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla10') });
+          this.showMessage('error', error, '');
+          valido = false;
+        }
+        else if (this.rows[_i].diasProrroga <= 0) {
+          const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaDiasMayorError',
+            { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla10') });
+          this.showMessage('error', error, '');
+          valido = false;
+        }
+      }
+    }
     return valido;
   }
 
   validarRepetidosPlantillaSubtipoTipo(): any {
-    let couples: string[] = [];
-    let counter = {};
-    var result = [];
-    this.rows.forEach(row => {
-      couples.push(row.plantilla.id + row.tramiteTipoRadicado.id + row.tipoDocumental.id);
-      this.repetidoPlantilla = row;
-    })
 
-    couples.forEach(function(couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
 
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-        this.rows.forEach(row => {
-          if(prop === row.plantilla.id + row.tramiteTipoRadicado.id + row.tipoDocumental.id) {
-            this.repetidoPlantilla = row;
+        if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+
+          if (this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+            this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
+            this.rows[_k].plantilla.id === this.rows[_i].plantilla.id) {
+
+            const error = this.translate.instant('CUMCO003.MENSAJES.campoSubRadciadoTipoDocumentalRepetidoError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                plantilla: this.rows[_i].plantilla.codigo,
+                subRadicado: this.rows[_i].tramiteTipoRadicado.descripcion,
+                tipoDocumental: this.rows[_i].tipoDocumental.descripcion
+              });
+            this.showMessage("error", error, '');
+            return false;
           }
-        })
+
+        }
       }
     }
-    return result.length === 0 ? true : false;
+
+
+    if (this.seleccionPlantilla || this.seleccionRadicado || this.seleccionClaseDocumental) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialData1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.rows.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.rows.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+              filteredInitialData[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
+              filteredInitialData[_k].plantilla.id === this.rows[_i].plantilla.id) {
+  
+              const error = this.translate.instant('CUMCO003.MENSAJES.campoSubRadciadoTipoDocumentalRepetidoFiltradoError',
+                {
+                  filaRep1: String(_i + 1),
+                  plantilla: filteredInitialData[_k].plantilla.codigo,
+                  subRadicado: filteredInitialData[_k].tramiteTipoRadicado.descripcion,
+                  tipoDocumental: filteredInitialData[_k].tipoDocumental.descripcion
+                });
+              this.showMessage("error", error, '');
+              return false;
+            }
+  
+          }
+        }
+      }
+
+    }
+
+    return true;
 
   }
 
-  validarRepetidosPlantillaSubtipoClase(): any {
-    let couples: string[] = [];
-    let counter = {};
-    var result = [];
-    this.rows.forEach(row => {
-      couples.push(row.plantilla.id + row.tramiteTipoRadicado.id + row.claseDocumental.id);
-      this.repetidoPlantilla = row;
-    })
+  validarClaseDiferentePlantillaSubtipo(): any {
 
-    couples.forEach(function(couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
 
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-        this.rows.forEach(row => {
-          if(prop === row.plantilla.id + row.tramiteTipoRadicado.id + row.claseDocumental.id) {
-            this.repetidoPlantilla = row;
+        if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+
+          if (this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+            this.rows[_k].plantilla.id === this.rows[_i].plantilla.id &&
+            this.rows[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id) {
+
+            const error = this.translate.instant('CUMCO003.MENSAJES.claseDocumentalDiferenteError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                plantilla: this.rows[_k].plantilla.codigo,
+                subRadicado: this.rows[_k].tramiteTipoRadicado.descripcion
+              });
+            this.showMessage("error", error, '');
+            return false;
           }
-        })
+
+        }
+
+      }
+
+    }
+
+    if (this.seleccionPlantilla || this.seleccionRadicado || this.seleccionClaseDocumental) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialData1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.rows.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.rows.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+              filteredInitialData[_k].plantilla.id === this.rows[_i].plantilla.id &&
+              filteredInitialData[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id) {
+  
+              const error = this.translate.instant('CUMCO003.MENSAJES.claseDocumentalDiferenteFiltradoError',
+                {
+                  filaRep1: String(_i + 1),
+                  plantilla: this.rows[_i].plantilla.codigo,
+                  subRadicado: this.rows[_i].tramiteTipoRadicado.descripcion
+                });
+              this.showMessage("error", error, '');
+              return false;
+            }
+  
+          }
+  
+        }
+  
+      }
+
+    }
+
+    return true;
+
+  }
+
+  validarEntradaReactivarTerminos(): any {
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+
+      if (this.rows[_i].tipoDocumental.accion !== undefined) {
+        if (this.rows[_i].claseDocumental.id === 1 && this.rows[_i].tipoDocumental.accion.id === 1 && this.rows[_i].state !== 'delete') {
+          const error = this.translate.instant('CUMCO003.MENSAJES.entradaReactivarTerminosError',
+            { filaError: String(_i + 1) });
+          this.showMessage("error", error, '');
+          return false;
+
+        }
       }
     }
-    return result.length === 0 ? true : false;
+    return true;
+
+  }
+
+  validarEntradaSubRadicadoTipoDocumental(): any {
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
+
+        if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+
+          if ((this.rows[_k].claseDocumental.id === 1 || this.rows[_i].claseDocumental.id === 1) &&
+            this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+            this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id) {
+
+            const error = this.translate.instant('CUMCO003.MENSAJES.entradaSubRadicadoTipoDocumentalRepetidoError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                subRadicado: this.rows[_k].tramiteTipoRadicado.descripcion,
+                tipoDocumental: this.rows[_k].tipoDocumental.descripcion
+              });
+            this.showMessage("error", error, '');
+            return false;
+          }
+
+        }
+
+      }
+    }
+
+    if (this.seleccionPlantilla || this.seleccionRadicado || this.seleccionClaseDocumental) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialData1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.rows.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.rows.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if ((filteredInitialData[_k].claseDocumental.id === 1 || this.rows[_i].claseDocumental.id === 1) &&
+            filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+            filteredInitialData[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id) {
+  
+              const error = this.translate.instant('CUMCO003.MENSAJES.entradaSubRadicadoTipoDocumentalRepetidoFiltradoError',
+                {
+                  filaRep1: String(_i + 1),
+                  subRadicado: filteredInitialData[_k].tramiteTipoRadicado.descripcion,
+                  tipoDocumental: filteredInitialData[_k].tipoDocumental.descripcion
+                });
+              this.showMessage("error", error, '');
+              return false;
+            }
+  
+          }
+        }
+      }
+
+    }
+
+    return true;
 
   }
 
@@ -648,7 +1144,7 @@ export class Cumco003Component implements OnInit {
       this.repetidoPlantilla = row;
     })
 
-    couples.forEach(function(couple) {
+    couples.forEach(function (couple) {
       if (!counter[couple]) {
         counter[couple] = 0;
       }
@@ -659,7 +1155,7 @@ export class Cumco003Component implements OnInit {
       if (counter[prop] >= 2) {
         result.push(prop);
         this.rows.forEach(row => {
-          if(prop === row.tramiteTipoRadicado.id + row.claseDocumental.id) {
+          if (prop === row.tramiteTipoRadicado.id + row.claseDocumental.id) {
             this.repetidoPlantilla = row;
           }
         })
@@ -669,15 +1165,134 @@ export class Cumco003Component implements OnInit {
 
   }
 
-  onClicEliminar() {
-    if (this.rows && this.selectedRows.state !== 'new') {
-      this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
-    } else if (this.selectedRows && this.selectedRows.state === 'new') {
-      let index = this.rows.indexOf(this.selectedRows);
-      this.rows = this.rows.filter((val, i) => i !== index);
-      this.selectedRows = undefined;
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablass
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
+
+  edited(rowIndex) {
+    console.log('Entro Edited');
+    this.compareInitialData(this.rows, this.initialData1);
+  }
+
+  editedDocument(rowIndex) {
+    //this.tablaDocumentos[rowIndex].state = this.tablaDocumentos[rowIndex].state === 'new' ? 'new' : 'edit';
+    this.compareInitialData(this.tablaDocumentos, this.initialData2);
+  }
+
+
+  onchangeTerminoRequerimiento(row) {
+    if (row.terminoRequerimiento === 0) {
+      row.diasRequerimiento = undefined;
+    }
+    this.edited(0);
+  }
+
+  onchangeDiasProrroga(row) {
+    if (row.prorrogaEntidad === 0 && row.prorrogaPeticionario === 0) {
+      row.diasProrroga = undefined;
+    }
+    this.edited(0);
+  }
+
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+
+  compareInitialData(currentData: any[], initialData: any[]) {
+
+    console.log(currentData);
+    console.log(initialData);
+
+    for (var _i = 0; _i < currentData.length; _i++) {
+
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit") {
+        var keys = Object.keys(currentData[_i]);
+        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        var areEqual = true;
+        for (const key of keys) {
+          if (typeof currentData[_i][key] === "object") {
+
+            if (currentData[_i][key].id !== initialDataValue[0][key].id) {
+              areEqual = false;
+            }
+
+          }
+          else {
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state") {
+              areEqual = false;
+            }
+          }
+
+        }
+        if (areEqual) {
+          currentData[_i].state = "noedit";
+        }
+        else {
+          currentData[_i].state = "edit";
+        }
+
+      }
     }
   }
+
+  // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado
+  // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado
+
+  gteRowColorState(rowData: any) {
+
+    switch (rowData.state) {
+      case 'new': {
+        return { 'background-color': '#77DD77' };
+        break;
+      }
+      case 'delete': {
+        return { 'background-color': '#D36E70' };
+        break;
+      }
+      case 'edit': {
+        return { 'background-color': '#E3B778' };
+        break;
+      }
+      default: {
+        return {};
+        break;
+      }
+    }
+
+  }
+
+
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+
+  // Metodos para Mostrar MENSAJES
+  showMessage(sev: string, sum: string, det: string) {
+    this.msgs = [];
+    this.msgs.push({ severity: sev, summary: sum, detail: det });
+
+    (async () => {
+      const waitTime = 5;
+      await this.messageTimeout(waitTime * 1000);
+      this.hideMessage();
+    })();
+  }
+
+  // Metodos para Ocultar MENSAJES
+  hideMessage() {
+    this.msgs = [];
+    this.msgs2 = [];
+  }
+
+  // Metodos para Ocultar MENSAJES despues de un tiempo
+  messageTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Metodos para Ocultar MENSAJES al hacer click (mousedouwn) en cualquier lado
+  @HostListener('document:mousedown') clickDOM() {
+    this.hideMessage();
+  };
+
+  // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
+  // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
   buildJsonPlantilla() {
     let fields = [
@@ -888,8 +1503,8 @@ export class Cumco003Component implements OnInit {
             "prorrogaEntidad": row.prorrogaEntidad,
             "prorrogaPeticionario": row.prorrogaPeticionario,
             "diasProrroga": row.diasProrroga,
-            "tipoComunicacion.id": row.tipoComunicacion.id,
-            "tipoComunicacion.codigoDescripcion": row.tipoComunicacion.codigoDescripcion,
+            "tipoComunicacion.id": row.tipoComunicacion.id ? row.tipoComunicacion.id : '',
+            "tipoComunicacion.codigoDescripcion": row.tipoComunicacion.codigoDescripcion ? row.tipoComunicacion.codigoDescripcion : '',
             "claseDocumental.codigo": row.claseDocumental.codigo,
             "claseDocumental.descripcion": row.claseDocumental.descripcion,
             "plantilla.jsonConfiguracion": "",
@@ -900,9 +1515,9 @@ export class Cumco003Component implements OnInit {
             "tipoRadicado.descripcion": row.tipoRadicado.descripcion,
             "tipoRadicado.codigo": row.tipoRadicado.codigo,
             "tipoRadicado.activo": row.tipoRadicado.activo,
-            "tipoComunicacion.descripcion": row.tipoComunicacion.descripcion,
-            "tipoComunicacion.codigo": row.tipoComunicacion.codigo,
-            "tipoComunicacion.activo": row.tipoComunicacion.activo,
+            "tipoComunicacion.descripcion": row.tipoComunicacion.descripcion ? row.tipoComunicacion.descripcion : '',
+            "tipoComunicacion.codigo": row.tipoComunicacion.codigo ? row.tipoComunicacion.codigo : '',
+            "tipoComunicacion.activo": row.tipoComunicacion.activo ? row.tipoComunicacion.activo : '',
             "tramiteTipoRadicado.webfile": row.tramiteTipoRadicado.webfile,
             "tramiteTipoRadicado.entrada": row.tramiteTipoRadicado.entrada,
             "tramiteTipoRadicado.modificarDiaTermino": row.tramiteTipoRadicado.modificarDiaTermino,
@@ -931,7 +1546,7 @@ export class Cumco003Component implements OnInit {
             "prorrogaEntidad": row.prorrogaEntidad,
             "prorrogaPeticionario": row.prorrogaPeticionario,
             "diasProrroga": "",
-            "tipoComunicacion.id": row.tipoComunicacion.id,
+            "tipoComunicacion.id": row.tipoComunicacion.id ? row.tipoComunicacion.id : '',
             "tipoComunicacion.codigoDescripcion": "",
             "claseDocumental.codigo": "",
             "claseDocumental.descripcion": "",
@@ -1063,64 +1678,13 @@ export class Cumco003Component implements OnInit {
     };
   }
 
-
-  gteRowColorState(rowData: any){
-
-    switch(rowData.state) {
-      case 'new': {
-        return {'background-color': '#77DD77'};
-        break;
-      }
-      case 'delete': {
-        return {'background-color': '#D36E70'};
-        break;
-      }
-      case 'edit': {
-        return {'background-color': '#E3B778'};
-        break;
-      }
-      default: {
-        return {};
-        break;
-      }
-   }
-
+  prueba(event) {
+    console.log(event);
+    if (this.seleccionPlantilla === '' || this.seleccionPlantilla === undefined) {
+      console.log('1');
+      this.seleccionPlantilla = undefined;
+    }
   }
-
-  prueba(rowIndex){
-    console.log(rowIndex);
-  }
-
-
-    // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
-  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
-
-  // Metodos para Mostrar MENSAJES
-  showMessage(sev: string, sum: string, det: string) {
-    this.msgs = [];
-    this.msgs.push({severity: sev, summary: sum, detail: det});
-
-    (async () => {
-      const waitTime = 5;
-      await this.messageTimeout(waitTime * 1000);
-      this.hideMessage();
-    })();
-  }
-
-  // Metodos para Ocultar MENSAJES
-  hideMessage() {
-    this.msgs = [];
-  }
-
-  // Metodos para Ocultar MENSAJES despues de un tiempo
-  messageTimeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  // Metodos para Ocultar MENSAJES al hacer click (mousedouwn) en cualquier lado
-  @HostListener('document:mousedown') clickDOM() {
-    this.hideMessage();
-  };
 
 }
 

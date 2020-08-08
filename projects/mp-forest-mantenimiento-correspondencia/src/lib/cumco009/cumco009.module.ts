@@ -15,6 +15,7 @@ import { CUMCO009RoutingModule } from './cumco009-routing.module';
 import { ToastModule } from 'primeng/toast';
 
 import { translateModule } from '../cumco001/cumco001.module';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { translateModule } from '../cumco001/cumco001.module';
     ToolbarModule,
     TableModule,
     ToastModule,
+    MessagesModule,
     translateModule
   ],
   providers: [],

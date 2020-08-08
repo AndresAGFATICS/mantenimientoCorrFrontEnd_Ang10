@@ -4,7 +4,7 @@ import { CUMCO013Component } from './cumco013.component';
 
 const routes: Routes = [
   {path: '', component: CUMCO013Component},
-  {path: 'mantenimiento_correspondencia/configurar_caracteristicas_terceros_013', component: CUMCO013Component}
+  {path: 'mant-corr/configurar-terceros', component: CUMCO013Component}
 ];
 
 export const routersCUMCO013 = RouterModule.forChild(routes);

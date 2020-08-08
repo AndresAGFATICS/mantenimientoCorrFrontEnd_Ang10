@@ -4,7 +4,7 @@ import { CUMCO009Component } from './cumco009.component';
 
 const routes: Routes = [
   {path: '', component: CUMCO009Component},
-  {path: 'mantenimiento_correspondencia/configurar_tipos_persona_tipos_identificacion_009', component: CUMCO009Component}
+  {path: 'mant-corr/configurar-tipos-persona', component: CUMCO009Component}
 ];
 
 export const routersCUMCO009 = RouterModule.forChild(routes);

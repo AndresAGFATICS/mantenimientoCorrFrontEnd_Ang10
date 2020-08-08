@@ -4,7 +4,7 @@ import { CUMCO010Component } from './cumco010.component';
 
 const routes: Routes = [
   {path: '', component: CUMCO010Component},
-  {path: 'mantenimiento_correspondencia/configurar_motivos_devolucion_010', component: CUMCO010Component}
+  {path: 'mant-corr/configurar-motivos-devolucion', component: CUMCO010Component}
 ];
 
 export const routersCUMCO010 = RouterModule.forChild(routes);

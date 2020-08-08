@@ -4,7 +4,7 @@ import { Cumco017Component } from './cumco017.component';
 
 const routes: Routes = [
   {path: '', component: Cumco017Component},
-  {path: 'mantenimiento_correspondencia/administrar_grupos_seguridad_017', component: Cumco017Component}
+  {path: 'mant-corr/administrar-grupos-seguridad', component: Cumco017Component}
 ];
 
 export const routersCUMCO017 = RouterModule.forChild(routes);

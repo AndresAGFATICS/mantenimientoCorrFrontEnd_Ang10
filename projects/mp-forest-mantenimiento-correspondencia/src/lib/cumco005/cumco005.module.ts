@@ -19,6 +19,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 
 import { translateModule } from '../cumco001/cumco001.module';
+import { MessagesModule } from 'primeng/messages';
 
 
 
@@ -40,6 +41,7 @@ import { translateModule } from '../cumco001/cumco001.module';
     TableModule,
     CheckboxModule,
     ToastModule,
+    MessagesModule,
     translateModule
   ],
   providers: [],

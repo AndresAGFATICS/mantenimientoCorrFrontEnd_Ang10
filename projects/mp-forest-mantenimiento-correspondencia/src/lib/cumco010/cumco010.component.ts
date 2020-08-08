@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Cumco010Service } from '../cumco010/servicio/cumco010.service';
-import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
-//import * as confJson from '../../assets/i18n/es.json';
+
+// Importacion Modulo de Mensajes
+import { Message } from 'primeng//api';
+import { MessageService } from 'primeng/api';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-cumco010',
@@ -12,6 +15,9 @@ import { TranslateService } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class CUMCO010Component implements OnInit {
+
+  // Variables para los mensajes
+  msgs: Message[] = [];
 
   tablaDevolucion: any[];
   filtroDevolucion: any[];
@@ -108,11 +114,35 @@ export class CUMCO010Component implements OnInit {
     this.seleccionFiltro = undefined;
   }
 
-  showMessage(mensaje: string, severity: string) {
-    window.scroll(0, 0);
-    this.messageService.clear();
-    this.messageService.add({ severity: severity, summary: mensaje });
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
+  // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
+   
+  // Metodos para Mostrar MENSAJES
+  showMessage(det: string, sev: string) {
+    this.msgs = [];
+    this.msgs.push({severity: sev, summary: '', detail: det});
+
+    (async () => {
+      const waitTime = 5;
+      await this.messageTimeout(waitTime * 1000);
+      this.hideMessage();
+    })();
   }
+
+  // Metodos para Ocultar MENSAJES
+  hideMessage() {
+    this.msgs = [];
+  }
+
+  // Metodos para Ocultar MENSAJES despues de un tiempo
+  messageTimeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Metodos para Ocultar MENSAJES al hacer click (mousedouwn) en cualquier lado
+  @HostListener('document:mousedown') clickDOM() {
+    this.hideMessage();
+  };
 
   editedDevolucion(rowIndex) {
 
@@ -135,17 +165,21 @@ export class CUMCO010Component implements OnInit {
     // }
     this.rows[rowIndex].state = this.rows[rowIndex].state === 'new'? 'new': 'edit';
   }
-
+ 
   agregarClick() {
-      this.rows.push({
+      this.idRow += 1;
+
+      let newElement = {
         idRow: this.idRow,
         id: '',
         activo: 1,
         descripcion: '',
         state: 'new'
-      });
-      this.idRow +=1;
+      }
+      this.rows = [...this.rows, newElement];
+      this.idRow += 1;
   }
+
   onGuardarConfiguracion() {
     if(this.validForm()) {
       this.subcribeGuardarPersonas(this.buildJson());
