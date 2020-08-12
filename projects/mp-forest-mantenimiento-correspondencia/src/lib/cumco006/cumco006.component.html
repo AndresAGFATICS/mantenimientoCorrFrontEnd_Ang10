@@ -8,7 +8,7 @@
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
-              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ 'CUMCO006.FILTROS.filtroCanalConfigurarPlaceHolder' | translate }}" (onChange) ="actualizarHora()"></p-dropdown>
+              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ 'CUMCO006.FILTROS.filtroCanalConfigurarPlaceHolder' | translate }}" (onChange)="actualizarHora()"></p-dropdown>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
 
         <div class="ui-g">
           <div class="ui-g-12">
-            <p-calendar  [timeOnly]="true" [(ngModel)]="hora.horaInicial" dataType="string"   [disabled]="seleccionCanal===undefined"></p-calendar>
+            <p-calendar  [timeOnly]="true" [(ngModel)]="hora.horaInicial" dataType="string"  [disabled]="seleccionCanal===undefined"></p-calendar>
           </div>
         </div>
 
@@ -79,7 +79,14 @@
 
     <p-messages [(value)]="msgs"></p-messages>
     <!-- Start Table -->
-    <p-table [columns]="cols" [value]="listaFestivo" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="seleccionFestivo">
+    <p-table [columns]="cols" [value]="listaFestivo" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="seleccionFestivo">
+
+       <!-- Table Column Width -->
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col style="width:5%"> 
+        </colgroup>
+      </ng-template>
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">

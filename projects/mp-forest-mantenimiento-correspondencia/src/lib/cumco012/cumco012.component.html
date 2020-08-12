@@ -24,6 +24,14 @@
           <p-table [columns]="cols" [value]="rows"
           [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]"
           selectionMode="single" [(selection)]="selectedRow">
+          
+          <!-- Table Column Width -->
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col style="width:5%"> 
+            </colgroup>
+          </ng-template>
+
 
               <!-- Table Caption -->
               <ng-template pTemplate="caption">
@@ -53,7 +61,7 @@
                       <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
                           <div [ngSwitch]="i">
-                              <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+                              <div *ngSwitchCase="0"> {{rowIndex + 1}} </div>
                               <div *ngSwitchCase="1">
                                   <p-cellEditor>
 
@@ -74,7 +82,7 @@
                               <div *ngSwitchCase="2">
                                 <div class="ui-g">
                                     <div class="ui-g-12">
-                                      <p-calendar  [timeOnly]="true" [(ngModel)]="row[col.field]" dataType="string" [disabled]="rowIndex!==0" (onClose)="validarHora(rowIndex)" (onFocus)="guardarHora(rowIndex)"></p-calendar>
+                                      <p-calendar  [timeOnly]="true" [(ngModel)]="row[col.field]" dataType="string" [disabled]="row.state !== 'new' || row.idIndex !== 0" (onClose)="validarHora(rowIndex)" (onFocus)="guardarHora(rowIndex)"></p-calendar>
                                     </div>
                                 </div>
                               </div>

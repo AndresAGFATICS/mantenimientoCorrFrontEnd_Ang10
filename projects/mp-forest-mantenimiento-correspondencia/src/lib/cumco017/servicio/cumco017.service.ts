@@ -30,11 +30,21 @@ export class Cumco017Service extends GeneralService {
 
   // Table 2 Services
   public getRadicadoNoAnuladoCruzado(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/radicado?anulado=0&esReferenciadoCurzada=0' + parameters); // &numrad=1-2019-ER-000003
+    //return this.get('/forest/documentos/1.0.0/radicado?anulado=0&esReferenciadoCurzada=0' + parameters); // &numrad=1-2019-ER-000003
+    if(this._IN_DEVELOP){
+      return this.get('/mnt-corr//1.0.0/RelacionGrupoSeguridadRadicado' + parameters); // ?numRad=20190Secria0
+    }else{
+      return this.get('/mnt-corr//1.0.0/RelacionGrupoSeguridadRadicado' + parameters);
+    }
   }
 
   public getRadicadoFuncionarioAsociado(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/grupoSeguridad/funcionariosAsociados' + parameters); // ?idRadicado=299
+    //return this.get('/forest/documentos/1.0.0/grupoSeguridad/funcionariosAsociados' + parameters); // ?idRadicado=299
+    if(this._IN_DEVELOP){
+      return this.get('/mnt-corr//1.0.0/RelacionGrupoSeguridadRadicado' + parameters); // ?idRadicado=299
+    }else{
+      return this.get('/mnt-corr//1.0.0/RelacionGrupoSeguridadRadicado' + parameters);
+    }
   }
 
   public getOrganismoDependencia(getParameters: string) {

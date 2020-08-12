@@ -44,6 +44,8 @@ export class Cumco008Component implements OnInit {
  initialStateTablae1 = true;
  cols1: any[];
  idRow1: number;
+ nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+ nRowsTable1 = 10;
 
 
 //Variables Tabla 2
@@ -53,6 +55,8 @@ export class Cumco008Component implements OnInit {
  initialStateTablae2 = true;
  cols2: any[];
  idRow2: number;
+ nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
+ nRowsTable2 = 5;
 
   ngOnInit() {
 
@@ -85,7 +89,7 @@ export class Cumco008Component implements OnInit {
       ];
 
       this.cols2 = [
-        { field: 'id', header: this.translate.instant('CUMCO008.TABLA2.headerTabla0') },
+        { field: 'rowIndex', header: this.translate.instant('CUMCO008.TABLA2.headerTabla0') },
         { field: 'medio_de_envio', header: this.translate.instant('CUMCO008.TABLA2.headerTabla1') },
         { field: 'fuente', header: this.translate.instant('CUMCO008.TABLA2.headerTabla2') },
         { field: 'ventanilla_virtual', header: this.translate.instant('CUMCO008.TABLA2.headerTabla3')}
@@ -148,6 +152,7 @@ export class Cumco008Component implements OnInit {
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
+        this.selectionFilterCanal = undefined;
         this.initialStateTablae1 = true,
         this.subscribeGetCanalEnvio('');
         this.showMessage(respuestaPost.message, "success");
@@ -197,7 +202,7 @@ export class Cumco008Component implements OnInit {
       });
 
   }
-
+ 
   subcribePostAsociacionMedioCanal(body: any){
     var respuestaPost
     this.cumco008Service.postAsociacionMedioCanal(body).subscribe(
@@ -209,10 +214,9 @@ export class Cumco008Component implements OnInit {
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
         const error = this.translate.instant('CUMCO008.MENSAJES.falloGuardar');
-        this.showMessage(error, "error");
+        this.showMessage2(error, "error");
       },
       () => {                 // Fin del suscribe
-        console.log(respuestaPost);
         if (respuestaPost.message == 'La relación del medio de envío null con el canal null no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema' ){
           var detelteData: any;
           this.dataTable2.forEach(element => {
@@ -226,11 +230,40 @@ export class Cumco008Component implements OnInit {
           this.showMessage2(error, "error");
         }
         else{
+          this.selectionFilterMedioEnvio = undefined;
           this.initialStateTablae2 = true,
           this.onClicBorrarSelectedMedioEnvioFilter();
           this.showMessage2(respuestaPost.message, "success");
         }
         
+      });
+
+  }
+
+  subcribeGetRadicadoMedioEnvio(parameters: any){
+    
+    var responseData: any[]; 
+    this.cumco008Service.getRadicadoMedioEnvio(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        responseData = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+
+        if(responseData.length !== 0){
+          console.log('HOLA 2')
+          const error = this.translate.instant('CUMCO008.MENSAJES.medioEnvioAsociadoRadicadodoError',
+                        {medioEnvio: this.selectionTable2.medioEnvio.descripcion , canal: this.selectionTable2.canalEnvio.descripcion  });
+          this.showMessage2(error, "error");
+        }
+        else{
+          this.dataTable2.find(row2 => row2 === this.selectionTable2).state = this.selectionTable2.state === 'delete' ? 'edit' : 'delete';
+          this.editedTable2();
+        }
+
       });
 
   }
@@ -244,8 +277,6 @@ export class Cumco008Component implements OnInit {
 
   searchMedioEnvioFilter(event){
     this.selectionTable2 = undefined;
-    console.log(this.dataTable2);
-    console.log(this.selectionTable2);
     this.subscribeGetMedioEnvioSuggestions('?activo=1' + '&codigoDescripcion=' + event.query) // codigoDescripcion=serv
   }
 
@@ -262,6 +293,36 @@ export class Cumco008Component implements OnInit {
 
   selectMedioEnvioTable(row: any){
     this.editedTable2();
+  }
+
+  
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroCanal(){
+    if(this.selectionFilterCanal){
+      if (this.selectionFilterCanal.id === undefined || this.selectionFilterCanal.id === ''){
+        this.selectionFilterCanal = undefined;
+        this.onClicBorrarSelectedCanalFilter();
+      }
+    }
+    else if (this.selectionFilterCanal === ''){
+      this.selectionFilterCanal = undefined;
+      this.onClicBorrarSelectedCanalFilter();
+    }
+  }
+
+  focusOutFiltroMedioEnvio(){
+    if(this.selectionFilterMedioEnvio){
+      if (this.selectionFilterMedioEnvio.id === undefined || this.selectionFilterMedioEnvio.id === ''){
+        this.selectionFilterMedioEnvio = undefined;
+        this.onClicBorrarSelectedMedioEnvioFilter();
+      }
+    }
+    else if (this.selectionFilterMedioEnvio === ''){
+      this.selectionFilterMedioEnvio = undefined;
+      this.onClicBorrarSelectedMedioEnvioFilter();
+    }
   }
 
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
@@ -347,8 +408,8 @@ export class Cumco008Component implements OnInit {
   onClickEliminar2(){
 
     if (this.selectionTable2 && this.selectionTable2.state !== 'new') {
-      this.dataTable2.find(row => row === this.selectionTable2).state = this.selectionTable2.state === 'delete' ? 'edit' : 'delete';
-      this.editedTable1();
+      console.log('HOLA')
+      this.subcribeGetRadicadoMedioEnvio('?page=1&size=1&anulado=0&medioEnvio=' + String(this.selectionTable2.medioEnvio.id) ); // ?page=1&size=1&medioEnvio=1
     } else if (this.selectionTable2 && this.selectionTable2.state === 'new') {
       let index = this.dataTable2.indexOf(this.selectionTable2);
       this.dataTable2 = this.dataTable2.filter((val, i) => i !== index);
@@ -358,7 +419,10 @@ export class Cumco008Component implements OnInit {
   }
 
   onClickGuardar2(){
-    if(!this.validarCamposVacios2()){
+    if(this.dataTable2.length === 0){
+      return;
+    }
+    else if(!this.validarCamposVacios2()){
       return;
     }
     else if(!this.validarCamposRepetidos2()){
@@ -424,6 +488,7 @@ export class Cumco008Component implements OnInit {
   // Eventos ON_ROW_SELECT en Tablas -- Eventos ON_ROW_SELECT en Tablas
 
   onRowTable1Select(event: any, selectionTable1: any){
+    this.selectionFilterMedioEnvio = undefined;
     this.initialStateTablae2 = true;
     this.suscribeGetMedioCanalEnvio('?idCanal=' + String(selectionTable1.id));
   }
@@ -458,20 +523,62 @@ export class Cumco008Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable1.length; _i++){
       for (var _k = _i+1; _k < this.dataTable1.length; _k++){
-        if (this.dataTable1[_k].codigo === this.dataTable1[_i].codigo && this.dataTable1[_i].state !== 'delete' && this.dataTable1[_k].state !== 'delete'){
+        if (this.dataTable1[_k].codigo.trim() === this.dataTable1[_i].codigo.trim() && this.dataTable1[_i].state !== 'delete' && this.dataTable1[_k].state !== 'delete'){
           const error = this.translate.instant('CUMCO008.MENSAJES.campoCodigoRepetidoError',
                       {filaRep1: String(_i + 1), filaRep2: String(_k + 1), codigo: this.dataTable1[_k].codigo });
                       this.showMessage(error, "error");
           return false;
         }
-        else if (this.dataTable1[_k].descripcion === this.dataTable1[_i].descripcion && this.dataTable1[_i].state !== 'delete' && this.dataTable1[_k].state !== 'delete'){
+        else if (this.dataTable1[_k].descripcion.trim() === this.dataTable1[_i].descripcion.trim() && this.dataTable1[_i].state !== 'delete' && this.dataTable1[_k].state !== 'delete'){
           const error = this.translate.instant('CUMCO008.MENSAJES.campoDescreipcionRepetidoError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), codigo: this.dataTable1[_k].descripcion });
+                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable1[_k].descripcion });
                       this.showMessage(error, "error");
           return false;
         }
       }
     }
+
+
+
+    if (this.selectionFilterCanal) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialDataTable1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.dataTable1.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.dataTable1.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.dataTable1[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].codigo === this.dataTable1[_i].codigo){
+              const error = this.translate.instant('CUMCO008.MENSAJES.campoCodigoRepetidoFiltroError',
+                          {filaRep1: String(_i + 1), codigo: filteredInitialData[_k].codigo });
+                          this.showMessage(error, "error");
+              return false;
+            }
+            else if (filteredInitialData[_k].descripcion === this.dataTable1[_i].descripcion){
+              const error = this.translate.instant('CUMCO008.MENSAJES.campoDescreipcionRepetidoFiltroError',
+                          {filaRep1: String(_i + 1), descripcion: filteredInitialData[_k].descripcion });
+                          this.showMessage(error, "error");
+              return false;
+            }
+  
+          }
+        }
+      }
+
+    }
+
     return true;
 
   }
@@ -497,22 +604,54 @@ export class Cumco008Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable2.length; _i++){
       for (var _k = _i+1; _k < this.dataTable2.length; _k++){
-        if (this.dataTable2[_k].medioEnvio.id === this.dataTable2[_i].medioEnvio.id){
-          console.log('Hola 3')
-          const error = this.translate.instant('CUMCO008.MENSAJES.campoCodigoRepetidoError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), codigo: this.dataTable2[_k].descripcion });
+        if (this.dataTable2[_k].medioEnvio.id === this.dataTable2[_i].medioEnvio.id
+          && this.dataTable2[_k].state !== 'delete' && this.dataTable2[_i].state !== 'delete'){
+          const error = this.translate.instant('CUMCO008.MENSAJES.campoMedioEnvioRepetidoError',
+                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), medioEnvio: this.dataTable2[_k].medioEnvio.descripcion });
                       this.showMessage2(error, "error");
           return false;
         }
       }
     }
+
+
+    if (this.selectionFilterMedioEnvio) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialDataTable2) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.dataTable2.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.dataTable2.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.dataTable2[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].medioEnvio.id === this.dataTable2[_i].medioEnvio.id ){
+              const error = this.translate.instant('CUMCO008.MENSAJES.campoMedioEnvioRepetidoFiltroError',
+                      {filaRep1: String(_i + 1), medioEnvio: filteredInitialData[_k].medioEnvio.descripcion });
+                      this.showMessage2(error, "error");
+              return false;
+            }
+
+          }
+        }
+      }
+
+    }
+
     return true;
 
   }
 
-  validarCamposRepetidosInitial2(): any{
-    return true;
-  }
 
 
   // Metodos EDICION de Tablas -- Metodos EDICION de Tablass

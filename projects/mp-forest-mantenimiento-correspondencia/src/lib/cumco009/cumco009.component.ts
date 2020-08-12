@@ -20,11 +20,17 @@ export class CUMCO009Component implements OnInit {
   msgs: Message[] = [];
   msgs2: Message[] = [];
 
-  tablaPersonas: Persona[];
+  tablaPersonas: any[];
+  initialData1: any[];
+  initialStateData1 = true;
+
+
   tablaIdentificacion: any[];
   seleccionPersona: any;
+  initialData2: any[];
+  initialStateData2 = true;
 
-  rows: Row[] = [];
+  rows: any[] = [];
   seleccionConfiguracion: any;
   // varText: any = confJson;
 
@@ -35,7 +41,7 @@ export class CUMCO009Component implements OnInit {
   responseGuardar: any;
 
 
-
+ 
   text: string;
   results: any[];
   columnasAdjuntos: any[];
@@ -44,6 +50,10 @@ export class CUMCO009Component implements OnInit {
   tablaPersonasFiltro: any[];
   tablaIdentificacionFiltro: any[];
   idRow: number;
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 10;
+  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable2 = 10;
 
 
 
@@ -68,26 +78,27 @@ export class CUMCO009Component implements OnInit {
     this.subscribeIdentficacion();
   }
 
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
+
   subcribeSetColumns() {
     this.translate.get(['']).subscribe(translations => {
 
       this.columnasAdjuntos = [
-        { field: 'id', header: this.translate.instant('CUMCO009.TABLA1.headerTabla0') },
-        { field: 'codPer', header: this.translate.instant('CUMCO009.TABLA1.headerTabla1') },
-        { field: 'tipPer', header: this.translate.instant('CUMCO009.TABLA1.headerTabla2') },
-        { field: 'des', header: this.translate.instant('CUMCO009.TABLA1.headerTabla3') }
+        { field: 'rowIndex', header: this.translate.instant('CUMCO009.TABLA1.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO009.TABLA1.headerTabla1') },
+        { field: 'nombreTipoPersona', header: this.translate.instant('CUMCO009.TABLA1.headerTabla2') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO009.TABLA1.headerTabla3') }
       ];
       this.columnasAdjuntosComunicacion = [
-        { field: 'id', header: this.translate.instant('CUMCO009.TABLA2.headerTabla0') },
-        { field: 'tipPer', header: this.translate.instant('CUMCO009.TABLA2.headerTabla1') },
-        { field: 'codId', header: this.translate.instant('CUMCO009.TABLA2.headerTabla2') },
-        { field: 'tipId', header: this.translate.instant('CUMCO009.TABLA2.headerTabla3') }
+        { field: 'rowIndex', header: this.translate.instant('CUMCO009.TABLA2.headerTabla0') },
+        { field: 'tipoPersona.nombreTipoPersona', header: this.translate.instant('CUMCO009.TABLA2.headerTabla1') },
+        { field: 'id', header: this.translate.instant('CUMCO009.TABLA2.headerTabla2') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO009.TABLA2.headerTabla3') }
       ];
 
     });
   }
-
-
 
   subscribePersona() {
     this.cumco009Service.getPersona().subscribe(
@@ -111,7 +122,16 @@ export class CUMCO009Component implements OnInit {
         this.showMessage(getError.error.message, "error");
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+        
+        if (this.initialStateData1) {
+          this.initialData1 = [];
+          for (const data of this.tablaPersonas) {
+            this.initialData1.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStateData1 = false;
+        }
+
+
       });
   }
 
@@ -160,67 +180,14 @@ export class CUMCO009Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-
+        if (this.initialStateData2) {
+          this.initialData2 = [];
+          for (const data of this.rows) {
+            this.initialData2.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStateData2 = false;
+        }
       });
-  }
-
-
-  rowSelect() {
-    if (this.seleccionPersona) {
-      this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
-    } else {
-      this.rows = [];
-    }
-
-  }
-
-
-  editedPerson(rowIndex) {
-    this.tablaPersonas[rowIndex].state = 'edit';
-  }
-
-  editedIdentification(rowIndex, event) {
-    let count = 0;
-    this.tablaIdentificacion.forEach(row => {
-      if(row.descripcion.toLowerCase() === this.rows[rowIndex].descripcion.toLowerCase() && row.id != this.rows[rowIndex].id){
-        count = count + 1;
-      }
-      //count = count + (row.descripcion.toLowerCase() === this.rows[rowIndex].descripcion.toLowerCase() ? 1 : 0);
-    })
-    console.log(count);
-    if (count >= 1) {
-      this.rows[rowIndex].descripcion = '';
-      const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida');
-      this.showMessage(error, "error");
-    }
-    this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
-  }
-
-  seleccion() {
-    console.log(this.filtroTipoPersona);
-  }
-
-  searchPersona(event) {
-
-    event = event === undefined || event === '' ? '' : event;
-    this.tablaPersonasFiltro = [];
-    for (let i = 0; i < this.tablaPersonas.length; i++) {
-      let persona = this.tablaPersonas[i];
-      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1){
-        this.tablaPersonasFiltro.push(persona);
-      }
-    }
-  }
-
-  searchTipoIdentificacion(event) {
-    event = event === undefined || event === '' ? '' : event;
-    this.tablaIdentificacionFiltro = [];
-    for (let i = 0; i < this.tablaIdentificacion.length; i++) {
-      let persona = this.tablaIdentificacion[i];
-      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1) {
-        this.tablaIdentificacionFiltro.push(persona);
-      }
-    }
   }
 
   subcribeGuardarPersonas(body: string) {
@@ -242,6 +209,8 @@ export class CUMCO009Component implements OnInit {
           this.showMessage(this.responseGuardar.message, "error");
         }
         else {
+          this.filtroTipoPersona = undefined;
+          this.initialStateData1 = true;
           this.showMessage(this.responseGuardar.message, "success");
           this.showMessage(exito, "success");
           this.subscribePersona();
@@ -268,6 +237,8 @@ export class CUMCO009Component implements OnInit {
           this.showMessage2(this.responseGuardar.message, "error");
         }
         else {
+          this.initialStateData2 = true;
+          this.filtroTipoIdentificacion = undefined;
           this.subscribePersona();
           this.subscribeIdentficacion();
           if (this.seleccionPersona) {
@@ -279,14 +250,346 @@ export class CUMCO009Component implements OnInit {
       });
   }
 
+  // Eventos Selecion Fila de la Tabla -- Eventos Selecion Fila de la Tabla
+  // Eventos Selecion Fila de la Tabla -- Eventos Selecion Fila de la Tabla
+
+  rowSelect() {
+    if (this.seleccionPersona) {
+      this.filtroTipoIdentificacion = undefined;
+      this.initialStateData2 = true;
+      this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
+    } else {
+      this.rows = [];
+    }
+
+  }
+
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
+
+  searchPersona(event) {
+
+    event = event === undefined || event === '' ? '' : event;
+    this.tablaPersonasFiltro = [];
+    for (let i = 0; i < this.tablaPersonas.length; i++) {
+      let persona = this.tablaPersonas[i];
+      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1){
+        this.tablaPersonasFiltro.push(persona);
+      }
+    }
+  }
+
+  searchTipoIdentificacion(event) {
+    event = event === undefined || event === '' ? '' : event;
+    this.tablaIdentificacionFiltro = [];
+    for (let i = 0; i < this.tablaIdentificacion.length; i++) {
+      let persona = this.tablaIdentificacion[i];
+      if (persona.idDescripcion.toLowerCase().search(event.query.toLowerCase()) !== -1) {
+        this.tablaIdentificacionFiltro.push(persona);
+      }
+    }
+  }
+
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+
+  selectTipoPersonaFilter(event) {
+
+    const copyInitialData: any[] = [];
+    for (const data of this.initialData1) {
+      copyInitialData.push(JSON.parse(JSON.stringify(data)));
+    }
+
+    let filtered: any[] = [];
+    if(this.filtroTipoPersona){
+      if (this.filtroTipoPersona.id !== undefined && this.filtroTipoPersona.id !== '') {
+        filtered = copyInitialData.filter(data => data.id === this.filtroTipoPersona.id);
+      }
+      else{
+        copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+      }
+    }
+    else{
+      copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+    }
+
+    this.tablaPersonas = filtered;
+
+  }
+
+  selectIdetnfificacionFilter(event) {
+
+    const copyInitialData: any[] = [];
+    for (const data of this.initialData2) {
+      copyInitialData.push(JSON.parse(JSON.stringify(data)));
+    }
+
+    let filtered: any[] = [];
+    if(this.filtroTipoIdentificacion){
+      if (this.filtroTipoIdentificacion.id !== undefined && this.filtroTipoIdentificacion.id !== '') {
+        filtered = copyInitialData.filter(data => data.id === this.filtroTipoIdentificacion.id);
+      }
+      else{
+        copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+      }
+    }
+    else{
+      copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+    }
+
+    this.rows = filtered;
+
+  }
+
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroPersona(){
+    if(this.filtroTipoPersona){
+      if (this.filtroTipoPersona.id === undefined || this.filtroTipoPersona.id === ''){
+        this.filtroTipoPersona = undefined;
+        this.selectTipoPersonaFilter('');
+      }
+    }
+    else if (this.filtroTipoPersona === ''){
+      this.filtroTipoPersona = undefined;
+      this.selectTipoPersonaFilter('');
+    }
+  }
+
+  focusOutFiltroTipoIdentificacion(){
+    if(this.filtroTipoIdentificacion){
+      if (this.filtroTipoIdentificacion.id === undefined || this.filtroTipoIdentificacion.id === ''){
+        this.filtroTipoIdentificacion = undefined;
+        this.selectIdetnfificacionFilter('');
+      }
+    }
+    else if (this.filtroTipoIdentificacion === ''){
+      this.filtroTipoIdentificacion = undefined;
+      this.selectIdetnfificacionFilter('');
+    }
+  }
+
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+
+
+  agregarClick() {
+    if (this.rows !== undefined && this.rows.length !== 0 && this.seleccionPersona !== undefined) {
+      this.rows.push({
+        idRow: this.idRow,
+        id: '',
+        descripcion: '',
+        editable: 1,
+        tipoPersona: {
+          id: this.seleccionPersona.id,
+          nombreTipoPersona: this.seleccionPersona.nombreTipoPersona
+        },
+        state: 'new'
+      });
+      this.idRow += 1;
+    }
+  }
+
+  eliminarClick() {
+    if(this.seleccionConfiguracion && this.seleccionConfiguracion.editable === 0){
+      const error = this.translate.instant('CUMCO009.MENSAJES.errorEliminarFijo',
+                    {tipoIdentificacion: this.seleccionConfiguracion.descripcion,
+                     tipoPersona: this.seleccionConfiguracion.tipoPersona.nombreTipoPersona } );
+      this.showMessage2(error, "error");
+    }
+    else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state !== 'new') {
+      this.rows.find(row => row === this.seleccionConfiguracion).state = this.seleccionConfiguracion.state === 'delete' ? 'edit' : 'delete';
+    } else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state === 'new') {
+      let index = this.rows.indexOf(this.seleccionConfiguracion);
+      this.rows = this.rows.filter((val, i) => i !== index);
+      this.seleccionConfiguracion = '';
+    }
+  }
+
+  onGuardarColumna() {
+    this.subcribeGuardarPersonas(this.buildJson());
+  }
+
+  onGuardarConfiguracion() {
+    console.log('this.seleccionPersona');
+    if(this.rows == undefined && this.rows.length == 0){
+      return;
+    }
+    else if (this.seleccionPersona !== undefined) {
+      console.log('asdsadasdasd');
+      if (!this.validarCampos()) {
+        return;
+      }
+      else if (!this.validarTipoIndentificacionRepetida()) {
+          return;
+      } 
+      else {
+        this.subcribeGuardarIdentificacion(this.buildJsonConfiguracion());
+      }
+    }
+
+  }
+
+  onClickBorrarAutoComplete() {
+    this.text = '';
+  }
+
+  onClicBorrarAutoCompletePersona() {
+    this.filtroTipoPersona = undefined;
+    this.selectTipoPersonaFilter('');
+  }
+
+  onClicBorrarAutoCompleteIdentificacion() {
+    this.filtroTipoIdentificacion = undefined;
+    this.selectIdetnfificacionFilter('');
+  }
+
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+
+  validarCampos(): boolean {
+
+    if(this.seleccionPersona.id === 1000){
+      if(this.rows.length > 1){
+        const error = this.translate.instant('CUMCO009.MENSAJES.errorPersonaAnonima')
+        this.showMessage2(error, "error");
+        return false;
+      }
+      else if(this.rows[0].id !== 6){
+        const error = this.translate.instant('CUMCO009.MENSAJES.errorPersonaAnonima')
+        this.showMessage2(error, "error");
+        return false;
+      }
+    }
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+
+      if (this.rows[_i].descripcion === '' || this.rows[_i].descripcion === String.fromCharCode(127)) {
+        const error = this.translate.instant('CUMCO009.MENSAJES.errorCampoVacio',
+          {
+            filaVacia: String(_i + 1),
+            campoVacio: this.translate.instant('CUMCO009.TABLA2.headerTabla3')
+          });
+        this.showMessage2(error, "error");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  validarTipoIndentificacionRepetida(): boolean {
+    for (var _i = 0; _i < this.rows.length; _i++) {
+
+      for (var _k = 0; _k < this.tablaIdentificacion.length; _k++) {
+        if(this.tablaIdentificacion[_k].descripcion.toLowerCase().trim() === this.rows[_i].descripcion.toLowerCase().trim() &&
+            this.tablaIdentificacion[_k].id != this.rows[_i].id){
+            const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida',
+                          {tipoIdentificacion: this.tablaIdentificacion[_k].descripcion, 
+                           tipoPersona: this.tablaIdentificacion[_k].tipoPersona.nombreTipoPersona });
+            this.showMessage2(error, "error");
+            return false;
+        }
+      }
+    }
+    return true;
+
+  }
+
+
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
+
+  editedPerson(rowIndex) {
+    //this.tablaPersonas[rowIndex].state = 'edit';
+    this.compareInitialData(this.tablaPersonas, this.initialData1);
+  }
+
+  editedIdentification(rowIndex, event) {
+
+    //for (var _i = 0; _i < this.tablaIdentificacion.length; _i++) {
+    //  if(this.tablaIdentificacion[_i].descripcion.toLowerCase().trim() === this.rows[rowIndex].descripcion.toLowerCase().trim() &&
+    //     this.tablaIdentificacion[_i].id != this.rows[rowIndex].id){
+    //      const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida',
+    //                    {tipoIdentificacion: this.tablaIdentificacion[_i].descripcion, tipoPersona: this.tablaIdentificacion[_i].tipoPersona.nombreTipoPersona });
+    //      this.showMessage2(error, "error");
+    //      this.rows[rowIndex].descripcion = '';
+    //      break;
+    //  }
+   // }
+    this.compareInitialData(this.rows, this.initialData2);
+  }
+
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+
+  compareInitialData(currentData: any[], initialData: any[]) {
+
+    for (var _i = 0; _i < currentData.length; _i++) {
+
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit") {
+        var keys = Object.keys(currentData[_i]);
+        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        var areEqual = true;
+        for (const key of keys) {
+          if (typeof currentData[_i][key] === "object") {
+
+            if (currentData[_i][key].id !== initialDataValue[0][key].id) {
+              areEqual = false;
+            }
+
+          }
+          else {
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state") {
+              areEqual = false;
+            }
+          }
+
+        }
+        if (areEqual) {
+          currentData[_i].state = "noedit";
+        }
+        else {
+          currentData[_i].state = "edit";
+        }
+
+      }
+    }
+  }
+
+  // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado
+  // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado
+
+  gteRowColorState(rowData: any) {
+
+    switch (rowData.state) {
+      case 'new': {
+        return { 'background-color': '#77DD77' };
+        break;
+      }
+      case 'delete': {
+        return { 'background-color': '#D36E70' };
+        break;
+      }
+      case 'edit': {
+        return { 'background-color': '#E3B778' };
+        break;
+      }
+      default: {
+        return {};
+        break;
+      }
+    }
+
+  }
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
    
   // Metodos para Mostrar MENSAJES
-  showMessage(det: string, sev: string) {
+  showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: '', detail: det});
+    this.msgs.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;
@@ -295,9 +598,9 @@ export class CUMCO009Component implements OnInit {
     })();
   }
 
-  showMessage2(det: string, sev: string) {
+  showMessage2(sum: string, sev: string) {
     this.msgs2 = [];
-    this.msgs2.push({severity: sev, summary: '', detail: det});
+    this.msgs2.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;
@@ -323,35 +626,9 @@ export class CUMCO009Component implements OnInit {
   };
 
 
-  onClickBorrarAutoComplete() {
-    this.text = '';
-  }
+  // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
+  // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
-  onClicBorrarAutoCompletePersona() {
-    this.filtroTipoPersona = undefined;
-  }
-
-  onClicBorrarAutoCompleteIdentificacion() {
-    this.filtroTipoIdentificacion = undefined;
-  }
-
-  onClicBorrarColumna() {
-
-  }
-  onClicAnadirColumna() {
-
-  }
-  onGuardarConfiguracion() {
-    if (this.rows !== undefined && this.rows.length !== 0 && this.seleccionPersona !== undefined) {
-      if (!this.validarCampos()) {
-        const error = this.translate.instant('CUMCO009.MENSAJES.errorGuardar');
-        this.showMessage2(error, "error");
-      } else {
-        this.subcribeGuardarIdentificacion(this.buildJsonConfiguracion());
-      }
-    }
-
-  }
   buildJsonConfiguracion(): any {
     let fields = [
       {
@@ -431,9 +708,7 @@ export class CUMCO009Component implements OnInit {
       })
     };
   }
-  onGuardarColumna() {
-    this.subcribeGuardarPersonas(this.buildJson());
-  }
+
   buildJson(): any {
     let fields = [
       {
@@ -476,65 +751,9 @@ export class CUMCO009Component implements OnInit {
       })
     };
   }
-  validarCampos(): boolean {
-    let validation = true;
-    this.rows.forEach(row => {
-      if (row.descripcion === '') {
-        validation = false;
-      }
-    })
-    return validation;
-  }
 
-  agregarClick() {
-    if (this.rows !== undefined && this.rows.length !== 0 && this.seleccionPersona !== undefined) {
-      this.rows.push({
-        idRow: this.idRow,
-        id: '',
-        descripcion: '',
-        editable: 1,
-        tipoPersona: {
-          id: this.seleccionPersona.id,
-          nombreTipoPersona: this.seleccionPersona.nombreTipoPersona
-        },
-        state: 'new'
-      });
-      this.idRow += 1;
-    }
-  }
-
-  eliminarClick() {
-    if (this.seleccionConfiguracion && this.seleccionConfiguracion.state !== 'new') {
-      this.rows.find(row => row === this.seleccionConfiguracion).state = this.seleccionConfiguracion.state === 'delete' ? 'edit' : 'delete';
-    } else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state === 'new') {
-      let index = this.rows.indexOf(this.seleccionConfiguracion);
-      this.rows = this.rows.filter((val, i) => i !== index);
-      this.seleccionConfiguracion = '';
-    }
-  }
-
-  gteRowColorState(rowData: any) {
-
-    switch (rowData.state) {
-      case 'new': {
-        return { 'background-color': '#77DD77' };
-        break;
-      }
-      case 'delete': {
-        return { 'background-color': '#D36E70' };
-        break;
-      }
-      case 'edit': {
-        return { 'background-color': '#E3B778' };
-        break;
-      }
-      default: {
-        return {};
-        break;
-      }
-    }
-
-  }
+  // Metodos para Generar el campo CODIGO para Guardar -- Metodos para Generar el campo CODIGO para Guardar
+  // Metodos para Generar el campo CODIGO para Guardar -- Metodos para Generar el campo CODIGO para Guardar
 
   generateCodigo(stringName: string): string {
     var codigo: string;

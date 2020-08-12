@@ -23,14 +23,18 @@ export class CUMCO004Component implements OnInit {
   listaAcciones: any[];
   listaSugerencias: string[];
 
+  suggestionsAcciones: any[];
 
 
   // Array que contiene las filas de la tabla
-  rows: Row[];
+  rows: any[];
+  initiaLState = true;
+  nRowsOptions = [1,5,10,15,20,25,50];
+  nRows = 15;
 
   // Headers de la tabla
   cols: any[];
-  selectedRows: Row[];
+  selectedRows: any[];
 
   // Variables de los autocompletables
   textAutocompleteTipoDocumental: any;
@@ -65,12 +69,13 @@ export class CUMCO004Component implements OnInit {
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
-
+ 
   subcribeSetColumns() {
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
-        { field: 'tipo_documental', header: this.translate.instant('CUMCO004.TABLA1.headerTabla1') },
-        { field: 'accion.accion', header: this.translate.instant('CUMCO004.TABLA1.headerTabla2') }
+        { field: 'rowIndex', header: '' },
+        { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO004.TABLA1.headerTabla1') },
+        { field: 'accionDocumental.accion', header: this.translate.instant('CUMCO004.TABLA1.headerTabla2') }
       ];
     });
   }
@@ -94,19 +99,37 @@ export class CUMCO004Component implements OnInit {
   }
 
   subscribeDependenciaTabla() {
+    let response: any[];
+    
     this.codigoDescripcionService.getConfigurarAccionTipoDocumental().subscribe(
-
       (getRes: any[]) => {     // Inicio del suscribe
-        this.informacionTabla = getRes;
+        response = getRes;
         return getRes;
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
+        this.rows = [];
+        for (const data of response) {
+          if (data.id){
+            if (!data.accionDocumental){
+              data.accionDocumental = {id: '', accion: ''};
+            }
+            this.rows.push({ ...data, state: 'noedit'} );
+          }
+        }
 
-        this.updateTable(this.informacionTabla);
-      });
+        if (this.initiaLState){
+          this.informacionTabla = [];
+          for (const data of this.rows) {
+            this.informacionTabla.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initiaLState = false;
+        }
+
+    })
+
   }
 
   subcribeRecorridoRepartoFisico(body: string) {
@@ -123,6 +146,7 @@ export class CUMCO004Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         const exito = this.translate.instant('CUMCO004.MENSAJES.exito');
+        this.initiaLState = true;
         this.subscribeDependenciaTabla();
         this.showMessage(exito, "success");
 
@@ -166,15 +190,24 @@ export class CUMCO004Component implements OnInit {
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
 
-  
-
   search(event) {
     this.subscribeDependenciaLista(event.query, '1'); 
   }
 
   searchAction(event) {
     this.selectedRows = undefined;
-    this.subscribeAccionDocumental();
+    //this.subscribeAccionDocumental();
+
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.listaAcciones.length; i++) {
+      let data = this.listaAcciones[i];
+      if ( data.accion.toLowerCase().search(query.toLowerCase()) !== -1 ) {
+        filtered.push(data);
+      }
+    }
+
+    this.suggestionsAcciones = filtered;
   }
 
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
@@ -196,32 +229,28 @@ export class CUMCO004Component implements OnInit {
     this.subcribeRecorridoRepartoFisico(this.buildJson());
   }
 
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
 
-  // Metodo Para Actualizar Tabla -- Metodo Para Actualizar Tabla
-  // Metodo Para Actualizar Tabla -- Metodo Para Actualizar Tabla
-
-  updateTable(dataArray: any[]) {
-
-    this.rows = [];
-    dataArray.forEach(data => {
-      this.rows.push({
-        id: data.id,
-        id_tipo_documental: data.tipoDocumental.id,
-        tipo_documental: data.tipoDocumental.descripcion,
-        accion: {
-          id: data.accionDocumental ? data.accionDocumental.id : '',
-          accion: data.accionDocumental ? data.accionDocumental.accion : ''
-        },
-        state: 'noedit'
-      });
-    })
+  focusOutTablaAccion(rowIndex: any){
+  if(this.rows[rowIndex].accionDocumental){
+    if (this.rows[rowIndex].accionDocumental.id === undefined || this.rows[rowIndex].accionDocumental.id === ''){
+      this.rows[rowIndex].accionDocumental = {id: '', codigoDescripcion: ''};
+    }
   }
+  else if (this.rows[rowIndex].accionDocumental === ''){
+    this.rows[rowIndex].accionDocumental = {id: '', codigoDescripcion: ''};
+  }
+  this.edited(0);
+}
+
 
   // Metodos EDICION de Tablas -- Metodos EDICION de Tablass
   // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
 
   edited(rowIndex) {
-    this.rows[rowIndex].state = 'edit';
+    //this.rows[rowIndex].state = 'edit';
+    this.compareInitialData(this.rows, this.informacionTabla);
   }
 
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
@@ -329,21 +358,31 @@ export class CUMCO004Component implements OnInit {
       let ans = {
         attributes: {
           'id': row.id,
-          'tipo_documental.id': row.id_tipo_documental,
+          'tipo_documental.id': row.tipoDocumental.id,
         },
         'state': row.state
       }
 
-      if (row.accion.id !== '') {
+      if (row.accionDocumental.id !== '') {
         let tempAns = {
           ...ans,
           'attributes': {
             ...ans.attributes,
-            "accionDocumental.id": row.accion.id
+            "accionDocumental.id": row.accionDocumental.id
+          }
+        };
+        ans = tempAns;
+      }else{
+        let tempAns = {
+          ...ans,
+          'attributes': {
+            ...ans.attributes,
+            "accionDocumental.id": ''
           }
         };
         ans = tempAns;
       }
+
       features.push(ans);
 
     })
@@ -357,11 +396,4 @@ export class CUMCO004Component implements OnInit {
 
   
 
-}
-export interface Row {
-  id;
-  id_tipo_documental;
-  tipo_documental;
-  accion;
-  state;
 }

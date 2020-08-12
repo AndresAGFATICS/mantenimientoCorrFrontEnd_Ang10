@@ -42,5 +42,9 @@ export class Cumco008Service extends GeneralService {
     return this.post('/forest/documentos/1.0.0/asociacionCanalMedioEnvio', body); 
   }
 
+  public getRadicadoMedioEnvio(parameters: string) {
+    return this.get('/forest/documentos/1.0.0/radicado' + parameters); // ?medioEnvio=1&page=1&size=20
+  }
+
 
 }

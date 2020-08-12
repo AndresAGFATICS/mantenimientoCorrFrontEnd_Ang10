@@ -39,6 +39,8 @@ export class Cumco017Component implements OnInit {
   idRow1: number;
   grupoSistemaData: any[];
   suggestionsGrupoSistema: any[];
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 15;
 
 
   // Variables Filtro 2
@@ -59,6 +61,8 @@ export class Cumco017Component implements OnInit {
   selectedDependenciaTable: any;
   funcinoarioData: any[];
   suggestionsFuncinoario: any[];
+  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable2 = 15;
 
 
   ngOnInit() {
@@ -185,12 +189,13 @@ export class Cumco017Component implements OnInit {
   }
 
   subscribeGetRadicadoNoAnuladoCruzado(parameters: any) {
+    var responseGet : any[];
     this.cumco017Service.getRadicadoNoAnuladoCruzado(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
-        this.suggestionsFilterRadicado = [];
+        responseGet = [];
         getRes.forEach(res => {
-          this.suggestionsFilterRadicado.push(res);
+          responseGet.push(res);
         })
         return getRes;
       },
@@ -198,6 +203,21 @@ export class Cumco017Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
+        this.suggestionsFilterRadicado = [];
+        responseGet.forEach(respon => { 
+          if (this.suggestionsFilterRadicado.length ===0){
+            this.suggestionsFilterRadicado.push(respon.radicado);
+          }
+          else{
+            let ifRadicado = this.suggestionsFilterRadicado.filter(radi => radi.id === respon.radicado.id);
+            if(ifRadicado.length === 0){
+              this.suggestionsFilterRadicado.push(respon.radicado);
+            }
+          }
+        })
+
+        console.log(this.suggestionsFilterRadicado);
+
       });
   }
 
@@ -223,6 +243,7 @@ export class Cumco017Component implements OnInit {
           this.grupoAsociadoText = this.grupoSeguridadSelected.descripcion;
         }
         this.initialDataTable2.forEach(data => data.state = 'noedit');
+        this.initialDataTable2.forEach(data => data.nombreCodigo = data.nombre + ' ' + data.codigo);
 
         if (this.initialStateTablae2) {
           this.dataTable2 = [];
@@ -314,7 +335,7 @@ export class Cumco017Component implements OnInit {
 
   searchRadicadoFilter(event) {
     if (event.query.length >= 4){
-      this.subscribeGetRadicadoNoAnuladoCruzado('&numrad=' + event.query);
+      this.subscribeGetRadicadoNoAnuladoCruzado('?numRad=' + event.query);
     }
   }
 
@@ -375,12 +396,29 @@ export class Cumco017Component implements OnInit {
     this.editedTable2();
   }
 
+ 
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroRadicado(){
+    if(this.selectionFilterRadicado){
+      if (this.selectionFilterRadicado.id === undefined || this.selectionFilterRadicado.id === ''){
+        this.selectionFilterRadicado = undefined;
+        this.dataTable2 = [];
+        this.grupoAsociadoText = '';
+      }
+    }
+    else if (this.selectionFilterRadicado === '' || this.selectionFilterRadicado === null){
+      this.selectionFilterRadicado = undefined;
+      this.dataTable2 = [];
+      this.grupoAsociadoText = '';
+    }
+  }
+
 
 
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
-
-
 
   onClickAgregar1() {
     let newElement = {
@@ -475,9 +513,10 @@ export class Cumco017Component implements OnInit {
 
   onClicBorrarSelectedRadicadoFilter() {
     this.selectionFilterRadicado = undefined;
+    this.dataTable2 = [];
+    this.grupoAsociadoText = ''; 
   }
 
-  
   onClickElminiarSelected2() {
     this.selectionTable2 = undefined;
   }
@@ -512,7 +551,7 @@ export class Cumco017Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable1.length; _i++){
       for (var _k = _i+1; _k < this.dataTable1.length; _k++){
-        if (this.dataTable1[_k].descripcion === this.dataTable1[_i].descripcion &&
+        if (this.dataTable1[_k].descripcion.trim() === this.dataTable1[_i].descripcion.trim() &&
           this.dataTable1[_k].clasificacionInformacion.id === this.dataTable1[_i].clasificacionInformacion.id){
           const error = this.translate.instant('CUMCO017.MENSAJES.campoCodigoClasificacionRepetido',
                       {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable1[_k].descripcion, nombre: this.dataTable1[_k].clasificacionInformacion.nombre });

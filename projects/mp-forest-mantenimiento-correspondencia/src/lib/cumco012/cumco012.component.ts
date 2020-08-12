@@ -50,7 +50,7 @@ export class CUMCO012Component implements OnInit {
   responseRecorridos: any[];
 
   // Array que contiene las filas de la tabla
-  rows: Row[];
+  rows: any[];
 
   // Headers de la tabla
   cols: any[];
@@ -65,6 +65,8 @@ export class CUMCO012Component implements OnInit {
   rowIndex = 0;
   selectedRow: Row;
   responsePost: any;
+
+  Idindex = 0;
 
   constructor(
     private territorialActivaService: TerritorialActivaService,
@@ -89,7 +91,7 @@ export class CUMCO012Component implements OnInit {
     // Setting lenguaje por defecto
     this.translate.setDefaultLang('es');
 
-
+    this.Idindex = 0;
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumns();
 
@@ -228,6 +230,7 @@ export class CUMCO012Component implements OnInit {
         }
         else {
           this.showMessage(this.responsePost.message, "success");
+          this.Idindex = 0;
           const exito = this.translate.instant('CUMCO012.MENSAJES.exito');
           this.showMessage(exito, "success");
           this.subcribeServiceTiporadicado('');
@@ -299,6 +302,7 @@ export class CUMCO012Component implements OnInit {
     let rows = [...this.rows];
 
     rows.push({
+      idIndex: this.Idindex,
       id: '',
       nombre_recorrido: '',
       hora_inicio: this.addOneMinute(lastHour),
@@ -307,6 +311,7 @@ export class CUMCO012Component implements OnInit {
       state: 'new'
     });
 
+    this.Idindex = this.Idindex + 1;
     this.rows = rows;
   }
 
@@ -350,9 +355,6 @@ export class CUMCO012Component implements OnInit {
 
 
   }
-
-
-
 
   onGuardarColumna() {
     if (this.validarNombres()) {

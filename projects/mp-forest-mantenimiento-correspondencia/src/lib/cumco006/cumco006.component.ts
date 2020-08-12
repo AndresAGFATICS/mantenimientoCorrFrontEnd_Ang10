@@ -42,9 +42,23 @@ export class Cumco006Component implements OnInit {
 
   cols: any[];
 
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 10;
 
-  seleccionFestivo: Festivo;
-  listaFestivo: Festivo[];
+
+  seleccionFestivo: any;
+  listaFestivo: any[];
+
+  initialData1: any[];
+  initialDataState = true;
+
+  initialCanalHoraInicio: any;
+  initialCanalHoraFin: any;
+  initialCanalState = true;
+
+  initialCOFHoraInicio: any;
+  initialCOFHoraFin: any
+  initialCOFaState = true;
 
   seleccionCanal: any;
   listaCanal: any[];
@@ -53,9 +67,17 @@ export class Cumco006Component implements OnInit {
 
   horaCof: any;
 
+   // Variables para los mensajes
+   msgs: Message[] = [];
+
   ngOnInit() {
     // Setting lenguaje por defecto
     this.translate.setDefaultLang('es');
+
+    this.initialDataState = true;
+    this.initialCanalState = true;
+    this.initialCOFaState = true;
+    this.seleccionCanal = undefined;
 
 
     // Nombrar las columnas de la primera tabla
@@ -63,7 +85,9 @@ export class Cumco006Component implements OnInit {
     this.subscribeRadicado();
     this.subscribeHoraCof();
     this.subscribeFestivo();
+    this.actualizarHora();
   }
+
   subcribeSetColumnsTraslations() {
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
@@ -88,7 +112,7 @@ export class Cumco006Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-
+        this.listaCanal.push(undefined);
       });
   }
 
@@ -103,7 +127,10 @@ export class Cumco006Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+        if (this.initialCanalHoraFin){
+          this.initialCanalHoraInicio = String(this.hora.horaInicial);
+          this.initialCanalHoraFin = String(this.hora.horaFinal);
+        }
       });
   }
 
@@ -143,8 +170,15 @@ export class Cumco006Component implements OnInit {
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
-      () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+      () => {         
+                // Fin del suscribe
+         if (this.initialDataState) {
+          this.initialData1 = [];
+          for (const data of this.listaFestivo) {
+            this.initialData1.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialDataState = false;
+        }
       });
   }
 
@@ -170,9 +204,10 @@ export class Cumco006Component implements OnInit {
         }
         else {
           this.showMessage(this.respuestaGuardarHorarioRadicado.message, "success");
-          this.subscribeRadicado();
-          this.subscribeHoraCof();
-          this.subscribeFestivo();
+          this.ngOnInit();
+          //this.subscribeRadicado();
+          //this.subscribeHoraCof();
+          //this.subscribeFestivo();
         }
 
       });
@@ -201,20 +236,37 @@ export class Cumco006Component implements OnInit {
 
   onClicGuardar() {
     if (!this.camposValidos()) {
-      const error = this.translate.instant('CUMCO006.MENSAJES.errorGuardar');
+      return;
+    } else if (this.seleccionCanal && this.validarHora(this.hora.horaInicial, this.hora.horaFinal) ) {
+      const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraCanal');
       this.showMessage(error, "error");
-    } else if (this.validarHora(this.hora.horaInicial, this.hora.horaFinal) || this.validarHora(this.horaCof.horaInicial, this.horaCof.horaFinal)) {
-      const error = this.translate.instant('CUMCO006.MENSAJES.errorHora');
+    }else if (this.validarHora(this.horaCof.horaInicial, this.horaCof.horaFinal)) {
+      const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraCOF');
       this.showMessage(error, "error");
     } else if (!this.validarRepetidos()) {
-      const error = this.translate.instant('CUMCO006.MENSAJES.errorFecha') + ' ' + this.repetidos[0];
-      this.showMessage(error, "error");
+      return;
     } else {
       this.subcribeHorarioRadicacion(this.buildJson());
     }
   }
 
   buildJson(): any {
+      let canalID;
+      let horaInicial;
+      let horaFinal;
+      if (this.seleccionCanal){
+        canalID = this.seleccionCanal.id.toString();
+        horaInicial = this.hora.horaInicial;
+        horaFinal = this.hora.horaFinal;
+      }
+      else{
+        canalID = '';
+        horaInicial = '';
+        horaFinal = '';
+      }
+
+
+
     let fields = [
       {
         "name": "id",
@@ -240,23 +292,57 @@ export class Cumco006Component implements OnInit {
     return {
       "dat_cof_hora_fin": this.horaCof.horaFinal,
       "dat_cof_hora_ini": this.horaCof.horaInicial,
-      "dat_ent_hora_fin": this.hora.horaFinal,
-      "dat_ent_hora_ini": this.hora.horaInicial,
+      "dat_ent_hora_fin": horaFinal,
+      "dat_ent_hora_ini": horaInicial,
       "grd_festivos": JSON.stringify({
         fields,
         features
       }),
-      "lst_canal": this.seleccionCanal.id.toString()
+      "lst_canal": canalID
     };
   }
 
   camposValidos(): any {
-    let valido = true;
-    this.listaFestivo.forEach(festivo => {
-      valido = valido && (festivo.fechaHabilitada === '' ? false : true
-        && this.hora.horaInicial && this.hora.horaFinal);
-    })
-    return valido;
+
+    console.log(this.horaCof.horaInicial);
+    if(this.seleccionCanal !== undefined){
+      if(this.hora.horaInicial == undefined || this.hora.horaInicial == '' || this.hora.horaInicial == null){
+        const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraInicialCanal');
+        this.showMessage(error, "error");
+        return false;
+      }
+      else if (this.hora.horaFinal == undefined || this.hora.horaFinal == '' || this.hora.horaInicial == null){
+        const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraFinCanal');
+        this.showMessage(error, "error");
+        return false;
+      }
+    }
+    else if(this.horaCof.horaInicial == null || this.horaCof.horaInicial == '' || this.horaCof.horaInicial == undefined ){
+      const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraInicialCOF');
+      this.showMessage(error, "error");
+      return false;
+    }
+    else if(this.horaCof.horaFinal == null || this.horaCof.horaFinal == '' || this.horaCof.horaFinal == undefined ){
+      const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraFinlCOF');
+      this.showMessage(error, "error");
+      return false;
+    }
+    else{
+      for (var _i = 0; _i < this.listaFestivo.length; _i++) {
+
+        if (this.listaFestivo[_i].fechaHabilitada === '' || !this.listaFestivo[_i].fechaHabilitada) {
+          const error = this.translate.instant('CUMCO006.MENSAJES.campoFechaVacioErro',
+            {
+              filaVacia: String(_i + 1),
+            });
+          this.showMessage(error, "error");
+          return false;
+        }
+  
+      }
+    }
+
+    return true;
   };
 
   validarHora(horaInicial: string, horaFinal: string) {
@@ -272,30 +358,32 @@ export class Cumco006Component implements OnInit {
   };
 
   validarRepetidos(): any {
-    let couples: string[] = [];
-    let counter = {};
-    this.repetidos = [];
-    this.listaFestivo.forEach(festivo => {
-      couples.push(festivo.fechaHabilitada);
-    })
 
-    couples.forEach(function(couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
+    for (var _i = 0; _i < this.listaFestivo.length; _i++) {
+      for (var _k = _i + 1; _k < this.listaFestivo.length; _k++) {
 
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        this.repetidos.push(prop);
+        if (this.listaFestivo[_i].state !== 'delete' && this.listaFestivo[_k].state !== 'delete') {
+
+          if (this.listaFestivo[_k].fechaHabilitada == this.listaFestivo[_i].fechaHabilitada) {
+            const error = this.translate.instant('CUMCO006.MENSAJES.repetidosFechaError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                fecha: this.listaFestivo[_k].fechaHabilitada
+              });
+            this.showMessage(error, "error");
+            return false;
+          }
+
+        }
+
       }
     }
-    return this.repetidos.length === 0 ? true : false;
+    return true;
   }
 
   edited(rowIndex) {
-    this.listaFestivo[rowIndex].state = this.listaFestivo[rowIndex].state === 'new' ? 'new' : 'edit';
+    //this.listaFestivo[rowIndex].state = this.listaFestivo[rowIndex].state === 'new' ? 'new' : 'edit';
+    this.compareInitialData(this.listaFestivo,this.initialData1);
   }
 
   desSelectRow() {
@@ -303,19 +391,73 @@ export class Cumco006Component implements OnInit {
   }
 
   actualizarHora() {
-    this.subscribeHora(this.seleccionCanal.id);
+    if(this.seleccionCanal){
+      this.initialCanalHoraInicio = true;
+      this.subscribeHora(this.seleccionCanal.id);
+    }
+    else{
+      this.hora.horaInicial = '';
+      this.hora.horaFinal = '';
+    }
+    
   }
 
-  // Variables para los mensajes
-  msgs: Message[] = [];
+  getColorCanalIni(){
+    if(this.initialCanalHoraInicio !== this.hora.horaInicial){
+      return { 'background-color': '#E3B778' };
+    }
+    else{
+      return { };
+    }
+  }
+
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+
+  compareInitialData(currentData: any[], initialData: any[]) {
+
+    console.log(currentData);
+    console.log(initialData);
+
+    for (var _i = 0; _i < currentData.length; _i++) {
+
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit") {
+        var keys = Object.keys(currentData[_i]);
+        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        var areEqual = true;
+        for (const key of keys) {
+          if (typeof currentData[_i][key] === "object") {
+
+            if (currentData[_i][key].id !== initialDataValue[0][key].id) {
+              areEqual = false;
+            }
+
+          }
+          else {
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state") {
+              areEqual = false;
+            }
+          }
+
+        }
+        if (areEqual) {
+          currentData[_i].state = "noedit";
+        }
+        else {
+          currentData[_i].state = "edit";
+        }
+
+      }
+    }
+  }
    
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
    
   // Metodos para Mostrar MENSAJES
-  showMessage(det: string, sev: string) {
+  showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: '', detail: det});
+    this.msgs.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;

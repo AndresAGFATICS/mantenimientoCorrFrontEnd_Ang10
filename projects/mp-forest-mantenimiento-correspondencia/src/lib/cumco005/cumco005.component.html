@@ -8,7 +8,8 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="seleccionTipoAnexoFisicos" field="descripcion" [suggestions]="tipoAnexoFisicos" (completeMethod)="searchTipoanexo($event)" [dropdown]="true" 
+          <p-autoComplete [(ngModel)]="seleccionTipoAnexoFisicos" field="descripcion" [suggestions]="tipoAnexoFisicos" [dropdown]="true" 
+            (onSelect)="selectFilter($event)" (completeMethod)="searchTipoanexo($event)" (focusout)="focusOutFiltroTipoAnexo()" 
             placeholder="{{ 'CUMCO005.FILTROS.filtroAnexoTipoFisicoPlaceHolder' | translate }}"></p-autoComplete>
 
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteTipo()"></p-button>
@@ -22,7 +23,8 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="seleccionAnexoFisicos" field="descripcion"  [suggestions]="anexosFisicos" (completeMethod)="searchAnexo($event)" [dropdown]="true" 
+          <p-autoComplete [(ngModel)]="seleccionAnexoFisicos" field="descripcion"  [suggestions]="anexosFisicos" [dropdown]="true" 
+            (onSelect)="selectFilter($event)" (completeMethod)="searchAnexo($event)" (focusout)="focusOutFiltroAnexoFisico()"
             placeholder="{{ 'CUMCO005.FILTROS.filtroAnexoFisicoPlaceHolder' | translate }}"></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteAnexo()"></p-button>
         </div>
@@ -38,7 +40,14 @@
     <p-messages [(value)]="msgs"></p-messages>
     <!-- Start Table -->
     <!-- Start Table -->
-    <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="15" [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectedRow" sortField="tipo_documental">
+    <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRow"> <!--  sortField="tipo_documental"  -->
+
+      <!-- Table Column Width -->
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col style="width:5%"> 
+        </colgroup>
+      </ng-template>
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">
@@ -64,8 +73,7 @@
 
       <!-- Table Content -->
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)"
-        *ngIf="(seleccionTipoAnexoFisicos === undefined || seleccionTipoAnexoFisicos.descripcion === row.claseAnexo.descripcion) && (seleccionAnexoFisicos === undefined ||seleccionAnexoFisicos.descripcion === row.tipoAnexoFisico.descripcion)">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
           <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
             <div [ngSwitch]="i">
@@ -74,7 +82,7 @@
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-autoComplete [(ngModel)]="row.claseAnexo" field="descripcion" [suggestions]="tipoAnexoFisicos"
-                    (onSelect) = "edited(rowIndex)"  (completeMethod)="searchTipoanexo($event)" (click)="onClickElminiarSelected()"
+                    (onSelect)="edited(rowIndex)"  (completeMethod)="searchTipoanexo($event)" (click)="onClickElminiarSelected()"
                     (onSelect)="checkBox(rowIndex)" [dropdown]="true"  [disabled]="row.state === 'delete'"></p-autoComplete>
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -86,7 +94,7 @@
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <p-autoComplete [(ngModel)]="row.tipoAnexoFisico" field="descripcion" [suggestions]="anexosFisicos"
-                    (onSelect) = "edited(rowIndex)" (completeMethod)="searchAnexo($event)" (click)="onClickElminiarSelected()"
+                    (onSelect)="edited(rowIndex)" (completeMethod)="searchAnexo($event)" (click)="onClickElminiarSelected()"
                     [dropdown]="true"  [disabled]="row.state === 'delete'"></p-autoComplete>
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -97,7 +105,7 @@
               <div *ngSwitchCase="3">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input type="text" [(ngModel)]="row.observacion" [maxlength]="200" (change) = "edited(rowIndex)"
+                    <input type="text" [(ngModel)]="row.observacion" [maxlength]="200" (change)="edited(rowIndex)"
                     [disabled]="row.state === 'delete'">
                   </ng-template>
                   <ng-template pTemplate="output">
@@ -107,7 +115,7 @@
               </div>
               <div *ngSwitchCase="4" style="text-align: center">
                 <p-checkbox name="groupname" [(ngModel)]="row.isCarpeta" binary="true" (ngModelChange)="row.isCarpeta = $event ? 1 : 0"
-                (onChange) = "edited(rowIndex)" [disabled]="row.claseAnexo.descripcion !== 'Físico' || row.state === 'delete'"></p-checkbox>
+                (onChange)="edited(rowIndex)" [disabled]="row.claseAnexo.id !== 1 || row.state === 'delete'"></p-checkbox>
               </div>
 
             </div>

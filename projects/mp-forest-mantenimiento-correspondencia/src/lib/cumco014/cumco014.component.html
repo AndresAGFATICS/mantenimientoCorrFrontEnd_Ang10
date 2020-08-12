@@ -13,7 +13,7 @@
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
               <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion" [suggestions]="listaRadicado"
                 (completeMethod)="searchRadicado($event)" [dropdown]="true" 
-                (onSelect)="actualizarTablaRadicado()">
+                (focusout)="focusOutFiltroRadicado()" (onSelect)="actualizarTablaRadicado()">
               </p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteRadicado()"></p-button>
             </div>
@@ -27,9 +27,15 @@
 
         <p-messages [(value)]="msgs"></p-messages>
         <!-- Start Table -->
-        <p-table [columns]="cols" [value]="tablaTipoRadicado" [paginator]="true" [rows]="5"
-          [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="seleccionTablaRadicado"
+        <p-table [columns]="cols" [value]="tablaTipoRadicado" [paginator]="true" [rows]="nRowsTable1"
+          [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="seleccionTablaRadicado"
           (onRowSelect)="onRowSelect($event, seleccionTablaRadicado)">
+
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col style="width:5%"> 
+            </colgroup>
+          </ng-template>
 
           <!-- Table Caption -->
           <ng-template pTemplate="caption">
@@ -123,9 +129,9 @@
               <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
               <p-autoComplete [dropdown]="true"  
                 placeholder="Ingrese aquí el Subtipo de radicado a filtrar"
-                [disabled]="seleccionTablaRadicado === undefined || seleccionTablaRadicado === null"
+                [disabled]="seleccionTablaRadicado === undefined || seleccionTablaRadicado === null" field="codigoDescripcion"
                 [(ngModel)]="seleccionSubRadicado" [suggestions]="suggestionsAutoCompleteSubTipoRadicado"
-                (completeMethod)="searchSubRadicado($event)" (onSelect)="onSelectSubtipoRadicado()">
+                (focusout)="focusOutFiltroSubRadicado()" (completeMethod)="searchSubRadicado($event)" (onSelect)="onSelectSubtipoRadicado()">
               </p-autoComplete>
               <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteSubRadicado()"
                 [disabled]="seleccionTablaRadicado === undefined|| seleccionTablaRadicado === null"></p-button>
@@ -140,8 +146,8 @@
 
         <p-messages [(value)]="msgs2"></p-messages>
         <!-- Start Table 2 -->
-        <p-table [columns]="cols2" [value]="listaSubRadicado" [paginator]="true" [rows]="5"
-          [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="seleccionTablaSubRadicado">
+        <p-table [columns]="cols2" [value]="listaSubRadicado" [paginator]="true" [rows]="nRowsTable2"
+          [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="seleccionTablaSubRadicado">
 
           <!-- Table Caption 2 -->
           <ng-template pTemplate="caption">
@@ -294,8 +300,14 @@
         <p-messages [(value)]="msgs"></p-messages>
 
         <!-- Start Table 3 -->
-        <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [rows]="15"
-          [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectionTable3">
+        <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [rows]="nRowsTable3"
+          [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectionTable3">
+
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col style="width:5%"> 
+            </colgroup>
+          </ng-template>
 
           <!-- Table Caption 3 -->
           <ng-template pTemplate="caption">
@@ -391,8 +403,8 @@
           <p-messages [(value)]="msgs"></p-messages>
 
           <!-- Start Table 4 -->
-          <p-table [columns]="cols4" [value]="dataTable4" [paginator]="true" [rows]="15"
-            [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectionTable4">
+          <p-table [columns]="cols4" [value]="dataTable4" [paginator]="true" [rows]="nRowsTable4"
+            [rowsPerPageOptions]="nRowsOptionsTable4" selectionMode="single" [(selection)]="selectionTable4">
 
             <!-- Table Caption 4 -->
             <ng-template pTemplate="caption">
@@ -566,8 +578,8 @@
 
 
           <!-- Start Table 5 -->
-          <p-table [columns]="cols5" [value]="dataTable5" [paginator]="true" [rows]="15"
-            [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectionTable5">
+          <p-table [columns]="cols5" [value]="dataTable5" [paginator]="true" [rows]="nRowsTable5"
+            [rowsPerPageOptions]="nRowsOptionsTable5" selectionMode="single" [(selection)]="selectionTable5">
 
             <!-- Table Caption 5 -->
             <ng-template pTemplate="caption">

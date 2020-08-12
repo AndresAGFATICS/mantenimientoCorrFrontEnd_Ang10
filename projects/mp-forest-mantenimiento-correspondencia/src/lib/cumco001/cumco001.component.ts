@@ -130,10 +130,10 @@ export class CUMCO001Component implements OnInit {
         this.asignarResponsableData = [];
 
         for (const data of responseData) {
-          this.asignarResponsableData.push( { ...data, postState: 'noedit'} );
           if (!data.funcionario){
             data.funcionario = {codigoNombre: ''};
           }
+          this.asignarResponsableData.push( { ...data, postState: 'noedit'} ); 
         }
 
         if (this.initiaLState){
@@ -387,25 +387,40 @@ export class CUMCO001Component implements OnInit {
     }
 
 
-    // Revisar si hay algún Subtipo de radicado repetido en los datos iniciales cuado se usa un filtro
     if (this.textAutoCompleteTipoRadicado || this.textAutoCompleteOrganismoDependencia) {
 
-      for(var _i = 0; _i < this.asignarResponsableData.length; _i++){
-        let errIndex = _i + 1
-        for (var _x = 0; _x < this.initialAsignarResponsableData.length; _x++){
-          if(this.asignarResponsableData[_i].id !== this.initialAsignarResponsableData[_x].id &&
-            this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion === this.initialAsignarResponsableData[_x].tramiteTipoRadicado.codigoDescripcion){
-            this.showMessage('error',
-                              this.translate.instant('CUMCO001.MENSAJES.repetidoSubtipoRadicadoFiltroError',
-                              {descripcion: this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion } ), '');
-            return;
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialAsignarResponsableData) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.asignarResponsableData.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
           }
         }
       }
-      
+
+
+      for (var _i = 0; _i < this.asignarResponsableData.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.asignarResponsableData[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].tramiteTipoRadicado.id === this.asignarResponsableData[_i].tramiteTipoRadicado.id) {
+  
+              this.showMessage('error',
+                              this.translate.instant('CUMCO001.MENSAJES.repetidoSubtipoRadicadoFiltroError2',
+                              {descripcion: this.asignarResponsableData[_i].tramiteTipoRadicado.codigoDescripcion } ), '');
+              return;
+            }
+  
+          }
+        }
+      }
+
     }
 
-    
 
     this.subcribePostAsignarResponsableSubtipoRadicadoGrid(this.buildJson());
   }
@@ -607,6 +622,22 @@ export class CUMCO001Component implements OnInit {
       }
     }
 
+  }
+
+
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroRadicado(){
+    if(this.textAutoCompleteTipoRadicado === null){
+      this.onClicBorrarFilterTipoRadicado();
+    }
+  }
+
+  focusOutOranismoDependencia(){
+    if(this.textAutoCompleteOrganismoDependencia === null){
+      this.onClicBorrarFilterOrganismoDependencia();
+    }
   }
 
 
@@ -1090,14 +1121,7 @@ export class CUMCO001Component implements OnInit {
       }
     }
 
-    console.log(this.nRows);
 
-    //console.log("N1: " + contentHeight);
-
-    //console.log(window.innerHeight/100)
-    //this.nRows = Math.floor(window.innerHeight/100);
-
-    //console.log("N2: " + contentHeight);
 
 
   }
@@ -1142,7 +1166,6 @@ export class CUMCO001Component implements OnInit {
   }
 
   changeLanguage(){
-    console.log(this.lang)
     if(this.lang){
       this.translate.use('en');
       //this.subcribeSetColumnsTraslations();

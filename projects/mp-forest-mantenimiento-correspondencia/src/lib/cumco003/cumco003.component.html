@@ -71,8 +71,14 @@
 
         <!-- Start Table -->
         <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="nRowsTable1" 
-        [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows"
-        [scrollable]="true">
+        [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
+
+        <!-- Table Column Width -->
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col style="width:5%"> 
+          </colgroup>
+        </ng-template>
 
           <!-- Table Caption -->
           <ng-template pTemplate="caption">
@@ -108,7 +114,8 @@
                   <div *ngSwitchCase="1">
                     <p-cellEditor>
                       <ng-template pTemplate="input">
-                        <p-autoComplete field="codigo" [suggestions]="listaPlantilla" (onSelect)="selectPlantillaTabla($event,row)" (completeMethod)="searchPlantilla($event)" (click)="onClickElminiarSelected()" 
+                        <p-autoComplete field="codigo" [suggestions]="listaPlantilla" (onSelect)="selectPlantillaTabla($event,row)" [(ngModel)]="row.plantilla"
+                        (completeMethod)="searchPlantilla($event)" (click)="onClickElminiarSelected()" (focusout)="focusOutTablaTipoComunicacion(rowIndex)"
                           [dropdown]="true" [disabled]="row.state === 'delete' || row.claseDocumental.codigoDescripcion === '2 Entrada' "></p-autoComplete>
                       </ng-template>
                       <ng-template pTemplate="output">
@@ -208,9 +215,10 @@
                   <div *ngSwitchCase="11">
                     <p-cellEditor>
                       <ng-template pTemplate="input">
-                        <p-autoComplete [suggestions]="suggestionsTipoComunicacionTabla" (completeMethod)="searchTipoComunicacionTabla($event)"
-                                        [dropdown]="true" [disabled]="row.state === 'delete'" field = "codigoDescripcion"
-                                        (onSelect)="selectTipoComunicacionTabla($event,row)"
+                        <p-autoComplete [suggestions]="suggestionsTipoComunicacionTabla" (completeMethod)="searchTipoComunicacionTabla($event, row)"
+                                        [dropdown]="true" [disabled]="row.state === 'delete' || row.claseDocumental.id === undefined || row.claseDocumental.id === '' " 
+                                        field = "codigoDescripcion"
+                                        (onSelect)="selectTipoComunicacionTabla($event,row)" (focusout)="focusOutTablaTipoComunicacion(rowIndex)"
                                         [(ngModel)]="row.tipoComunicacion"
                                         (click)="onClickElminiarSelected()">
                         </p-autoComplete>
@@ -238,20 +246,26 @@
 
       <p-messages [(value)]="msgs"></p-messages>
 
-      <!-- Start Table -->
+      <!-- Start Table 2 -->
       <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true"  [rows]="nRowsTable2" 
       [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowDocument">
 
-        <!-- Table Caption -->
+        <!-- Table Caption 2 -->
         <ng-template pTemplate="caption">
           <div class="ui-helper-clearfix menu-sup-grid">
-            <!-- Buttons -->
+            <!-- Buttons 2 -->
             <div class="button-sup-grid">
               <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
               <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
               <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
             </div>
           </div>
+        </ng-template>
+
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col style="width:5%"> 
+          </colgroup>
         </ng-template>
 
         <!-- Table Heardes -->
@@ -264,14 +278,17 @@
           </tr>
         </ng-template>
 
-        <!-- Table Content -->
+        <!-- Table Content 2 -->
         <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
           <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
             <!-- *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)"> -->
             <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
               <div [ngSwitch]="i">
-                <div *ngSwitchCase="0">
+
+                <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
+
+                <div *ngSwitchCase="1">
                   <p-cellEditor>
                     <ng-template pTemplate="input">
                       <input type="number" [(ngModel)]="row.codigo" [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)" (keydown.enter)="editedDocument(rowIndex)" [maxlength]="2">
@@ -281,7 +298,7 @@
                     </ng-template>
                   </p-cellEditor>
                 </div>
-                <div *ngSwitchCase="1">
+                <div *ngSwitchCase="2">
                   <p-cellEditor>
                     <ng-template pTemplate="input">
                       <input type="text" [(ngModel)]="row.descripcion" [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)" (keydown.enter)="editedDocument(rowIndex)" [maxlength]="50">
@@ -291,7 +308,7 @@
                     </ng-template>
                   </p-cellEditor>
                 </div>
-                <div *ngSwitchCase="2">
+                <div *ngSwitchCase="3">
                   <p-cellEditor>
                     <ng-template pTemplate="input">
                       <!--<p-dropdown [options]="listaClaseDocumental" optionLabel="descripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="editedDocument(rowIndex)" (click)="onClickElminiarSelected2()"></p-dropdown> (completeMethod)="searchDocumento($event)" -->
@@ -310,7 +327,7 @@
         </ng-template>
 
       </p-table>
-      <!-- End Table -->
+      <!-- End Table 2 -->
 
     </p-tabPanel>
 

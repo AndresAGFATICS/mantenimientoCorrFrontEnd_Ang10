@@ -42,6 +42,20 @@ export class Cumco005Component implements OnInit {
   responseGuardar: any;
   idRow: number;
 
+  rowIndex = 0;
+
+  rows: any[];
+  initialData1: any[];
+  initialStateData1 = true;
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 15;
+
+  cols: any[];
+
+  selectedRow: any;
+
+  tipoDeRadicado: any[];
+
 
   constructor(private anexosFisicosClaseService: AnexosFisicosClaseService,
     private messageService: MessageService,
@@ -53,27 +67,16 @@ export class Cumco005Component implements OnInit {
       { field: 'observacion', header: 'Descripción' },
       { field: 'isCarpeta', header: 'Ubicar Folios en Carpetas' }
     ];
+
+  }
+
+  ngOnInit() {
     this.rows = [];
     // this.anexosFisicos = [];
     // this.tipoAnexoFisicos = [];
     this.buttonDisabled = false;
     this.idRow = 0;
 
-  }
-
-
-
-  rowIndex = 0;
-
-  rows: Row[];
-
-  cols: any[];
-
-  selectedRow: any;
-
-  tipoDeRadicado: any[];
-
-  ngOnInit() {
     // Setting lenguaje por defecto
     this.translate.setDefaultLang('es');
     // Nombrar las columnas de la primera tabla
@@ -96,12 +99,10 @@ export class Cumco005Component implements OnInit {
     });
   }
 
-  onClickElminiarSelected(){
-    this.selectedRow = undefined;
-  }
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
   subscribeAnexosFisicos() {
-
     this.anexosFisicosClaseService.getAnexosFisicos().subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -114,7 +115,7 @@ export class Cumco005Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         if (this.filtroAnexo !== '') {
-          this.anexosFisicos = this.anexosFisicos.filter(val => val.descripcion.toLowerCase().includes(this.filtroAnexo));
+          this.anexosFisicos = this.anexosFisicos.filter(val => val.descripcion.toLowerCase().includes(this.filtroAnexo.toLowerCase()));
         }
       });
   }
@@ -136,8 +137,18 @@ export class Cumco005Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         // const exito = this.varText.default.MENSAJES.exitoGuardar;
-        this.showMessage(this.responseGuardar.message, "success");
-        this.subscribeCodigoDescripcion('', '');
+        if( this.responseGuardar.message.search("repetidos para diferentes Tipos de Anexos") !== -1 ) {
+          this.showMessage(this.responseGuardar.message, "error");
+        }
+        else if( this.responseGuardar.message.search("no puede ser eliminado: Se encuentra asociado") !== -1 ){
+          this.showMessage(this.responseGuardar.message, "error");
+        }
+        else{
+          this.showMessage(this.responseGuardar.message, "success");
+          this.initialStateData1 = true;
+          this.subscribeCodigoDescripcion('', '');
+        }
+
       });
   }
 
@@ -153,58 +164,48 @@ export class Cumco005Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         if (this.filtroTipoAnexo !== '') {
-          this.tipoAnexoFisicos = this.tipoAnexoFisicos.filter(val => val.descripcion.toLowerCase().includes(this.filtroTipoAnexo));
+          this.tipoAnexoFisicos = this.tipoAnexoFisicos.filter(val => val.descripcion.toLowerCase().includes(this.filtroTipoAnexo.toLowerCase()));
         }
       });
   }
 
   subscribeCodigoDescripcion(clase: any, tipo: any) {
+    let response: any[];
     this.anexosFisicosClaseService.getCodigoDescripcion(clase, tipo).subscribe(
-
       (getRes: any[]) => {     // Inicio del suscribe
-        this.tablaTemp = getRes;
+        response = getRes;
         return getRes;
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
-      () => {                 // Fin del suscribe
-        this.updateTable();
+      () => {   // Fin del suscribe
+        this.rows = [];
+        for (const data of response) {
+          data.isCarpeta = data.tipoAnexoFisico.isCarpeta;
+          this.rows.push({ ...data, state: 'noedit'} );
+        }
+
+        if (this.initialStateData1) {
+          this.initialData1 = [];
+          for (const data of this.rows) {
+            this.initialData1.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStateData1 = false;
+        }
+
       });
-  }
-  updateTable(): any {
-    this.rows = [];
-    this.tablaTemp.forEach(row => {
 
-      this.rows.push({
-        idRow: '',
-        id: row.id,
-        tipoAnexoFisico: {
-          id: row.tipoAnexoFisico.id,
-          descripcion: row.tipoAnexoFisico.descripcion,
-          codigo: row.tipoAnexoFisico.codigo
-        },
-        claseAnexo: {
-          id: row.claseAnexo.id,
-          descripcion: row.claseAnexo.descripcion
-        },
-        observacion: row.observacion,
-        state: 'noedit',
-        isCarpeta: row.tipoAnexoFisico.isCarpeta,
-        idDescripcion: ''
-      })
-
-    })
   }
+
+
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
+  // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
 
   searchTipoanexo(event) {
     this.selectedRow = undefined;
     this.filtroTipoAnexo = event.query;
     this.subscribeTipoAnexoFisico();
-  }
-
-  checkBox(index) {
-    this.rows[index].isCarpeta = this.rows[index].claseAnexo.id === 2 ? 0 : this.rows[index].isCarpeta;
   }
 
   searchAnexo(event) {
@@ -214,12 +215,90 @@ export class Cumco005Component implements OnInit {
 
   }
 
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+  // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
+
+  selectFilter(event) {
+
+    const copyInitialData: any[] = [];
+    for (const data of this.initialData1) {
+      copyInitialData.push(JSON.parse(JSON.stringify(data)));
+    }
+
+    let filtered: any[] = [];
+    if(this.seleccionTipoAnexoFisicos){
+      if (this.seleccionTipoAnexoFisicos.id !== undefined && this.seleccionTipoAnexoFisicos.id !== '') {
+        filtered = copyInitialData.filter(data => data.claseAnexo.id === this.seleccionTipoAnexoFisicos.id);
+      }
+      else{
+        copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+      }
+    }
+    else{
+      copyInitialData.forEach(data => filtered.push(JSON.parse(JSON.stringify(data))));
+    }
+
+    let filtered2: any[] = [];
+    if(this.seleccionAnexoFisicos){
+      if (this.seleccionAnexoFisicos.id !== undefined && this.seleccionAnexoFisicos.id !== '') {
+        filtered2 = filtered.filter(data => data.tipoAnexoFisico.id === this.seleccionAnexoFisicos.id);
+      }
+      else{
+        filtered2 = filtered;
+      }
+    }
+    else{
+      filtered2 = filtered;
+    }
+
+    this.rows = filtered2;
+
+  }
+
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroTipoAnexo(){
+    if(this.seleccionTipoAnexoFisicos){
+      if (this.seleccionTipoAnexoFisicos.id === undefined || this.seleccionTipoAnexoFisicos.id === ''){
+        this.seleccionTipoAnexoFisicos = undefined;
+        this.selectFilter('');
+      }
+    }
+    else if (this.seleccionTipoAnexoFisicos === ''){
+      this.seleccionTipoAnexoFisicos = undefined;
+      this.selectFilter('');
+    }
+  }
+
+  focusOutFiltroAnexoFisico(){
+    if(this.seleccionAnexoFisicos){
+      if (this.seleccionAnexoFisicos.id === undefined || this.seleccionAnexoFisicos.id === ''){
+        this.seleccionAnexoFisicos = undefined;
+        this.selectFilter('');
+      }
+    }
+    else if (this.seleccionAnexoFisicos === ''){
+      this.seleccionAnexoFisicos = undefined;
+      this.selectFilter('');
+    }
+  }
+
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+  // Eventos CLICK en Botones -- Eventos de CLICK en Botones
+
+  onClickElminiarSelected(){
+    this.selectedRow = undefined;
+  }
+
   onClicBorrarAutoCompleteTipo() {
     this.seleccionTipoAnexoFisicos = undefined;
+    this.selectFilter('');
   }
 
   onClicBorrarAutoCompleteAnexo() {
-    this.seleccionAnexoFisicos = undefined
+    this.seleccionAnexoFisicos = undefined;
+    this.selectFilter('');
   }
 
   onClicAgregar() {
@@ -232,12 +311,12 @@ export class Cumco005Component implements OnInit {
       idRow: this.idRow,
       id: '',
       tipoAnexoFisico: {
-        id: 0,
+        id: '',
         descripcion: '',
         codigo: ''
       },
       claseAnexo: {
-        id: 0,
+        id: '',
         descripcion: ''
       },
       observacion: '',
@@ -249,8 +328,6 @@ export class Cumco005Component implements OnInit {
     this.rows = [...this.rows, newData];
     this.idRow += 1;
   }
-
-
 
   onClicEliminar() {
     if (this.selectedRow && this.selectedRow.state !== 'new') {
@@ -264,17 +341,252 @@ export class Cumco005Component implements OnInit {
 
   }
 
+  onGuardarColumna() {
+    if (!this.camposValidos()) {
+      return;
+    } 
+    else if (!this.validarAnexoRepetidoTipo()) {
+      return;
+    }
+    else if (!this.validarAnexoFisicoRepetidos()) {
+        return;
+    } 
+    else {
+      this.subcribeRecorridoRepartoFisico(this.buildJson());
+    }
+  }
+  
+
+  // Eventos CHECHBOX de los CHECHBOX -- Eventos CHECHBOX de los CHECHBOX
+  // Eventos CHECHBOX de los CHECHBOX -- Eventos CHECHBOX de los CHECHBOX
+
+
+  checkBox(index) {
+    this.rows[index].isCarpeta = this.rows[index].claseAnexo.id === 2 ? 0 : this.rows[index].isCarpeta;
+  }
+
+
+
+
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+  // Metodos VALIDACION Campos Tablas -- Metodos VALIDACION Campos Tablas
+
+
+  camposValidos(): any {
+    let valido = true;
+
+    for(var _i = 0; _i < this.rows.length; _i++){
+      let errIndex = _i + 1;
+
+      if (this.rows[_i].claseAnexo.descripcion === ''){
+        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
+        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla1') } );
+        this.showMessage(error ,'error');
+        valido = false;
+      }
+      else if (this.rows[_i].tipoAnexoFisico.descripcion === ''){
+        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
+        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla2') } );
+        this.showMessage(error ,'error');
+        valido = false;
+      }
+    }
+
+    return valido;
+  }
+
+  validarAnexoRepetidoTipo(): any {
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
+
+        if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+
+          if (this.rows[_k].claseAnexo.id == this.rows[_i].claseAnexo.id &&
+            this.rows[_k].tipoAnexoFisico.id == this.rows[_i].tipoAnexoFisico.id) {
+            const error = this.translate.instant('CUMCO005.MENSAJES.repetidosTipoAnexoFisicoError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                tipoAnexo: this.rows[_k].claseAnexo.descripcion,
+                anexoFisico: this.rows[_k].tipoAnexoFisico.descripcion
+              });
+            this.showMessage(error,"error");
+            return false;
+          }
+
+        }
+
+      }
+    }
+
+
+    if (this.seleccionTipoAnexoFisicos || this.seleccionAnexoFisicos) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialData1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.rows.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.rows.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].claseAnexo.id == this.rows[_i].claseAnexo.id &&
+              filteredInitialData[_k].tipoAnexoFisico.id == this.rows[_i].tipoAnexoFisico.id) {
+  
+              const error = this.translate.instant('CUMCO005.MENSAJES.repetidosTipoAnexoFisicoFiltradoError',
+                {
+                  filaRep1: String(_i + 1),
+                  tipoAnexo: filteredInitialData[_k].claseAnexo.descripcion,
+                  anexoFisico: filteredInitialData[_k].tipoAnexoFisico.descripcion
+                });
+              this.showMessage(error, "error");
+              return false;
+            }
+  
+          }
+        }
+      }
+
+    }
+
+
+    return true;
+
+  }
+
+  validarAnexoFisicoRepetidos(): any {
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
+
+        if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+
+          if (this.rows[_k].claseAnexo.id !== this.rows[_i].claseAnexo.id &&
+            this.rows[_k].tipoAnexoFisico.id == this.rows[_i].tipoAnexoFisico.id) {
+            const error = this.translate.instant('CUMCO005.MENSAJES.repetidosAnexoFisicoError',
+              {
+                filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                anexoFisico: this.rows[_k].tipoAnexoFisico.descripcion
+              });
+            this.showMessage(error,"error");
+            return false;
+          }
+
+        }
+
+      }
+    }
+
+
+    if (this.seleccionTipoAnexoFisicos || this.seleccionAnexoFisicos) {
+
+      var filteredInitialData = [];
+
+      for (const iniData of this.initialData1) {
+        if(iniData.state !== 'new'){
+          let isData = [];
+          isData =  this.rows.filter(data => data.id === iniData.id);
+          if(isData.length === 0){
+            filteredInitialData.push(iniData);
+          }
+        }
+      }
+
+
+      for (var _i = 0; _i < this.rows.length; _i++) {
+        for (var _k = 0; _k < filteredInitialData.length; _k++) {
+  
+          if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
+  
+            if (filteredInitialData[_k].claseAnexo.id !== this.rows[_i].claseAnexo.id &&
+              filteredInitialData[_k].tipoAnexoFisico.id == this.rows[_i].tipoAnexoFisico.id) {
+  
+              const error = this.translate.instant('CUMCO005.MENSAJES.repetidosAnexoFisicoFiltroError',
+                {
+                  filaRep1: String(_i + 1),
+                  anexoFisico: filteredInitialData[_k].tipoAnexoFisico.descripcion
+                });
+              this.showMessage(error, "error");
+              return false;
+            }
+  
+          }
+        }
+      }
+
+    }
+
+    return true;
+
+  }
+
+  
+
+
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablass
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
+
   edited(rowIndex) {
-    this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
+    //this.rows[rowIndex].state = this.rows[rowIndex].state === 'new' ? 'new' : 'edit';
+    this.compareInitialData(this.rows, this.initialData1);
+  }
+
+
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+  // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
+
+  compareInitialData(currentData: any[], initialData: any[]){
+    console.log(currentData);
+    console.log(initialData);
+    for (var _i = 0; _i < currentData.length; _i++){
+
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit")  {
+        var keys = Object.keys(currentData[_i]);
+        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        var areEqual = true;
+        for (const key of keys){
+          if (typeof currentData[_i][key] === "object"){
+
+            if (currentData[_i][key].id !== initialDataValue[0][key].id){
+              areEqual = false;
+            }
+
+          }
+          else{
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state" ) {
+              areEqual = false;
+            }
+          }
+
+        }
+        if (areEqual){
+          currentData[_i].state = "noedit";
+        }
+        else{
+          currentData[_i].state = "edit";
+        }
+
+      }
+    }
   }
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
    
   // Metodos para Mostrar MENSAJES
-  showMessage(det: string, sev: string) {
+  showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: '', detail: det});
+    this.msgs.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;
@@ -298,19 +610,7 @@ export class Cumco005Component implements OnInit {
     this.hideMessage();
   };
 
-  onGuardarColumna() {
-    if (!this.camposValidos()) {
-      return;
-    } else if (!this.validarRepetidos()) {
-      const error = this.translate.instant('CUMCO005.MENSAJES.repetidos');
-      this.showMessage(error, "error");
-    } else if (!this.validarAnexoRepetidoTipo()) {
-      const error = this.translate.instant('CUMCO005.MENSAJES.repetidosAnexoTipo');
-      this.showMessage(error, "error");
-    } else {
-      this.subcribeRecorridoRepartoFisico(this.buildJson());
-    }
-  }
+  
 
   buildJson(): any {
     let fields = [
@@ -388,7 +688,7 @@ export class Cumco005Component implements OnInit {
             "tipoAnexoFisico.descripcion": '',
             "observacion": row.observacion,
             "tipoAnexoFisico.idDescripcion": '',
-            "tipoAnexoFisico.isCarpeta": row.isCarpeta
+            "UBICARPETA": row.isCarpeta
           },
           "state": row.state
         })
@@ -404,82 +704,6 @@ export class Cumco005Component implements OnInit {
     };
   }
 
-  validarAnexoRepetidoTipo(): any {
-    let counter = {};
-    var result = [];
-    this.rows.forEach(function(couple) {
-      if (!counter[couple.tipoAnexoFisico.id]) {
-        counter[couple.tipoAnexoFisico.id] = 0;
-      }
-      counter[couple.tipoAnexoFisico.id] += 1;
-    })
-
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-      }
-    }
-    return result.length === 0 ? true : false;
-  }
-
-  validarRepetidos(): any {
-    let couples: string[] = [];
-    let counter = {};
-    var result = [];
-    this.rows.forEach(row => {
-      couples.push(row.claseAnexo.id.toString() + row.tipoAnexoFisico.id.toString());
-    })
-
-    couples.forEach(function(couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
-
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-      }
-    }
-    return result.length === 0 ? true : false;
-
-  }
-
-  camposValidos(): any {
-    let valido = true;
-
-    for(var _i = 0; _i < this.rows.length; _i++){
-      let errIndex = _i + 1;
-
-      if (this.rows[_i].claseAnexo.descripcion === ''){
-        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
-        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla1') } );
-        this.showMessage(error ,'error');
-        valido = false;
-      }
-      else if (this.rows[_i].tipoAnexoFisico.descripcion === ''){
-        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
-        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla2') } );
-        this.showMessage(error ,'error');
-        valido = false;
-      }
-      else if (this.rows[_i].observacion === ''){
-        const error = this.translate.instant('CUMCO005.MENSAJES.campoFilaVacioError',
-        { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO005.TABLA1.headerTabla3') } );
-        this.showMessage(error ,'error');
-        valido = false;
-      }
-    }
-
-    //this.rows.forEach(row => {
-    //  valido = valido && (row.claseAnexo.descripcion === '' ? false : true
-    //    && row.tipoAnexoFisico.descripcion === '' ? false : true
-    //      && row.observacion === '' ? false : true);
-    //})
-
-    return valido;
-  }
 
   gteRowColorState(rowData: any){
 
@@ -505,22 +729,4 @@ export class Cumco005Component implements OnInit {
   }
 
 
-}
-
-export interface Row {
-  idRow: any;
-  id: any;
-  tipoAnexoFisico: {
-    id: number;
-    descripcion: string;
-    codigo: string;
-  };
-  claseAnexo: {
-    id: number;
-    descripcion: string;
-  };
-  observacion: string;
-  state: string;
-  isCarpeta: number;
-  idDescripcion: string;
 }

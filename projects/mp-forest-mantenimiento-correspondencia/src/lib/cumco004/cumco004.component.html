@@ -19,9 +19,16 @@
     
     <!-- Start Table -->
     <p-table [columns]="cols" [value]="rows"
-    [paginator]="true" [rows]="15" [rowsPerPageOptions]="[5,10,15,20]"
+    [paginator]="true" [rows]="nRows" [rowsPerPageOptions]="nRowsOptions"
     selectionMode="single" [(selection)]="selectedRows" sortField="tipo_documental" >
     <!-- [scrollable]="true" scrollHeight="500px" > -->
+
+    <!-- Table Column Width -->
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+        <col style="width:5%"> 
+      </colgroup>
+    </ng-template>
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">
@@ -45,39 +52,42 @@
 
       <!-- Table Content -->
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-          <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" *ngIf="textAutocompleteTipoDocumental.length === 0 || row.id_tipo_documental === textAutocompleteTipoDocumental.id" [ngStyle]="gteRowColorState(row)">
+          <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" *ngIf="textAutocompleteTipoDocumental.length === 0 || row.tipoDocumental.id === textAutocompleteTipoDocumental.id" [ngStyle]="gteRowColorState(row)">
               <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
                   <div [ngSwitch]="i">
-                      <div *ngSwitchCase="0">
+
+                    <div *ngSwitchCase="0"> {{rowIndex + 1}} </div>
+
+                      <div *ngSwitchCase="1">
                           <p-cellEditor>
 
                               <ng-template pTemplate="input" >
 
-                                 <input type="text" [(ngModel)]="row.tipo_documental" [maxlength]="100" [disabled]="true">
+                                 <input type="text"  [(ngModel)]="row.tipoDocumental.codigoDescripcion" [maxlength]="100" [disabled]="true">
 
                               </ng-template>
 
                               <ng-template pTemplate="output">
 
-                                  {{row.tipo_documental}}
+                                  {{row.tipoDocumental.codigoDescripcion}}
 
                               </ng-template>
 
                           </p-cellEditor>
                       </div>
-                      <div *ngSwitchCase="1">
+                      <div *ngSwitchCase="2">
                         <p-cellEditor>
                               <ng-template pTemplate="input">
 
 
-                                  <p-autoComplete [(ngModel)]="row.accion" field = "accion" [suggestions]="listaAcciones" (completeMethod)="searchAction($event)"
-                                   [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" 
+                                  <p-autoComplete [(ngModel)]="row.accionDocumental" field="accion" [suggestions]="suggestionsAcciones" (completeMethod)="searchAction($event)"
+                                   [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}"  (focusout)="focusOutTablaAccion(rowIndex)"
                                    (onSelect)="edited(rowIndex)" (click)="onClickElminiarSelected()"></p-autoComplete>
 
                               </ng-template>
                               <ng-template pTemplate="output">
-                                  {{row.accion.accion}}
+                                  {{row.accionDocumental.accion}}
                               </ng-template>
                           </p-cellEditor>
                       </div>

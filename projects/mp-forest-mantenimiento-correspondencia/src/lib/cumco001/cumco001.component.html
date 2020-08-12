@@ -13,7 +13,7 @@
                     <p-autoComplete [dropdown]="true"  [forceSelection]="true"
                                     placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteTipoRadicado" [suggestions]="suggestionsAutoCompleteTipoRadicado"
-                                    (completeMethod)="searchFilterTipoRadicado($event)"
+                                    (completeMethod)="searchFilterTipoRadicado($event)" (focusout)="focusOutFiltroRadicado()"
                                     (onSelect)="onSelectFilterTipoRadicadoOrOrganismoDependencia($event)">
                     </p-autoComplete>
                     <p-button icon="pi pi-times" (click)="onClicBorrarFilterTipoRadicado()"></p-button>
@@ -26,11 +26,11 @@
         <div class="ui-g">
             <div class="ui-g-12">
                 <div class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-                    <p-autoComplete [dropdown]="true" 
+                    <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span> 
+                    <p-autoComplete [dropdown]="true" [forceSelection]="true"
                                     placeholder="{{ 'CUMCO001.FILTROS.filtroOrganismoDependenciaPlaceHolder' | translate }}"
                                     [(ngModel)]="textAutoCompleteOrganismoDependencia" [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
-                                    (completeMethod)="searchFilterOrganismoDependencia($event)"
+                                    (completeMethod)="searchFilterOrganismoDependencia($event)" (focusout)="focusOutOranismoDependencia()"
                                     (onSelect)="onSelectFilterTipoRadicadoOrOrganismoDependencia($event)">
                     </p-autoComplete>
                     <p-button icon="pi pi-times" (click) ="onClicBorrarFilterOrganismoDependencia()"></p-button>
@@ -50,6 +50,13 @@
             selectionMode="single" [(selection)]="selectedRow">
             <!--(onRowSelect)="onRowSelect($event, selectedRow)"> -->
             <!-- [scrollable]="true" scrollHeight="500px"> -->
+
+             <!-- Table Column Widtth -->
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                <col style="width:5%"> 
+                </colgroup>
+            </ng-template>
 
                 <!-- Table Caption -->
                 <ng-template pTemplate="caption">

@@ -131,6 +131,7 @@ export class Cumco003Component implements OnInit {
       ];
 
       this.cols2 = [
+        { field: 'RowIndex', header: ''},
         { field: 'codigo', header: this.translate.instant('CUMCO003.TABLA2.headerTabla1') },
         { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2') },
         { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla3') }
@@ -247,7 +248,7 @@ export class Cumco003Component implements OnInit {
       (getRes: any[]) => {     // Inicio del suscribe
         this.rows = [];
         getRes.forEach(res => {
-          res.tipoComunicacion = res.tipoComunicacion ? res.tipoComunicacion : '';
+          res.tipoComunicacion = res.tipoComunicacion ? res.tipoComunicacion : { "id": '', "codigoDescripcion": '' };
           res.plantilla = res.plantilla ? res.plantilla : { "id": '', "codigo": '' };
           this.rows.push(res);
         })
@@ -395,16 +396,16 @@ export class Cumco003Component implements OnInit {
     this.subscribeTablaDocumento();
   }
 
-  searchTipoComunicacionTabla(event) {
+  searchTipoComunicacionTabla(event, row) {
     this.selectedRows = undefined;
-    this.subscribeTipoComunicacion('?codigoDescripcion=' + event.query);
+    this.subscribeTipoComunicacion('?idClaseDocumental=' + String(row.claseDocumental.id)  + '&codigoDescripcion=' + event.query); // ?idClaseDocumental=2&codigoDescripcion=dec
   }
 
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 
   selectPlantillaTabla(event, row) {
-    row.plantilla = event;
+    //row.plantilla = event;
     this.edited(0);
   }
 
@@ -527,6 +528,30 @@ export class Cumco003Component implements OnInit {
     }
   }
 
+  focusOutTablaPlantilla(rowIndex: number){
+    if(this.rows[rowIndex].plantilla){
+      if (this.rows[rowIndex].plantilla.id === undefined || this.rows[rowIndex].plantilla.id === ''){
+        this.rows[rowIndex].plantilla = {id: '', codigo: ''};
+      }
+    }
+    else if (this.rows[rowIndex].plantilla === ''){
+      this.rows[rowIndex].plantilla = {id: '', codigo: ''};
+    }
+    this.edited(0);
+  }
+
+  focusOutTablaTipoComunicacion(rowIndex: number){
+    if(this.rows[rowIndex].tipoComunicacion){
+      if (this.rows[rowIndex].tipoComunicacion.id === undefined || this.rows[rowIndex].tipoComunicacion.id === ''){
+        this.rows[rowIndex].tipoComunicacion = {id: '', codigoDescripcion: ''};
+      }
+    }
+    else if (this.rows[rowIndex].tipoComunicacion === ''){
+      this.rows[rowIndex].tipoComunicacion = {id: '', codigoDescripcion: ''};
+    }
+    this.edited(0);
+  }
+
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
 
@@ -545,6 +570,7 @@ export class Cumco003Component implements OnInit {
 
 
     this.rows[this.rowIndexValidation].claseDocumental = this.event;
+    this.rows[this.rowIndexValidation].tipoComunicacion = { id: '', codigoDescripcion: '' };
     this.edited(this.rowIndexValidation);
   }
 
@@ -554,6 +580,7 @@ export class Cumco003Component implements OnInit {
     this.rows[this.rowIndexValidation].claseDocumental.codigoDescripcion = '';
     this.rows[this.rowIndexValidation].claseDocumental.descripcion = '';
     this.rows[this.rowIndexValidation].claseDocumental.id = '';
+    this.rows[this.rowIndexValidation].tipoComunicacion = { id: '', codigoDescripcion: '' };
     this.edited(this.rowIndexValidation);
     this.subscribeClaseDocumental('');
   }
@@ -709,7 +736,7 @@ export class Cumco003Component implements OnInit {
     else if (!this.validarClaseDiferentePlantillaSubtipo()) {
       return
     }
-    else if (!this.validarEntradaReactivarTerminos()) {
+    else if (!this.validarSalidaReactivarTerminos()) {
       return
     }
     else if (!this.validarEntradaSubRadicadoTipoDocumental()) {
@@ -785,7 +812,7 @@ export class Cumco003Component implements OnInit {
       if (this.tablaDocumentos[_i].codigo === '' || this.tablaDocumentos[_i].codigo === String.fromCharCode(127)) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           {
-            filaRep1: String(_i + 1),
+            filaVacia: String(_i + 1),
             campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla1')
           });
         this.showMessage("error", error, '');
@@ -828,13 +855,14 @@ export class Cumco003Component implements OnInit {
       });
     } else {
       this.rows[rowIndex].claseDocumental = event;
+      this.rows[rowIndex].tipoComunicacion = { id: '', codigoDescripcion: '' };
       this.edited(rowIndex);
     }
   }
 
   validarCamposPlantilla(): any {
     let valido = true;
-
+    console.log(this.rows);
     for (var _i = 0; _i < this.rows.length; _i++) {
       let errIndex = _i + 1;
 
@@ -863,7 +891,7 @@ export class Cumco003Component implements OnInit {
         valido = false;
       }
       else if (this.rows[_i].claseDocumental.codigoDescripcion != '2 Entrada') {
-        if (this.rows[_i].plantilla.id === '') {
+        if (this.rows[_i].plantilla.id === '' || this.rows[_i].plantilla.id === undefined) {
           const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaPlantillaVacioError',
             { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla1') });
           this.showMessage('error', error, '');
@@ -1047,12 +1075,12 @@ export class Cumco003Component implements OnInit {
 
   }
 
-  validarEntradaReactivarTerminos(): any {
+  validarSalidaReactivarTerminos(): any {
 
     for (var _i = 0; _i < this.rows.length; _i++) {
 
       if (this.rows[_i].tipoDocumental.accion !== undefined) {
-        if (this.rows[_i].claseDocumental.id === 1 && this.rows[_i].tipoDocumental.accion.id === 1 && this.rows[_i].state !== 'delete') {
+        if (this.rows[_i].claseDocumental.id === 2 && this.rows[_i].tipoDocumental.accion.id === 2 && this.rows[_i].state !== 'delete') {
           const error = this.translate.instant('CUMCO003.MENSAJES.entradaReactivarTerminosError',
             { filaError: String(_i + 1) });
           this.showMessage("error", error, '');
@@ -1135,41 +1163,11 @@ export class Cumco003Component implements OnInit {
 
   }
 
-  validarRepetidosSubtipoClase(): any {
-    let couples: string[] = [];
-    let counter = {};
-    var result = [];
-    this.rows.forEach(row => {
-      couples.push(row.tramiteTipoRadicado.id + row.claseDocumental.id);
-      this.repetidoPlantilla = row;
-    })
 
-    couples.forEach(function (couple) {
-      if (!counter[couple]) {
-        counter[couple] = 0;
-      }
-      counter[couple] += 1;
-    })
-
-    for (var prop in counter) {
-      if (counter[prop] >= 2) {
-        result.push(prop);
-        this.rows.forEach(row => {
-          if (prop === row.tramiteTipoRadicado.id + row.claseDocumental.id) {
-            this.repetidoPlantilla = row;
-          }
-        })
-      }
-    }
-    return result.length === 0 ? true : false;
-
-  }
-
-  // Metodos EDICION de Tablas -- Metodos EDICION de Tablass
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
   // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
 
   edited(rowIndex) {
-    console.log('Entro Edited');
     this.compareInitialData(this.rows, this.initialData1);
   }
 
@@ -1197,9 +1195,6 @@ export class Cumco003Component implements OnInit {
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
 
   compareInitialData(currentData: any[], initialData: any[]) {
-
-    console.log(currentData);
-    console.log(initialData);
 
     for (var _i = 0; _i < currentData.length; _i++) {
 
@@ -1547,7 +1542,7 @@ export class Cumco003Component implements OnInit {
             "prorrogaPeticionario": row.prorrogaPeticionario,
             "diasProrroga": "",
             "tipoComunicacion.id": row.tipoComunicacion.id ? row.tipoComunicacion.id : '',
-            "tipoComunicacion.codigoDescripcion": "",
+            "tipoComunicacion.codigoDescripcion": row.tipoComunicacion.codigoDescripcion ? row.tipoComunicacion.codigoDescripcion : '',
             "claseDocumental.codigo": "",
             "claseDocumental.descripcion": "",
             "plantilla.jsonConfiguracion": "",
@@ -1558,9 +1553,9 @@ export class Cumco003Component implements OnInit {
             "tipoRadicado.descripcion": "",
             "tipoRadicado.codigo": "",
             "tipoRadicado.activo": "",
-            "tipoComunicacion.descripcion": "",
-            "tipoComunicacion.codigo": "",
-            "tipoComunicacion.activo": "",
+            "tipoComunicacion.descripcion": row.tipoComunicacion.descripcion ? row.tipoComunicacion.descripcion : '',
+            "tipoComunicacion.codigo": row.tipoComunicacion.codigo ? row.tipoComunicacion.codigo : '',
+            "tipoComunicacion.activo": row.tipoComunicacion.activo ? row.tipoComunicacion.activo : '',
             "tramiteTipoRadicado.webfile": "",
             "tramiteTipoRadicado.entrada": "",
             "tramiteTipoRadicado.modificarDiaTermino": "",

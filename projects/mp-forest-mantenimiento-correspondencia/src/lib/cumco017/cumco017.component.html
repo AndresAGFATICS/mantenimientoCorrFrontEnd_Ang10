@@ -1,5 +1,5 @@
 <div class="ui-fluid">
-<p-tabView>
+<p-tabView> 
 
     <!-- Start Tab Panel 1 -->
     <p-tabPanel header="{{ 'CUMCO017.pestana1' | translate }}">
@@ -8,8 +8,8 @@
         <p-messages [(value)]="msgs"></p-messages>
 
         <!-- Start Table 1 -->
-        <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="15"
-            [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectionTable1">
+        <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="nRowsTable1"
+            [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectionTable1">
 
             <!-- Table Caption 1 -->
             <ng-template pTemplate="caption">
@@ -118,7 +118,7 @@
                     <p-autoComplete [dropdown]="true"
                         placeholder="{{ 'CUMCO017.FILTROS.filtroRadicadoPlaceHolder' | translate }}"
                         [forceSelection]="true"
-                        field="numeroRadicado" [suggestions]="suggestionsFilterRadicado"
+                        field="numrad" [suggestions]="suggestionsFilterRadicado" (focusout)="focusOutFiltroRadicado()"
                         [(ngModel)]="selectionFilterRadicado" (completeMethod)="searchRadicadoFilter($event)"
                         [dropdown]="true" (onSelect)="selectRadciadoFilter()">
                     </p-autoComplete>
@@ -142,8 +142,8 @@
         <p-messages [(value)]="msgs2"></p-messages>
 
         <!-- Start Table 2 -->
-        <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="15"
-            [rowsPerPageOptions]="[5,10,15,20]" selectionMode="single" [(selection)]="selectionTable2">
+        <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="nRowsTable2"
+            [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectionTable2">
 
             <!-- Table Caption 2 -->
             <ng-template pTemplate="caption">
@@ -197,7 +197,7 @@
                                         </p-autoComplete>
                                     </ng-template>
                                     <ng-template pTemplate="output">
-                                        {{row.dependencia.nombreCodigo}}
+                                        {{row.dependencia.nombre}}
                                     </ng-template>
                                 </p-cellEditor>
                             </div>

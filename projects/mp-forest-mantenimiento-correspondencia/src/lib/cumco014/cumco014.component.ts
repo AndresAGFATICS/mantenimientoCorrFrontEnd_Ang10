@@ -38,10 +38,14 @@ export class CUMCO014Component implements OnInit {
   cols: any[];
   seleccionRadicado: any;
   listaRadicado: any[];
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 5;
 
   cols2: any[];
   seleccionSubRadicado: any;
   listaSubRadicado: any[];
+  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable2 = 5;
 
   seleccionCategoria: any;
   listadoCategoria: any[];
@@ -68,6 +72,8 @@ export class CUMCO014Component implements OnInit {
   initialStateTablae3 = true;
   cols3: any[];
   idRow3: number;
+  nRowsOptionsTable3 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable3 = 20;
 
   //Variables Tabla 4
   dataTable4: any[] = [];
@@ -76,9 +82,11 @@ export class CUMCO014Component implements OnInit {
   initialStateTablae4 = true;
   cols4: any[];
   idRow4: number;
+  nRowsOptionsTable4 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable4 = 15;
 
 
-  //Variables Tabla 4
+  //Variables Tabla 5
   seleccionSubRadicado5: any;
   seleccionRadicado5: any;
   dataTable5: any[] = [];
@@ -89,6 +97,8 @@ export class CUMCO014Component implements OnInit {
   idRow5: number;
   suggestionsAutoCompleteSubTipoRadicado5: any[];
   suggestionsRequisito5: any[];
+  nRowsOptionsTable5 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable5 = 15;
 
 
 
@@ -291,7 +301,7 @@ export class CUMCO014Component implements OnInit {
         console.log(this.respSubtipoRadicado);
         this.suggestionsAutoCompleteSubTipoRadicado = [];
         for (var subRad of this.respSubtipoRadicado){
-          this.suggestionsAutoCompleteSubTipoRadicado.push(subRad.descripcion);
+          this.suggestionsAutoCompleteSubTipoRadicado.push(subRad);
         }
     });
   }
@@ -525,7 +535,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   searchSubRadicado(event) {
-    this.subcribeServiceSubTipoRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&descripcion=' + event.query); 
+    this.subcribeServiceSubTipoRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query); 
     console.log(this.suggestionsAutoCompleteSubTipoRadicado);
     console.log(event);
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.codigo); //?codigoDescripcion=' + event.query
@@ -543,7 +553,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   searchSubRadicado5(event) {
-    this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&descripcion=' + event.query); 
+    this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query); 
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.codigo); //?codigoDescripcion=' + event.query
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }
@@ -556,7 +566,8 @@ export class CUMCO014Component implements OnInit {
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 
   onSelectSubtipoRadicado(){
-    this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&descripcion=' + this.seleccionSubRadicado5);
+    console.log(this.seleccionSubRadicado);
+    this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&descripcion=' + this.seleccionSubRadicado.descripcion);
     //this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.codigo + '&idTramite=' + this.seleccionSubRadicado.id ); // idTipo=2&idTramite=102
   }
 
@@ -571,6 +582,35 @@ export class CUMCO014Component implements OnInit {
 
   onSelectTramite(rowData: any, rowIndex : any){
     this.editedSubTipoRadicado(rowIndex);
+  }
+
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+  // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
+
+  focusOutFiltroRadicado(){
+    if(this.seleccionRadicado){
+      if (this.seleccionRadicado.id === undefined || this.seleccionRadicado.id === ''){
+        this.seleccionRadicado = undefined;
+        this.onClicBorrarAutoCompleteRadicado();
+      }
+    }
+    else if (this.seleccionRadicado === '' || this.seleccionRadicado === null){
+      this.seleccionRadicado = undefined;
+      this.onClicBorrarAutoCompleteRadicado();
+    }
+  }
+
+  focusOutFiltroSubRadicado(){
+    if(this.seleccionSubRadicado){
+      if (this.seleccionSubRadicado.id === undefined || this.seleccionSubRadicado.id === ''){
+        this.seleccionSubRadicado = undefined;
+        this.onClicBorrarAutoCompleteSubRadicado();
+      }
+    }
+    else if (this.seleccionSubRadicado === '' || this.seleccionSubRadicado === null){
+      this.seleccionSubRadicado = undefined;
+      this.onClicBorrarAutoCompleteSubRadicado();
+    }
   }
 
 

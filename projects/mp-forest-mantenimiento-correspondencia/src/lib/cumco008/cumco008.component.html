@@ -8,7 +8,7 @@
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"
-            field="codigoDescripcion" [suggestions]="suggestionsFilterCanal" [(ngModel)]="selectionFilterCanal"
+            field="codigoDescripcion" [suggestions]="suggestionsFilterCanal" [(ngModel)]="selectionFilterCanal" (focusout)="focusOutFiltroCanal()"
             (completeMethod)="searchCanalFilter($event)" [dropdown]="true" (onSelect)="selectCanalFilter()">
           </p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarSelectedCanalFilter()"></p-button>
@@ -23,7 +23,7 @@
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"
-            field="codigoDescripcion" [suggestions]="suggestionsFilterMedioEnvio" [(ngModel)]="selectionFilterMedioEnvio"
+            field="codigoDescripcion" [suggestions]="suggestionsFilterMedioEnvio" [(ngModel)]="selectionFilterMedioEnvio" (focusout)="focusOutFiltroMedioEnvio()"
             (completeMethod)="searchMedioEnvioFilter($event)" [dropdown]="true" (onSelect)="selectMedioEnvioFilter()">
           </p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarSelectedMedioEnvioFilter()"></p-button>
@@ -40,8 +40,15 @@
     <p-messages [(value)]="msgs"></p-messages>
 
     <!-- Start Table 1 -->
-    <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,15,20]"
+    <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
       selectionMode="single" [(selection)]="selectionTable1" (onRowSelect)="onRowTable1Select($event, selectionTable1)">
+
+      <!-- Table Column Width -->
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col style="width:5%"> 
+        </colgroup>
+      </ng-template>
 
       <!-- Table Caption 1 -->
       <ng-template pTemplate="caption">
@@ -129,7 +136,7 @@
               <div *ngSwitchCase="6" style="text-align: center">
                 <p-checkbox name="groupname" [(ngModel)]="row.telefonico" [binary]="true"
                   (ngModelChange)="row.telefonico = $event ? 1 : 0" (onChange)="checkboxTelefonicoChange(row)"
-                  [disabled]="row.state==='delete'">
+                  [disabled]="row.state==='delete'"> 
                 </p-checkbox>
               </div>
 
@@ -149,8 +156,15 @@
     <p-messages [(value)]="msgs2"></p-messages>
     
     <!-- Start Table 2 -->
-    <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]"
+    <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="nRowsTable2" [rowsPerPageOptions]="nRowsOptionsTable2"
              selectionMode="single" [(selection)]="selectionTable2">
+
+      <!-- Table Column Width -->
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col style="width:5%"> 
+        </colgroup>
+      </ng-template>
 
       <!-- Table Caption 2 -->
       <ng-template pTemplate="caption">
@@ -192,7 +206,7 @@
 
             <div [ngSwitch]="i">
 
-              <div *ngSwitchCase="0"> {{row[col.field]}} </div>
+              <div *ngSwitchCase="0"> {{rowIndex + 1}} </div>
 
               <div *ngSwitchCase="1">
                 <p-cellEditor>
