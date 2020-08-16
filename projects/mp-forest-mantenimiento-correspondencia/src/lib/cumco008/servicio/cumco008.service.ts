@@ -21,12 +21,7 @@ export class Cumco008Service extends GeneralService {
   }
 
   public postCanalEnvio(body: any) {
-    if(this._IN_DEVELOP){
-      return this.post('/mnt-corr//1.0.0/canalEnvio/guardarGrid',body);
-    }else{
-      return this.post('/mnt-corr/1.0.0/canalEnvio/guardarGrid',body);
-    }
-    //return this.post('/forest/documentos/1.0.0/categoriaRadicado/guardar', body); 
+    return this.post('/mnt-corr/1.0.0/canalEnvio/guardarGrid',body);
   }
 
   // Table 2 Services

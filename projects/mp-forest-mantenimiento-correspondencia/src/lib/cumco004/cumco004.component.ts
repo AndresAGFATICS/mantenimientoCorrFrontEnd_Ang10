@@ -31,10 +31,11 @@ export class CUMCO004Component implements OnInit {
   initiaLState = true;
   nRowsOptions = [1,5,10,15,20,25,50];
   nRows = 15;
+  rowInd = 0;
 
   // Headers de la tabla
   cols: any[];
-  selectedRows: any[];
+  selectedRows: any[]; 
 
   // Variables de los autocompletables
   textAutocompleteTipoDocumental: any;
@@ -58,6 +59,7 @@ export class CUMCO004Component implements OnInit {
   }
 
   ngOnInit() {
+    this.rowInd = 0;
     // Setting lenguaje por defecto
     this.translate.setDefaultLang('es');
     // Nombrar las columnas de la primera tabla
@@ -111,13 +113,17 @@ export class CUMCO004Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         this.rows = [];
+        this.rowInd = 0;
         for (const data of response) {
-          if (data.id){
+          //if (data.id){
+            
+            data.diIdex = this.rowInd;
+            this.rowInd= this.rowInd+1;
             if (!data.accionDocumental){
               data.accionDocumental = {id: '', accion: ''};
             }
             this.rows.push({ ...data, state: 'noedit'} );
-          }
+          //}
         }
 
         if (this.initiaLState){

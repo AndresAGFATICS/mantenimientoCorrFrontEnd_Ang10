@@ -39,4 +39,9 @@ export class Cumco003Service extends GeneralService{
   public postComuniacion(body: any) {
     return this.post('/forest/documentos/1.0.0/tipoComunicacion/guardar', body);
   }
+
+  public getForestPropiedades(parameters: string) {
+    return this.get('/mnt-corr/1.0.0/forestPropiedades' + parameters);
+  }
+
 }

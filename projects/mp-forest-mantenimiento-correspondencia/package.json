@@ -1,6 +1,6 @@
 {
   "name": "mp-forest-mantenimiento-correspondencia",
-  "version": "2.0.11",
+  "version": "2.0.18",
   "peerDependencies": {
     "@angular/common": "^10.0.0",
     "@angular/core": "^10.0.0"

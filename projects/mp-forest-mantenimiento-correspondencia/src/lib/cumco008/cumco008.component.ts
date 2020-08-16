@@ -254,7 +254,6 @@ export class Cumco008Component implements OnInit {
       () => {                 // Fin del suscribe
 
         if(responseData.length !== 0){
-          console.log('HOLA 2')
           const error = this.translate.instant('CUMCO008.MENSAJES.medioEnvioAsociadoRadicadodoError',
                         {medioEnvio: this.selectionTable2.medioEnvio.descripcion , canal: this.selectionTable2.canalEnvio.descripcion  });
           this.showMessage2(error, "error");
@@ -408,7 +407,6 @@ export class Cumco008Component implements OnInit {
   onClickEliminar2(){
 
     if (this.selectionTable2 && this.selectionTable2.state !== 'new') {
-      console.log('HOLA')
       this.subcribeGetRadicadoMedioEnvio('?page=1&size=1&anulado=0&medioEnvio=' + String(this.selectionTable2.medioEnvio.id) ); // ?page=1&size=1&medioEnvio=1
     } else if (this.selectionTable2 && this.selectionTable2.state === 'new') {
       let index = this.dataTable2.indexOf(this.selectionTable2);
@@ -654,7 +652,7 @@ export class Cumco008Component implements OnInit {
 
 
 
-  // Metodos EDICION de Tablas -- Metodos EDICION de Tablass
+  // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
   // Metodos EDICION de Tablas -- Metodos EDICION de Tablas
 
   editedTable1(){

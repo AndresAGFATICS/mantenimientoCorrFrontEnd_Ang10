@@ -1,12 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
-import { Cumco016Component } from './cumco016.component';
-import { Cumco016RoutingModule } from './cumco016-routing.module';
-
+import { Cumco020Component } from './cumco020.component';
+import { Cumco020RoutingModule } from './cumco020-routing.module';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 //prime Faces
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -15,22 +12,26 @@ import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
-import { TreeModule } from 'primeng/tree';
-import { PickListModule } from 'primeng/picklist';
 import { CheckboxModule } from 'primeng/checkbox';
-
-import { translateModule } from '../cumco001/cumco001.module'; 
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { MessagesModule } from 'primeng/messages';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MultiTranslateHttpLoader } from 'ngx-translate-multi-http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpLoaderFactory } from '../cumco001/cumco001.module';
+import { translateModule } from '../cumco001/cumco001.module';
+
 
 
 @NgModule({
   declarations: [
-    Cumco016Component
+    Cumco020Component
   ],
   imports: [
     CommonModule,
-    Cumco016RoutingModule,
+    Cumco020RoutingModule,
     FormsModule,
     HttpClientModule,
     AutoCompleteModule,
@@ -39,13 +40,14 @@ import { MessagesModule } from 'primeng/messages';
     TabViewModule,
     ToolbarModule,
     TableModule,
-    TreeModule,
-    PickListModule,
     CheckboxModule,
+    ToastModule,
+    DropdownModule,
     MessagesModule,
+    HttpClientModule,
     translateModule
   ],
   providers: [],
-  bootstrap: [Cumco016Component]
+  bootstrap: [Cumco020Component]
 })
-export class Cumco016Module { }
+export class Cumco020Module { }

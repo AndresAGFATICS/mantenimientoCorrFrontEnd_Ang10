@@ -74,6 +74,7 @@ export class Cumco003Component implements OnInit {
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 10;
 
+  habilitarPlantilla: boolean;
 
   idRow: number;
   rowIndex = 0;
@@ -106,6 +107,8 @@ export class Cumco003Component implements OnInit {
     this.subscribeClaseDocumental('');
     this.subscribeTablaDocumento();
     this.subscribeTablaPlantilla();
+
+    this.subscribeGetForestPropiedades('?nombre=corr.HabilitarTipDocPlantillas');
   }
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
@@ -250,6 +253,10 @@ export class Cumco003Component implements OnInit {
         getRes.forEach(res => {
           res.tipoComunicacion = res.tipoComunicacion ? res.tipoComunicacion : { "id": '', "codigoDescripcion": '' };
           res.plantilla = res.plantilla ? res.plantilla : { "id": '', "codigo": '' };
+          res.tipoRadicado = res.tipoRadicado ? res.tipoRadicado : { "id": '', "codigoDescripcion": '' };
+          res.tramiteTipoRadicado = res.tramiteTipoRadicado ? res.tramiteTipoRadicado : { "id": '', "descripcion": '' };
+          res.tipoDocumental = res.tipoDocumental ? res.tipoDocumental : { "id": '', "codigoDescripcion": '' };
+          res.claseDocumental = res.claseDocumental ? res.claseDocumental : { "id": '', "codigoDescripcion": '' }; 
           this.rows.push(res);
         })
         this.rows.forEach(documento => {
@@ -333,6 +340,7 @@ export class Cumco003Component implements OnInit {
         this.initialStateRows = true;
         this.subscribeTablaPlantilla();
         this.showMessage('success', this.responseGuardarPlantilla.message, '');
+        this.subscribeGetForestPropiedades('?nombre=corr.HabilitarTipDocPlantillas');
 
       });
   }
@@ -354,6 +362,36 @@ export class Cumco003Component implements OnInit {
         // this.updateTablePersona();
       });
   }
+
+  subscribeGetForestPropiedades(parameters: any) {
+    let response: any[];
+    this.cumco003Service.getForestPropiedades(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = [];
+        getRes.forEach(res => {
+          response.push(res);
+        })
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        if(response.length !== 0){
+          if (response[0].valor.toLowerCase() == 'false' ){
+            this.habilitarPlantilla = false;
+          }
+          else{
+            this.habilitarPlantilla = true;
+          }
+        }
+        else{
+          this.habilitarPlantilla = true;
+        }
+        console.log(this.habilitarPlantilla);
+      });
+  }
+
 
 
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
@@ -410,18 +448,18 @@ export class Cumco003Component implements OnInit {
   }
 
   selectTipoRadicadoTabla(event, row) {
-    row.tipoRadicado = event;
+    //row.tipoRadicado = event;
     row.tramiteTipoRadicado = { id: '', descripcion: '' };
     this.edited(0);
   }
 
   selectSubtipoRadicadoTabla(event, row) {
-    row.tramiteTipoRadicado = event;
+    //row.tramiteTipoRadicado = event;
     this.edited(0);
   }
 
   selectTipoDocumentalTabla(event, row) {
-    row.tipoDocumental = event;
+    //row.tipoDocumental = event;
     this.edited(0);
   }
 
@@ -431,7 +469,7 @@ export class Cumco003Component implements OnInit {
   }
 
   selectClaseDocumentalTabla2(event, row) {
-    row.claseDocumental = event;
+    //row.claseDocumental = event;
     this.editedDocument(0);
   }
 
@@ -528,6 +566,7 @@ export class Cumco003Component implements OnInit {
     }
   }
 
+
   focusOutTablaPlantilla(rowIndex: number){
     if(this.rows[rowIndex].plantilla){
       if (this.rows[rowIndex].plantilla.id === undefined || this.rows[rowIndex].plantilla.id === ''){
@@ -536,6 +575,59 @@ export class Cumco003Component implements OnInit {
     }
     else if (this.rows[rowIndex].plantilla === ''){
       this.rows[rowIndex].plantilla = {id: '', codigo: ''};
+    }
+    this.edited(0);
+  }
+
+  focusOutTablaTipoRadicado(rowIndex: number){
+    if(this.rows[rowIndex].tipoRadicado){
+      if (this.rows[rowIndex].tipoRadicado.id === undefined || this.rows[rowIndex].tipoRadicado.id === ''){
+        this.rows[rowIndex].tipoRadicado = {id: '', codigoDescripcion: ''};
+        this.rows[rowIndex].tramiteTipoRadicado = {id: '', codigoDescripcion: ''};
+      }
+    }
+    else if (this.rows[rowIndex].tipoRadicado === ''){
+      this.rows[rowIndex].tipoRadicado = {id: '', codigoDescripcion: ''};
+      this.rows[rowIndex].tramiteTipoRadicado = {id: '', codigoDescripcion: ''};
+    }
+    this.edited(0);
+  }
+
+  focusOutTablaSubTipoRadicado(rowIndex: number){
+    if(this.rows[rowIndex].tramiteTipoRadicado){
+      if (this.rows[rowIndex].tramiteTipoRadicado.id === undefined || this.rows[rowIndex].tramiteTipoRadicado.id === ''){
+        this.rows[rowIndex].tramiteTipoRadicado = {id: '', codigoDescripcion: ''};
+      }
+    }
+    else if (this.rows[rowIndex].tramiteTipoRadicado === ''){
+      this.rows[rowIndex].tramiteTipoRadicado = {id: '', codigoDescripcion: ''};
+    }
+    this.edited(0);
+  }
+
+
+  focusOutTablaTipoDocumental(rowIndex: number){
+    if(this.rows[rowIndex].tipoDocumental){
+      if (this.rows[rowIndex].tipoDocumental.id === undefined || this.rows[rowIndex].tipoDocumental.id === ''){
+        this.rows[rowIndex].tipoDocumental = {id: '', codigoDescripcion: ''};
+      }
+    }
+    else if (this.rows[rowIndex].tipoDocumental === ''){
+      this.rows[rowIndex].tipoDocumental = {id: '', codigoDescripcion: ''};
+    }
+    this.edited(0);
+  }
+
+  focusOutTablaClaseDocumental(rowIndex: number){
+    if(this.rows[rowIndex].claseDocumental){
+      if (this.rows[rowIndex].claseDocumental.id === undefined || this.rows[rowIndex].claseDocumental.id === ''){
+        this.rows[rowIndex].claseDocumental = {id: '', codigoDescripcion: ''};
+        this.rows[rowIndex].tipoComunicacion = {id: '', codigoDescripcion: ''};
+      }
+    }
+    else if (this.rows[rowIndex].claseDocumental === ''){
+      this.rows[rowIndex].claseDocumental = {id: '', codigoDescripcion: ''};
+      this.rows[rowIndex].tipoComunicacion = {id: '', codigoDescripcion: ''};
     }
     this.edited(0);
   }
@@ -866,31 +958,33 @@ export class Cumco003Component implements OnInit {
     for (var _i = 0; _i < this.rows.length; _i++) {
       let errIndex = _i + 1;
 
-      if (this.rows[_i].tipoRadicado.id === '') {
+      if (this.rows[_i].tipoRadicado.id === '' && !this.habilitarPlantilla) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla2') });
         this.showMessage('error', error, '');
         valido = false;
       }
-      else if (this.rows[_i].tramiteTipoRadicado.id === '') {
+      else if (this.rows[_i].tramiteTipoRadicado.id === '' && !this.habilitarPlantilla) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla3') });
         this.showMessage('error', error, '');
         valido = false;
       }
-      else if (this.rows[_i].tipoDocumental.id === '') {
+      //else if (this.rows[_i].tipoDocumental.id === '' && !this.habilitarPlantilla) {
+        else if (this.rows[_i].tipoDocumental.id === '') {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla4') });
         this.showMessage('error', error, '');
         valido = false;
       }
-      else if (this.rows[_i].claseDocumental.id === '') {
+      //else if (this.rows[_i].claseDocumental.id === '' && !this.habilitarPlantilla) {
+      else if (this.rows[_i].claseDocumental.id === '' && !this.habilitarPlantilla) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla5') });
         this.showMessage('error', error, '');
         valido = false;
       }
-      else if (this.rows[_i].claseDocumental.codigoDescripcion != '2 Entrada') {
+      else if (this.rows[_i].claseDocumental.codigoDescripcion != '2 Entrada' &&  this.rows[_i].claseDocumental.id !== '') {
         if (this.rows[_i].plantilla.id === '' || this.rows[_i].plantilla.id === undefined) {
           const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaPlantillaVacioError',
             { filaVacia: errIndex, campoVacio: this.translate.instant('CUMCO003.TABLA1.headerTabla1') });
@@ -937,9 +1031,12 @@ export class Cumco003Component implements OnInit {
 
         if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
 
-          if (this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
-            this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
-            this.rows[_k].plantilla.id === this.rows[_i].plantilla.id) {
+          if (this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id && 
+              this.rows[_i].tramiteTipoRadicado.id !== '' && this.rows[_k].tramiteTipoRadicado.id !== '' &&
+              this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
+              this.rows[_i].tipoDocumental.id !== '' && this.rows[_k].tipoDocumental.id !== '' &&
+              this.rows[_k].plantilla.id === this.rows[_i].plantilla.id &&
+              this.rows[_i].plantilla.id !== '' && this.rows[_k].plantilla.id !== '') {
 
             const error = this.translate.instant('CUMCO003.MENSAJES.campoSubRadciadoTipoDocumentalRepetidoError',
               {
@@ -978,8 +1075,11 @@ export class Cumco003Component implements OnInit {
           if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
   
             if (filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+              filteredInitialData[_k].tramiteTipoRadicado.id !== ''  && this.rows[_i].tramiteTipoRadicado.id !== '' &&
               filteredInitialData[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
-              filteredInitialData[_k].plantilla.id === this.rows[_i].plantilla.id) {
+              filteredInitialData[_k].tipoDocumental.id !== ''  && this.rows[_i].tipoDocumental.id !== '' &&
+              filteredInitialData[_k].plantilla.id === this.rows[_i].plantilla.id && 
+              filteredInitialData[_k].plantilla.id !== ''  && this.rows[_i].plantilla.id !== '') {
   
               const error = this.translate.instant('CUMCO003.MENSAJES.campoSubRadciadoTipoDocumentalRepetidoFiltradoError',
                 {
@@ -1010,8 +1110,11 @@ export class Cumco003Component implements OnInit {
         if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
 
           if (this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+            this.rows[_i].tramiteTipoRadicado.id !== '' && this.rows[_k].tramiteTipoRadicado.id !== '' &&
             this.rows[_k].plantilla.id === this.rows[_i].plantilla.id &&
-            this.rows[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id) {
+            this.rows[_i].plantilla.id !== '' && this.rows[_k].plantilla.id !== '' &&
+            this.rows[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id && 
+            this.rows[_i].claseDocumental.id !== '' && this.rows[_k].claseDocumental.id !== '') {
 
             const error = this.translate.instant('CUMCO003.MENSAJES.claseDocumentalDiferenteError',
               {
@@ -1050,8 +1153,11 @@ export class Cumco003Component implements OnInit {
           if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
   
             if (filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
+              filteredInitialData[_k].tramiteTipoRadicado.id !== ''  && this.rows[_i].tramiteTipoRadicado.id !== '' &&
               filteredInitialData[_k].plantilla.id === this.rows[_i].plantilla.id &&
-              filteredInitialData[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id) {
+              filteredInitialData[_k].plantilla.id !== ''  && this.rows[_i].plantilla.id !== '' &&
+              filteredInitialData[_k].claseDocumental.id !== this.rows[_i].claseDocumental.id && 
+              filteredInitialData[_k].claseDocumental.id !== ''  && this.rows[_i].claseDocumental.id !== '') {
   
               const error = this.translate.instant('CUMCO003.MENSAJES.claseDocumentalDiferenteFiltradoError',
                 {
@@ -1080,7 +1186,8 @@ export class Cumco003Component implements OnInit {
     for (var _i = 0; _i < this.rows.length; _i++) {
 
       if (this.rows[_i].tipoDocumental.accion !== undefined) {
-        if (this.rows[_i].claseDocumental.id === 2 && this.rows[_i].tipoDocumental.accion.id === 2 && this.rows[_i].state !== 'delete') {
+        if (this.rows[_i].claseDocumental.id === 2 && this.rows[_i].tipoDocumental.accion.id === 1 && this.rows[_i].state !== 'delete' &&
+            this.rows[_i].claseDocumental.id !== '' && this.rows[_i].tipoDocumental.id !== '') {
           const error = this.translate.instant('CUMCO003.MENSAJES.entradaReactivarTerminosError',
             { filaError: String(_i + 1) });
           this.showMessage("error", error, '');
@@ -1101,8 +1208,11 @@ export class Cumco003Component implements OnInit {
         if (this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
 
           if ((this.rows[_k].claseDocumental.id === 1 || this.rows[_i].claseDocumental.id === 1) &&
+            this.rows[_i].claseDocumental.id !== '' && this.rows[_k].claseDocumental.id !== '' &&
             this.rows[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
-            this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id) {
+            this.rows[_i].tramiteTipoRadicado.id !== '' && this.rows[_k].tramiteTipoRadicado.id !== '' &&
+            this.rows[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id && 
+            this.rows[_i].tipoDocumental.id !== '' && this.rows[_k].tipoDocumental.id !== '') {
 
             const error = this.translate.instant('CUMCO003.MENSAJES.entradaSubRadicadoTipoDocumentalRepetidoError',
               {
@@ -1140,8 +1250,11 @@ export class Cumco003Component implements OnInit {
           if (this.rows[_i].state !== 'delete' && filteredInitialData[_k].state !== 'delete') {
   
             if ((filteredInitialData[_k].claseDocumental.id === 1 || this.rows[_i].claseDocumental.id === 1) &&
+            filteredInitialData[_k].claseDocumental.id !== ''  && this.rows[_i].claseDocumental.id !== '' &&
             filteredInitialData[_k].tramiteTipoRadicado.id === this.rows[_i].tramiteTipoRadicado.id &&
-            filteredInitialData[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id) {
+            filteredInitialData[_k].tramiteTipoRadicado.id !== ''  && this.rows[_i].tramiteTipoRadicado.id !== '' &&
+            filteredInitialData[_k].tipoDocumental.id === this.rows[_i].tipoDocumental.id &&
+            filteredInitialData[_k].tipoDocumental.id !== ''  && this.rows[_i].tipoDocumental.id !== '') {
   
               const error = this.translate.instant('CUMCO003.MENSAJES.entradaSubRadicadoTipoDocumentalRepetidoFiltradoError',
                 {
@@ -1189,7 +1302,7 @@ export class Cumco003Component implements OnInit {
       row.diasProrroga = undefined;
     }
     this.edited(0);
-  }
+  } 
 
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
@@ -1483,16 +1596,16 @@ export class Cumco003Component implements OnInit {
         features.push({
           "attributes": {
             "id": row.id,
-            "plantilla.id": row.plantilla.id,
-            "plantilla.codigo": row.plantilla.codigo,
-            "tipoRadicado.id": row.tipoRadicado.id,
-            "tipoRadicado.codigoDescripcion": row.tipoRadicado.codigoDescripcion,
-            "tramiteTipoRadicado.id": row.tramiteTipoRadicado.id,
-            "tramiteTipoRadicado.descripcion": row.tramiteTipoRadicado.descripcion,
-            "tipoDocumental.id": row.tipoDocumental.id,
-            "tipoDocumental.codigoDescripcion": row.tipoDocumental.codigoDescripcion,
-            "claseDocumental.id": row.claseDocumental.id,
-            "claseDocumental.codigoDescripcion": row.claseDocumental.codigoDescripcion,
+            "plantilla.id": row.plantilla.id ? row.plantilla.id : '',
+            "plantilla.codigo": row.plantilla.codigo ? row.plantilla.codigo : '',
+            "tipoRadicado.id": row.tipoRadicado.id ? row.tipoRadicado.id : '',
+            "tipoRadicado.codigoDescripcion": row.tipoRadicado.codigoDescripcion ? row.tipoRadicado.codigoDescripcion : '',
+            "tramiteTipoRadicado.id": row.tramiteTipoRadicado.id ? row.tramiteTipoRadicado.id : '',
+            "tramiteTipoRadicado.descripcion": row.tramiteTipoRadicado.descripcion ? row.tramiteTipoRadicado.descripcion : '',
+            "tipoDocumental.id": row.tipoDocumental.id ? row.tipoDocumental.id : '',
+            "tipoDocumental.codigoDescripcion": row.tipoDocumental.codigoDescripcion ? row.tipoDocumental.codigoDescripcion : '',
+            "claseDocumental.id": row.claseDocumental.id ? row.claseDocumental.id : '',
+            "claseDocumental.codigoDescripcion": row.claseDocumental.codigoDescripcion ? row.claseDocumental.codigoDescripcion : '',
             "terminoRequerimiento": row.terminoRequerimiento,
             "diasRequerimiento": row.diasRequerimiento,
             "prorrogaEntidad": row.prorrogaEntidad,
@@ -1504,12 +1617,12 @@ export class Cumco003Component implements OnInit {
             "claseDocumental.descripcion": row.claseDocumental.descripcion,
             "plantilla.jsonConfiguracion": "",
             "plantilla.macroproceso": "",
-            "tipoDocumental.activo": row.tipoDocumental.activo,
-            "tipoDocumental.codigo": row.tipoDocumental.codigo,
-            "tipoDocumental.descripcion": row.tipoDocumental.descripcion,
-            "tipoRadicado.descripcion": row.tipoRadicado.descripcion,
-            "tipoRadicado.codigo": row.tipoRadicado.codigo,
-            "tipoRadicado.activo": row.tipoRadicado.activo,
+            "tipoDocumental.activo": row.tipoDocumental.activo ? row.tipoDocumental.activo : '',
+            "tipoDocumental.codigo": row.tipoDocumental.codigo ? row.tipoDocumental.codigo : '',
+            "tipoDocumental.descripcion": row.tipoDocumental.descripcion ? row.tipoDocumental.descripcion : '',
+            "tipoRadicado.descripcion": row.tipoRadicado.descripcion ? row.tipoRadicado.descripcion : '',
+            "tipoRadicado.codigo": row.tipoRadicado.codigo ? row.tipoRadicado.codigo : '',
+            "tipoRadicado.activo": row.tipoRadicado.activo ? row.tipoRadicado.activo : '',
             "tipoComunicacion.descripcion": row.tipoComunicacion.descripcion ? row.tipoComunicacion.descripcion : '',
             "tipoComunicacion.codigo": row.tipoComunicacion.codigo ? row.tipoComunicacion.codigo : '',
             "tipoComunicacion.activo": row.tipoComunicacion.activo ? row.tipoComunicacion.activo : '',
@@ -1526,15 +1639,15 @@ export class Cumco003Component implements OnInit {
         features.push({
           "attributes": {
             "id": "",
-            "plantilla.id": row.plantilla.id,
+            "plantilla.id": row.plantilla.id ? row.plantilla.id : '',
             "plantilla.codigo": "",
-            "tipoRadicado.id": row.tipoRadicado.id,
+            "tipoRadicado.id": row.tipoRadicado.id ? row.tipoRadicado.id : '',
             "tipoRadicado.codigoDescripcion": "",
-            "tramiteTipoRadicado.id": row.tramiteTipoRadicado.id,
+            "tramiteTipoRadicado.id": row.tramiteTipoRadicado.id ? row.tramiteTipoRadicado.id : '',
             "tramiteTipoRadicado.descripcion": "",
-            "tipoDocumental.id": row.tipoDocumental.id,
+            "tipoDocumental.id": row.tipoDocumental.id ? row.tipoDocumental.id : '',
             "tipoDocumental.codigoDescripcion": "",
-            "claseDocumental.id": row.claseDocumental.id,
+            "claseDocumental.id": row.claseDocumental.id ? row.claseDocumental.id : '',
             "claseDocumental.codigoDescripcion": "",
             "terminoRequerimiento": row.terminoRequerimiento,
             "diasRequerimiento": row.diasRequerimiento,

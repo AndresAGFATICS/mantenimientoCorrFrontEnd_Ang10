@@ -24,6 +24,8 @@ export class Cumco017Component implements OnInit {
     private messageService: MessageService,
     private cumco017Service: Cumco017Service) { }
 
+  forestPropiedad: any;
+  habilitarPestana2: boolean;
 
   // Variables para los mensajes
   msgs: Message[] = [];
@@ -77,6 +79,8 @@ export class Cumco017Component implements OnInit {
     this.subscribeGetClasificacionInformacion('');
 
     this.subscribeGetOrganismoDependencia('');
+
+    this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
 
   }
 
@@ -165,7 +169,6 @@ export class Cumco017Component implements OnInit {
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
-        console.log(respuestaPost);
         if (respuestaPost.message == 'La relación del medio de envío null con el canal null no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema' ){
           var detelteData: any;
           this.dataTable2.forEach(element => {
@@ -182,6 +185,7 @@ export class Cumco017Component implements OnInit {
           this.initialStateTablae1 = true,
           this.subscribeGetGrupoSeguridad('');
           this.showMessage(respuestaPost.message, "success");
+          this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
         }
         
       });
@@ -215,8 +219,6 @@ export class Cumco017Component implements OnInit {
             }
           }
         })
-
-        console.log(this.suggestionsFilterRadicado);
 
       });
   }
@@ -307,8 +309,38 @@ export class Cumco017Component implements OnInit {
         this.initialStateTablae2 = true,
         this.selectRadciadoFilter();
         this.showMessage2(respuestaPost.message, "success");
+        this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
       });
 
+  }
+
+  subscribeGetForestPropiedades(parameters: any) {
+    let response: any[];
+    this.cumco017Service.getForestPropiedades(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = [];
+        getRes.forEach(res => {
+          response.push(res);
+        })
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        if(response.length !== 0){
+          this.forestPropiedad = response[0];
+          if (this.forestPropiedad.valor.toLowerCase() == 'false' ){
+            this.habilitarPestana2 = false;
+          }
+          else{
+            this.habilitarPestana2 = true;
+          }
+        }
+        else{
+          this.habilitarPestana2 = true;
+        }
+      });
   }
 
 

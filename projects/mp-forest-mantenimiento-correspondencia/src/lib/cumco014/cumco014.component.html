@@ -71,7 +71,8 @@
 
                 <div [ngSwitch]="i">
                   <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
-                  <div *ngSwitchCase="1">
+
+                  <div *ngSwitchCase="1" style="text-align: center">
                     {{row.codigo}}
                   </div>
 
@@ -182,7 +183,7 @@
               <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
                 <div [ngSwitch]="i">
-                  <div *ngSwitchCase="0"> {{row.tipoRadicado.codigo}}</div>
+                  <div *ngSwitchCase="0" style="text-align: center"> {{row.tipoRadicado.codigo}}</div>
 
                   <div *ngSwitchCase="1">
                     <p-cellEditor>
@@ -234,43 +235,43 @@
                       (ngModelChange)="row.tramite.habil = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="5">
+                  <div *ngSwitchCase="5" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.modificarDiaTermino" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="row.state === 'delete'"
                       (ngModelChange)="row.modificarDiaTermino = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="6">
+                  <div *ngSwitchCase="6" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.activo" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="row.state === 'delete'"
                       (ngModelChange)="row.activo = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="7">
+                  <div *ngSwitchCase="7" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.entrada" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="row.state === 'delete'"
                       (ngModelChange)="row.entrada = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="8">
+                  <div *ngSwitchCase="8" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.verbal" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="!row.entrada || row.state === 'delete'"
                       (ngModelChange)="row.verbal = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="9">
+                  <div *ngSwitchCase="9" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.cof" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="row.state === 'delete'"
                       (ngModelChange)="row.cof = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="10">
+                  <div *ngSwitchCase="10" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.webfile" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="row.state === 'delete'"
                       (ngModelChange)="row.webfile = $event ? 1 : 0"></p-checkbox>
                   </div>
 
-                  <div *ngSwitchCase="11">
+                  <div *ngSwitchCase="11" style="text-align: center">
                     <p-checkbox name="groupname" [(ngModel)]="row.anonimo" [binary]="true"
                       (onChange)="editedSubTipoRadicado(rowIndex)" [disabled]="!row.webfile || row.state === 'delete'"
                       (ngModelChange)="row.anonimo = $event ? 1 : 0"></p-checkbox>

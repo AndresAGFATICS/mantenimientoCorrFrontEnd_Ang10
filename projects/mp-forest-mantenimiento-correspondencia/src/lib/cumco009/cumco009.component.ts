@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { HostListener } from '@angular/core';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-cumco009',
@@ -75,7 +76,7 @@ export class CUMCO009Component implements OnInit {
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumns();
     this.subscribePersona();
-    this.subscribeIdentficacion();
+    this.subscribeIdentficacion('');
   }
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
@@ -135,8 +136,8 @@ export class CUMCO009Component implements OnInit {
       });
   }
 
-  subscribeIdentficacion() {
-    this.cumco009Service.getIdentificacion().subscribe(
+  subscribeIdentficacion(parameters: string) {
+    this.cumco009Service.getIdentificacion(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
         this.tablaIdentificacion = [];
@@ -155,6 +156,31 @@ export class CUMCO009Component implements OnInit {
       });
   }
 
+  subscribeGet(parameters: string): any {
+    let responseTerceros
+    this.cumco009Service.getTerceros(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        responseTerceros = getRes
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        this.showMessage(getError.error.message, "error");
+      },
+      () => {                 // Fin del suscribe
+        
+        if(responseTerceros.length > 0){
+          const error = this.translate.instant('CUMCO009.MENSAJES.errorIdentificacionTercero', {tipoIdentificacion: this.seleccionConfiguracion.descripcion});
+          this.showMessage(error, "error");
+          return false;
+        }
+        return true;
+
+      });
+  }
+
+
   subscribeConfigurarPersona(clase: any, tipo: any) {
     this.cumco009Service.getConfigurarPersona(clase, tipo).subscribe(
 
@@ -162,11 +188,14 @@ export class CUMCO009Component implements OnInit {
         this.rows = [];
         getRes.forEach(res => {
 
+          const codigoIentif = this.tablaIdentificacion.filter(iden => iden.id === res.id )
+
           this.rows.push({
             idRow: '',
             id: res.id,
             descripcion: res.descripcion,
             editable: res.editable,
+            codigo: codigoIentif[0].codigo,
             tipoPersona: {
               id: res.tipoPersona.id,
               nombreTipoPersona: res.tipoPersona.nombreTipoPersona
@@ -214,7 +243,7 @@ export class CUMCO009Component implements OnInit {
           this.showMessage(this.responseGuardar.message, "success");
           this.showMessage(exito, "success");
           this.subscribePersona();
-          this.subscribeIdentficacion();
+          this.subscribeIdentficacion('');
         }
       });
   }
@@ -240,7 +269,7 @@ export class CUMCO009Component implements OnInit {
           this.initialStateData2 = true;
           this.filtroTipoIdentificacion = undefined;
           this.subscribePersona();
-          this.subscribeIdentficacion();
+          this.subscribeIdentficacion('');
           if (this.seleccionPersona) {
             this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
           }
@@ -399,6 +428,9 @@ export class CUMCO009Component implements OnInit {
       this.showMessage2(error, "error");
     }
     else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state !== 'new') {
+      if(!this.subscribeGet('?page=1&size=1&idIdentificacion=&' + this.seleccionConfiguracion.id.toString() )){
+        return;
+      }
       this.rows.find(row => row === this.seleccionConfiguracion).state = this.seleccionConfiguracion.state === 'delete' ? 'edit' : 'delete';
     } else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state === 'new') {
       let index = this.rows.indexOf(this.seleccionConfiguracion);
@@ -798,6 +830,7 @@ export class CUMCO009Component implements OnInit {
 export interface Row {
   idRow: any;
   id: any;
+  codigo: any;
   descripcion: string;
   editable: number;
   tipoPersona: {

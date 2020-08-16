@@ -46,12 +46,16 @@ export class CUMCO014Component implements OnInit {
   listaSubRadicado: any[];
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 5;
+  initialData2: any[];
+  initialDataTable2 = true;
 
   seleccionCategoria: any;
   listadoCategoria: any[];
 
   tablaTipoRadicado: Radicado[];
   seleccionTablaRadicado: any;
+  initialData1: any[];
+  initialStateTabla1= true;
   idRow: number;
   idRow2: number;
 
@@ -109,6 +113,7 @@ export class CUMCO014Component implements OnInit {
 
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumns();
+
     this.subscribeRadicado('');
     this.subscribeTablaRadicado('');
 
@@ -185,12 +190,12 @@ export class CUMCO014Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
       });
   }
 
-  subscribeCategoria(codigo: any) {
-    this.cumco014Service.getCategoriaradicado(codigo).subscribe(
+  subscribeCategoria(parameters: string) {
+    this.seleccionTablaRadicado = undefined;
+    this.cumco014Service.getCategoriaradicado(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
         this.listadoCategoria = [];
@@ -241,7 +246,15 @@ export class CUMCO014Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        // this.updateTablePersona();
+
+        if (this.initialStateTabla1) {
+          this.initialData1 = [];
+          for (const data of this.tablaTipoRadicado) {
+            this.initialData1.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialStateTabla1 = false;
+        }
+
       });
   }
 
@@ -261,6 +274,9 @@ export class CUMCO014Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         // const exito = this.varText.default.MENSAJES.exitoGuardar;
+        this.initialStateTabla1 = true;
+        this.seleccionRadicado = undefined;
+        this.seleccionSubRadicado = undefined;
         this.showMessage(this.respuestaGuardarRadicado.message, "success");
         this.actualizarTablaRadicado();
       });
@@ -281,6 +297,14 @@ export class CUMCO014Component implements OnInit {
         this.suggestionsAutoCompleteSubTipoRadicado = [];
         for (var subRad of this.listaSubRadicado){
           this.suggestionsAutoCompleteSubTipoRadicado.push(subRad.descripcion);
+        }
+
+        if (this.initialDataTable2) {
+          this.initialData2 = [];
+          for (const data of this.listaSubRadicado) {
+            this.initialData2.push(JSON.parse(JSON.stringify(data)));
+          }
+          this.initialDataTable2 = false;
         }
        
       });
@@ -348,6 +372,8 @@ export class CUMCO014Component implements OnInit {
           this.showMessage2(error, "error");
         }
         else{
+          this.initialDataTable2 = true;
+          this.seleccionSubRadicado = undefined;
           this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id);
           this.showMessage2(this.respuestaGuardarRadicado.message, "success");
         }
@@ -543,11 +569,12 @@ export class CUMCO014Component implements OnInit {
   }
 
   searchCategoria(event) {
-    this.subscribeCategoria(event.query ? event.query : '')
+    this.subscribeCategoria('?activo=1&codigoDescripcion=' + event.query)
   }
 
 
   searchFilterTramite(event) {
+    this.seleccionTablaSubRadicado = undefined;
     this.subscribeGetTramite('?activo=1' + '&codigoDescripcion=' + event.query);
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }
@@ -717,7 +744,6 @@ export class CUMCO014Component implements OnInit {
     else if(!this.validarCampoRepetido()){
       return;
     }
-
 
     this.subcribePostSubtipoRadicado(this.buildJsonSubtipoRadicado());
   }
@@ -1304,12 +1330,14 @@ export class CUMCO014Component implements OnInit {
 
 
   onRowSelect(event, selected){
+    this.initialDataTable2 = true;
     this.subscribeSubRadicado('?idTipo=' + selected.id); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }
 
 
   editedRadicado(rowIndex) {
-    this.tablaTipoRadicado[rowIndex].state =  this.tablaTipoRadicado[rowIndex].state === 'new' ? 'new' : 'edit';
+    //this.tablaTipoRadicado[rowIndex].state =  this.tablaTipoRadicado[rowIndex].state === 'new' ? 'new' : 'edit';
+    this.compareInitialData(this.tablaTipoRadicado, this.initialData1);
   }
 
   editedSubTipoRadicado(rowIndex){
@@ -1317,7 +1345,8 @@ export class CUMCO014Component implements OnInit {
       this.listaSubRadicado[rowIndex].verbal = 0;
     }
 
-    this.listaSubRadicado[rowIndex].state =  this.listaSubRadicado[rowIndex].state === 'new' ? 'new' : 'edit';
+    this.compareInitialData(this.listaSubRadicado, this.initialData2);
+    //this.listaSubRadicado[rowIndex].state =  this.listaSubRadicado[rowIndex].state === 'new' ? 'new' : 'edit';
   }
 
   edited(event){
@@ -1400,9 +1429,9 @@ export class CUMCO014Component implements OnInit {
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
    
   // Metodos para Mostrar MENSAJES
-  showMessage(det: string, sev: string) {
+  showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: '', detail: det});
+    this.msgs.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;
@@ -1411,9 +1440,9 @@ export class CUMCO014Component implements OnInit {
     })();
   }
 
-  showMessage2(det: string, sev: string) {
+  showMessage2(sum: string, sev: string) {
     this.msgs2 = [];
-    this.msgs2.push({severity: sev, summary: '', detail: det});
+    this.msgs2.push({severity: sev, summary: sum, detail: ''});
 
     (async () => {
       const waitTime = 5;

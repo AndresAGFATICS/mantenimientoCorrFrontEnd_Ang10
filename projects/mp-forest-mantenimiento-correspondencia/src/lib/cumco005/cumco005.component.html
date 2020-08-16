@@ -115,7 +115,7 @@
               </div>
               <div *ngSwitchCase="4" style="text-align: center">
                 <p-checkbox name="groupname" [(ngModel)]="row.isCarpeta" binary="true" (ngModelChange)="row.isCarpeta = $event ? 1 : 0"
-                (onChange)="edited(rowIndex)" [disabled]="row.claseAnexo.id !== 1 || row.state === 'delete'"></p-checkbox>
+                (onChange)="edited(rowIndex)" [disabled]="row.claseAnexo.descripcion.search('sico') === -1 || row.state === 'delete'"></p-checkbox>
               </div>
 
             </div>

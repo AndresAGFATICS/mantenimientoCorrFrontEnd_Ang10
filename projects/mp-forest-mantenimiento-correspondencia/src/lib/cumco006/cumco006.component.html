@@ -8,7 +8,7 @@
         <div class="ui-g">
           <div class="ui-g-12">
             <div class="ui-inputgroup">
-              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [(ngModel)]="seleccionCanal" placeholder="{{ 'CUMCO006.FILTROS.filtroCanalConfigurarPlaceHolder' | translate }}" (onChange)="actualizarHora()"></p-dropdown>
+              <p-dropdown [options]="listaCanal" optionLabel="codigoDescripcion" [showClear]="true" [(ngModel)]="seleccionCanal" placeholder="{{ 'CUMCO006.FILTROS.filtroCanalConfigurarPlaceHolder' | translate }}" (onChange)="actualizarHora()"></p-dropdown>
             </div>
           </div>
         </div>

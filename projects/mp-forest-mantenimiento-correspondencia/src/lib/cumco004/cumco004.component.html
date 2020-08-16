@@ -8,7 +8,7 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field = "codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
+          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field="codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
            [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" ></p-autoComplete>
           <p-button icon="pi pi-times" (click) ="onClicBorrarAutoComplete()"></p-button>
         </div>
@@ -52,7 +52,7 @@
 
       <!-- Table Content -->
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-          <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" *ngIf="textAutocompleteTipoDocumental.length === 0 || row.tipoDocumental.id === textAutocompleteTipoDocumental.id" [ngStyle]="gteRowColorState(row)">
+          <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" *ngIf="!textAutocompleteTipoDocumental.id || row.tipoDocumental.id === textAutocompleteTipoDocumental.id" [ngStyle]="gteRowColorState(row)">
               <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
                   <div [ngSwitch]="i">

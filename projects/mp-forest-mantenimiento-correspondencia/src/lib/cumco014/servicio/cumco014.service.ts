@@ -23,7 +23,7 @@ export class Cumco014Service extends GeneralService {
     return this.get('/forest/sistema/1.0.0/tramite/activo' + parameters ); // activo?=tr&activo=1&size=10&page=1'
   }
   public getCategoriaradicado(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/categoriaRadicado' + parameters ); // activo?=tr&activo=1&size=10&page=1'
+    return this.get('/forest/documentos/1.0.0/categoriaRadicado' + parameters ); // ?activo=1&codigoDescripcion=e
   }
   public postGuardarRadicado(body: any) {
     return this.post('/forest/documentos/1.0.0/tipoRadicado/guardar',body);
@@ -34,16 +34,11 @@ export class Cumco014Service extends GeneralService {
 
   // Table 3 Services
   public getCategoriaRadicado2(parameters: string) {
-  return this.get('/forest/documentos/1.0.0/categoriaRadicado' + parameters ); // ?page=1&size=20'
+    return this.get('/forest/documentos/1.0.0/categoriaRadicado' + parameters ); // ?page=1&size=20'
   }
 
   public postCategoriaRadicado(body: any) {
-    if(this._IN_DEVELOP){
-      return this.post('/mnt-corr//1.0.0/categoriaTipoRadicado/guardarGrid',body);
-    }else{
-      return this.post('/mnt-corr/1.0.0/categoriaTipoRadicado/guardarGrid',body);
-    }
-    //return this.post('/forest/documentos/1.0.0/categoriaRadicado/guardar', body); 
+    return this.post('/mnt-corr/1.0.0/categoriaTipoRadicado/guardarGrid',body);
   }
 
   // Table 4 Services

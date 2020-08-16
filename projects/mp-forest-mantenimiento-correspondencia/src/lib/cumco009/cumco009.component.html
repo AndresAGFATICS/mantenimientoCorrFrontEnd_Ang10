@@ -174,10 +174,10 @@
               <div *ngSwitchCase="2">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input type="text" [(ngModel)]="row.id" [disabled]="true">
+                    <input type="text" [(ngModel)]="row.codigo" [disabled]="true">
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{row.id}}
+                    {{row.codigo}}
                   </ng-template>
                 </p-cellEditor>
               </div>

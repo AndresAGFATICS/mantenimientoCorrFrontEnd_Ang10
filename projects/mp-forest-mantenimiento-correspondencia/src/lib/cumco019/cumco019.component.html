@@ -6,7 +6,10 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <div class="ui-inputgroup">
-          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroComunicacionPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
+          <p-dropdown [options]="tipoComunicacionOptions" [(ngModel)]="selectedtipoComunicacion" [showClear]="true"
+            optionLabel="codigoDescripcionGuion"
+            placeholder="{{ 'CUMCO019.FILTROS.filtroComunicacionPlaceHolder' | translate }}">
+          </p-dropdown>
         </div>
       </div>
     </div>
@@ -16,8 +19,12 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroCargoPlaceHolder' | translate }}" [required]="true"></p-autoComplete>
-          <p-button icon="pi pi-times"></p-button>
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroCargoPlaceHolder' | translate }}"
+            (completeMethod)="searchCargoFirmanteTabla2($event)" field="codigoNombreGuion"
+            (onSelect)="selectFilter2($event)" (focusout)="focusOutCargoFilter()" [(ngModel)]="selectedCargoFilter"
+            [suggestions]="suggestionsCargoFirmanteTabla2">
+          </p-autoComplete>
+          <p-button icon="pi pi-times" (click)="onClickBorrarCargoFilter()"></p-button>
         </div>
       </div>
     </div>
@@ -25,113 +32,129 @@
   </p-fieldset>
 
   <p-fieldset legend="{{ 'CUMCO019.tipoComunicacion' | translate }}">
-    <p-table [columns]="columnasAdjuntos" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+
+    <!-- Start Table 1 -->
+    <p-table [columns]="cols1" [value]="dataTable1" [(selection)]="rowSelected1" [paginator]="true"
+      [rowsPerPageOptions]="nRowsOptionsTable1" [rows]="nRowsTable1" selectionMode="single" showCurrentPageReport="true"
+      (onRowSelect)="onRowTable1Select($event, rowSelected1)"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
+
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 3em">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
           <th *ngFor="let col of columns">
             {{col.header}}
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-          <td>
-            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-          </td>
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="rowData.cod">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{rowData.cod}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="rowData.nom" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{rowData.nom}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="rowData.clasdoc" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{rowData.clasdoc}}
-              </ng-template>
-            </p-cellEditor>
+
+
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"
+          *ngIf="!selectedtipoComunicacion || row.id === selectedtipoComunicacion.id" [ngStyle]="gteRowColorState(row)">
+
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+
+              <div *ngSwitchCase="0" style="text-align: center">
+                {{row.codigo}}
+              </div>
+
+              <div *ngSwitchCase="1">
+                {{row.descripcion}}
+              </div>
+
+              <div *ngSwitchCase="2">
+                {{row.claseDocumental.descripcion}}
+              </div>
+
+            </div>
+
           </td>
         </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <div style="padding: 100%">
-        </div>
       </ng-template>
 
     </p-table>
   </p-fieldset>
 
+
   <p-fieldset legend="{{ 'CUMCO019.configurarFirmantes' | translate }}">
     <p>{{ 'CUMCO019.FILTROS.filtroCargoFuncionario' | translate }}</p>
-    <p-table [columns]="columnasAdjuntosComunicacion" [value]="adjunto" [(selection)]="adjuntosSeleccionados" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [rows]="10" selectionMode="multiple" showCurrentPageReport="true"
+
+    <p-messages [(value)]="msgs"></p-messages>
+
+    <!-- Start Table 2 -->
+    <p-table [columns]="cols2" [value]="dataTable2" [(selection)]="rowSelected2" [paginator]="true"
+      [rowsPerPageOptions]="nRowsOptionsTable2" [rows]="nRowsTable2" selectionMode="single" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
+
+      <!-- Table Column Width -->
+      <ng-template pTemplate="colgroup" let-columns>
+        <colgroup>
+          <col style="width:5%">
+        </colgroup>
+      </ng-template>
+
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
-            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="agregarClick()"
+              [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="eliminarClick()"
+              [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left"
+              style="float:left; margin-left: 2px;" (click)="onGuardar()"
+              [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
           </div>
         </div>
       </ng-template>
+
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 3em">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-          </th>
           <th *ngFor="let col of columns">
             {{col.header}}
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr [pSelectableRow]="rowData">
-          <td>
-            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-          </td>
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="rowData.codEsp">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{rowData.codEsp}}
-              </ng-template>
-            </p-cellEditor>
-          </td>
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="rowData.cargo" required>
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{rowData.cargo}}
-              </ng-template>
-            </p-cellEditor>
+
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"
+          *ngIf="!selectedtipoComunicacion || row.id === selectedtipoComunicacion.id" [ngStyle]="gteRowColorState(row)">
+
+          <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+            <div [ngSwitch]="i">
+
+              <div *ngSwitchCase="0"> {{rowIndex + 1}} </div>
+
+              <div *ngSwitchCase="1" style="text-align: center">
+                {{row.tipoComunicacion.codigo}}
+              </div>
+
+              <div *ngSwitchCase="2">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-autoComplete [suggestions]="suggestionsCargoFirmanteTabla2"
+                      (completeMethod)="searchCargoFirmanteTabla2($event)" [dropdown]="true"
+                      [disabled]="row.state === 'delete'" field="codigoNombreGuion" [(ngModel)]="row.cargo"
+                      (onSelect)="selectCargoFirmanteTabla2($event,rowIndex)" [(ngModel)]="row.cargo"
+                      (click)="onClickElminiarSelected2()">
+                    </p-autoComplete>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{row.cargo.codigoNombreGuion}}
+                  </ng-template>
+                </p-cellEditor>
+              </div>
+
+            </div>
+
           </td>
         </tr>
       </ng-template>
+
       <ng-template pTemplate="emptymessage">
         <div style="padding: 100%">
         </div>

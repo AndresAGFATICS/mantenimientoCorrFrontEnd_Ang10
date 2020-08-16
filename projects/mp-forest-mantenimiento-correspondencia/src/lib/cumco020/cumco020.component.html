@@ -1,0 +1,166 @@
+<div class="ui-fluid">
+
+  
+  <p-tabView>
+    
+    <!-- TAB SATART 1 -->
+    <p-tabPanel header="{{ 'CUMCO003.pestana1' | translate }}">
+
+      <p-fieldset legend="{{ 'CUMCO003.titulo' | translate }}">
+
+        <p>{{ 'CUMCO003.FILTROS.filtroPlantilla' | translate }}</p>
+
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+              <p-autoComplete [(ngModel)]="seleccionPlantilla" field="codigo" [suggestions]="listaPlantilla" (completeMethod)="searchPlantilla($event)" [dropdown]="true"  (focusout)="focusOutFiltroPlantilla()"
+              (onSelect)="selectFilter($event)" placeholder="{{ 'CUMCO003.FILTROS.filtroPlantillaPlaceHolder' | translate }}"></p-autoComplete>
+              <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePlantilla()"></p-button>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <br>
+
+        <p-messages [(value)]="msgs"></p-messages>
+
+        <!-- Start Table 1 -->
+        <p-table [columns]="cols" [value]="dataTable1" [paginator]="true" [rows]="selectedRowTable1" 
+        [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
+
+        <!-- Table Column Width 1 -->
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col style="width:5%"> 
+          </colgroup>
+        </ng-template>
+
+          <!-- Table Caption 1 -->
+          <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix menu-sup-grid">
+              <!-- Buttons 1 -->
+              <div class="button-sup-grid">
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+              </div>
+            </div>
+          </ng-template>
+
+          <!-- Table Heardes 1 -->
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+
+          <!-- Table Content 1 -->
+          <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+              <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                <div [ngSwitch]="i">
+
+                  <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
+
+                  <div *ngSwitchCase="1">
+                    <p-cellEditor>
+                      <ng-template pTemplate="input">
+                        <p-autoComplete field="codigo" [suggestions]="listaPlantilla" (onSelect)="selectPlantillaTabla($event,row)" [(ngModel)]="row.plantilla"
+                        (completeMethod)="searchPlantilla($event)" (click)="onClickElminiarSelected()" (focusout)="focusOutTablaTipoComunicacion(rowIndex)"
+                          [dropdown]="true" [disabled]="row.state === 'delete' || row.claseDocumental.codigoDescripcion === '2 Entrada' "></p-autoComplete>
+                      </ng-template>
+                      <ng-template pTemplate="output">
+                        {{row.plantilla.codigo}}
+                      </ng-template>
+                    </p-cellEditor>
+                  </div>
+
+
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+        <!-- End Table -->
+
+      </p-fieldset>
+
+
+    </p-tabPanel>
+
+    <!-- TAB SATART 2 -->
+    <p-tabPanel header="{{ 'CUMCO003.pestana2' | translate }}">
+
+      <p-messages [(value)]="msgs"></p-messages>
+
+      <!-- Start Table 2 -->
+      <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true"  [rows]="nRowsTable2" 
+      [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowTable2">
+
+        <!-- Table Caption 2 -->
+        <ng-template pTemplate="caption">
+          <div class="ui-helper-clearfix menu-sup-grid">
+            <!-- Buttons 2 -->
+            <div class="button-sup-grid">
+              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
+              <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col style="width:5%"> 
+          </colgroup>
+        </ng-template>
+
+        <!-- Table Heardes -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              {{col.header}}
+              <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <!-- Table Content 2 -->
+        <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+            <!-- *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)"> -->
+            <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+              <div [ngSwitch]="i">
+
+                <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
+
+                <div *ngSwitchCase="1">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input" style="text-align: center">
+                      <input type="number" style="text-align: center" [(ngModel)]="row.codigo" [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)" (keydown.enter)="editedDocument(rowIndex)" [maxlength]="2" min="1">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{row.codigo}}
+                    </ng-template>
+                  </p-cellEditor>
+                </div>
+
+
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+      <!-- End Table 2 -->
+
+    </p-tabPanel>
+
+  </p-tabView>
+</div>

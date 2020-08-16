@@ -5,3 +5,8 @@
   p-cellEditor {
     word-break: break-all;
   }
+
+
+  .ui-picklist-source-controls {
+    display: none !important;
+  }

@@ -112,7 +112,6 @@ export class Cumco006Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        this.listaCanal.push(undefined);
       });
   }
 

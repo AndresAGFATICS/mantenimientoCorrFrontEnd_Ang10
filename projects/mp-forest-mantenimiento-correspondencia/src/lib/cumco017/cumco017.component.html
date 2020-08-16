@@ -107,7 +107,7 @@
 
 
     <!-- Start Tab Panel 2 -->
-    <p-tabPanel header="{{ 'CUMCO017.pestana2' | translate }}">
+    <p-tabPanel header="{{ 'CUMCO017.pestana2' | translate }}" *ngIf="habilitarPestana2" [disabled]="!habilitarPestana2">
 
         <p>{{ 'CUMCO017.FILTROS.filtroRadicado' | translate }}</p>
 
@@ -208,7 +208,7 @@
                                     <ng-template pTemplate="input">
                                         <p-autoComplete [dropdown]="true" [style]="{'width':'100%', 'height':'100%'}"
                                             field="nombre" [(ngModel)]="row.funcionario"
-                                            [disabled]="row.state === 'delete'" [suggestions]="suggestionsFuncinoario"
+                                            [disabled]="row.state === 'delete' || !row.dependencia.id" [suggestions]="suggestionsFuncinoario"
                                             (completeMethod)="searchFuncionarioTabla($event, row)"
                                             (onSelect)="selectFuncionarioTable()" (click)="onClickElminiarSelected2()">
                                         </p-autoComplete>

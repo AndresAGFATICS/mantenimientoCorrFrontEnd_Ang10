@@ -1,9 +1,11 @@
-<div class="ui-fluid">
+<div class="ui-fluid"> 
 
   <p-fieldset legend="{{ 'CUMCO016.titulo' | translate }}">
 
+    <p-messages [(value)]="msgs"></p-messages>
+
     <!-- Start Table -->
-    <p-table #dt [columns]="cols" [value]="rows" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,10,20]" selectionMode="multiple" [(selection)]="selectedRows">
+    <p-table #dt [columns]="cols" [value]="rows" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">
@@ -12,7 +14,7 @@
           <div class="button-sup-grid">
             <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
             <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"  (click)="onClicGuardar()"></p-button>
           </div>
         </div>
       </ng-template>
@@ -28,23 +30,28 @@
         </tr>
         <tr>
           <th *ngFor="let col of columns">
-            <input pInputText type="text" placeholder="{{ 'CUMCO016.FILTROS.filtroPlaceHolder' | translate }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')">
+            <input pInputText type="text" placeholder="{{ 'CUMCO016.FILTROS.filtroPlaceHolder' | translate }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')" [style]="{'width':'100%', 'height':'100%'}">
           </th>
         </tr>
       </ng-template>
 
       <!-- Table Content -->
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
           <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
             <div [ngSwitch]="i">
               <div *ngSwitchCase="0" style="text-align: center"> {{row.codigo}} </div>
+
               <div *ngSwitchCase="1" style="text-align: center">
-                <input type="text" [(ngModel)]="row.descripcion" [maxlength]="255">
+                <input type="text" [(ngModel)]="row.descripcion" [maxlength]="255" [style]="{'width':'100%', 'height':'100%'}" style="text-align: center"
+                (focusout)="edited(rowIndex)" (keydown.enter)="edited(rowIndex)">
               </div>
+
               <div *ngSwitchCase="2" style="text-align: center">
-                <p-checkbox name="groupname" [(ngModel)]="row.activo" binary="true"></p-checkbox>
+                <p-checkbox name="groupname" [(ngModel)]="row.activo" binary="true" (onChange)="edited(rowIndex)"
+                (ngModelChange)="row.activo = $event ? 1 : 0" >
+              </p-checkbox>
               </div>
             </div>
 
@@ -60,10 +67,19 @@
   <br>
 
   <p-fieldset legend="{{ 'CUMCO016.tituloVincular' | translate }}">
+     
+
+    <p-messages [(value)]="msgs2"></p-messages>
+
     <div class="p-grid ui-fluid">
 
       <div class="p-col-12 p-md-4">
+        
         <ng-template pTemplate="header" let-columns> </ng-template>
+        <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"  
+        [disabled]="this.selectedFile === undefined"  (click)="onClicGuarda2()"></p-button>
+        <br>
+        <br>
         <p>{{ 'CUMCO016.FILTROS.organismos' | translate }}</p>
         <p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"
         (onNodeSelect)="onNodeSelect($event)"></p-tree>
@@ -71,12 +87,18 @@
 
       <div class="p-col-12 p-md-8">
 
-        <p-pickList [source]="sourceRows" [target]="targetRows" sourceHeader="{{ 'CUMCO016.FILTROS.ejes' | translate }}" targetHeader="{{ 'CUMCO016.FILTROS.ejesOrganismo' | translate }}" [responsive]="true" filterBy="descripcion" dragdrop="true"
+        <p-pickList id="plt"[source]="sourceRows" [target]="targetRows" sourceHeader="{{ 'CUMCO016.FILTROS.ejes' | translate }}" (onTargetSelect)="onTargetSelect($event)" [showSourceControls]="false" [showTargetControls]="false"
+          targetHeader="{{ 'CUMCO016.FILTROS.ejesOrganismo' | translate }}" [responsive]="true" filterBy="ejeTematico.descripcion" dragdrop="true"
+          [disabled]="this.selectedFile === undefined" (onMoveToSource)="onMoveToSource($event)"
           sourceFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" targetFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
 
           <ng-template let-row pTemplate="item">
-            <div class="ui-helper-clearfix">
-              <div style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.descripcion}}</div>
+            <div class="ui-helper-clearfix" style="text-align: center">
+
+              <b *ngIf="row.id !== '' && (row.ejeTematico.isBorrador || row.ejeTematico.isRadicado); else elseBlock" style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.ejeTematico.descripcion}}</b>
+              <ng-template #elseBlock>
+                <p style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.ejeTematico.descripcion}}</p> 
+              </ng-template>
             </div>
           </ng-template>
 

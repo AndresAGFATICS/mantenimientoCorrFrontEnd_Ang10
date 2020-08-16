@@ -13,13 +13,31 @@ export class EjeTematicoService extends GeneralService{
     super(_http);
   }
 
-  public getEjeTematico(descripcion: string, activo: string) {
-    return this.get("/forest/documentos/1.0.0/ejeTematico?activo=" + activo + "&descripcion=" + descripcion);
+  public getEjeTematico(parameters: string, activo: string) {
+    return this.get('/mnt-corr/1.0.0/ejeTematico' + parameters);
   }
+
   public getDependenciaLista(codNombre: string, activo: string) {
-    return this.get("/forest/documentos/1.0.0/dependencia/lista?activo" + activo+ "&codigoNombre=" + codNombre);
+    return this.get("/forest/documentos/1.0.0/dependencia/lista?activo=" + activo + "&codigoNombre=" + codNombre);
   }
+
   public getEjeTematicoDependencia(idDependencia: string) {
-    return this.get("/forest/documentos/1.0.0/ejeTematico/dependencia?idDependencia=" + idDependencia);
+    return this.get('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia?idDependencia=' + idDependencia);
   }
+
+
+  public getEjeTematicoRelacionados(idEje: string) {
+    return this.get('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia?idEjeTematico=' + idEje);
+  }
+
+
+  postEjeTematico(body: any) {
+    return this.post('/mnt-corr/1.0.0/ejeTematico/guardar',body);
+  }
+
+  postRelacionEjeTematicoDependencia(body: any) {
+    return this.post('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia/guardar_grid',body);
+  }
+
+
 }

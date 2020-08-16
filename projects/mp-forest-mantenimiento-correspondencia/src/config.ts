@@ -170,4 +170,15 @@ export class ICUMCO018Module { }
 })
 export class ICUMCO019Module { }
 
+//@ts-ignore
+//@NgModule({
+//    declarations: [],
+//    imports: [
+//        //@ts-ignore
+//        CommonModule,
+//        mantenimientoCorrModule.Cumco020Module
+//    ]
+//})
+//export class ICumco020Module { }
+
 
