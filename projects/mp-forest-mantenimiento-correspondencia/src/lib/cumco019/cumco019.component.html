@@ -35,9 +35,8 @@
 
     <!-- Start Table 1 -->
     <p-table [columns]="cols1" [value]="dataTable1" [(selection)]="rowSelected1" [paginator]="true"
-      [rowsPerPageOptions]="nRowsOptionsTable1" [rows]="nRowsTable1" selectionMode="single" showCurrentPageReport="true"
-      (onRowSelect)="onRowTable1Select($event, rowSelected1)"
-      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+      [rowsPerPageOptions]="nRowsOptionsTable1" [(rows)]="nRowsTable1"  selectionMode="single" 
+      (onRowSelect)="onRowTable1Select($event, rowSelected1)">
 
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -48,7 +47,7 @@
       </ng-template>
 
 
-      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex"> 
         <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"
           *ngIf="!selectedtipoComunicacion || row.id === selectedtipoComunicacion.id" [ngStyle]="gteRowColorState(row)">
 
@@ -85,7 +84,7 @@
 
     <!-- Start Table 2 -->
     <p-table [columns]="cols2" [value]="dataTable2" [(selection)]="rowSelected2" [paginator]="true"
-      [rowsPerPageOptions]="nRowsOptionsTable2" [rows]="nRowsTable2" selectionMode="single" showCurrentPageReport="true"
+      [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single" showCurrentPageReport="true"
       currentPageReportTemplate="Page {currentPage} of {totalPages}">
 
       <!-- Table Column Width -->
@@ -120,8 +119,7 @@
       </ng-template>
 
       <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"
-          *ngIf="!selectedtipoComunicacion || row.id === selectedtipoComunicacion.id" [ngStyle]="gteRowColorState(row)">
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
 
           <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
 
@@ -153,11 +151,6 @@
 
           </td>
         </tr>
-      </ng-template>
-
-      <ng-template pTemplate="emptymessage">
-        <div style="padding: 100%">
-        </div>
       </ng-template>
 
     </p-table>

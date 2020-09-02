@@ -25,6 +25,8 @@ export class CUMCO004Component implements OnInit {
 
   suggestionsAcciones: any[];
 
+  dataFilter: any[];
+
 
   // Array que contiene las filas de la tabla
   rows: any[];
@@ -32,6 +34,7 @@ export class CUMCO004Component implements OnInit {
   nRowsOptions = [1,5,10,15,20,25,50];
   nRows = 15;
   rowInd = 0;
+  pageTable1 = 0;
 
   // Headers de la tabla
   cols: any[];
@@ -113,17 +116,19 @@ export class CUMCO004Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         this.rows = [];
+        this.dataFilter = [];
         this.rowInd = 0;
         for (const data of response) {
-          //if (data.id){
-            
-            data.diIdex = this.rowInd;
-            this.rowInd= this.rowInd+1;
-            if (!data.accionDocumental){
-              data.accionDocumental = {id: '', accion: ''};
+          if (data.id !== undefined){
+            if (data.accionDocumental === undefined){
+              this.rows.push({ ...data, accionDocumental:{ id: '', accion: ''}, state: 'noedit'} );
             }
-            this.rows.push({ ...data, state: 'noedit'} );
-          //}
+            else{
+              this.rows.push({ ...data, state: 'noedit'} );
+            }
+              
+            this.dataFilter.push(data.tipoDocumental);
+          }
         }
 
         if (this.initiaLState){
@@ -134,9 +139,12 @@ export class CUMCO004Component implements OnInit {
           this.initiaLState = false;
         }
 
+        console.log(this.rows);
+
     })
 
   }
+   
 
   subcribeRecorridoRepartoFisico(body: string) {
     this.codigoDescripcionService.postGuardarAccionTipoDocumental(body).subscribe(
@@ -186,8 +194,6 @@ export class CUMCO004Component implements OnInit {
              }
         }
         this.listaAcciones = listaAcciones2;
-        console.log(this.listaAcciones)
-
 
       });
   }
@@ -197,7 +203,19 @@ export class CUMCO004Component implements OnInit {
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
 
   search(event) {
-    this.subscribeDependenciaLista(event.query, '1'); 
+    //this.subscribeDependenciaLista(event.query, '1'); 
+
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.dataFilter.length; i++) {
+      let data = this.dataFilter[i];
+      if (data.codigoDescripcion.toLowerCase().search(query.toLowerCase()) !== -1) {
+        filtered.push(data);
+      }
+    }
+
+    this.codigoDescripcionList = filtered;
+
   }
 
   searchAction(event) {
@@ -216,6 +234,16 @@ export class CUMCO004Component implements OnInit {
     this.suggestionsAcciones = filtered;
   }
 
+  focusOutCargoFilter(rowIndex){
+    if(this.textAutocompleteTipoDocumental){
+      if (this.textAutocompleteTipoDocumental.id === undefined || this.textAutocompleteTipoDocumental.id === ''){
+        this.textAutocompleteTipoDocumental = undefined;
+      }
+    }
+    else if (this.textAutocompleteTipoDocumental === ''){
+      this.textAutocompleteTipoDocumental = undefined;
+    }
+  }
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 

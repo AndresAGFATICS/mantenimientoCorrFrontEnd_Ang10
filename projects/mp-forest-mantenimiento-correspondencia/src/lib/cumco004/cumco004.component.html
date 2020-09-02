@@ -8,9 +8,9 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field="codigoDescripcion" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
+          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field="codigoDescripcion" (focusout)="focusOutCargoFilter()" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
            [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" ></p-autoComplete>
-          <p-button icon="pi pi-times" (click) ="onClicBorrarAutoComplete()"></p-button>
+          <p-button icon="pi pi-times" (click)="onClicBorrarAutoComplete()"></p-button>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
     
     <!-- Start Table -->
     <p-table [columns]="cols" [value]="rows"
-    [paginator]="true" [rows]="nRows" [rowsPerPageOptions]="nRowsOptions"
+    [paginator]="true" [(rows)]="nRows" [rowsPerPageOptions]="nRowsOptions" [(first)]="pageTable1"
     selectionMode="single" [(selection)]="selectedRows" sortField="tipo_documental" >
     <!-- [scrollable]="true" scrollHeight="500px" > -->
 

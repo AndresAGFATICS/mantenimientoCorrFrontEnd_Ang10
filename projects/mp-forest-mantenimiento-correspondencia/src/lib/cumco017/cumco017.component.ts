@@ -43,6 +43,7 @@ export class Cumco017Component implements OnInit {
   suggestionsGrupoSistema: any[];
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 15;
+  pageTable1 = 0;
 
 
   // Variables Filtro 2
@@ -65,6 +66,7 @@ export class Cumco017Component implements OnInit {
   suggestionsFuncinoario: any[];
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 15;
+  pageTable2 = 0;
 
 
   ngOnInit() {
@@ -91,12 +93,14 @@ export class Cumco017Component implements OnInit {
     this.translate.get(['']).subscribe(translations => {
 
       this.cols1 = [
+        { field: 'rowIndex', header: '' },
         { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla0') },
         { field: 'clasificacionInformacion.codigoNombre', header: this.translate.instant('CUMCO017.TABLA1.headerTabla1') },
         { field: 'observacion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla2') }
       ];
 
       this.cols2 = [
+        { field: 'rowIndex', header: '' },
         { field: 'codigo_tipo_radicado', header: this.translate.instant('CUMCO017.TABLA2.headerTabla0') },
         { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA2.headerTabla1') }
       ];
@@ -391,7 +395,7 @@ export class Cumco017Component implements OnInit {
   searchFuncionarioTabla(event, row){
     this.onClickElminiarSelected2()
     if(row.dependencia.id){
-      this.subscribeGetFuncionario('?activo=1&ausente=0&idDependencia='+ String(row.dependencia.id) + '&codigoNombre=' + event.query); //?activo=1&ausente=0&idDependencia=1&codigoNombre=Ga
+      this.subscribeGetFuncionario('?activo=1&ausente=0&idDependencia='+ String(row.dependencia.id) + '&codigoNombre=' + event.query.trim()); //?activo=1&ausente=0&idDependencia=1&codigoNombre=Ga
     }
     else{
       const error = this.translate.instant('CUMCO017.MENSAJES.selecionarDependencia');
@@ -420,7 +424,7 @@ export class Cumco017Component implements OnInit {
   }
 
   selectDependenciaTabla(row){   
-    row.funcionario = {id: '', nombre: String.fromCharCode(0)};
+    row.funcionario = {id: '', nombre: ''};
     this.editedTable2(); 
   }
 
@@ -459,7 +463,7 @@ export class Cumco017Component implements OnInit {
       codigo: '',
       descripcion: '',
       codigoDescripcion: '',
-      clasificacionInformacion: {id: '', codigoNombre: String.fromCharCode(0) },
+      clasificacionInformacion: {id: '', codigoNombre: '' },
       observacion: ' ',
       editable: 1,
       activo: 1,
@@ -467,6 +471,9 @@ export class Cumco017Component implements OnInit {
     }
     this.dataTable1 = [...this.dataTable1, newElement];
     this.idRow1 += 1;
+
+    const newPage = Math.trunc(this.dataTable1.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
   }
 
   onClickEliminar1() {
@@ -508,15 +515,18 @@ export class Cumco017Component implements OnInit {
   onClickAgregar2() {
     let newElement = {
       idRow2: this.idRow2,
-      id:'',
-      funcionario: {id: '', nombre: String.fromCharCode(0)},
-      dependencia: {id: '', nombreCodigo: String.fromCharCode(0)},
+      id: '',
+      funcionario: {id: '', nombre: ''},
+      dependencia: {id: '', nombreCodigo: ''},
       grupoSeguridad: this.grupoSeguridadSelected,
       radicado: this.selectionFilterRadicado,
       state: 'new'
     }
     this.dataTable2 = [...this.dataTable2, newElement];
-    this.idRow1 += 1;
+    this.idRow2 += 1;
+
+    const newPage = Math.trunc(this.dataTable2.length/this.nRowsTable2) * this.nRowsTable2;
+    this.pageTable2 = newPage;
   }
 
   onClickEliminar2() {

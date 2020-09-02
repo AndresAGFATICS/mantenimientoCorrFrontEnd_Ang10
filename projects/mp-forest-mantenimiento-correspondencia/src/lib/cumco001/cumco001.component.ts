@@ -53,6 +53,7 @@ export class CUMCO001Component implements OnInit {
   nRowSelect: number;
   nRowsOptions = [1,5,10,15,20,25,50];
   nRows = 15;
+  pageTable1 = 0;
 
 
   // Variables de los servicios de subcripcion
@@ -132,6 +133,9 @@ export class CUMCO001Component implements OnInit {
         for (const data of responseData) {
           if (!data.funcionario){
             data.funcionario = {codigoNombre: ''};
+          }
+          else{
+            data.funcionario.codigoNombre = data.funcionario.codigoNombreGuion;
           }
           this.asignarResponsableData.push( { ...data, postState: 'noedit'} ); 
         }
@@ -312,6 +316,9 @@ export class CUMCO001Component implements OnInit {
     this.asignarResponsableData = [...this.asignarResponsableData, newData];
 
     this.indexNewNada = this.indexNewNada + 1;
+
+    const newPage = Math.trunc(this.asignarResponsableData.length/this.nRows) * this.nRows;
+    this.pageTable1 = newPage;
 
   }
 
@@ -1095,10 +1102,10 @@ export class CUMCO001Component implements OnInit {
     var windowHeight = window.innerHeight ;
     var a = window.outerHeight + 100
 
-    console.log("Contendio: " + String(contentHeight));
-    console.log("Ventana D: " + String(windowHeight));
-    console.log("Ventana F: " + String(a));
-    console.log("Pantalla: " + String(screen.height));
+    //console.log("Contendio: " + String(contentHeight));
+    //console.log("Ventana D: " + String(windowHeight));
+    //console.log("Ventana F: " + String(a));
+    //console.log("Pantalla: " + String(screen.height));
     
 
     if(a > screen.height-100){

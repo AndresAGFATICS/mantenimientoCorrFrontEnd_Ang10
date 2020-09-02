@@ -49,6 +49,7 @@ export class Cumco005Component implements OnInit {
   initialStateData1 = true;
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 15;
+  pageTable1 = 0;
 
   cols: any[];
 
@@ -59,16 +60,7 @@ export class Cumco005Component implements OnInit {
 
   constructor(private anexosFisicosClaseService: AnexosFisicosClaseService,
     private messageService: MessageService,
-    private translate: TranslateService) {
-    this.cols = [
-      { field: 'id', header: '' },
-      { field: 'claseAnexo.descripcion', header: 'Tipo de Anexo Físico' },
-      { field: 'tipoAnexoFisico.descripcion', header: 'Anexo Físico' },
-      { field: 'observacion', header: 'Descripción' },
-      { field: 'isCarpeta', header: 'Ubicar Folios en Carpetas' }
-    ];
-
-  }
+    private translate: TranslateService) {}
 
   ngOnInit() {
     this.rows = [];
@@ -86,6 +78,7 @@ export class Cumco005Component implements OnInit {
     this.subscribeTipoAnexoFisico();
 
   }
+
   subcribeSetColumns() {
     this.translate.get(['']).subscribe(translations => {
 
@@ -126,7 +119,6 @@ export class Cumco005Component implements OnInit {
       (getRes: any) => {     // Inicio del suscribe
         this.responseGuardar = getRes;
         this.showMessage(getRes.message, "error");
-        console.log(getRes);
         return getRes;
       },
       getError => {           // Error del suscribe
@@ -327,6 +319,10 @@ export class Cumco005Component implements OnInit {
 
     this.rows = [...this.rows, newData];
     this.idRow += 1;
+
+    const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
+
   }
 
   onClicEliminar() {
@@ -546,8 +542,7 @@ export class Cumco005Component implements OnInit {
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
 
   compareInitialData(currentData: any[], initialData: any[]){
-    console.log(currentData);
-    console.log(initialData);
+  
     for (var _i = 0; _i < currentData.length; _i++){
 
       if (currentData[_i].state === "edit" || currentData[_i].state === "noedit")  {

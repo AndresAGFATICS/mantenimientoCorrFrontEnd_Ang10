@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GeneralService } from '../../servicioGeneral/general.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,25 @@ export class Cumco014Service extends GeneralService {
 
   // Table 4 Services
   public getRequisitos(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/requisitos' + parameters ); // ?page=1&size=20'
+    //return this.get('/forest/documentos/1.0.0/requisitos' + parameters ); // ?page=1&size=20'
+    return this.get('/mnt-corr/1.0.0/requisitos' + parameters ); // ?page=1&size=20'
+  }
+
+
+  // Table 4 Services
+  public getFileToken(parameters: string) {
+    //return this.get(location.origin + '/fileUploadServer/rest/fileUpload/getToken' + parameters ); // ?page=1&size=20
+    let urlConsumo = location.origin + '/fileUploadServer/rest/fileUpload/getToken' + parameters ;
+    const options = {
+      headers: this.obtenerHeader()
+    };
+    return this.http.get(urlConsumo, options).pipe(catchError(this.handleError));
+   
+  }
+
+  public postFileToken(body) {
+    return this.post(location.origin + '/fileUploadServer/rest/fileUpload/uploadMultipart', body ); // ?page=1&size=20'
+    //return;
   }
 
 
@@ -51,5 +71,38 @@ export class Cumco014Service extends GeneralService {
   public getRequisitosAsociadoRadicado(parameters: string) {
     return this.get('/forest/documentos/1.0.0/requisitos/tipoRadicadoTramite' + parameters ); // ?idTramiteTipoRadicado=281
   }
+
+
+  // Table 5 Services
+  public postRelacionRequisitoSubRadicado(body: any) {
+    return this.post('/forest/documentos/1.0.0/requisitos/tipoRadicadoTramite/guardar', body); // ?idTramiteTipoRadicado=281
+  }
+
+
+  // Table 5 Services
+  public postPrueba(body: any) {
+    return this.post('/forest/documentos/1.0.0/requisitos/tipoRadicadoTramite/guardar', body); // ?idTramiteTipoRadicado=281
+  }
+
+
+  // Table 5 Services
+  public postReqisito(body: any) {
+    return this.post('/mnt-corr/1.0.0/requitos/guardarFile', body); // ?idTramiteTipoRadicado=281
+  }
+
+
+  // Table 4 Services
+  public getRequisitoRadicadoAsociado(parameters: string) {
+    //return this.get('/forest/documentos/1.0.0/requisitos' + parameters ); // ?page=1&size=20'
+    return this.get('/mnt-corr/1.0.0/RequisitoRadicadoAsociado' + parameters ); // ?idRequisito=121&page=1&size=1'
+  }
+
+
+  // Table 4 Services
+  public getRequisitoRequisitoSubtipoRadicadoAsociado(parameters: string) {
+    //return this.get('/forest/documentos/1.0.0/requisitos' + parameters ); // ?page=1&size=20'
+    return this.get('/mnt-corr/1.0.0/RequisitoSubtipoRadicadoAsociado' + parameters ); // ?page=1&size=1&idRequisito=41&idSubRadicado=2'
+  }
+
 
 }

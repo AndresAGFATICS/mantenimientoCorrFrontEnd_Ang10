@@ -75,10 +75,10 @@ const routes: Routes = [
                 path: "mant-corr/configurar-firmantes",
                 loadChildren: () => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO019Module)
             },
-            //{
-            //    path: "mant-corr/configurar-procesos",
-            //    loadChildren: () => import('../core/verdaccio-config.module').then(mod => mod.ICumco020Module)
-            //},
+            {
+                path: "mant-corr/configurar-procesos",
+                loadChildren: () => import('../core/verdaccio-config.module').then(mod => mod.ICumco020Module)
+            },
             
             /*
             { path: 'crear-caja', component: CrearCajaComponent, canActivate: [AuthGuard] },

@@ -40,7 +40,8 @@
     <p-messages [(value)]="msgs"></p-messages>
     <!-- Start Table -->
     <!-- Start Table -->
-    <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRow"> <!--  sortField="tipo_documental"  -->
+    <p-table [columns]="cols" [value]="rows" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1"
+    [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRow"> <!--  sortField="tipo_documental"  -->
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>

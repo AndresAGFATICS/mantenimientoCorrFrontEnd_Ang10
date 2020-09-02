@@ -70,9 +70,11 @@ export class Cumco003Component implements OnInit {
   selectedRowDocument: any;
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 10;
+  pageTable1 = 0;
 
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 10;
+  pageTable2 = 0;
 
   habilitarPlantilla: boolean;
 
@@ -303,7 +305,6 @@ export class Cumco003Component implements OnInit {
 
       (getRes: any) => {     // Inicio del suscribe
         this.responseGuardarComunicacion = getRes;
-        console.log(getRes);
         return getRes;
       },
       getError => {           // Error del suscribe
@@ -324,7 +325,6 @@ export class Cumco003Component implements OnInit {
 
       (getRes: any) => {     // Inicio del suscribe
         this.responseGuardarPlantilla = getRes;
-        console.log(getRes);
         return getRes;
       },
       getError => {           // Error del suscribe
@@ -388,7 +388,33 @@ export class Cumco003Component implements OnInit {
         else{
           this.habilitarPlantilla = true;
         }
-        console.log(this.habilitarPlantilla);
+  
+      });
+  }
+
+
+  subscribeGetRadicadoBorrador(parameters: string) {
+    var response : any[];
+    this.cumco003Service.getRadicadoBorrador(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        
+        if(response.length !== 0){
+          const error = this.translate.instant('CUMCO003.MENSAJES.elminiarPlantillaError', {plantilla: this.selectedRows.plantilla.codigo});
+          this.showMessage('error', error, '');
+        }
+        else{
+          this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+        }
+
+
       });
   }
 
@@ -756,8 +782,13 @@ export class Cumco003Component implements OnInit {
       cantidad: 0,
       state: 'new'
     }
+
     this.rows = [...this.rows, element];
     this.idRow += 1;
+
+    const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
+
   }
 
   onClicAgregarComunicacion() {
@@ -779,6 +810,9 @@ export class Cumco003Component implements OnInit {
     }
     this.tablaDocumentos = [...this.tablaDocumentos, element];
     this.idRow += 1;
+
+    const newPage = Math.trunc(this.tablaDocumentos.length/this.nRowsTable2) * this.nRowsTable2;
+    this.pageTable2 = newPage;
 
   }
 
@@ -811,7 +845,13 @@ export class Cumco003Component implements OnInit {
 
   onClicEliminar() {
     if (this.rows && this.selectedRows.state !== 'new') {
-      this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+      if (this.selectedRows.plantilla === undefined || this.selectedRows.plantilla.id === '' || this.selectedRows.plantilla.id === undefined){
+        this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+      }
+      else{
+        this.subscribeGetRadicadoBorrador('?activos=1&page=1&size=1&codTlp=' + String(this.selectedRows.plantilla.id));
+      }
+      
     } else if (this.selectedRows && this.selectedRows.state === 'new') {
       let index = this.rows.indexOf(this.selectedRows);
       this.rows = this.rows.filter((val, i) => i !== index);
@@ -937,7 +977,7 @@ export class Cumco003Component implements OnInit {
   validacionEntrada(rowIndex, event) {
     this.rowIndexValidation = rowIndex;
     this.event = event;
-    console.log(this.rows[rowIndex]);
+  
     if (event.id === 1 && this.rows[rowIndex].plantilla.id !== '') {
       this.messageService.clear();
       this.messageService.add({
@@ -954,7 +994,6 @@ export class Cumco003Component implements OnInit {
 
   validarCamposPlantilla(): any {
     let valido = true;
-    console.log(this.rows);
     for (var _i = 0; _i < this.rows.length; _i++) {
       let errIndex = _i + 1;
 
@@ -1787,9 +1826,7 @@ export class Cumco003Component implements OnInit {
   }
 
   prueba(event) {
-    console.log(event);
     if (this.seleccionPlantilla === '' || this.seleccionPlantilla === undefined) {
-      console.log('1');
       this.seleccionPlantilla = undefined;
     }
   }

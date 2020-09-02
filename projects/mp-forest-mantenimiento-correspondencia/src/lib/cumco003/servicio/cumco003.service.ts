@@ -44,4 +44,8 @@ export class Cumco003Service extends GeneralService{
     return this.get('/mnt-corr/1.0.0/forestPropiedades' + parameters);
   }
 
+  public getRadicadoBorrador(parameters: string) {
+    return this.get('/mnt-corr/1.0.0/RadicadoBorrador' + parameters); //?activos=1&codTlp=1&page=1&size=1
+  }
+
 }

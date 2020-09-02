@@ -22,9 +22,9 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}"
+          <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO008.FILTROS.filtroCanalPlaceHolder' | translate }}" [disabled]="selectionTable1 === undefined"
             field="codigoDescripcion" [suggestions]="suggestionsFilterMedioEnvio" [(ngModel)]="selectionFilterMedioEnvio" (focusout)="focusOutFiltroMedioEnvio()"
-            (completeMethod)="searchMedioEnvioFilter($event)" [dropdown]="true" (onSelect)="selectMedioEnvioFilter()">
+            (completeMethod)="searchMedioFilterFil($event)" [dropdown]="true" (onSelect)="selectMedioEnvioFilter()">
           </p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarSelectedMedioEnvioFilter()"></p-button>
         </div>
@@ -40,7 +40,7 @@
     <p-messages [(value)]="msgs"></p-messages>
 
     <!-- Start Table 1 -->
-    <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
+    <p-table [columns]="cols1" [value]="dataTable1" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
       selectionMode="single" [(selection)]="selectionTable1" (onRowSelect)="onRowTable1Select($event, selectionTable1)">
 
       <!-- Table Column Width -->
@@ -156,7 +156,7 @@
     <p-messages [(value)]="msgs2"></p-messages>
     
     <!-- Start Table 2 -->
-    <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [rows]="nRowsTable2" [rowsPerPageOptions]="nRowsOptionsTable2"
+    <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [(rows)]="nRowsTable2" [(first)]="pageTable2" [rowsPerPageOptions]="nRowsOptionsTable2"
              selectionMode="single" [(selection)]="selectionTable2">
 
       <!-- Table Column Width -->

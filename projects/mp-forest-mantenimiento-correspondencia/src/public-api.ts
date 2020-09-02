@@ -51,5 +51,5 @@ export * from './lib/cumco018/cumco018-routing.module';
 export * from './lib/cumco019/cumco019.module';
 export * from './lib/cumco019/cumco019-routing.module';
 
-//export * from './lib/cumco020/cumco020.module';
-//export * from './lib/cumco020/cumco020-routing.module';
+export * from './lib/cumco020/cumco020.module';
+export * from './lib/cumco020/cumco020-routing.module';

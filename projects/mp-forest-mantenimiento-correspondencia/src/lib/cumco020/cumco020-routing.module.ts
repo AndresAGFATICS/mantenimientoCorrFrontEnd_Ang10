@@ -4,7 +4,7 @@ import { Cumco020Component } from './cumco020.component';
 
 const routes: Routes = [
   {path: '', component: Cumco020Component},
-  {path: 'mant-corr/configurar-procesos', component: Cumco020Component}
+  {path: 'mant-corr/configurar-firmantes', component: Cumco020Component}
 ];
 
 export const routersCumco020 = RouterModule.forChild(routes);

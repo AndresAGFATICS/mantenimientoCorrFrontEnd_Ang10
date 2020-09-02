@@ -55,6 +55,7 @@ export class CUMCO009Component implements OnInit {
   nRowsTable1 = 10;
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 10;
+  pageTable2 = 0;
 
 
 
@@ -166,14 +167,17 @@ export class CUMCO009Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        this.showMessage(getError.error.message, "error");
+        this.showMessage2(getError.error.message, "error");
       },
       () => {                 // Fin del suscribe
         
         if(responseTerceros.length > 0){
           const error = this.translate.instant('CUMCO009.MENSAJES.errorIdentificacionTercero', {tipoIdentificacion: this.seleccionConfiguracion.descripcion});
-          this.showMessage(error, "error");
+          this.showMessage2(error, "error");
           return false;
+        }
+        else{
+          this.rows.find(row => row === this.seleccionConfiguracion).state = this.seleccionConfiguracion.state === 'delete' ? 'edit' : 'delete';
         }
         return true;
 
@@ -402,9 +406,9 @@ export class CUMCO009Component implements OnInit {
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
 
-
+ 
   agregarClick() {
-    if (this.rows !== undefined && this.rows.length !== 0 && this.seleccionPersona !== undefined) {
+    if (this.seleccionPersona !== undefined) {
       this.rows.push({
         idRow: this.idRow,
         id: '',
@@ -417,7 +421,13 @@ export class CUMCO009Component implements OnInit {
         state: 'new'
       });
       this.idRow += 1;
+      this.rows = [...this.rows];
+
+      const newPage = Math.trunc(this.rows.length/this.nRowsTable2) * this.nRowsTable2;
+      this.pageTable2 = newPage;
+
     }
+    
   }
 
   eliminarClick() {
@@ -428,10 +438,7 @@ export class CUMCO009Component implements OnInit {
       this.showMessage2(error, "error");
     }
     else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state !== 'new') {
-      if(!this.subscribeGet('?page=1&size=1&idIdentificacion=&' + this.seleccionConfiguracion.id.toString() )){
-        return;
-      }
-      this.rows.find(row => row === this.seleccionConfiguracion).state = this.seleccionConfiguracion.state === 'delete' ? 'edit' : 'delete';
+      this.subscribeGet('?page=1&size=1&idIdentificacion=' + this.seleccionConfiguracion.id.toString() );
     } else if (this.seleccionConfiguracion && this.seleccionConfiguracion.state === 'new') {
       let index = this.rows.indexOf(this.seleccionConfiguracion);
       this.rows = this.rows.filter((val, i) => i !== index);
@@ -444,12 +451,10 @@ export class CUMCO009Component implements OnInit {
   }
 
   onGuardarConfiguracion() {
-    console.log('this.seleccionPersona');
     if(this.rows == undefined && this.rows.length == 0){
       return;
     }
     else if (this.seleccionPersona !== undefined) {
-      console.log('asdsadasdasd');
       if (!this.validarCampos()) {
         return;
       }
@@ -482,13 +487,22 @@ export class CUMCO009Component implements OnInit {
 
   validarCampos(): boolean {
 
-    if(this.seleccionPersona.id === 1000){
-      if(this.rows.length > 1){
+    if(this.seleccionPersona.codigo === 'ANO'){
+
+      let datos : any[];
+      datos = [];
+      for(var data of this.rows){
+        if (data.state !== 'delete'){
+          datos.push(data);
+        }
+      }
+
+      if(datos.length > 1){
         const error = this.translate.instant('CUMCO009.MENSAJES.errorPersonaAnonima')
         this.showMessage2(error, "error");
         return false;
       }
-      else if(this.rows[0].id !== 6){
+      else if(datos[0].codigo !== 'ANO'){
         const error = this.translate.instant('CUMCO009.MENSAJES.errorPersonaAnonima')
         this.showMessage2(error, "error");
         return false;
@@ -497,7 +511,7 @@ export class CUMCO009Component implements OnInit {
 
     for (var _i = 0; _i < this.rows.length; _i++) {
 
-      if (this.rows[_i].descripcion === '' || this.rows[_i].descripcion === String.fromCharCode(127)) {
+      if (this.rows[_i].descripcion === '') {
         const error = this.translate.instant('CUMCO009.MENSAJES.errorCampoVacio',
           {
             filaVacia: String(_i + 1),
@@ -511,6 +525,19 @@ export class CUMCO009Component implements OnInit {
   }
 
   validarTipoIndentificacionRepetida(): boolean {
+
+    for (var _i = 0; _i < this.rows.length; _i++) {
+      for (var _k = _i + 1; _k < this.rows.length; _k++) {
+        if (this.rows[_k].descripcion.toLowerCase().trim() === this.rows[_i].descripcion.toLowerCase().trim() && this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
+          const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida2', 
+                              {filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                               tipoIdentificacion: this.rows[_k].tipoIdentificacion})
+          this.showMessage2(error, "error");
+          return false;
+        }
+      }
+    }
+
     for (var _i = 0; _i < this.rows.length; _i++) {
 
       for (var _k = 0; _k < this.tablaIdentificacion.length; _k++) {

@@ -13,7 +13,7 @@ export class EjeTematicoService extends GeneralService{
     super(_http);
   }
 
-  public getEjeTematico(parameters: string, activo: string) {
+  public getEjeTematico(parameters: string) {
     return this.get('/mnt-corr/1.0.0/ejeTematico' + parameters);
   }
 

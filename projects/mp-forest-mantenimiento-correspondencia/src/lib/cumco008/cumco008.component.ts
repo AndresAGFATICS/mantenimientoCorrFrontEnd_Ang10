@@ -36,6 +36,8 @@ export class Cumco008Component implements OnInit {
  suggestionsFilterMedioEnvio: any[];
  selectionFilterMedioEnvio: any;
 
+ dataMedioEnvioFilter: any[];
+
 
  //Variables Tabla 1
  dataTable1: any[] = [];
@@ -46,6 +48,7 @@ export class Cumco008Component implements OnInit {
  idRow1: number;
  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
  nRowsTable1 = 10;
+ pageTable1 = 0;
 
 
 //Variables Tabla 2
@@ -57,6 +60,8 @@ export class Cumco008Component implements OnInit {
  idRow2: number;
  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
  nRowsTable2 = 5;
+ pageTable2 = 0;
+
 
   ngOnInit() {
 
@@ -73,7 +78,7 @@ export class Cumco008Component implements OnInit {
 
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
-  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
+  // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS 
 
   subcribeSetColumns() {
 
@@ -176,7 +181,13 @@ export class Cumco008Component implements OnInit {
       () => {                 // Fin del suscribe
         this.dataTable2.forEach(data => data.state = 'noedit' );
 
+
         if (this.initialStateTablae2){
+          this.dataMedioEnvioFilter = [];
+          for (const data of this.dataTable2) {
+            this.dataMedioEnvioFilter.push({ ...data.medioEnvio, codigoDescripcion: data.medioEnvio.codigo + ' - ' + data.medioEnvio.descripcion });
+          }
+
           this.initialDataTable2 = [];
           for (const data of this.dataTable2) {
             this.initialDataTable2.push(JSON.parse(JSON.stringify(data)));
@@ -279,6 +290,24 @@ export class Cumco008Component implements OnInit {
     this.subscribeGetMedioEnvioSuggestions('?activo=1' + '&codigoDescripcion=' + event.query) // codigoDescripcion=serv
   }
 
+
+  searchMedioFilterFil(event){
+    this.selectionTable2 = undefined;
+
+
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.dataMedioEnvioFilter.length; i++) {
+      let data = this.dataMedioEnvioFilter[i];
+      if (data.codigoDescripcion.toLowerCase().search(query.toLowerCase()) !== -1) {
+        filtered.push(data);
+      }
+    }
+
+    this.suggestionsFilterMedioEnvio = filtered;
+    //this.subscribeGetMedioEnvioSuggestions('?activo=1' + '&codigoDescripcion=' + event.query) // codigoDescripcion=serv
+  }
+
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 
@@ -358,6 +387,10 @@ export class Cumco008Component implements OnInit {
     this.dataTable1 = [...this.dataTable1, newElement];
     this.idRow1 += 1;
 
+    const newPage = Math.trunc(this.dataTable1.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
+
+
   }
 
   onClickEliminar1() { 
@@ -402,6 +435,10 @@ export class Cumco008Component implements OnInit {
     }
     this.dataTable2 = [...this.dataTable2, newElement];
     this.idRow2 += 1;
+
+    const newPage = Math.trunc(this.dataTable2.length/this.nRowsTable2) * this.nRowsTable2;
+    this.pageTable2 = newPage;
+
   }
 
   onClickEliminar2(){
@@ -498,13 +535,13 @@ export class Cumco008Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable1.length;_i++){
 
-      if (!this.dataTable1[_i].codigo){
+      if (!this.dataTable1[_i].codigo.trim()){
         const error = this.translate.instant('CUMCO008.MENSAJES.campoFilaVacioError',
                       {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO008.TABLA1.headerTabla1') });
         this.showMessage(error, "error");
         return false;
       }
-      else if(!this.dataTable1[_i].descripcion){
+      else if(!this.dataTable1[_i].descripcion.trim()){
         const error = this.translate.instant('CUMCO008.MENSAJES.campoFilaVacioError',
                       {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO008.TABLA1.headerTabla2') });
         this.showMessage(error, "error");
@@ -668,9 +705,6 @@ export class Cumco008Component implements OnInit {
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
 
   compareInitialData(currentData: any[], initialData: any[]){
-
-    console.log(currentData);
-    console.log(initialData);
 
     for (var _i = 0; _i < currentData.length; _i++){
 

@@ -1,605 +1,721 @@
 {
-  "BOTONESTABLA": {
-    "agregar": "Agregar",
-    "eliminar": "Eliminar",
-    "guardar": "Guardar"
-},
-
-"CUMCO001": {
-    "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicadooo",
-    "TipoRadicado": "Tipo de Radicado",
-    "FILTROS": {
-        "filtroTipoRadicado": "Tipo de Radicado",
-        "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
-        "filtroOrganismoDependencia": "Organismo o Dependencia",
-        "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
-        "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
-        "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
-        "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
-        "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
-        "guardarError" : "Error al guardar",
-        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos \"CDC\" o \"Responsable\"",
-        "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
-        "repetidoSubtipoRadicadoFiltroError": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
-        "repetidoSubtipoRadicadoFiltroError2": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido en los registros filtrados, porfavor validar"
-    },
-    "TABLA1": {
+    "BOTONESTABLA": {
+      "agregar": "Agregar",
+      "eliminar": "Eliminar",
+      "guardar": "Guardar"
+  },
+  
+  "CUMCO001": {
+      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicadooo",
+      "TipoRadicado": "Tipo de Radicado",
+      "FILTROS": {
+          "filtroTipoRadicado": "Tipo de Radicado",
+          "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
+          "filtroOrganismoDependencia": "Organismo o Dependencia",
+          "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
+          "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+          "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
+          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+          "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
+          "guardarError" : "Error al guardar",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos \"CDC\" o \"Responsable\"",
+          "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
+          "repetidoSubtipoRadicadoFiltroError": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
+          "repetidoSubtipoRadicadoFiltroError2": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido en los registros filtrados, porfavor validar"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Tipo de Radicado",
+          "headerTabla2": "Subtipo de radicado",
+          "headerTabla3": "Organismo o Dependencia",
+          "headerTabla4": "CDC",
+          "headerTabla5": "Responsable",
+          "headerTabla6": "Funcionario Suplente"
+      }
+  },
+  
+  "CUMCO003": {
+      "titulo": "Configurar Plantillas",
+      "TipoRadicado": "Tipo de Radicado:",
+      "pestana1": "Plantillas",
+      "pestana2": "Tipo Comunicación Oficial",
+      "aceptarBoton": "SI",
+      "noAceptarBoton": "NO",
+      "FILTROS": {
+          "filtroPlantilla": "Plantilla:",
+          "filtroPlantillaPlaceHolder": "Ingresar aquí plantilla a filtrar",
+          "filtroTipoRadicado": "Tipo de Radicado:",
+          "filtroTipoRadicadoPlaceHolder" : "Ingrese aquí el tipo de radicado a filtrar",
+          "filtroClaseDocumental": "Clase Documental:",
+          "filtroClaseDocumentalPlaceHolder": "Seleccione la clase documental"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "error":"Error",
+          "exito":"Operación de guardar ejecutada con exito",
+          "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
+          "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+          "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
+          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+          "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
+          "guardarError" : "Error al guardar",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "campoFilaPlantillaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si no se tiene selecionado el campo Clase Documental como \"entrada\"",
+          "campoFilaDiasReqVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si se tiene selecionado el campo Termino Requerimiento",
+          "campoFilaDiasProVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si se tiene selecionado el campo Prórroga Entidad o Prórroga Peticionario",
+          "campoFilaDiasMayorError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" debe ser mayor a 0",
+          "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos CDC o Responsable",
+          "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El campo \"{{campoRep}}\" se encuentra repetido",
+          "seleccioneTipoRadicado": "Por Favor Seleccione un tipo de radicado para la fila",
+          "claseDocNoRequierePlantilla": "La clase documental Entrada no requiere una selección de plantilla, si continúa se borrará la plantilla seleccionada al inicio",
+          "detalleClaseDocNoRequierePlantilla": "¿Desea continuar?",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "repetidoComunicacion": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de comunicación oficial \"{{NombreComunicacionOficial}}\" ya se encuentra creado",
+          "repetidosPlantillaSubtipoTipo": "El registro con la plantilla \"{{nombrePlantilla}}\" , subtipo de radicado \"{{nombreSubtipo}}\" y tipo documental \"{{nombreTipoDoc}}\" está repetido",
+          "repetidosPlantillaSubtipoClase": "Para el registro con la plantilla \"{{nombrePlantilla}}\", Subtipo de radicado \"{{nombreSubtipo}}\", la clase documental \"{{claseDocumental}}\" no debe ser diferente.",
+          "repetidosSubtipoClase": "El registro con el subtipo de radicado \"{{nombreSubtipo}}\" y tipo documental \"{{claseDocumental}}\" está repetido",
+          "diasRequerimientoError": "El campo \"Días Requerimiento\" debe ser mayor a 0",
+          "diasProrrogaError": "El campo \"Días Prórroga\" debe ser mayor a 0",
+          "repetidos": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de comunicación oficial \"{{codigo}} y {{claseDocumental}}\" ya se encuentra creado",
+          "eliminarRegistroError": "No es posible eliminar el registro \"{{codigo}} - {{descripcion}}\"",
+          "campoSubRadciadoTipoDocumentalRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El registro con la plantilla \"{{plantilla}}\", subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido",
+          "claseDocumentalDiferenteError": "Filas {{filaRep1}} y {{filaRep2}}: Para el registro con la plantilla \"{{plantilla}}\", Subtipo de radicado \"{{subRadicado}}\", la clase documental no debe ser diferente",
+          "entradaReactivarTerminosError": "Fila {{filaError}}: La clase documental de \"Salida\" no puede estar asociada con un Tipo Documental que reactiva términos, favor validar",
+          "entradaSubRadicadoTipoDocumentalRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El registro con el subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, para la clase documental \"Entrada\"",
+          "campoSubRadciadoTipoDocumentalRepetidoFiltradoError": "Fila {{filaRep1}}: El registro con la plantilla \"{{plantilla}}\", subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, en los registros filtrados",
+          "claseDocumentalDiferenteFiltradoError": "Fila {{filaRep1}}: Para el registro con la plantilla \"{{plantilla}}\", Subtipo de radicado \"{{subRadicado}}\", existe un registro con la clase documental diferente, en los registros filtrados",
+          "entradaSubRadicadoTipoDocumentalRepetidoFiltradoError": "Fila {{filaRep1}}: El registro con el subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, para la clase documental \"Entrada\" en los registros filtrados",
+          "elminiarPlantillaError" : "La plantilla \"{{plantilla}}\" no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema"             
+  
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Plantilla",
+          "headerTabla2": "Tipo Radicado",
+          "headerTabla3": "Subtipo Radicado",
+          "headerTabla4": "Tipo Documental",
+          "headerTabla5": "Clase Documental",
+          "headerTabla6": "Termino Requerimiento",
+          "headerTabla7": "Días Requerimiento",
+          "headerTabla8": "Prórroga Entidad",
+          "headerTabla9": "Prórroga Peticionario",
+          "headerTabla10": "Días Prórroga",
+          "headerTabla11": "Tipo Comunicacion",
+          "headerTabla12": "Código",
+          "headerTabla13": "Nombre",
+          "headerTabla14": "Clase Documental"
+      },
+      "TABLA2": {
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Clase Documental"
+      }
+  },
+  
+  "CUMCO004": {
+      "titulo": "Definir Acciones para los Tipos Documentales",
+      "TipoRadicado": "Tipo de Radicado:",
+      "pestana1": "Plantillas",
+      "pestana2": "Tipo Comunicación Ofcicial",
+      "FILTROS": {
+          "filtroTipoDocumental": "Buscar Tipo Documental",
+          "filtroTipoDocumentalPlaceHolder": "Ingrese aquí el tipo documental a filtrar."
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales"
+  
+  
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Tipo Documental",
+          "headerTabla2": "Acción"
+      }
+  },
+  
+  "CUMCO005": {
+      "titulo": "Filtros",
+      "configurarAnexosFisicos": "Configurar Anexos Físicos",
+      "pestana1": "Plantillas",
+      "pestana2": "Tipo Comunicación Ofcicial",
+      "FILTROS": {
+          "filtroTipoAnexoFisico": "Tipo Anexo Físico",
+          "filtroAnexoTipoFisicoPlaceHolder": "Ingrese aquí el tipo de de anexo físico filtrar",
+          "filtroAnexoFisico": "Anexo Físico",
+          "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el anexo físico a filtrar"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "repetidosTipoAnexoFisicoError": "Filas {{filaRep1}} y {{filaRep2}}: Existen registros repetidos para Tipo de Anexo \"{{tipoAnexo}}\" y el Anexo Físico \"{{anexoFisico}}\"",
+          "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "repetidosTipoAnexoFisicoFiltradoError": "Fila {{filaRep1}}: Existen registros repetidos para Tipo de Anexo \"{{tipoAnexo}}\" y el Anexo Físico \"{{anexoFisico}}\", en los registros filtrados",
+          "repetidosAnexoFisicoError": "Filas {{filaRep1}} y {{filaRep2}}: El Anexos Físico \"{{anexoFisico}}\" esta repetido en diferentes Tipos de Anexos",
+          "repetidosAnexoFisicoFiltroError": "Filas {{filaRep1}}: El Anexos Físico \"{{anexoFisico}}\" esta repetido en diferentes Tipos de Anexos, en los registros filtrados"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Tipo de Anexo Físico",
+          "headerTabla2": "Anexo Físico",
+          "headerTabla3": "Descripción",
+          "headerTabla4": "Ubicar Folios en Carpetas"
+      }
+  },
+  
+  "CUMCO006": {
+      "titulo": "Configurar Horario Ventanilla Entrada",
+      "tituloTablaFestivos": "Configurar Anexos Físicos",
+      "FILTROS": {
+          "filtroCanalConfigurar": "Canal a Configurar",
+          "filtroCanalConfigurarPlaceHolder": "Seleccione un filtro",
+          "filtroHoraInicio": "Hora Inicio:",
+          "filtroHoraFin": "Hora Fin:",
+          "tituloTabla": "Configurar Horario de Radicación Comunicaciónes Oficiales (COF)"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
+          "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "errorHoraCanal": "La hora final seleccionada en para el Canal a Configurar, debe ser superior a la hora de inicio ingresada",
+          "errorHoraCOF": "La hora final seleccionada para COF, debe ser superior a la hora de inicio ingresada",
+          "errorFecha": "La fecha Festivo se encuentra repetida por favor validar",
+          "repetidosFechaError": "Filas {{filaRep1}} y {{filaRep2}}: La fecha \"{{fecha}}\" se ecuentra repetida",
+          "errorHoraInicialCanal": "Diligenciar el campo \"Hora Incio\" del Canal a Canfigurar",
+          "errorHoraFinCanal": "Diligenciar el campo \"Hora Fin\" del Canal a Canfigurar",
+          "campoFechaVacioErro": "Fila {{filaVacia}}: El campo \"Fecha Festivo\" no puede estar vacío",
+          "errorHoraInicialCOF": "Diligenciar el campo \"Hora Incio\" del Horario de Radicación Comunicaciónes Oficicales",
+          "errorHoraFinlCOF": "Diligenciar el campo \"Hora Fin\" del Horario de Radicación Comunicaciónes Oficicales"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Fecha Festivo"
+      }
+  },
+  
+  "CUMCO008": {
+      "titulo": "Filtros",
+      "configurarCanales": "Configurar Canales",
+      "vincularCanales": "Vincular Medios de Envío con Canales",
+      "FILTROS": {
+          "filtroCanal": "Canal",
+          "filtroCanalPlaceHolder": "Ingrese aquí el canal a filtrar",
+          "filtroMedioEnvio":"Medio de Envío",
+          "filtroMedioEnvioPlaceHolder": "Ingrese aquí el medio de envío a filtrar"
+  
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "campoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código del canal \"{{codigo}}\", se encuentra repetido, por favor validar",
+          "campoDescreipcionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: La descripción del canal \"{{descripcion}}\", se encuentra repetida, por favor validar",
+          "campoEliminarCanalError": "El canal \"{{codigo}} - {{descripcion}}\" no puede ser eliminado ya que se encuentra asociado a uno o más medios de envío",
+          "eliminarAsociacionMedioCanalError" : "La relación del medio de envío \"{{medio}}\" con el canal  \"{{canal}}\" no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+          "campoCodigoRepetidoFiltroError": "Fila {{filaRep1}}: El código del canal \"{{codigo}}\", se encuentra repetido en los regitros filtrados, por favor validar",
+          "campoDescreipcionRepetidoFiltroError": "Fila {{filaRep1}}: La descripción del canal \"{{descripcion}}\", se encuentra repetida en los regitros filtrados, por favor validar",
+          "campoMedioEnvioRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Medio de Envío \"{{medioEnvio}}\" se encuentra repetido, por favor validar",
+          "campoMedioEnvioRepetidoFiltroError": "Fila {{filaRep1}}: El Medio de Envío \"{{medioEnvio}}\" se encuentra repetido en los regitros filtrados, por favor validar",
+          "medioEnvioAsociadoRadicadodoError": "La relación del medio de envío \"{{medioEnvio}}\" con el canal \"{{canal}}\" no puede ser eliminada: Se encuentra asociada a uno o más radicados en el sistema"                    
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Descripción",
+          "headerTabla3": "Activo",
+          "headerTabla4": "Virtual",
+          "headerTabla5": "Presencial",
+          "headerTabla6": "Telefónico"
+      },
+      "TABLA2": {
         "headerTabla0": "",
-        "headerTabla1": "Tipo de Radicado",
-        "headerTabla2": "Subtipo de radicado",
-        "headerTabla3": "Organismo o Dependencia",
-        "headerTabla4": "CDC",
-        "headerTabla5": "Responsable",
-        "headerTabla6": "Funcionario Suplente"
-    }
-},
-
-"CUMCO003": {
-    "titulo": "Configurar Plantillas",
-    "TipoRadicado": "Tipo de Radicado:",
-    "pestana1": "Plantillas",
-    "pestana2": "Tipo Comunicación Oficial",
-    "aceptarBoton": "SI",
-    "noAceptarBoton": "NO",
+        "headerTabla1": "Medio de Envío",
+        "headerTabla2": "Fuente",
+        "headerTabla3": "Ventanilla Virtual"
+      }
+  },
+  
+  "CUMCO009": {
+      "titulo": "Filtros",
+      "FILTROS": {
+          "filtrotituloPersona": "Tipo de Persona:",
+          "filtrotituloPersonaPlaceHolder": "Ingrese aquí el tipo de persona a filtrar",
+          "filtrotituloIdentificacion": "Tipo de identificación:",
+          "filtrotituloIdentificacionPlaceHolder": "Ingrese aquí el tipo de identificación a filtrar",
+          "tablaPersona": "Configurar Tipos de Persona",
+          "tablaTipoId":"Configurar Tipos de Identificación",
+          "textoTipoId": "Por favor seleccione un tipo de persona en la tabla Configurar tipos de persona para luego proceder a asociarle tipos de indentificación."
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorCampoVacio": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "errorGuardarCampo": "Diligenciar todos los campos requeridos",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida2": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de identificación \"{{tipoIdentificacion}}\" ya se encuentra repetido, por favor validar",
+          "identificacionRepetida": "El tipo de identificación \"{{tipoIdentificacion}}\" ya se encuentra asociado al tipo de persona \"{{tipoPersona}}\"",
+          "errorEliminarFijo": "No se puede eliminar el tipo de identificación \"{{tipoIdentificacion}}\" seleccionado, esta configuración es estándar para el tipo de persona \"{{tipoPersona}}\"",
+          "errorPersonaAnonima": "No se pueden agregar más tipos de identificación para el tipo de persona Anónima", 
+          "errorIdentificacionTercero": "El tipo de identificación \"{{tipoIdentificacion}}\" no puede ser eliminado: Se encuentra asociado a uno o más terceros en el sistema"     
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código Tipo de Persona",
+          "headerTabla2": "Tipo de Persona",
+          "headerTabla3": "Descripción"
+      },
+      "TABLA2": {
+        "headerTabla0": "",
+        "headerTabla1": "Tipo de Persona",
+        "headerTabla2": "Código tipo de Identificación",
+        "headerTabla3": "Tipo de Identificación"
+      }
+  },
+  
+  "CUMCO010": {
+      "titulo": "Filtro",
+      "FILTROS": {
+          "filtroTituloDevolucion": "Motivo de devolución:",
+          "filtroTituloDevolucionPlaceHolder": "Ingrese aquí el motivo de la devolución",
+          "tituloTabla": "Configurar Motivos de devolución"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+          "guardarError" : "Error al guardar",
+          "tipoDevolucionRepetida": "Fila {{filaRep1}}: El motivo de devolución \"{{motivoDevolucion}}\", se encuentra repetido en los registros filtrados, por favor validar",
+          "motivoDevolucionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El motivo de devolución \"{{motivoDevolucion}}\", se encuentra repetido, por favor validar"   
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Motivo de devolución",
+          "headerTabla2": "Activo"
+      }
+  },
+  
+  "CUMCO012": {
+      "titulo": "Configurar Recorridos de Reparto de Documentos Físicos",
+      "FILTROS": {
+          "filtroOrganizmo": "Organismo a Configurar",
+          "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
+          "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+          "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+          "guardarError" : "Error al guardar",
+          "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+          "eliminarFallido1": "El recorrido ",
+          "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
+          "errorIngresoHoraInicial": "Para el recorrido \"{{recorrido}}\" no puede editarse la hora inicio \"{{horaInicio}}\", esta hora se calcula automáticamente: En caso de requerir cambiar esta información, se debe cambiar la hora fin del recorrido anterior",
+          "ingresarHoraFinal": "Ingrese la Hora final del anterior registro, para poder calcular la hora inicial del nuevo",
+          "tipoNombreRecorridoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El recorrido \"{{recorrido}}\" se encuentra repetido, porfavor validar",
+          "horaMayorError" : "Fila {{filaRep1}}: La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío"
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Nombre Recorrido",
+          "headerTabla2": "Hora Inicio",
+          "headerTabla3": "Hora Fin",
+          "headerTabla4": "Activo"
+      }
+    },
+  
+  "CUMCO013": {
+      "titulo": "Tipo de Empresa",
+      "clasificacionOrg": "Clasificación de la Organización",
+      "actividadEconomica": "Actividad Económica de la Organización",
+      "pestana11" : "Configurar Caracteristicas Perosnas Jurídicas",
+      "pestana12" : "Configurar Caracteristicas Perosnas Naturales",
+      "pestana21" : "Grupo Étnico",
+      "pestana22" : "Nivel de Ecolaridad",
+      "pestana23" : "Sexo",
+      "pestana24" : "Estado Civil",
+      "pestana25" : "Categoría de Discapacidad",
+      "FILTROS": {
+          "filtroOrganizmo": "Organismo a Configurar",
+          "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
+          "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "errorGuardar": "Diligenciar todos los campos requeridos",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "campoTipoEmpresaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El \"Tipo de Empresa\" \"{{tipoEmpresa}}\" se encuentra repetido, porfavor validar", 
+          "campoCalsificacionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Calsificación de la Organización\" \"{{calsificacion}}\" se encuentra repetida, porfavor validar",
+          "campoActividadEconomicaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Actividad Economica\" \"{{actividad}}\" se encuentra repetida, porfavor validar",
+          "campoGrupoEtnicoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El \"Grupo Étnico\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
+          "campoNivelEscolaridadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Nivel de Escolaridad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
+          "campoSexoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Sexo\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
+          "campoEstadoCivilRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Estado Civil\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
+          "campoDiscapacidadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Categoría de Discapacidad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",  
+          "eliminarCAracteristicaTerceroError": "El (la) característica \"{{pestaña}}\" \"{{caracteristica}}\" no puede ser eliminado: Se encuentra asociado a uno o más terceros en el sistema"
+      },
+      "TABLA1": {
+          "headerTabla1": "Tipo de Empresa",
+          "headerTabla2": "Activo"
+      },
+      "TABLA2": {
+          "headerTabla1": "Clasificación de la Organización",
+          "headerTabla2": "Activo"
+      },
+      "TABLA3": {
+          "headerTabla1": "Actividad Económica de la Organización",
+          "headerTabla2": "Activo"
+      },
+      "TABLA4": {
+        "headerTabla1": "Grupo Étnico",
+        "headerTabla2": "Activo"
+      },
+      "TABLA5": {
+        "headerTabla1": "Nivel de Escolaridad",
+        "headerTabla2": "Activo"
+      },
+      "TABLA6": {
+        "headerTabla1": "Sexo",
+        "headerTabla2": "Activo"
+      },
+      "TABLA7": {
+        "headerTabla1": "Estado Civil",
+        "headerTabla2": "Activo"
+      },
+      "TABLA8": {
+        "headerTabla1": "Categoría de Discapacidad",
+        "headerTabla2": "Activo"
+      }
+  },
+  
+  "CUMCO014": {
+    "titulo": "Configurar Tipos de Radicado",
+    "titulo3": "Configurar Categorías del Radicado",
+    "titulo5": "Asociar Lista de Requisitos",
+    "pestana1": "Tipos de Radicado",
+    "pestana2": "Categoria del Radicado",
+    "pestana3": "Lista de requisitos",
+    "pestana31": "Parametrizar Lista de Requisitos",
+    "pestana32": "Asociar Tipo de Radicado con Requisitos",
+    "clasificacionOrg": "Clasificación de la Organización",
+    "actividadEconomica": "Actividad Económica de la Organización",
+    "titulo2": "Configurar Tipos de Radicado con Subtipos y Trámite",
     "FILTROS": {
-        "filtroPlantilla": "Plantilla:",
-        "filtroPlantillaPlaceHolder": "Ingresar aquí plantilla a filtrar",
-        "filtroTipoRadicado": "Tipo de Radicado:",
-        "filtroTipoRadicadoPlaceHolder" : "Ingrese aquí el tipo de radicado a filtrar",
-        "filtroClaseDocumental": "Clase Documental:",
-        "filtroClaseDocumentalPlaceHolder": "Seleccione la clase documental"
+        "filtroRadicado": "Filtar por Tipo Radicado",
+        "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+        "tituloTabla": "Recorridos de Reparto Documentos Físicos",
+        "filotrRadicado": "Tipo de Radicado",
+        "filotrSubRadicado": "Subtipo Radicado",
+        "placeHolderFiltroRadicado" : "Ingrese aquí el Radicado a filtrar",
+        "placeHolderFiltroSubradicado": "Ingrese aquí el Subtipo de radicado a filtrar"
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "error":"Error",
         "exito":"Operación de guardar ejecutada con exito",
-        "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
-        "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
-        "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
-        "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
-        "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
-        "guardarError" : "Error al guardar",
-        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "campoFilaPlantillaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si no se tiene selecionado el campo Clase Documental como \"entrada\"",
-        "campoFilaDiasReqVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si se tiene selecionado el campo Termino Requerimiento",
-        "campoFilaDiasProVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío, si se tiene selecionado el campo Prórroga Entidad o Prórroga Peticionario",
-        "campoFilaDiasMayorError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" debe ser mayor a 0",
-        "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos CDC o Responsable",
-        "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El campo \"{{campoRep}}\" se encuentra repetido",
-        "seleccioneTipoRadicado": "Por Favor Seleccione un tipo de radicado para la fila",
-        "claseDocNoRequierePlantilla": "La clase documental Entrada no requiere una selección de plantilla, si continúa se borrará la plantilla seleccionada al inicio",
-        "detalleClaseDocNoRequierePlantilla": "¿Desea continuar?",
+        "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
-        "repetidoComunicacion": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de comunicación oficial \"{{NombreComunicacionOficial}}\" ya se encuentra creado",
-        "repetidosPlantillaSubtipoTipo": "El registro con la plantilla \"{{nombrePlantilla}}\" , subtipo de radicado \"{{nombreSubtipo}}\" y tipo documental \"{{nombreTipoDoc}}\" está repetido",
-        "repetidosPlantillaSubtipoClase": "Para el registro con la plantilla \"{{nombrePlantilla}}\", Subtipo de radicado \"{{nombreSubtipo}}\", la clase documental \"{{claseDocumental}}\" no debe ser diferente.",
-        "repetidosSubtipoClase": "El registro con el subtipo de radicado \"{{nombreSubtipo}}\" y tipo documental \"{{claseDocumental}}\" está repetido",
-        "diasRequerimientoError": "El campo \"Días Requerimiento\" debe ser mayor a 0",
-        "diasProrrogaError": "El campo \"Días Prórroga\" debe ser mayor a 0",
-        "repetidos": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de comunicación oficial \"{{codigo}} y {{claseDocumental}}\" ya se encuentra creado",
-        "eliminarRegistroError": "No es posible eliminar el registro \"{{codigo}} - {{descripcion}}\"",
-        "campoSubRadciadoTipoDocumentalRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El registro con la plantilla \"{{plantilla}}\", subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido",
-        "claseDocumentalDiferenteError": "Filas {{filaRep1}} y {{filaRep2}}: Para el registro con la plantilla \"{{plantilla}}\", Subtipo de radicado \"{{subRadicado}}\", la clase documental no debe ser diferente",
-        "entradaReactivarTerminosError": "Fila {{filaError}}: La clase documental de \"Salida\" no puede estar asociada con un Tipo Documental que reactiva términos, favor validar",
-        "entradaSubRadicadoTipoDocumentalRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El registro con el subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, para la clase documental \"Entrada\"",
-        "campoSubRadciadoTipoDocumentalRepetidoFiltradoError": "Fila {{filaRep1}}: El registro con la plantilla \"{{plantilla}}\", subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, en los registros filtrados",
-        "claseDocumentalDiferenteFiltradoError": "Fila {{filaRep1}}: Para el registro con la plantilla \"{{plantilla}}\", Subtipo de radicado \"{{subRadicado}}\", existe un registro con la clase documental diferente, en los registros filtrados",
-        "entradaSubRadicadoTipoDocumentalRepetidoFiltradoError": "Fila {{filaRep1}}: El registro con el subtipo de radicado \"{{subRadicado}}\" y tipo documental \"{{tipoDocumental}}\" está repetido, para la clase documental \"Entrada\" en los registros filtrados"              
-
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Plantilla",
-        "headerTabla2": "Tipo Radicado",
-        "headerTabla3": "Subtipo Radicado",
-        "headerTabla4": "Tipo Documental",
-        "headerTabla5": "Clase Documental",
-        "headerTabla6": "Termino Requerimiento",
-        "headerTabla7": "Días Requerimiento",
-        "headerTabla8": "Prórroga Entidad",
-        "headerTabla9": "Prórroga Peticionario",
-        "headerTabla10": "Días Prórroga",
-        "headerTabla11": "Tipo Comunicacion",
-        "headerTabla12": "Código",
-        "headerTabla13": "Nombre",
-        "headerTabla14": "Clase Documental"
-    },
-    "TABLA2": {
-        "headerTabla1": "Código",
-        "headerTabla2": "Nombre",
-        "headerTabla3": "Clase Documental"
-    }
-},
-
-"CUMCO004": {
-    "titulo": "Definir Acciones para los Tipos Documentales",
-    "TipoRadicado": "Tipo de Radicado:",
-    "pestana1": "Plantillas",
-    "pestana2": "Tipo Comunicación Ofcicial",
-    "FILTROS": {
-        "filtroTipoDocumental": "Buscar Tipo Documental",
-        "filtroTipoDocumentalPlaceHolder": "Ingrese aquí el tipo documental a filtrar."
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales"
-
-
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Tipo Documental",
-        "headerTabla2": "Acción"
-    }
-},
-
-"CUMCO005": {
-    "titulo": "Filtros",
-    "configurarAnexosFisicos": "Configurar Anexos Físicos",
-    "pestana1": "Plantillas",
-    "pestana2": "Tipo Comunicación Ofcicial",
-    "FILTROS": {
-        "filtroTipoAnexoFisico": "Tipo Anexo Físico",
-        "filtroAnexoTipoFisicoPlaceHolder": "Ingrese aquí el tipo de de anexo físico filtrar",
-        "filtroAnexoFisico": "Anexo Físico",
-        "filtroAnexoFisicoPlaceHolder": "Ingrese aquí el anexo físico a filtrar"
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "repetidosTipoAnexoFisicoError": "Filas {{filaRep1}} y {{filaRep2}}: Existen registros repetidos para Tipo de Anexo \"{{tipoAnexo}}\" y el Anexo Físico \"{{anexoFisico}}\"",
-        "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "repetidosTipoAnexoFisicoFiltradoError": "Fila {{filaRep1}}: Existen registros repetidos para Tipo de Anexo \"{{tipoAnexo}}\" y el Anexo Físico \"{{anexoFisico}}\", en los registros filtrados",
-        "repetidosAnexoFisicoError": "Filas {{filaRep1}} y {{filaRep2}}: El Anexos Físico \"{{anexoFisico}}\" esta repetido en diferentes Tipos de Anexos",
-        "repetidosAnexoFisicoFiltroError": "Filas {{filaRep1}}: El Anexos Físico \"{{anexoFisico}}\" esta repetido en diferentes Tipos de Anexos, en los registros filtrados"
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Tipo de Anexo Físico",
-        "headerTabla2": "Anexo Físico",
-        "headerTabla3": "Descripción",
-        "headerTabla4": "Ubicar Folios en Carpetas"
-    }
-},
-
-"CUMCO006": {
-    "titulo": "Configurar Horario Ventanilla Entrada",
-    "tituloTablaFestivos": "Configurar Anexos Físicos",
-    "FILTROS": {
-        "filtroCanalConfigurar": "Canal a Configurar",
-        "filtroCanalConfigurarPlaceHolder": "Seleccione un filtro",
-        "filtroHoraInicio": "Hora Inicio:",
-        "filtroHoraFin": "Hora Fin:",
-        "tituloTabla": "Configurar Horario de Radicación Comunicaciónes Oficiales (COF)"
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-        "repetidosAnexoTipo": "Existen Anexos Físicos repetidos para diferentes Tipos de Anexos",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "errorHoraCanal": "La hora final seleccionada en para el Canal a Configurar, debe ser superior a la hora de inicio ingresada",
-        "errorHoraCOF": "La hora final seleccionada para COF, debe ser superior a la hora de inicio ingresada",
-        "errorFecha": "La fecha Festivo se encuentra repetida por favor validar",
-        "repetidosFechaError": "Filas {{filaRep1}} y {{filaRep2}}: La fecha \"{{fecha}}\" se ecuentra repetida",
-        "errorHoraInicialCanal": "Diligenciar el campo \"Hora Incio\" del Canal a Canfigurar",
-        "errorHoraFinCanal": "Diligenciar el campo \"Hora Fin\" del Canal a Canfigurar",
-        "campoFechaVacioErro": "Fila {{filaVacia}}: El campo \"Fecha Festivo\" no puede estar vacío",
-        "errorHoraInicialCOF": "Diligenciar el campo \"Hora Incio\" del Horario de Radicación Comunicaciónes Oficicales",
-        "errorHoraFinlCOF": "Diligenciar el campo \"Hora Fin\" del Horario de Radicación Comunicaciónes Oficicales"
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Fecha Festivo"
-    }
-},
-
-"CUMCO008": {
-    "titulo": "Filtros",
-    "configurarCanales": "Configurar Canales",
-    "vincularCanales": "Vincular Medios de Envío con Canales",
-    "FILTROS": {
-        "filtroCanal": "Canal",
-        "filtroCanalPlaceHolder": "Ingrese aquí el canal a filtrar",
-        "filtroMedioEnvio":"Medio de Envío",
-        "filtroMedioEnvioPlaceHolder": "Ingrese aquí el medio de envío a filtrar"
-
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
         "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
         "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+        "guardarError" : "Error al guardar",
+        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+        "eliminarFallido1": "El recorrido ",
+        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
+        "selcionCheckbosError": "Fila {{filaVacia}}: Debe seleccionar al menos una opción (Ventanilla de Entrada, Comunicaciones Oficiales, o Ventanilla Virtual) para el tipo de radicado {{descripcion}} y subtipo de radicado {{descripcion2}}",
+        "tipoRadicadoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de radicado \"{{descripcion}}\" se encuentra repetido",
+        "selccionAnonimoError": "Debe seleccionar la opción 'Anónimo' para por lo menos uno de los subtipos de radicados configurados para la Ventanilla Virtual",
         "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "campoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código del canal \"{{codigo}}\", se encuentra repetido, por favor validar",
-        "campoDescreipcionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: La descripción del canal \"{{descripcion}}\", se encuentra repetida, por favor validar",
-        "campoEliminarCanalError": "El canal \"{{codigo}} - {{descripcion}}\" no puede ser eliminado ya que se encuentra asociado a uno o más medios de envío",
-        "eliminarAsociacionMedioCanalError" : "La relación del medio de envío \"{{medio}}\" con el canal  \"{{canal}}\" no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema",
-        "campoCodigoRepetidoFiltroError": "Fila {{filaRep1}}: El código del canal \"{{codigo}}\", se encuentra repetido en los regitros filtrados, por favor validar",
-        "campoDescreipcionRepetidoFiltroError": "Fila {{filaRep1}}: La descripción del canal \"{{descripcion}}\", se encuentra repetida en los regitros filtrados, por favor validar",
-        "campoMedioEnvioRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Medio de Envío \"{{medioEnvio}}\" se encuentra repetido, por favor validar",
-        "campoMedioEnvioRepetidoFiltroError": "Fila {{filaRep1}}: El Medio de Envío \"{{medioEnvio}}\" se encuentra repetido en los regitros filtrados, por favor validar",
-        "medioEnvioAsociadoRadicadodoError": "La relación del medio de envío \"{{medioEnvio}}\" con el canal \"{{canal}}\" no puede ser eliminada: Se encuentra asociada a uno o más radicados en el sistema"                    
+        "subtipoRadicadoRepedidoError" : "Filas {{filaRep1}} y {{filaRep2}}: El subtipo de radicado \"{{descripcion}}\" se encuentra repetido",
+        "elminarTipoRadicadoError": "El tipo de radicado \"{{descripcion}}\" no puede ser eliminado: Se encuentra asociado a uno o más subtipos de radicados",
+        "elminarSubtipoRadicadoError": "El subtipo {{descripcion}} no puede ser eliminado: Se encuentra asociado a uno o más borradores y/o radicados en el sistema",
+        "elminarCategoriaError": "No se puede eliminar la categoría \"{{descripcion}}\" seleccionada dado que ya está asociada a tipos de radicados",
+        "elminarCategoriaPrecargadaError": "No se puede eliminar la categoría \"{{descripcion}}\" seleccionada, esta configuración es estándar para el sistema",
+        "campoRepetidoCategoriaRadicadoError": "El código y/o nombre \"{{descripcion}}\" se encuentra repetido",
+        "tipoRequisitoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El requisito  \"{{descripcion}}\" se encuentra repetido, porfavor validar",
+        "requisitoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El requisito  \"{{descripcion}}\" ya se encuentra creado",
+        "requisitoRadicadoAsociado": "No se puede modificar el requisito \"{{requisito}}\" ya que se encuentra asociado al tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\", los cuales están vinculados a un documento radicado",
+        "requisitoRadicadoAsociado2": "No es posible eliminar el requisito \"{{requisito}}\"  ya que está asociado a un tipo y subtipo de radicado y/o se encuentra asociado a un documento radicado en el sistema",
+        "requisitoRadicadoAsociado3": "No es posible eliminar la relación del requisito \"{{requisito}}\" con el tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\" porque existen documentos radicados asociados a esta configuración"
+  
+    },
+    "TABLA1": {
+        "headerTabla0": "",
+        "headerTabla1": "Código",
+        "headerTabla2": "Descripción Tipo de Radciado",
+        "headerTabla3": "Categoria",
+        "headerTabla4": "Activo"
+    },
+    "TABLA2": {
+        "headerTabla1": "Código Tipo Radicado",
+        "headerTabla2": "Descripción (Subtipo de Radicado)",
+        "headerTabla3": "Tramite",
+        "headerTabla4": "Días Término",
+        "headerTabla5": "Días Hábiles",
+        "headerTabla6": "Modificar Días",
+        "headerTabla7": "Activo",
+        "headerTabla8": "Ventanila de Entrada",
+        "headerTabla9": "Radicación Verbal",
+        "headerTabla10": "Comunicaciones Oficiales",
+        "headerTabla11": "Ventanilla Virtual",
+        "headerTabla12": "Anónimo"
+    },
+    "TABLA3": {
+      "headerTabla0": "",
+      "headerTabla1": "Código",
+      "headerTabla2": "Nombre",
+      "headerTabla3": "Lista de Requisitos"
+    },
+    "TABLA4": {
+      "headerTabla0": "Código",
+      "headerTabla1": "Nombre",
+      "headerTabla2": "Descripcion",
+      "headerTabla3": "Activo",
+      "headerTabla4": "Requerido",
+      "headerTabla5": "Cargar Formulario (Ventanilla Virtual)"
+    },
+    "TABLA5": {
+      "headerTabla0": "Requisito"
+    }
+    
+  },
+  
+  "CUMCO016": {
+    "titulo": "Configurar Ejes Temáticos",
+    "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
+    "FILTROS": {
+      "filtroPlaceHolder": "Buscar por",
+        "organismos": "Organismos o Dependecias",
+        "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+        "ejes": "Ejes Temáticos",
+        "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
+        "placeHolderEjes": "Buscar por Ejes"
+    },
+    "MENSAJES": {
+        "guardar":"Guardar",
+        "exito":"Operación de guardar ejecutada con exito",
+        "falloGuardar":"Se ha presentado un error al guardar",
+        "errorGuardar": "Diligenciar todos los campos requeridos",
+        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
+        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
+        "guardarError" : "Error al guardar",
+        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
+        "eliminarFallido1": "El recorrido ",
+        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
+        "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
+        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+        "campoEjeRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Eje Temático \"{{eje}}\" se encuentra repetido, por favor validar.",
+        "guradarRelacionEjesDependenciaExito": "Los ejes temáticos seleccionados fueron vinculados exitosamente al organismo o dependencia \"{{dependencia}}\"",
+        "ejeTematicoGuardarExito": "Los ejes temáticos se guardaron exitosamente",
+        "ejeTematicoEliminarErrorDepe": "El eje temático \"{{eje}}\" no puede ser eliminado porque está vinculado a las dependencias {{dependencias}} elimine la asociación y luego realice la eliminación",
+        "ejeAsociadoRadicadoError" : "El eje temático \"{{eje}}\" no puede ser eliminado porque se encuentra asociado a uno o más borradores y/o radicados en el sistema"
     },
     "TABLA1": {
         "headerTabla0": "",
         "headerTabla1": "Código",
         "headerTabla2": "Descripción",
-        "headerTabla3": "Activo",
-        "headerTabla4": "Virtual",
-        "headerTabla5": "Presencial",
-        "headerTabla6": "Telefónico"
-    },
-    "TABLA2": {
-      "headerTabla0": "",
-      "headerTabla1": "Medio de Envío",
-      "headerTabla2": "Fuente",
-      "headerTabla3": "Ventanilla Virtual"
-    }
-},
-
-"CUMCO009": {
-    "titulo": "Filtros",
-    "FILTROS": {
-        "filtrotituloPersona": "Tipo de Persona:",
-        "filtrotituloPersonaPlaceHolder": "Ingrese aquí el tipo de persona a filtrar",
-        "filtrotituloIdentificacion": "Tipo de identificación:",
-        "filtrotituloIdentificacionPlaceHolder": "Ingrese aquí el tipo de identificación a filtrar",
-        "tablaPersona": "Configurar Tipos de Persona",
-        "tablaTipoId":"Configurar Tipos de Identificación",
-        "textoTipoId": "Por favor seleccione un tipo de persona en la tabla Configurar tipos de persona para luego proceder a asociarle tipos de indentificación."
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "errorCampoVacio": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "errorGuardarCampo": "Diligenciar todos los campos requeridos",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "identificacionRepetida": "El tipo de identificación \"{{tipoIdentificacion}}\" ya se encuentra asociado al tipo de persona \"{{tipoPersona}}\"",
-        "errorEliminarFijo": "No se puede eliminar el tipo de identificación \"{{tipoIdentificacion}}\" seleccionado, esta configuración es estándar para el tipo de persona \"{{tipoPersona}}\"",
-        "errorPersonaAnonima": "No se pueden agregar más tipos de identificación para el tipo de persona Anónima", 
-        "errorIdentificacionTercero": "El tipo de identificación \"{{tipoIdentificacion}}\" no puede ser eliminado: Se encuentra asociado a uno o más terceros en el sistema"     
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Código Tipo de Persona",
-        "headerTabla2": "Tipo de Persona",
-        "headerTabla3": "Descripción"
-    },
-    "TABLA2": {
-      "headerTabla0": "",
-      "headerTabla1": "Tipo de Persona",
-      "headerTabla2": "Código tipo de Identificación",
-      "headerTabla3": "Tipo de Identificación"
-    }
-},
-
-"CUMCO010": {
-    "titulo": "Filtro",
-    "FILTROS": {
-        "filtroTituloDevolucion": "Motivo de devolución:",
-        "filtroTituloDevolucionPlaceHolder": "Ingrese aquí el motivo de la devolución",
-        "tituloTabla": "Configurar Motivos de devolución"
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-        "guardarError" : "Error al guardar",
-        "tipoDevolucionRepetida": "Fila {{filaRep1}}: El motivo de devolución \"{{motivoDevolucion}}\", se encuentra repetido en los registros filtrados, por favor validar",
-        "motivoDevolucionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El motivo de devolución \"{{motivoDevolucion}}\", se encuentra repetido, por favor validar"   
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Motivo de devolución",
-        "headerTabla2": "Activo"
-    }
-},
-
-"CUMCO012": {
-    "titulo": "Configurar Recorridos de Reparto de Documentos Físicos",
-    "FILTROS": {
-        "filtroOrganizmo": "Organismo a Configurar",
-        "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
-        "tituloTabla": "Recorridos de Reparto Documentos Físicos"
-    },
-    "MENSAJES": {
-        "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
-        "falloGuardar":"Se ha presentado un error al guardar",
-        "errorGuardar": "Diligenciar todos los campos requeridos",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-        "guardarError" : "Error al guardar",
-        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-        "eliminarFallido1": "El recorrido ",
-        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo"
-    },
-    "TABLA1": {
-        "headerTabla0": "",
-        "headerTabla1": "Nombre Recorrido",
-        "headerTabla2": "Hora Inicio",
-        "headerTabla3": "Hora Fin",
-        "headerTabla4": "Activo"
+        "headerTabla3": "Activo"
     }
   },
-
-"CUMCO013": {
-    "titulo": "Tipo de Empresa",
-    "clasificacionOrg": "Clasificación de la Organización",
-    "actividadEconomica": "Actividad Económica de la Organización",
+  
+  "CUMCO017": {
+    "titulo": "Configurar Tipos de Radicado",
+    "pestana1": "Grupos de Seguridad",
+    "pestana2": "Funcionarios Asociados",
     "FILTROS": {
-        "filtroOrganizmo": "Organismo a Configurar",
-        "filtroOrganizmoPlaceHolder": "Ingrese aquí el organismo a configurar",
-        "tituloTabla": "Recorridos de Reparto Documentos Físicos"
+      "filtroRadicado": "Radicado",
+      "filtroRadicadoPlaceHolder": "Ingrese aquí el número de radicado a selecionar",
+      "filtroGrupoAsociado": "Grupo Asociado"
+    },
+    "MENSAJES": {
+        "guardar":"Guardar",
+        "exitoGuardar":"Operación de guardar ejecutada con exito",
+        "falloGuardar":"Se ha presentado un error al guardar",
+        "errorGuardar": "Diligenciar todos los campos requeridos",
+        "campoEliminarGrupoSeguridadError": "No es posible eliminar el registro \"{{descripcion}}\"",
+        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+        "campoCodigoClasificacionRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{descripcion}}\" y \"{{nombre}}\", se encuentra repetido",
+        "selecionarDependencia": "Se debe seleccionar una dependencia, para poder obtener los funcionarios asociados",
+        "camposDependenciaFuncionarioRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{dependencia}}\" con el funcionario \"{{funcionario}}\", se encuentra repetido"   
+    },
+    "TABLA1": {
+        "headerTabla0": "Clasificación de la Información",
+        "headerTabla1": "Asociar Grupo Sistema",
+        "headerTabla2": "Observaciones"
+    },
+    "TABLA2": {
+        "headerTabla0": "Organismo o Dependencia",
+        "headerTabla1": "Funcionario"
+    }
+  },
+  
+  "CUMCO018": {
+    "titulo": "Parametrizar Rutas",
+    "mensajeros": "Mensajeros",
+    "parametrizarMensajero": "Parametrizar Mensajero",
+    "empresaMensajeria": "Empresa Mensajería",
+    "parametrizarEmpresa": "Parametrizar Empresa",
+    "FILTROS": {
+      "filtroRuta": "Ruta",
+      "filtroRutaPlaceHolder": "Ingrese aquí la ruta a filtrar.",
+      "filtroMensajero": "Mensajero",
+      "filtroMensajeroPlaceHolder": "Ingrese aquí el mensajero a filtrar.",
+      "filtroEmpresaMensajeria": "Empresa Mensajería",
+      "filtroEmpresaMensajeriaPlaceHolder": "Ingrese aquí la empresa de mensajería a filtrar."
     },
     "MENSAJES": {
         "guardar":"Guardar",
         "exito":"Operación de guardar ejecutada con exito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
-        "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-        "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-        "guardarError" : "Error al guardar",
-        "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-        "eliminarFallido1": "El recorrido ",
-        "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo"
+        "eliminarRutaError": "La ruta \"{{ruta}}\" ya se encuentra asociado, no puede ser eliminado: debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+        "campoRutaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: La ruta \"{{ruta}}\" ya se encuentra registrado",
+        "campoRutaRepetidoFiltroError": "Fila {{filaRep1}}: La ruta \"{{ruta}}\" ya se encuentra registrado",
+        "eliminarMensajeroError": "El Mensajero \"{{mensajero}}\" ya se encuentra asociado, no puede ser eliminado: debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+        "campoMensajeroRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Mensajero \"{{mensajero}}\" ya se encuentra registrado",
+        "campoMensajeroRepetidoFiltroError": "Fila {{filaRep1}}: El Mensajero \"{{mensajero}}\" ya se encuentra registrado",
+        "eliminarEmpresaError" : "La empresa de mensajería \"{{empresa}}\" ya se encuentra asociado, no puede ser eliminado: debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+        "campoEmpresaRepetidoError" : "Filas {{filaRep1}} y {{filaRep2}}: La empresa  \"{{empresa}}\" ya se encuentra registrado",
+        "campoEmpresaRepetidoFiltroError": "Fila {{filaRep1}}: La empresa \"{{empresa}}\" ya se encuentra registrado"         
+            
     },
     "TABLA1": {
-        "headerTabla1": "Tipo de Empresa",
-        "headerTabla2": "Activo"
+        "headerTabla0": "",
+        "headerTabla1": "Código",
+        "headerTabla2": "Nombre",
+        "headerTabla3": "Activo"
     },
     "TABLA2": {
-        "headerTabla1": "Clasificación de la Organización",
-        "headerTabla2": "Activo"
+        "headerTabla0": "",
+        "headerTabla1": "Código",
+        "headerTabla2": "Dependencia",
+        "headerTabla3": "Nombre",
+        "headerTabla4": "Activo"
     },
     "TABLA3": {
-        "headerTabla1": "Actividad Económica de la Organización",
-        "headerTabla2": "Activo"
+        "headerTabla0": "",
+        "headerTabla1": "Código",
+        "headerTabla2": "Nombre",
+        "headerTabla3": "Activo"
     }
-},
-
-"CUMCO014": {
-  "titulo": "Configurar Tipos de Radicado",
-  "titulo3": "Configurar Categorías del Radicado",
-  "titulo5": "Asociar Lista de Requisitos",
-  "pestana1": "Tipos de Radicaco",
-  "pestana2": "Categoria del Radicado",
-  "pestana3": "Lista de requisitos",
-  "pestana31": "Parametrizar Lista de Requisitos",
-  "pestana32": "Asociar Tipo de Radicado con Requisitos",
-  "clasificacionOrg": "Clasificación de la Organización",
-  "actividadEconomica": "Actividad Económica de la Organización",
-  "titulo2": "Configurar Tipos de Radicado con Subtipos y Trámite",
-  "FILTROS": {
-      "filtroRadicado": "Filtar por Tipo Radicado",
-      "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
-      "tituloTabla": "Recorridos de Reparto Documentos Físicos"
   },
-  "MENSAJES": {
-      "guardar":"Guardar",
-      "exito":"Operación de guardar ejecutada con exito",
-      "falloGuardar":"Se ha presentado un error al guardar",
-      "errorGuardar": "Diligenciar todos los campos requeridos",
-      "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-      "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-      "guardarError" : "Error al guardar",
-      "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-      "eliminarFallido1": "El recorrido ",
-      "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-      "selcionCheckbosError": "Fila {{filaVacia}}: Debe seleccionar al menos una opción (Ventanilla de Entrada, Comunicaciones Oficiales, o Ventanilla Virtual) para el tipo de radicado {{descripcion}} y subtipo de radicado {{descripcion2}}",
-      "tipoRadicadoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El tipo de radicado \"{{descripcion}}\" se encuentra repetido",
-      "selccionAnonimoError": "Debe seleccionar la opción 'Anónimo' para por lo menos uno de los subtipos de radicados configurados para la Ventanilla Virtual",
-      "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-      "subtipoRadicadoRepedidoError" : "Filas {{filaRep1}} y {{filaRep2}}: El subtipo de radicado \"{{descripcion}}\" se encuentra repetido",
-      "elminarTipoRadicadoError": "El tipo de radicado \"{{descripcion}}\" no puede ser eliminado: Se encuentra asociado a uno o más subtipos de radicados",
-      "elminarSubtipoRadicadoError": "El subtipo {{descripcion}} no puede ser eliminado: Se encuentra asociado a uno o más borradores y/o radicados en el sistema",
-      "elminarCategoriaError": "No se puede eliminar la categoría \"{{descripcion}}\" seleccionada dado que ya está asociada a tipos de radicados",
-      "elminarCategoriaPrecargadaError": "No se puede eliminar la categoría \"{{descripcion}}\" seleccionada, esta configuración es estándar para el sistema",
-      "campoRepetidoCategoriaRadicadoError": "El código y/o nombre \"{{descripcion}}\" se encuentra repetido"
-
-  },
-  "TABLA1": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Descripción Tipo de Radciado",
-      "headerTabla3": "Categoria",
-      "headerTabla4": "Activo"
-  },
-  "TABLA2": {
-      "headerTabla1": "Código Tipo Radicado",
-      "headerTabla2": "Descripción (Subtipo de Radicado)",
-      "headerTabla3": "Tramite",
-      "headerTabla4": "Días Término",
-      "headerTabla5": "Días Hábiles",
-      "headerTabla6": "Modificar Días",
-      "headerTabla7": "Activo",
-      "headerTabla8": "Ventanila de Entrada",
-      "headerTabla9": "Radicación Verval",
-      "headerTabla10": "Comunicaciones Oficiales",
-      "headerTabla11": "Ventanilla Virtual",
-      "headerTabla12": "Anónimo"
-  },
-  "TABLA3": {
-    "headerTabla0": "",
-    "headerTabla1": "Código",
-    "headerTabla2": "Nombre",
-    "headerTabla3": "Lista de Requisitos"
-  },
-  "TABLA4": {
-    "headerTabla0": "Código",
-    "headerTabla1": "Nombre",
-    "headerTabla2": "Descripcion",
-    "headerTabla3": "Activo",
-    "headerTabla4": "Requerido",
-    "headerTabla5": "Cargar Formulario (Ventanilla Virtual)"
-  },
-  "TABLA5": {
-    "headerTabla0": "Requisito"
-  }
   
-},
-
-"CUMCO016": {
-  "titulo": "Configurar Ejes Temáticos",
-  "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
-  "FILTROS": {
-    "filtroPlaceHolder": "Buscar por",
-      "organismos": "Organismos o Dependecias",
-      "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
-      "ejes": "Ejes Temáticos",
-      "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
-      "placeHolderEjes": "Buscar por Ejes"
+  "CUMCO019": {
+    "titulo": "Filtros",
+    "tipoComunicacion": "Tipos de Comuniación Oficial",
+    "configurarFirmantes": "Configurar firmantes por tipo de Comunicación",
+    "FILTROS": {
+      "filtroComunicacion": "Tipo de comunicación Oficial:",
+      "filtroComunicacionPlaceHolder": "Seleccione el tipo de comunicación oficial",
+      "filtroCargo": "Cargo:",
+      "filtroCargoPlaceHolder": "Ingrese aquí el cargo a filtrar",
+      "filtroCargoFuncionario": "Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
+    },
+    "MENSAJES": {
+        "guardar":"Guardar",
+        "exito":"Operación de guardar ejecutada con exito",
+        "falloGuardar":"Se ha presentado un error al guardar",
+        "errorGuardar": "Diligenciar todos los campos requeridos",
+        "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+        "campoCargoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Cargo Firmante \"{{cargo}}\" se encuentra repetido, por favor validar",
+        "campoCargoRepetidoFiltroError": "Fila {{filaRep1}}: El Cargo Firmante \"{{cargo}}\" se encuentra repetido en los regitros filtrados, por favor validar"
+  
+    },
+    "TABLA1": {
+        "headerTabla0": "",
+        "headerTabla1": "Código",
+        "headerTabla2": "Nombre",
+        "headerTabla3": "Clase Documental"
+    },
+    "TABLA2": {
+        "headerTabla0": "",
+        "headerTabla1": "Código tipo de Comunicación Oficial",
+        "headerTabla2": "Cargo Firmante"
+    }
   },
-  "MENSAJES": {
-      "guardar":"Guardar",
-      "exito":"Operación de guardar ejecutada con exito",
-      "falloGuardar":"Se ha presentado un error al guardar",
-      "errorGuardar": "Diligenciar todos los campos requeridos",
-      "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
-      "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
-      "guardarError" : "Error al guardar",
-      "errorHoraInicio": "La hora final del recorrido no puede ser menor a la hora inicial, por favor validar",
-      "eliminarFallido1": "El recorrido ",
-      "eliminarFallido2": " no puede ser eliminado: Ya se encuentra creado, en caso de ya no estar vigente, por favor proceda a inactivarlo",
-      "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
-      "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-      "campoEjeRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Eje Temático \"{{eje}}\" se encuentra repetido",
-      "guradarRelacionEjesDependenciaExito": "Los ejes temáticos seleccionados fueron vinculados exitosamente al organismo o dependencia \"{{dependencia}}\"",
-      "ejeTematicoGuardarExito": "Los ejes temáticos se guardaron exitosamente",
-      "ejeTematicoEliminarErrorDepe": "El eje temático \"{{eje}}\" no puede ser eliminado porque está vinculado a las dependencias {{dependencias}} elimine la asociación y luego realice la eliminación",
-      "ejeAsociadoRadicadoError" : "El eje temático \"{{eje}}\" no puede ser eliminado porque se encuentra asociado a uno o más borradores y/o radicados en el sistema"
-  },
-  "TABLA1": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Descripción",
-      "headerTabla3": "Activo"
+  
+  "CUMCO020": {
+      "pField1": "Configurar Procesos",
+      "pField2": "Configurar Procedimientos de Procesos",
+      "pField3": "Asociar Procesos a Dependencias",
+      "pField4": "Asociar Procedimientos a Dependencias",
+      "pestana1": "Configurar Procesos y Procedimientos",
+      "pestana2": "Asociar Procesos y Procedimientos a Dependencias",
+      "FILTROS": {
+          "filtroProceso": "Filtrar por Proceso:",
+          "filtroProcesoPlaceHolder": "Ingresar aquí el Proceso a Filtrar",
+          "filtroProcedimiento": "Filtrar por Procedimiento:",
+          "filtroProcedimientoPlaceHolder": "Ingresar aquí el Procedimiento a Filtrar",
+          "filtroDependencia": "Organismo o Dependencia a Configurar",
+          "filtroDependenciaPlaceHolder": "Ingresar aquí el Organismo o Dependencia a Filtrar"
+      },
+      "MENSAJES": {
+          "guardar":"Guardar",
+          "error":"Error",
+          "exito":"Operación de guardar ejecutada con exito",
+          "falloGuardar":"Se ha presentado un error al guardar",
+          "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
+          "campoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El proceso \"{{codigoNombre}}\", se encuentra repetido, por favor validar",
+          "eliminarProcesoProcedimientoError" : "El proceso \"{{proceso}}\" no puede ser eliminado ya que se encuentra asociado a uno o más procedimientos",    
+          "eliminarProcesoDependenciaError": "El proceso \"{{proceso}}\" no puede ser eliminado: Se encuentra vinculado a los organismos o dependencias \"{{nombresDependencia}}\"",    
+          "eliminarProcedimientoRadicadoError" : "El procedimiento \"{{procedimiento}}\" asociado al proceso \"{{proceso}}\" no puede ser eliminado: Se encuentra asociado a uno o más borradores y/o radicados en el sistema",
+          "campoCodigoProcedimientoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El procedimiento \"{{codigoNombre}}\", se encuentra repetido, por favor validar",
+          "campoCodigoProcedimientoRepetidoFiltradoError": "Fila {{filaRep1}}: El procedimiento \"{{codigoNombre}}\" se encuentra repetido en los regitros filtrados, por favor validar",
+          "campoCodigoProcedimientoRepetidoProcesoError": "Fila {{filaRep1}}: El procedimiento \"{{procedimiento}}\" ya se encuentra asociado al proceso \"{{proceso}}\" ",
+          "campoCodigoProcesoRepetidoFiltradoError": "Fila {{filaRep1}}: El proceso \"{{codigoNombre}}\" se encuentra repetido en los regitros filtrados, por favor validar",
+          "eliminarProcesoDependenciaError2": "La relación del proceso \"{{proceso}}\" con el organismo o dependencia \"{{organismo}}\" no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+          "eliminarProcesoDependenciaError3": "La relación del proceso \"{{proceso}}\" con el organismo o dependencia \"{{organismo}}\" no puede ser eliminada, ya que tiene procedimientos asociados a la dependencia",  
+          "requerirGuardarRelacion": "Se requiere guardar la relación del proceso \"{{proceso}}\" con el organismo o dependencia \"{{organismo}}\" antes de asociar los procedimientos a dicha dependencia",
+          "eliminarProcedimientoDependenciaError2": "La relación del procedimiento \"{{procedimiento}}\" con el organismo o dependencia \"{{organismo}}\" no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema",
+          "eliminarProcedimientoDependenciaError3":  "La relación del procedimiento(s) \"{{procedimiento}}\" con el organismo o dependencia \"{{organismo}}\" no puede ser eliminada(s): Se encuentra(n) asociada(s) a uno o más borradores y/o radicados en el sistema"              
+      },
+      "TABLA1": {
+          "headerTabla0": "",
+          "headerTabla1": "Código",
+          "headerTabla2": "Nombre",
+          "headerTabla3": "Descripción",
+          "headerTabla4": "Activo"
+      },
+      "TABLA2": {
+          "headerTabla1": "Proceso",
+          "headerTabla2": "Código Procedimiento",
+          "headerTabla3": "Nombre Procedimiento Documental",
+          "headerTabla4": "Descripción",
+          "headerTabla5": "Activo"
+      },
+      "TABLA3": {
+        "headerTabla1": "Proceso"
+      },
+      "TABLA4": {
+        "headerTabla1": "Procedimiento"
+      }
+    
+    }
+  
   }
-},
-
-"CUMCO017": {
-  "titulo": "Configurar Tipos de Radicado",
-  "pestana1": "Grupos de Seguridad",
-  "pestana2": "Funcionarios Asociados",
-  "FILTROS": {
-    "filtroRadicado": "Radicado",
-    "filtroRadicadoPlaceHolder": "Ingrese aquí el número de radicado a selecionar",
-    "filtroGrupoAsociado": "Grupo Asociado"
-  },
-  "MENSAJES": {
-      "guardar":"Guardar",
-      "exitoGuardar":"Operación de guardar ejecutada con exito",
-      "falloGuardar":"Se ha presentado un error al guardar",
-      "errorGuardar": "Diligenciar todos los campos requeridos",
-      "campoEliminarGrupoSeguridadError": "No es posible eliminar el registro \"{{descripcion}}\"",
-      "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-      "campoCodigoClasificacionRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{descripcion}}\" y \"{{nombre}}\", se encuentra repetido",
-      "selecionarDependencia": "Se debe seleccionar una dependencia, para poder obtener los funcionarios asociados",
-      "camposDependenciaFuncionarioRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{dependencia}}\" con el funcionario \"{{funcionario}}\", se encuentra repetido"   
-  },
-  "TABLA1": {
-      "headerTabla0": "Clasificación de la Información",
-      "headerTabla1": "Asociar Grupo Sistema",
-      "headerTabla2": "Observaciones"
-  },
-  "TABLA2": {
-      "headerTabla0": "Organismo o Dependencia",
-      "headerTabla1": "Funcionario"
-  }
-},
-
-"CUMCO018": {
-  "titulo": "Parametrizar Rutas",
-  "mensajeros": "Mensajeros",
-  "parametrizarMensajero": "Parametrizar Mensajero",
-  "empresaMensajeria": "Empresa Mensajería",
-  "parametrizarEmpresa": "Parametrizar Empresa",
-  "FILTROS": {
-    "filtroRuta": "Ruta",
-    "filtroRutaPlaceHolder": "Ingrese aquí la ruta a filtrar.",
-    "filtroMensajero": "Mensajero",
-    "filtroMensajeroPlaceHolder": "Ingrese aquí el mensajero a filtrar.",
-    "filtroEmpresaMensajeria": "Empresa Mensajería",
-    "filtroEmpresaMensajeriaPlaceHolder": "Ingrese aquí la empresa de mensajería a filtrar."
-  },
-  "MENSAJES": {
-      "guardar":"Guardar",
-      "exito":"Operación de guardar ejecutada con exito",
-      "falloGuardar":"Se ha presentado un error al guardar",
-      "errorGuardar": "Diligenciar todos los campos requeridos"
-  },
-  "TABLA1": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Nombre",
-      "headerTabla3": "Activo"
-  },
-  "TABLA2": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Dependencia",
-      "headerTabla3": "Nombre",
-      "headerTabla4": "Activo"
-  },
-  "TABLA3": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Nombre",
-      "headerTabla3": "Activo"
-  }
-},
-
-"CUMCO019": {
-  "titulo": "Filtros",
-  "tipoComunicacion": "Tipos de Comuniación Oficial",
-  "configurarFirmantes": "Configurar firmantes por tipo de Comunicación",
-  "FILTROS": {
-    "filtroComunicacion": "Tipo de comunicación Oficial:",
-    "filtroComunicacionPlaceHolder": "Seleccione el tipo de comunicación oficial",
-    "filtroCargo": "Cargo:",
-    "filtroCargoPlaceHolder": "Ingrese aquí el cargo a filtrar",
-    "filtroCargoFuncionario": "Por favor seleccione los cargos de los funcionarios que pueden firmar el tipo de comunicación oficial seleccionada."
-  },
-  "MENSAJES": {
-      "guardar":"Guardar",
-      "exito":"Operación de guardar ejecutada con exito",
-      "falloGuardar":"Se ha presentado un error al guardar",
-      "errorGuardar": "Diligenciar todos los campos requeridos",
-      "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-      "campoCargoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El Cargo Firmante \"{{cargo}}\" se encuentra repetido, por favor validar",
-      "campoCargoRepetidoFiltroError": "Fila {{filaRep1}}: El Cargo Firmante \"{{cargo}}\" se encuentra repetido en los regitros filtrados, por favor validar"
-
-  },
-  "TABLA1": {
-      "headerTabla0": "",
-      "headerTabla1": "Código",
-      "headerTabla2": "Nombre",
-      "headerTabla3": "Clase Documental"
-  },
-  "TABLA2": {
-      "headerTabla0": "",
-      "headerTabla1": "Código tipo de Comunicación Oficial",
-      "headerTabla2": "Cargo Firmante"
-  }
-}
-
-}

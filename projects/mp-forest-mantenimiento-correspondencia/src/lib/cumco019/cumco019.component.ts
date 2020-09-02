@@ -43,6 +43,7 @@ export class CUMCO019Component implements OnInit {
 
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 5;
+  pageTable2 = 0;
 
 
   
@@ -241,6 +242,9 @@ export class CUMCO019Component implements OnInit {
     }
     this.dataTable2 = [...this.dataTable2, newElement];
     this.idRow2 += 1;
+
+    const newPage = Math.trunc(this.dataTable2.length/this.nRowsTable2) * this.nRowsTable2;
+    this.pageTable2 = newPage;
   }
 
   eliminarClick() {

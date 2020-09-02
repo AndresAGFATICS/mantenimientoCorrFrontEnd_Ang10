@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Message } from 'primeng//api';
 import { MessageService } from 'primeng/api';
 import { HostListener } from '@angular/core';
+import { ɵangular_packages_router_router_n } from '@angular/router';
 
 
 @Component({
@@ -27,20 +28,17 @@ export class CUMCO012Component implements OnInit {
   mensaje: string;
   // Variables de texto
 
+  enableDelete = false;
 
 
   // Variable para habilitar botones
-  buttonDisabled: boolean = true;
+  buttonDisabled = true;
   // Formulario a Guardar
 
-  nombre_recorrido: string;
-  hora_inicio: string;
-  hora_fin: string;
-  activo: boolean = false;
 
   // Variables de los autocompletables
-  textAutoComlpeteOrganismoConfigurar: string;
-  textAutoCompleteRecorridos: string;
+  textAutoComlpeteOrganismoConfigurar: any;
+
 
   suggestionsAutoCompleteOrganismoConfigurar: string[];
   suggestionsAutoCompleteRecorridos: string[];
@@ -55,16 +53,22 @@ export class CUMCO012Component implements OnInit {
   // Headers de la tabla
   cols: any[];
 
+  initialDataStateTable1 = true;
+  initialData1: any[];
   //
   horaFinAnterior: string;
   horaInicioAnterio: string;
+
+  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
+  nRowsTable1 = 15;
 
   //
   body: Body;
 
   rowIndex = 0;
-  selectedRow: Row;
+  selectedRow: any;
   responsePost: any;
+  pageTable1 = 0;
 
   Idindex = 0;
 
@@ -75,7 +79,6 @@ export class CUMCO012Component implements OnInit {
   ) {
 
     this.textAutoComlpeteOrganismoConfigurar = '';
-    this.textAutoCompleteRecorridos = '';
     this.suggestionsAutoCompleteOrganismoConfigurar = [];
     this.suggestionsAutoCompleteRecorridos = [];
     this.responseTerritorial = [];
@@ -102,10 +105,10 @@ export class CUMCO012Component implements OnInit {
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
         { field: 'id', header: this.translate.instant('CUMCO012.TABLA1.headerTabla0') },
-        { field: 'nombre_recorrido', header:this.translate.instant('CUMCO012.TABLA1.headerTabla1') },
-        { field: 'hora_inicio', header: this.translate.instant('CUMCO012.TABLA1.headerTabla2') },
-        { field: 'hora_fin', header: this.translate.instant('CUMCO012.TABLA1.headerTabla3') },
-        { field: 'activo', header: this.translate.instant('CUMCO012.TABLA1.headerTabla4')},
+        { field: 'nombreRecorrido', header: this.translate.instant('CUMCO012.TABLA1.headerTabla1') },
+        { field: 'horaInicio', header: this.translate.instant('CUMCO012.TABLA1.headerTabla2') },
+        { field: 'horaFin', header: this.translate.instant('CUMCO012.TABLA1.headerTabla3') },
+        { field: 'activo', header: this.translate.instant('CUMCO012.TABLA1.headerTabla4') },
       ];
     });
   }
@@ -114,11 +117,11 @@ export class CUMCO012Component implements OnInit {
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
-   
+
   // Metodos para Mostrar MENSAJES
-  showMessage(det: string, sev: string) {
+  showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: '', detail: det});
+    this.msgs.push({ severity: sev, summary: sum, detail: '' });
 
     (async () => {
       const waitTime = 5;
@@ -173,20 +176,35 @@ export class CUMCO012Component implements OnInit {
     return '';
   }
 
-  subcribeServiceReparto() {
-    this.territorialActivaService.getRecorridoRepartoFisico(
-      this.findOrganismByName(this.textAutoComlpeteOrganismoConfigurar)).subscribe(
+  subcribeServiceReparto(parameters) {
+    let getResponse: any[];
+    this.territorialActivaService.getRecorridoRepartoFisico(parameters).subscribe(
 
         (getRes: any[]) => {     // Inicio del suscribe
-          this.responseRecorridos = getRes;
+          getResponse = getRes;
           return getRes;
         },
         getError => {           // Error del suscribe
           console.log('GET call in error', getError);
         },
-        () => {
-          console.log('HOLA')                 // Fin del suscribe
-          this.updateTable(this.responseRecorridos);
+        () => {                // Fin del suscribe
+          //this.updateTable(this.responseRecorridos);
+          this.Idindex = 0;
+          this.rows = [];
+          for (const data of getResponse) {
+            //const index = this.rows.indexOf(selectedRow);
+            this.rows.push({ ... data, state: 'noedit'});
+          }
+
+          if (this.initialDataStateTable1) {
+            this.initialData1 = [];
+            for (const data of this.rows) {
+              this.initialData1.push(JSON.parse(JSON.stringify(data)));
+            }
+            this.initialDataStateTable1 = false;
+          }
+
+
         });
   }
 
@@ -205,7 +223,7 @@ export class CUMCO012Component implements OnInit {
         this.suggestionsAutoCompleteOrganismoConfigurar = [];
         for (const data of this.responseTerritorial) {
           //const index = this.rows.indexOf(selectedRow);
-          this.suggestionsAutoCompleteOrganismoConfigurar.push(data.nombreCodigo);
+          this.suggestionsAutoCompleteOrganismoConfigurar.push(data);
         }
 
       });
@@ -224,7 +242,6 @@ export class CUMCO012Component implements OnInit {
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
-        this.quitarNew();
         if (!this.responsePost.status) {
           this.showMessage(this.responsePost.message, "error");
         }
@@ -234,31 +251,14 @@ export class CUMCO012Component implements OnInit {
           const exito = this.translate.instant('CUMCO012.MENSAJES.exito');
           this.showMessage(exito, "success");
           this.subcribeServiceTiporadicado('');
+          this.initialDataStateTable1 = true;
           this.getTableInfo();
         }
       });
   }
 
-  // Metodo para actualizar los datos de la tabla
-  updateTable(dataArray: any[]) {
 
 
-    this.rows = [];
-    for (const data of dataArray) {
-      //const index = this.rows.indexOf(selectedRow);
-      this.rows.push({
-        id: data.id,
-        nombre_recorrido: data.nombreRecorrido,
-        hora_inicio: data.horaInicio,
-        hora_fin: data.horaFin,
-        activo: data.activo,
-        state: 'noedit'
-      });
-
-
-    }
-
-  }
 
   quitarNew() {
     for (var _i = 0; _i < this.rows.length; _i++) {
@@ -269,10 +269,7 @@ export class CUMCO012Component implements OnInit {
     }
   }
 
-  findOrganismByName(name: string): string {
-    const organism = this.responseTerritorial.find(element => element.nombreCodigo === name);
-    return organism ? organism.id.toString() : '';
-  }
+
 
 
   search(event) {
@@ -280,23 +277,25 @@ export class CUMCO012Component implements OnInit {
   }
 
   getTableInfo() {
-    this.subcribeServiceReparto();
+    this.initialDataStateTable1 = true;
+    this.subcribeServiceReparto( String(this.textAutoComlpeteOrganismoConfigurar.id) );
     this.buttonDisabled = false;
   }
 
   onClicBorrarAutoComplete() {
+    this.rows = [];
     this.textAutoComlpeteOrganismoConfigurar = '';
   }
 
   onClicAgregar() {
     let lastHour = '';
     if (this.rows.length !== 0) {
-      if (!this.rows[this.rows.length - 1].hora_fin) {
-        const error = this.translate.instant('CUMCO012.MENSAJES.errorHoraInicio');
+      if (!this.rows[this.rows.length - 1].horaFin) {
+        const error = this.translate.instant('CUMCO012.MENSAJES.ingresarHoraFinal');
         this.showMessage(error, "error");
         return;
       }
-      lastHour = this.rows[this.rows.length - 1].hora_fin;
+      lastHour = this.rows[this.rows.length - 1].horaFin;
     }
 
     let rows = [...this.rows];
@@ -304,38 +303,41 @@ export class CUMCO012Component implements OnInit {
     rows.push({
       idIndex: this.Idindex,
       id: '',
-      nombre_recorrido: '',
-      hora_inicio: this.addOneMinute(lastHour),
-      hora_fin: '',
+      nombreRecorrido: '',
+      horaInicio: this.addOneMinute(lastHour),
+      horaFin: '',
       activo: '1',
       state: 'new'
     });
 
     this.Idindex = this.Idindex + 1;
     this.rows = rows;
+
+    const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
   }
 
   guardarHora(index: number) {
-    this.horaFinAnterior = this.rows[index].hora_fin;
-    this.horaInicioAnterio = this.rows[index].hora_inicio;
+    //console.log(this.rows[index].horaInicio);
+    this.horaInicioAnterio = this.rows[index].horaInicio
   }
 
   validarHora(index: number) {
-    let finalValue = this.rows[index].hora_fin;
-    let initialValue = this.rows[index].hora_inicio;
-    let finalHour = parseInt(finalValue[0] + finalValue[1] + finalValue[3] + finalValue[4]);
-    let initialHour = parseInt(initialValue[0] + initialValue[1] + initialValue[3] + initialValue[4]);
-
-
-    if (finalValue && initialValue && finalHour <= initialHour) {
-      this.rows[index].hora_fin = this.horaFinAnterior;
-      this.rows[index].hora_inicio = this.horaInicioAnterio;
-      const error = this.translate.instant('CUMCO012.MENSAJES.errorHoraInicio');
+    if( index > 0 ){
+      const error = this.translate.instant('CUMCO012.MENSAJES.errorIngresoHoraInicial', {recorrido: this.rows[index].nombreRecorrido, horaInicio: this.horaInicioAnterio});
       this.showMessage(error, "error");
+      this.rows[index].horaInicio = this.horaInicioAnterio;
     }
 
+    this.edited('');
+   
+  }
 
-
+  modificarHora(index: number){
+    if( index !==  this.rows.length - 1){
+      this.rows[index+1].horaInicio = this.addOneMinute(this.rows[index].horaFin);
+    }
+    this.edited('');
   }
 
   onClicEliminar() {
@@ -344,10 +346,13 @@ export class CUMCO012Component implements OnInit {
       if (this.selectedRow.state === 'new') {
         let index = this.rows.indexOf(this.selectedRow);
         this.rows = this.rows.filter((val, i) => i !== index);
-      } else {
+      } else if (this.enableDelete) {
         // mostar mensaje
+        this.rows.find(row => row === this.selectedRow).state = this.selectedRow.state === 'delete' ? 'edit' : 'delete';
+      this.edited('');
+      }else{
         const error = this.translate.instant('CUMCO012.MENSAJES.eliminarFallido1') +
-          this.selectedRow.nombre_recorrido + this.translate.instant('CUMCO012.MENSAJES.eliminarFallido2');
+          this.selectedRow.nombreRecorrido + this.translate.instant('CUMCO012.MENSAJES.eliminarFallido2');
         this.showMessage(error, "error");
       }
 
@@ -357,22 +362,56 @@ export class CUMCO012Component implements OnInit {
   }
 
   onGuardarColumna() {
-    if (this.validarNombres()) {
+    if(!this.validarVacio()){
+
+    }
+    else if (!this.validarNombres()) {
+      return;
+    }else if(!this.validarHoras()){
+      return;
+    } 
+    else {
       let body = this.generateJsonBody();
-      if(body){
+      if (body) {
         this.subcribeRecorridoRepartoFisico(body);
       }
-      else{
-        this.showMessage('No se han agregado o cambiadod datos', "error");
+      else {
+        return;
       }
-    } else {
-      const error = this.translate.instant('ERROR campo vacio');
-      this.showMessage(error, "error");
     }
+
+  }
+
+  validarVacio(){
+
+    for (var _i = 0; _i < this.rows.length;_i++){
+      if (!this.rows[_i].nombreRecorrido || this.rows[_i].nombreRecorrido === ''){
+        const error = this.translate.instant('CUMCO012.MENSAJES.campoFilaVacioError',
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO012.TABLA2.headerTabla1') });
+        this.showMessage(error, "error");
+        return false;
+      }
+      else if(!this.rows[_i].horaInicio || this.rows[_i].horaInicio === ''){
+        const error = this.translate.instant('CUMCO012.MENSAJES.campoFilaVacioError',
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO012.TABLA1.headerTabla2') });
+        this.showMessage(error, "error");
+        return false;
+      }
+      else if(!this.rows[_i].horaFin || this.rows[_i].horaFin === ''){
+        const error = this.translate.instant('CUMCO012.MENSAJES.campoFilaVacioError',
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO012.TABLA1.headerTabla3') });
+        this.showMessage(error, "error");
+        return false;
+      }
+
+    }
+
+    return true;
+
   }
 
   generateJsonBody(): any {
-    let fields= [
+    let fields = [
       {
         "name": "nombreRecorrido",
         "type": "input",
@@ -456,15 +495,14 @@ export class CUMCO012Component implements OnInit {
     let features = []
 
     this.rows.forEach(row => {
-      if (row.state === 'new' || row.state === 'edit') {
-        console.log(row);
+      if (row.state === 'new' || row.state === 'edit' || row.state === 'delete') {
         features.push({
           "attributes": {
-            "nombreRecorrido": row.nombre_recorrido,
-            "horaInicio": row.hora_inicio,
-            "horaFin": row.hora_fin,
+            "nombreRecorrido": row.nombreRecorrido,
+            "horaInicio": row.horaInicio,
+            "horaFin": row.horaFin,
             "activo": row.activo,
-            "dependenciaTerritorial.codigo": this.findOrganismByName(this.textAutoComlpeteOrganismoConfigurar),
+            "dependenciaTerritorial.codigo": this.textAutoComlpeteOrganismoConfigurar.id,
             "dependenciaTerritorial.dependenciasHijas": "",
             "dependenciaTerritorial.fechaFinVigencia": "",
             "dependenciaTerritorial.fechaInicioVigencia": "",
@@ -484,10 +522,10 @@ export class CUMCO012Component implements OnInit {
       }
     })
 
-    if(features.length === 0){
+    if (features.length === 0) {
       return false;
     }
-    else{
+    else {
       return {
         grd_reparto_fisico: JSON.stringify({
           fields,
@@ -499,20 +537,71 @@ export class CUMCO012Component implements OnInit {
   }
 
   validarNombres(): boolean {
-    let resp = true;
-    if (this.rows.length !== 0) {
-      this.rows.forEach(row => {
-        if (row.nombre_recorrido === '' || row.hora_inicio === '' || row.hora_fin === '') {
-          resp = false;
+    for (var _i = 0; _i < this.rows.length; _i++){
+      for (var _k = _i+1; _k < this.rows.length; _k++){
+        if (this.rows[_k].nombreRecorrido.toLowerCase().trim() === this.rows[_i].nombreRecorrido.toLowerCase().trim()){
+          const error = this.translate.instant('CUMCO012.MENSAJES.tipoNombreRecorridoRepetidosError',
+                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), recorrido: this.rows[_k].nombreRecorrido });
+                      this.showMessage(error, "error");
+          return false;
         }
-      })
-      return resp;
+      }
     }
-    return !resp;
+    return true;
+  }
+
+  validarHoras(): boolean {
+    for (var _i = 0; _i < this.rows.length; _i++){
+      let hora_ini = parseInt( this.rows[_i].horaInicio[0] + this.rows[_i].horaInicio[1] + this.rows[_i].horaInicio[3] + this.rows[_i].horaInicio[4]);
+      let hora_fin = parseInt( this.rows[_i].horaFin[0] + this.rows[_i].horaFin[1] + this.rows[_i].horaFin[3] + this.rows[_i].horaFin[4]);
+      if (hora_ini >= hora_fin){
+          const error = this.translate.instant('CUMCO012.MENSAJES.horaMayorError', {filaRep1: _i + 1});
+                      this.showMessage(error, "error");
+        return false;
+      }
+    }
+    return true;
+
   }
 
   edited(rowIndex) {
-    this.rows[rowIndex].state = 'edit';
+    //this.rows[rowIndex].state = 'edit';
+    this.compareInitialData(this.rows, this.initialData1);
+  }
+
+
+  compareInitialData(currentData: any[], initialData: any[]){
+
+    for (var _i = 0; _i < currentData.length; _i++){
+
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit")  {
+        var keys = Object.keys(currentData[_i]);
+        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        var areEqual = true;
+        for (const key of keys){
+          if (typeof currentData[_i][key] === "object"){
+
+            if (currentData[_i][key].id !== initialDataValue[0][key].id){
+              areEqual = false;
+            }
+
+          }
+          else{
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state" ) {
+              areEqual = false;
+            }
+          }
+
+        }
+        if (areEqual){
+          currentData[_i].state = "noedit";
+        }
+        else{
+          currentData[_i].state = "edit";
+        }
+
+      }
+    }
   }
 
   gteRowColorState(rowData: any) {
@@ -539,11 +628,5 @@ export class CUMCO012Component implements OnInit {
   }
 }
 
-export interface Row {
-  id;
-  nombre_recorrido;
-  hora_inicio;
-  hora_fin;
-  activo;
-  state;
-}
+
+//document.getElementsByName('groupname')[0].hidden = false

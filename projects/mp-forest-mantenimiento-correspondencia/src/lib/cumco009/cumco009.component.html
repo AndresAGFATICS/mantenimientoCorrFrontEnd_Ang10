@@ -34,7 +34,7 @@
     
     <p-messages [(value)]="msgs"></p-messages>
 
-    <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [paginator]="true" [rows]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
+    <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [paginator]="true" [(rows)]="nRowsTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
       [(selection)]="seleccionPersona" selectionMode="single" (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()">
 
       <!-- Table Column Width -->
@@ -119,8 +119,8 @@
 
     <p-messages [(value)]="msgs2"></p-messages>
 
-    <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion" [paginator]="true" [rowsPerPageOptions]="nRowsOptionsTable2" [rows]="nRowsTable2" selectionMode="single" showCurrentPageReport="true"
-      currentPageReportTemplate="Page {currentPage} of {totalPages}">
+    <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion" 
+    [paginator]="true" [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single">
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>

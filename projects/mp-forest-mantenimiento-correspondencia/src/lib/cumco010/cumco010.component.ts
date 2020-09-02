@@ -32,6 +32,7 @@ export class CUMCO010Component implements OnInit {
 
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 15;
+  pageTable1 = 0;
 
   columnasAdjuntos: any[];
   idRow: number;
@@ -107,7 +108,16 @@ export class CUMCO010Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
-        const error = this.translate.instant('CUMCO010.MENSAJES.falloGuardar');
+        
+        let deleteData: any;
+        for (var data of this.rows){
+          if( data.state == 'delete'){
+            deleteData = data;
+            break;
+          }
+
+        }
+        const error = 'El motivo de devolución \"' + deleteData.descripcion  + ' ,\" no puede ser eliminado ya que actualmente este se encuentra asociado a una o mas gestiones de devolución'
         this.showMessage(error, "error");
       },
       () => {                 // Fin del suscribe
@@ -192,6 +202,10 @@ export class CUMCO010Component implements OnInit {
     }
     this.rows = [...this.rows, newElement];
     this.idRow += 1;
+
+    const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
+
   }
 
   eliminarClick() {

@@ -1,339 +1,391 @@
-<div class="ui-fluid">
-  <p-tabView>
-    <p-toast position="top-center"></p-toast>
-    <p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
-      <ng-template let-message pTemplate="message">
-        <div style="text-align: center">
-          <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
-          <h3>{{message.summary}}</h3>
-          <p>{{message.detail}}</p>
-        </div>
-        <div class="p-grid ui-fluid">
-          <div class="p-col-6">
-            <button type="button" pButton (click)="onConfirm()" label="{{ 'CUMCO003.aceptarBoton' | translate }}" class="ui-button-success"></button>
-          </div>
-          <div class="p-col-6">
-            <button type="button" pButton (click)="onReject()" label="{{ 'CUMCO003.noAceptarBoton' | translate }}" class="ui-button-secondary"></button>
-          </div>
-        </div>
-      </ng-template>
-    </p-toast>
+<div class="p-col-12 p-md-12">
+  <div class="card card-w-title">
 
-    <p-tabPanel header="{{ 'CUMCO003.pestana1' | translate }}">
-
-      <p-fieldset legend="{{ 'CUMCO003.titulo' | translate }}">
-
-        <p>{{ 'CUMCO003.FILTROS.filtroPlantilla' | translate }}</p>
-
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="seleccionPlantilla" field="codigo" [suggestions]="listaPlantilla" (completeMethod)="searchPlantilla($event)" [dropdown]="true"  (focusout)="focusOutFiltroPlantilla()"
-              (onSelect)="selectFilter($event)" placeholder="{{ 'CUMCO003.FILTROS.filtroPlantillaPlaceHolder' | translate }}"></p-autoComplete>
-              <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePlantilla()"></p-button>
+    <div class="ui-fluid">
+      <p-tabView name="p-tabView">
+        <p-toast position="top-center"></p-toast>
+        <p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+          <ng-template let-message pTemplate="message">
+            <div style="text-align: center">
+              <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+              <h3>{{message.summary}}</h3>
+              <p>{{message.detail}}</p>
             </div>
-          </div>
-        </div>
-
-        <p>{{ 'CUMCO003.TipoRadicado' | translate }}</p>
-
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion" [suggestions]="listaRadicado" 
-                (onSelect)="selectFilter($event)" (completeMethod)="searchRadicado($event)" [dropdown]="true" (focusout)="focusOutFiltroRadicado()"
-                placeholder="{{ 'CUMCO003.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"></p-autoComplete>
-              <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteRadicado()"></p-button>
-            </div>
-          </div>
-        </div>
-
-        <p>{{ 'CUMCO003.FILTROS.filtroClaseDocumental' | translate }}</p>
-
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <div class="ui-inputgroup">
-              <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-              <p-autoComplete [(ngModel)]="seleccionClaseDocumental" field="codigoDescripcion" [suggestions]="listaClaseDocumental" 
-                (onSelect)="selectFilter($event)" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true"  (focusout)="focusOutClaseDocumental()"
-                placeholder="{{ 'CUMCO003.FILTROS.filtroClaseDocumentalPlaceHolder' | translate }}"></p-autoComplete>
-              <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteDocumento()"></p-button>
-            </div>
-          </div>
-        </div>
-
-        <br>
-        <br>
-
-        <p-messages [(value)]="msgs"></p-messages>
-
-        <!-- Start Table -->
-        <p-table [columns]="cols" [value]="rows" [paginator]="true" [rows]="nRowsTable1" 
-        [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
-
-        <!-- Table Column Width -->
-        <ng-template pTemplate="colgroup" let-columns>
-          <colgroup>
-            <col style="width:5%"> 
-          </colgroup>
-        </ng-template>
-
-          <!-- Table Caption -->
-          <ng-template pTemplate="caption">
-            <div class="ui-helper-clearfix menu-sup-grid">
-              <!-- Buttons -->
-              <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+            <div class="p-grid ui-fluid">
+              <div class="p-col-6">
+                <button type="button" pButton (click)="onConfirm()" label="{{ 'CUMCO003.aceptarBoton' | translate }}"
+                  class="ui-button-success"></button>
+              </div>
+              <div class="p-col-6">
+                <button type="button" pButton (click)="onReject()" label="{{ 'CUMCO003.noAceptarBoton' | translate }}"
+                  class="ui-button-secondary"></button>
               </div>
             </div>
           </ng-template>
+        </p-toast>
 
-          <!-- Table Heardes -->
-          <ng-template pTemplate="header" let-columns>
-            <tr>
-              <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
-                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-              </th>
-            </tr>
-          </ng-template>
+        <p-tabPanel header="{{ 'CUMCO003.pestana1' | translate }}">
 
-          <!-- Table Content -->
-          <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
-              <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+          <p-fieldset legend="{{ 'CUMCO003.titulo' | translate }}">
 
-                <div [ngSwitch]="i">
+            <p>{{ 'CUMCO003.FILTROS.filtroPlantilla' | translate }}</p>
 
-                  <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
-
-                  <div *ngSwitchCase="1">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete field="codigo" [suggestions]="listaPlantilla" (onSelect)="selectPlantillaTabla($event,row)" [(ngModel)]="row.plantilla"
-                        (completeMethod)="searchPlantilla($event)" (click)="onClickElminiarSelected()" (focusout)="focusOutTablaTipoComunicacion(rowIndex)"
-                          [dropdown]="true" [disabled]="row.state === 'delete' || row.claseDocumental.codigoDescripcion === '2 Entrada' "></p-autoComplete>
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.plantilla.codigo}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="2">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete field="codigoDescripcion" [suggestions]="listaRadicado" (onSelect)="selectTipoRadicadoTabla($event,row)" (completeMethod)="searchRadicado($event)" 
-                          [(ngModel)]="row.tipoRadicado" (focusout)="focusOutTablaTipoRadicado(rowIndex)"
-                          (click)="onClickElminiarSelected()" [dropdown]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.tipoRadicado.codigoDescripcion}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="3">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete field="descripcion" [suggestions]="listaSubTipoRadicado" (onSelect)="selectSubtipoRadicadoTabla($event,row)" (completeMethod)="searchSubTipoRadicado($event, rowIndex)" 
-                          [(ngModel)]="row.tramiteTipoRadicado" (focusout)="focusOutTablaSubTipoRadicado(rowIndex)"
-                          (click)="onClickElminiarSelected()" [dropdown]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
-                      </ng-template>
-                      <ng-template pTemplate="output"  >
-                          {{row.tramiteTipoRadicado.descripcion}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="4">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete field="codigoDescripcion" [suggestions]="listadoDocumento" (onSelect)="selectTipoDocumentalTabla($event,row)" (completeMethod)="searchDocumento($event)" 
-                          [(ngModel)]="row.tipoDocumental" (focusout)="focusOutTablaTipoDocumental(rowIndex)"
-                          (click)="onClickElminiarSelected()" [dropdown]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.tipoDocumental.codigoDescripcion}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="5">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete field="codigoDescripcion" (onSelect)="validacionEntrada(rowIndex, $event)" (click)="onClickElminiarSelected()"
-                          [(ngModel)]="row.claseDocumental" (focusout)="focusOutTablaClaseDocumental(rowIndex)"
-                          [suggestions]="listaClaseDocumental" (completeMethod)="searchClaseDocumento($event)" [dropdown]="true" >
-                        </p-autoComplete>
-                        <!-- <p-dropdown [options]="listaClaseDocumental" optionLabel="codigoDescripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="validacionEntrada(rowIndex)" (click)="onClickElminiarSelected()"> </p-dropdown> -->
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.claseDocumental.codigoDescripcion}} 
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="6" style="text-align: center">
-                    <p-checkbox name="groupname" [(ngModel)]="row.terminoRequerimiento" [binary]="true" (onChange)="onchangeTerminoRequerimiento(row)" [disabled]="row.state === 'delete' || row.prorrogaEntidad === 1 || row.prorrogaPeticionario === 1"
-                      (ngModelChange)="row.terminoRequerimiento = $event ? 1 : 0"></p-checkbox>
-                  </div>
-
-                  <div *ngSwitchCase="7">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <input type="number" [(ngModel)]="row.diasRequerimiento" [disabled]="row.state === 'delete' || row.terminoRequerimiento === 0" (focusout)="keyDownDiasRequerimiento(row)" (keydown.enter)="keyDownDiasRequerimiento(row)" [maxlength]="3" min="1">
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.diasRequerimiento}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="8" style="text-align: center">
-                    <p-checkbox name="groupname" [(ngModel)]="row.prorrogaEntidad" [binary]="true" (onChange)="onchangeDiasProrroga(row)" [disabled]="row.state === 'delete' || row.prorrogaPeticionario === 1 || row.terminoRequerimiento === 1"
-                      (ngModelChange)="row.prorrogaEntidad = $event ? 1 : 0"></p-checkbox>
-                  </div>
-
-                  <div *ngSwitchCase="9" style="text-align: center">
-                    <p-checkbox name="groupname" [(ngModel)]="row.prorrogaPeticionario" [binary]="true" (onChange)="onchangeDiasProrroga(row)" [disabled]="row.state === 'delete' || row.terminoRequerimiento === 1 || row.prorrogaEntidad === 1"
-                      (ngModelChange)="row.prorrogaPeticionario = $event ? 1 : 0"></p-checkbox>
-                  </div>
-
-                  <div *ngSwitchCase="10">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <input type="number" [(ngModel)]="row.diasProrroga" [disabled]="row.state === 'delete' || (row.prorrogaEntidad === 0 && row.prorrogaPeticionario === 0)" (focusout)="keyDownDiasProrroga(row)" (keydown.enter)="keyDownDiasProrroga(row)"
-                          (click)="onClickElminiarSelected()" [maxlength]="3" min="1">
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.diasProrroga}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-
-                  <div *ngSwitchCase="11">
-                    <p-cellEditor>
-                      <ng-template pTemplate="input">
-                        <p-autoComplete [suggestions]="suggestionsTipoComunicacionTabla" (completeMethod)="searchTipoComunicacionTabla($event, row)"
-                                        [dropdown]="true" [disabled]="row.state === 'delete' || row.claseDocumental.id === undefined || row.claseDocumental.id === '' " 
-                                        field = "codigoDescripcion"
-                                        (onSelect)="selectTipoComunicacionTabla($event,row)" (focusout)="focusOutTablaTipoComunicacion(rowIndex)"
-                                        [(ngModel)]="row.tipoComunicacion"
-                                        (click)="onClickElminiarSelected()">
-                        </p-autoComplete>
-                      </ng-template>
-                      <ng-template pTemplate="output">
-                        {{row.tipoComunicacion.codigoDescripcion}}
-                      </ng-template>
-                    </p-cellEditor>
-                  </div>
-                </div>
-
-              </td>
-            </tr>
-          </ng-template>
-
-        </p-table>
-        <!-- End Table -->
-
-      </p-fieldset>
-
-
-    </p-tabPanel>
-
-    <p-tabPanel header="{{ 'CUMCO003.pestana2' | translate }}">
-
-      <p-messages [(value)]="msgs"></p-messages>
-
-      <!-- Start Table 2 -->
-      <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true"  [rows]="nRowsTable2" 
-      [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowDocument">
-
-        <!-- Table Caption 2 -->
-        <ng-template pTemplate="caption">
-          <div class="ui-helper-clearfix menu-sup-grid">
-            <!-- Buttons 2 -->
-            <div class="button-sup-grid">
-              <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
-              <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
-              <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
-            </div>
-          </div>
-        </ng-template>
-
-        <ng-template pTemplate="colgroup" let-columns>
-          <colgroup>
-            <col style="width:5%"> 
-          </colgroup>
-        </ng-template>
-
-        <!-- Table Heardes -->
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-              {{col.header}}
-              <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-            </th>
-          </tr>
-        </ng-template>
-
-        <!-- Table Content 2 -->
-        <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
-          <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
-            <!-- *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)"> -->
-            <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
-
-              <div [ngSwitch]="i">
-
-                <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
-
-                <div *ngSwitchCase="1">
-                  <p-cellEditor>
-                    <ng-template pTemplate="input" style="text-align: center">
-                      <input type="number" style="text-align: center" [(ngModel)]="row.codigo" [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)" (keydown.enter)="editedDocument(rowIndex)" [maxlength]="2" min="1">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{row.codigo}}
-                    </ng-template>
-                  </p-cellEditor>
-                </div>
-                <div *ngSwitchCase="2">
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
-                      <input type="text" [(ngModel)]="row.descripcion" [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)" (keydown.enter)="editedDocument(rowIndex)" [maxlength]="50">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{row.descripcion}}
-                    </ng-template>
-                  </p-cellEditor>
-                </div>
-                <div *ngSwitchCase="3">
-                  <p-cellEditor>
-                    <ng-template pTemplate="input">
-                      <!--<p-dropdown [options]="listaClaseDocumental" optionLabel="descripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="editedDocument(rowIndex)" (click)="onClickElminiarSelected2()"></p-dropdown> (completeMethod)="searchDocumento($event)" -->
-                      <p-autoComplete field="codigoDescripcion" [(ngModel)]="row.claseDocumental" [suggestions]="listaClaseDocumental" (onSelect)="selectClaseDocumentalTabla2($event,rowIndex)" (completeMethod)="searchClaseDocumento($event)" 
-                      (click)="onClickElminiarSelected2()" [dropdown]="true" [disabled]="row.state === 'delete' || !row.editable"></p-autoComplete>
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                      {{row.claseDocumental.descripcion}}
-                    </ng-template>
-                  </p-cellEditor>
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [(ngModel)]="seleccionPlantilla" field="codigo" [suggestions]="listaPlantilla"
+                    (completeMethod)="searchPlantilla($event)" [dropdown]="true" (focusout)="focusOutFiltroPlantilla()"
+                    (onSelect)="selectFilter($event)"
+                    placeholder="{{ 'CUMCO003.FILTROS.filtroPlantillaPlaceHolder' | translate }}"></p-autoComplete>
+                  <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompletePlantilla()"></p-button>
                 </div>
               </div>
+            </div>
 
-            </td>
-          </tr>
-        </ng-template>
+            <p>{{ 'CUMCO003.TipoRadicado' | translate }}</p>
 
-      </p-table>
-      <!-- End Table 2 -->
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [(ngModel)]="seleccionRadicado" field="codigoDescripcion"
+                    [suggestions]="listaRadicado" (onSelect)="selectFilter($event)"
+                    (completeMethod)="searchRadicado($event)" [dropdown]="true" (focusout)="focusOutFiltroRadicado()"
+                    placeholder="{{ 'CUMCO003.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"></p-autoComplete>
+                  <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteRadicado()"></p-button>
+                </div>
+              </div>
+            </div>
 
-    </p-tabPanel>
+            <p>{{ 'CUMCO003.FILTROS.filtroClaseDocumental' | translate }}</p>
 
-  </p-tabView>
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <div class="ui-inputgroup">
+                  <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
+                  <p-autoComplete [(ngModel)]="seleccionClaseDocumental" field="codigoDescripcion"
+                    [suggestions]="listaClaseDocumental" (onSelect)="selectFilter($event)"
+                    (completeMethod)="searchClaseDocumento($event)" [dropdown]="true"
+                    (focusout)="focusOutClaseDocumental()"
+                    placeholder="{{ 'CUMCO003.FILTROS.filtroClaseDocumentalPlaceHolder' | translate }}">
+                  </p-autoComplete>
+                  <p-button icon="pi pi-times" (click)="onClicBorrarAutoCompleteDocumento()"></p-button>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <br>
+
+            <p-messages [(value)]="msgs"></p-messages>
+
+            <!-- Start Table -->
+            <p-table [columns]="cols" [value]="rows" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1"
+              [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
+
+              <!-- Table Column Width -->
+              <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                  <col style="width:5%">
+                </colgroup>
+              </ng-template>
+
+              <!-- Table Caption -->
+              <ng-template pTemplate="caption">
+                <div class="ui-helper-clearfix menu-sup-grid">
+                  <!-- Buttons -->
+                  <div class="button-sup-grid">
+                    <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
+                      style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                    <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
+                      style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                    <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
+                      style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+                  </div>
+                </div>
+              </ng-template>
+
+              <!-- Table Heardes -->
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <!-- Table Content -->
+              <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+                  <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                    <div [ngSwitch]="i">
+
+                      <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
+
+                      <div *ngSwitchCase="1">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete field="codigo" [suggestions]="listaPlantilla"
+                              (onSelect)="selectPlantillaTabla($event,row)" [(ngModel)]="row.plantilla"
+                              (completeMethod)="searchPlantilla($event)" (click)="onClickElminiarSelected()"
+                              (focusout)="focusOutTablaTipoComunicacion(rowIndex)" [dropdown]="true"
+                              [disabled]="row.state === 'delete' || row.claseDocumental.codigoDescripcion === '2 Entrada' ">
+                            </p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.plantilla.codigo}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="2">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete field="codigoDescripcion" [suggestions]="listaRadicado"
+                              (onSelect)="selectTipoRadicadoTabla($event,row)" (completeMethod)="searchRadicado($event)"
+                              [(ngModel)]="row.tipoRadicado" (focusout)="focusOutTablaTipoRadicado(rowIndex)"
+                              (click)="onClickElminiarSelected()" [dropdown]="true" [disabled]="row.state === 'delete'">
+                            </p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.tipoRadicado.codigoDescripcion}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="3">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete field="descripcion" [suggestions]="listaSubTipoRadicado"
+                              (onSelect)="selectSubtipoRadicadoTabla($event,row)"
+                              (completeMethod)="searchSubTipoRadicado($event, rowIndex)"
+                              [(ngModel)]="row.tramiteTipoRadicado" (focusout)="focusOutTablaSubTipoRadicado(rowIndex)"
+                              (click)="onClickElminiarSelected()" [dropdown]="true" [disabled]="row.state === 'delete'">
+                            </p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.tramiteTipoRadicado.descripcion}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="4">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete field="codigoDescripcion" [suggestions]="listadoDocumento"
+                              (onSelect)="selectTipoDocumentalTabla($event,row)"
+                              (completeMethod)="searchDocumento($event)" [(ngModel)]="row.tipoDocumental"
+                              (focusout)="focusOutTablaTipoDocumental(rowIndex)" (click)="onClickElminiarSelected()"
+                              [dropdown]="true" [disabled]="row.state === 'delete'"></p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.tipoDocumental.codigoDescripcion}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="5">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete field="codigoDescripcion" (onSelect)="validacionEntrada(rowIndex, $event)"
+                              (click)="onClickElminiarSelected()" [(ngModel)]="row.claseDocumental"
+                              (focusout)="focusOutTablaClaseDocumental(rowIndex)" [suggestions]="listaClaseDocumental"
+                              (completeMethod)="searchClaseDocumento($event)" [dropdown]="true">
+                            </p-autoComplete>
+                            <!-- <p-dropdown [options]="listaClaseDocumental" optionLabel="codigoDescripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="validacionEntrada(rowIndex)" (click)="onClickElminiarSelected()"> </p-dropdown> -->
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.claseDocumental.codigoDescripcion}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="6" style="text-align: center">
+                        <p-checkbox name="groupname" [(ngModel)]="row.terminoRequerimiento" [binary]="true"
+                          (onChange)="onchangeTerminoRequerimiento(row)"
+                          [disabled]="row.state === 'delete' || row.prorrogaEntidad === 1 || row.prorrogaPeticionario === 1"
+                          (ngModelChange)="row.terminoRequerimiento = $event ? 1 : 0"></p-checkbox>
+                      </div>
+
+                      <div *ngSwitchCase="7">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <input type="number" [(ngModel)]="row.diasRequerimiento"
+                              [disabled]="row.state === 'delete' || row.terminoRequerimiento === 0"
+                              (focusout)="keyDownDiasRequerimiento(row)" (keydown.enter)="keyDownDiasRequerimiento(row)"
+                              [maxlength]="3" min="1">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.diasRequerimiento}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="8" style="text-align: center">
+                        <p-checkbox name="groupname" [(ngModel)]="row.prorrogaEntidad" [binary]="true"
+                          (onChange)="onchangeDiasProrroga(row)"
+                          [disabled]="row.state === 'delete' || row.prorrogaPeticionario === 1 || row.terminoRequerimiento === 1"
+                          (ngModelChange)="row.prorrogaEntidad = $event ? 1 : 0"></p-checkbox>
+                      </div>
+
+                      <div *ngSwitchCase="9" style="text-align: center">
+                        <p-checkbox name="groupname" [(ngModel)]="row.prorrogaPeticionario" [binary]="true"
+                          (onChange)="onchangeDiasProrroga(row)"
+                          [disabled]="row.state === 'delete' || row.terminoRequerimiento === 1 || row.prorrogaEntidad === 1"
+                          (ngModelChange)="row.prorrogaPeticionario = $event ? 1 : 0"></p-checkbox>
+                      </div>
+
+                      <div *ngSwitchCase="10">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <input type="number" [(ngModel)]="row.diasProrroga"
+                              [disabled]="row.state === 'delete' || (row.prorrogaEntidad === 0 && row.prorrogaPeticionario === 0)"
+                              (focusout)="keyDownDiasProrroga(row)" (keydown.enter)="keyDownDiasProrroga(row)"
+                              (click)="onClickElminiarSelected()" [maxlength]="3" min="1">
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.diasProrroga}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+
+                      <div *ngSwitchCase="11">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-autoComplete [suggestions]="suggestionsTipoComunicacionTabla"
+                              (completeMethod)="searchTipoComunicacionTabla($event, row)" [dropdown]="true"
+                              [disabled]="row.state === 'delete' || row.claseDocumental.id === undefined || row.claseDocumental.id === '' "
+                              field="codigoDescripcion" (onSelect)="selectTipoComunicacionTabla($event,row)"
+                              (focusout)="focusOutTablaTipoComunicacion(rowIndex)" [(ngModel)]="row.tipoComunicacion"
+                              (click)="onClickElminiarSelected()">
+                            </p-autoComplete>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{row.tipoComunicacion.codigoDescripcion}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </div>
+                    </div>
+
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
+            <!-- End Table -->
+
+          </p-fieldset>
+
+
+        </p-tabPanel>
+
+        <p-tabPanel header="{{ 'CUMCO003.pestana2' | translate }}">
+
+          <p-messages [(value)]="msgs"></p-messages>
+
+          <!-- Start Table 2 -->
+          <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true" [(rows)]="nRowsTable2" [(first)]="pageTable2"
+            [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowDocument">
+
+            <!-- Table Caption 2 -->
+            <ng-template pTemplate="caption">
+              <div class="ui-helper-clearfix menu-sup-grid">
+                <!-- Buttons 2 -->
+                <div class="button-sup-grid">
+                  <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
+                    style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
+                  <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
+                    style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
+                  <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
+                    style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
+                </div>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col style="width:5%">
+              </colgroup>
+            </ng-template>
+
+            <!-- Table Heardes -->
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+
+            <!-- Table Content 2 -->
+            <ng-template pTemplate="body" let-row let-rowData let-columns="columns" let-rowIndex="rowIndex">
+              <tr [pSelectableRow]="row" [pSelectableRowIndex]="rowIndex" [ngStyle]="gteRowColorState(row)">
+                <!-- *ngIf="(filtroTipoIdentificacion === undefined || filtroTipoIdentificacion.id === row.id)"> -->
+                <td pEditableColumn *ngFor="let col of columns; let i = index" [attr.data-index]="i">
+
+                  <div [ngSwitch]="i">
+
+                    <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
+
+                    <div *ngSwitchCase="1">
+                      <p-cellEditor style="text-align: center">
+                        <ng-template pTemplate="input" style="text-align: center">
+                          <input type="number" style="text-align: center" [(ngModel)]="row.codigo"
+                            [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)"
+                            (keydown.enter)="editedDocument(rowIndex)" [maxlength]="2" min="1">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{row.codigo}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </div>
+                    <div *ngSwitchCase="2">
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <input type="text" [(ngModel)]="row.descripcion"
+                            [disabled]="row.state === 'delete' || !row.editable" (focusout)="editedDocument(rowIndex)"
+                            (keydown.enter)="editedDocument(rowIndex)" [maxlength]="50">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{row.descripcion}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </div>
+                    <div *ngSwitchCase="3">
+                      <p-cellEditor>
+                        <ng-template pTemplate="input">
+                          <!--<p-dropdown [options]="listaClaseDocumental" optionLabel="descripcion" [(ngModel)]="row.claseDocumental" [disabled]="row.state === 'delete'" (onChange)="editedDocument(rowIndex)" (click)="onClickElminiarSelected2()"></p-dropdown> (completeMethod)="searchDocumento($event)" -->
+                          <p-autoComplete field="codigoDescripcion" [(ngModel)]="row.claseDocumental"
+                            [suggestions]="listaClaseDocumental"
+                            (onSelect)="selectClaseDocumentalTabla2($event,rowIndex)"
+                            (completeMethod)="searchClaseDocumento($event)" (click)="onClickElminiarSelected2()"
+                            [dropdown]="true" [disabled]="row.state === 'delete' || !row.editable"></p-autoComplete>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{row.claseDocumental.descripcion}}
+                        </ng-template>
+                      </p-cellEditor>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+            </ng-template>
+
+          </p-table>
+          <!-- End Table 2 -->
+
+        </p-tabPanel>
+
+      </p-tabView>
+    </div>
+  </div>
 </div>

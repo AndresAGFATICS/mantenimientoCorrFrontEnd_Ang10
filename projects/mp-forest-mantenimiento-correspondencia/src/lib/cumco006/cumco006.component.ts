@@ -44,6 +44,7 @@ export class Cumco006Component implements OnInit {
 
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 10;
+  pageTable1 = 0;
 
 
   seleccionFestivo: any;
@@ -187,7 +188,6 @@ export class Cumco006Component implements OnInit {
       (getRes: any) => {     // Inicio del suscribe
         this.respuestaGuardarHorarioRadicado = getRes;
         this.showMessage(getRes.message, "error");
-        console.log(getRes);
         return getRes;
       },
       getError => {           // Error del suscribe
@@ -221,6 +221,11 @@ export class Cumco006Component implements OnInit {
     }
     this.listaFestivo = [...this.listaFestivo, element];
     this.idRow += 1;
+
+    const newPage = Math.trunc(this.listaFestivo.length/this.nRowsTable1) * this.nRowsTable1;
+    this.pageTable1 = newPage;
+
+
   }
 
   onClicEliminar() {
@@ -303,7 +308,6 @@ export class Cumco006Component implements OnInit {
 
   camposValidos(): any {
 
-    console.log(this.horaCof.horaInicial);
     if(this.seleccionCanal !== undefined){
       if(this.hora.horaInicial == undefined || this.hora.horaInicial == '' || this.hora.horaInicial == null){
         const error = this.translate.instant('CUMCO006.MENSAJES.errorHoraInicialCanal');
@@ -414,9 +418,6 @@ export class Cumco006Component implements OnInit {
   // Metodos COMPARACION ESTADO INICIAL y ACTUAL -- Metodos COMPARACION ESTADO INICIAL y ACTUAL
 
   compareInitialData(currentData: any[], initialData: any[]) {
-
-    console.log(currentData);
-    console.log(initialData);
 
     for (var _i = 0; _i < currentData.length; _i++) {
 

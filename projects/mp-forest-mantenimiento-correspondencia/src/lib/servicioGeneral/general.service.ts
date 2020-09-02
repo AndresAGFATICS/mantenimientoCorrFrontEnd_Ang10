@@ -30,11 +30,11 @@ export class GeneralService {
     //}
     if(sessionStorage.length === 0 || this._IN_DEVELOP) {
       this._API_ENDPOINT_GATEWAY = 'http://localhost:8080/forestWS';
-      console.log('Local')
+      console.log('Local');
     }
     else if(this._IN_QA) {
       this._API_ENDPOINT_GATEWAY = location.origin + '/forestWS';  // 'https://alcaldiacaliqa.forestbpms.co/forestWS';
-      console.log('QA');
+      //console.log('QA');
     }
     else{
       this._API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS";
@@ -46,7 +46,7 @@ export class GeneralService {
   /**
   * Metodo encargado de obtener los headers necesarios para la ejecucion del servicio
   */
-  private obtenerHeader() {
+  public obtenerHeader() {
     //console.log("obtenerHeader: ")
     //var token = 'df800a26-d756-3f8d-a682-73a7971d9f19';
     var token = this.obtenerDataUsuarioLogeado();
