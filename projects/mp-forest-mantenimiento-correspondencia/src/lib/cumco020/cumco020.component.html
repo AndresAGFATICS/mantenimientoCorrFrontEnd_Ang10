@@ -292,7 +292,7 @@
 
             <p-fieldset legend="{{ 'CUMCO020.pField3' | translate }}">
 
-                <p>{{ 'CUMCO020.FILTROS.filtroProceso' | translate }}</p>
+                <p>{{ 'CUMCO020.FILTROS.filtroDependencia' | translate }}</p>
 
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -303,7 +303,7 @@
                                 [suggestions]="suggestionsDependenciaFilter" (completeMethod)="searchDependenciaFilter($event)"
                                 [dropdown]="true" (focusout)="focusOutDepenenciaFilter()"
                                 (onSelect)="selectDependenciaFilter($event)"
-                                placeholder="{{ 'CUMCO020.FILTROS.filtroProcesoPlaceHolder' | translate }}">
+                                placeholder="{{ 'CUMCO020.FILTROS.filtroDependenciaPlaceHolder' | translate }}">
                             </p-autoComplete>
                             <p-button icon="pi pi-times" (click)="onClicBorrarDependenciaFilter()"></p-button>
                         </div>

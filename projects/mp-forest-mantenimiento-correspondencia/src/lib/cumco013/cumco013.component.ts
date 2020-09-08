@@ -18,6 +18,8 @@ export class CUMCO013Component implements OnInit {
 
   msgs: Message[] = []; 
 
+  re = RegExp("^([A-Z0-9_]{1,})$");
+
 
   //TABLA 1
   cols1: any[];
@@ -161,6 +163,7 @@ export class CUMCO013Component implements OnInit {
         ];
         this.cols4 = [
           { field: 'rowIndex', header: '' },
+          { field: 'codigo', header: this.translate.instant('CUMCO013.TABLA4.headerTabla0') },
           { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA4.headerTabla1') },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA4.headerTabla2') }
         ];
@@ -350,7 +353,12 @@ export class CUMCO013Component implements OnInit {
       () => {                 // Fin del suscribe
         this.dataTable4 = [];
         for (const data of response) {
-          this.dataTable4.push({ ...data, state: 'noedit' });
+          if(data.codigo){
+            this.dataTable4.push({ ...data, state: 'noedit' });
+          }
+          else{
+            this.dataTable4.push({ ...data, codigo: '', state: 'noedit' });
+          }
         }
 
         if (this.initialStateDataTable4) {
@@ -1126,6 +1134,20 @@ export class CUMCO013Component implements OnInit {
         this.showMessage('error', error, '');
         return false;
       }
+      else if (this.dataTable4[_i].codigo.trim() === ''){
+        const error = this.translate.instant('CUMCO013.MENSAJES.campoFilaVacioError',
+                          { filaVacia: String(_i + 1), 
+                            campoVacio: this.translate.instant('CUMCO013.TABLA4.headerTabla0') });
+        this.showMessage('error', error, '');
+        return false;
+      }
+      else if (!this.re.test(this.dataTable4[_i].codigo)){
+        const error = this.translate.instant('CUMCO013.MENSAJES.wrongExpresionCodigo',
+                          { filaVacia: String(_i + 1),
+                            codigo: this.dataTable4[_i].codigo });
+        this.showMessage('error', error, '');
+        return false;
+      }
     }
     return true;
   }
@@ -1140,6 +1162,16 @@ export class CUMCO013Component implements OnInit {
             {
               filaRep1: String(_i + 1), filaRep2: String(_k + 1),
               caracteristica: this.dataTable4[_k].descripcion
+            });
+          this.showMessage('error', error, '');
+          return false;
+        }
+        else if (this.dataTable4[_k].codigo.toLowerCase().trim() === this.dataTable4[_i].codigo.toLowerCase().trim() &&
+            this.dataTable4[_i].state !== 'delete' && this.dataTable4[_k].state !== 'delete') {
+          const error = this.translate.instant('CUMCO013.MENSAJES.campoGrupoEtnicoCodigoRepetidoError',
+            {
+              filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+              codigo: this.dataTable4[_k].codigo
             });
           this.showMessage('error', error, '');
           return false;
@@ -1338,18 +1370,18 @@ export class CUMCO013Component implements OnInit {
     var dataSend = [];
     for(var data1 of this.dataTable1){
 
-      if(data1.codigo === ''){
-        newCod = this.generateCodigo(data1.descripcion);
-      }
-      else{
-        newCod = data1.codigo;
-      }
+      //if(data1.codigo === ''){
+      //  newCod = this.generateCodigo(data1.descripcion);
+      //}
+      //else{
+      //  newCod = data1.codigo;
+      //}
 
       if (data1.state !== 'noedit'){
         dataSend.push( {
           id: data1.id,
           descripcion: data1.descripcion,
-          codigo: newCod,
+          codigo: data1.codigo ? data1.codigo: '',
           activo: data1.activo,
           state: data1.state
         });
@@ -1424,23 +1456,23 @@ export class CUMCO013Component implements OnInit {
 
   buildJsonGrupoEtnico4(){
 
-    var newCod: string
+    //var newCod: string
 
     var dataSend = [];
     for(var data4 of this.dataTable4){
 
-      if(data4.codigo === ''){
-        newCod = this.generateCodigo(data4.descripcion);
-      }
-      else{
-        newCod = data4.codigo;
-      }
+      //if(data4.codigo === ''){
+      //  newCod = this.generateCodigo(data4.descripcion);
+      //}
+      //else{
+      //  newCod = data4.codigo;
+      //}
 
       if (data4.state !== 'noedit'){
         dataSend.push( {
           id: data4.id,
           descripcion: data4.descripcion,
-          codigo: newCod,
+          codigo: data4.codigo,
           activo: data4.activo,
           state: data4.state
         });

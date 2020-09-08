@@ -27,8 +27,9 @@ export class Cumco003Service extends GeneralService{
   public getTipoComunicacion(parametros: string) {
     return this.get('/forest/documentos/1.0.0/tipoComunicacion/clase' + parametros); // ?idClaseDocumental=2&codigoDescripcion=dec
   }
-  public getTablaPlantilla() {
-    return this.get('/forest/documentos/1.0.0/configuracionPlantilla/grid'); //?idPlantilla=1&idTramite=1&idClaseDocumental=1
+  public getTablaPlantilla(parameters: string) {
+    //return this.get('/forest/documentos/1.0.0/configuracionPlantilla/grid'); //?idPlantilla=1&idTramite=1&idClaseDocumental=1
+    return this.get('/mnt-corr/1.0.0/configPlantillas' + parameters);
   }
   public getClaseDocumental(codigo: any) {
     return this.get('/forest/sistema/1.0.0/claseDocumental?codigoDescripcion=' + codigo)

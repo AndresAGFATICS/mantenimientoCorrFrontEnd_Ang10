@@ -101,12 +101,12 @@
           "headerTabla3": "Subtipo Radicado",
           "headerTabla4": "Tipo Documental",
           "headerTabla5": "Clase Documental",
-          "headerTabla6": "Termino Requerimiento",
+          "headerTabla6": "Términos Requerimiento",
           "headerTabla7": "Días Requerimiento",
           "headerTabla8": "Prórroga Entidad",
           "headerTabla9": "Prórroga Peticionario",
           "headerTabla10": "Días Prórroga",
-          "headerTabla11": "Tipo Comunicacion",
+          "headerTabla11": "Tipo Comunicación",
           "headerTabla12": "Código",
           "headerTabla13": "Nombre",
           "headerTabla14": "Clase Documental"
@@ -353,8 +353,8 @@
       "titulo": "Tipo de Empresa",
       "clasificacionOrg": "Clasificación de la Organización",
       "actividadEconomica": "Actividad Económica de la Organización",
-      "pestana11" : "Configurar Caracteristicas Perosnas Jurídicas",
-      "pestana12" : "Configurar Caracteristicas Perosnas Naturales",
+      "pestana11" : "Configurar Características Personas Jurídicas",
+      "pestana12" : "Configurar Características Personas Naturales",
       "pestana21" : "Grupo Étnico",
       "pestana22" : "Nivel de Ecolaridad",
       "pestana23" : "Sexo",
@@ -375,11 +375,13 @@
           "campoCalsificacionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Calsificación de la Organización\" \"{{calsificacion}}\" se encuentra repetida, porfavor validar",
           "campoActividadEconomicaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Actividad Economica\" \"{{actividad}}\" se encuentra repetida, porfavor validar",
           "campoGrupoEtnicoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El \"Grupo Étnico\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
+            "campoGrupoEtnicoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código \"{{codigo}}\" en \"Grupo Étnico\" se encuentra repetido, porfavor validar",
           "campoNivelEscolaridadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Nivel de Escolaridad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoSexoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Sexo\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoEstadoCivilRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Estado Civil\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoDiscapacidadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Categoría de Discapacidad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",  
-          "eliminarCAracteristicaTerceroError": "El (la) característica \"{{pestaña}}\" \"{{caracteristica}}\" no puede ser eliminado: Se encuentra asociado a uno o más terceros en el sistema"
+          "eliminarCAracteristicaTerceroError": "El (la) característica \"{{pestaña}}\" \"{{caracteristica}}\" no puede ser eliminado: Se encuentra asociado a uno o más terceros en el sistema",
+          "wrongExpresionCodigo": "El código del grupo étnico ingresado \"{{codigo}}\" no es válido: deber tener un tamaño máximo de 10 caracteres y estar compuesto únicamente por letras mayúsculas, números y/o el símbolo '_' " 
       },
       "TABLA1": {
           "headerTabla1": "Tipo de Empresa",
@@ -394,6 +396,7 @@
           "headerTabla2": "Activo"
       },
       "TABLA4": {
+        "headerTabla0": "Código",  
         "headerTabla1": "Grupo Étnico",
         "headerTabla2": "Activo"
       },
@@ -467,19 +470,19 @@
     "TABLA1": {
         "headerTabla0": "",
         "headerTabla1": "Código",
-        "headerTabla2": "Descripción Tipo de Radciado",
-        "headerTabla3": "Categoria",
+        "headerTabla2": "Descripción Tipo Radicado",
+        "headerTabla3": "Categoría",
         "headerTabla4": "Activo"
     },
     "TABLA2": {
         "headerTabla1": "Código Tipo Radicado",
         "headerTabla2": "Descripción (Subtipo de Radicado)",
-        "headerTabla3": "Tramite",
+        "headerTabla3": "Trámite",
         "headerTabla4": "Días Término",
         "headerTabla5": "Días Hábiles",
         "headerTabla6": "Modificar Días",
         "headerTabla7": "Activo",
-        "headerTabla8": "Ventanila de Entrada",
+        "headerTabla8": "Ventanilla de Entrada",
         "headerTabla9": "Radicación Verbal",
         "headerTabla10": "Comunicaciones Oficiales",
         "headerTabla11": "Ventanilla Virtual",
@@ -510,10 +513,10 @@
     "tituloVincular": "Vincular Ejes Temáticos con Organismos o Dependencias",
     "FILTROS": {
       "filtroPlaceHolder": "Buscar por",
-        "organismos": "Organismos o Dependecias",
+        "organismos": "Organismos o Dependencias",
         "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
         "ejes": "Ejes Temáticos",
-        "ejesOrganismo": "Ejes Temáticos del Organismo o Dependecia",
+        "ejesOrganismo": "Ejes Temáticos del Organismo o Dependencia",
         "placeHolderEjes": "Buscar por Ejes"
     },
     "MENSAJES": {
@@ -673,7 +676,7 @@
           "filtroProcedimiento": "Filtrar por Procedimiento:",
           "filtroProcedimientoPlaceHolder": "Ingresar aquí el Procedimiento a Filtrar",
           "filtroDependencia": "Organismo o Dependencia a Configurar",
-          "filtroDependenciaPlaceHolder": "Ingresar aquí el Organismo o Dependencia a Filtrar"
+          "filtroDependenciaPlaceHolder": "Ingresar aquí el Organismo o Dependencia a Selecionar"
       },
       "MENSAJES": {
           "guardar":"Guardar",

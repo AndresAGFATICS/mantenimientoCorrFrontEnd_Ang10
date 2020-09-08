@@ -12,8 +12,8 @@ export class GeneralService {
   //_URL_SERVICE = "/sistema/1.0.0/"
   _API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/forest";
   _URL_SERVICE = "";
-  _IN_DEVELOP = true;
-  _IN_QA = false;
+  _IN_DEVELOP = false;
+  _IN_QA = true;
 
 
   constructor(public http: HttpClient) { }
