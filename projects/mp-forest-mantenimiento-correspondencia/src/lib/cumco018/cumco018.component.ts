@@ -56,7 +56,8 @@ export class CUMCO018Component implements OnInit {
   nRowsTable2 = 20;
   idRow2 = 0;
   dataDependenciaTabla2: any[];
-  suggestionsDependenciaTabla2: any;
+  suggestionsDependenciaTabla2: any[];
+  suggestionsFuncionarioTabla2: any[];
   pageTable2 = 0;
 
   //TABLA 3
@@ -99,21 +100,21 @@ export class CUMCO018Component implements OnInit {
       this.translate.get(['']).subscribe(translations => {
       this.cols1 = [
         { field: 'rowIndex', header: '' },
-        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA1.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO018.TABLA1.headerTabla2') },
+        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA1.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO018.TABLA1.headerTabla2'), required: true },
         { field: 'activo', header: this.translate.instant('CUMCO018.TABLA1.headerTabla3') }
       ];
       this.cols2 = [
         { field: 'rowIndex', header: '' },
-        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA2.headerTabla1')},
-        { field: 'dependencia.nombreCodigoGuion', header: this.translate.instant('CUMCO018.TABLA2.headerTabla2') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO018.TABLA2.headerTabla3') },
+        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA2.headerTabla1'), required: true},
+        { field: 'dependencia.nombreCodigoGuion', header: this.translate.instant('CUMCO018.TABLA2.headerTabla2'), required: true },
+        { field: 'funcionario.codigoNombre', header: this.translate.instant('CUMCO018.TABLA2.headerTabla3'), required: true },
         { field: 'activo', header: this.translate.instant('CUMCO018.TABLA2.headerTabla4') }
       ];
       this.cols3 = [
         { field: 'rowIndex', header: '' },
-        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA3.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO018.TABLA3.headerTabla2') },
+        { field: 'codigo', header: this.translate.instant('CUMCO018.TABLA3.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO018.TABLA3.headerTabla2'), required: true },
         { field: 'activo', header: this.translate.instant('CUMCO018.TABLA3.headerTabla3') }
       ];
     });
@@ -167,7 +168,8 @@ export class CUMCO018Component implements OnInit {
       () => {                 // Fin del suscribe
         this.initialStateDataTable1 = true;
         this.seleccionRutaFilter = undefined;
-        this.showMessage('success', responsePost.message, '');
+        //this.showMessage('success', responsePost.message, ''); 
+        this.showMessage('success', this.translate.instant('CUMCO018.MENSAJES.exitoGuardar'), '');
         this.subscribeGetRutas('');
       })
 
@@ -192,7 +194,7 @@ export class CUMCO018Component implements OnInit {
         for (const data of response) {
           data.dependencia.nombreCodigoGuion = data.dependencia.codigo + ' - ' + data.dependencia.nombre;
           this.dataTable2.push({ ...data, state: 'noedit'});
-          this.dataMensajeriaFilter.push({ ...data, codigoNombre: data.codigo + ' - ' + data.descripcion });
+          this.dataMensajeriaFilter.push({ ...data, codigoNombre: data.codigo + ' ' + data.funcionario.codigoNombre });
         }
 
         if (this.initialStateDataTable2) {
@@ -225,6 +227,20 @@ export class CUMCO018Component implements OnInit {
         }
       });
 
+  }
+
+  subcribeServiceFuncionarioSuplente(getParameters: string) {
+    this.cumco018Service.getFuncionarioSuplente(getParameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        this.suggestionsFuncionarioTabla2 = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+          this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.FuncionarioSuplenteError'), getError.error.message);
+      },
+      () => {                 // Fin del suscribe
+    });
   }
 
 
@@ -510,7 +526,8 @@ export class CUMCO018Component implements OnInit {
   }
   
 
-  selectDependenciaTable2(){
+  selectDependenciaTable2(rowIndex, $event){
+    this.dataTable2[rowIndex].funcionario = {id: ''};
     this.editedTable2('');
   }
 
@@ -518,10 +535,33 @@ export class CUMCO018Component implements OnInit {
     if (this.dataTable2[rowIndex].dependencia) {
       if (this.dataTable2[rowIndex].dependencia.id === undefined) {
         this.dataTable2[rowIndex].dependencia = {id: ''};
+        this.dataTable2[rowIndex].funcionario = {id: ''};
       }
     }
     else if (this.dataTable2[rowIndex].dependencia === '') {
       this.dataTable2[rowIndex].dependencia = {id: ''};
+      this.dataTable2[rowIndex].funcionario = {id: ''};
+    }
+    this.editedTable2('');
+
+  }
+
+
+  searchFuncionario2(event, row){
+    this.selectedRowTable2 = undefined;
+    if (row.dependencia.id !== '' || row.dependencia.id !== undefined){
+      this.subcribeServiceFuncionarioSuplente('?activo=1&ausente=0&idDependencia=' +  String(row.dependencia.id)  + '&codigoNombre=' + event.query );
+    }
+  }
+
+  focusOutFuncionarioTable2(rowIndex){
+    if (this.dataTable2[rowIndex].funcionario) {
+      if (this.dataTable2[rowIndex].funcionario.id === undefined) {
+        this.dataTable2[rowIndex].funcionario = {id: ''};
+      }
+    }
+    else if (this.dataTable2[rowIndex].funcionario === '') {
+      this.dataTable2[rowIndex].funcionario = {id: ''};
     }
     this.editedTable2('');
 
@@ -539,7 +579,7 @@ export class CUMCO018Component implements OnInit {
       id: '',
       dependencia: {id: '', nombreCodigoGuion: ''},
       codigo: this.generarCodigo2(),
-      descripcion: '',
+      funcionario: {id: ''},
       activo: 1,
       state: 'new',
     }
@@ -556,7 +596,7 @@ export class CUMCO018Component implements OnInit {
 
     if (this.selectedRowTable2 && this.selectedRowTable2.isRadicado === 1) {
       const error = this.translate.instant('CUMCO018.MENSAJES.eliminarMensajeroError',
-        { mensajero: this.selectedRowTable2.descripcion });
+        { mensajero: this.selectedRowTable2.codigo + ' ' + this.selectedRowTable2.funcionario.nombre });
       this.showMessage("error", error, '');
 
       return;
@@ -789,17 +829,17 @@ export class CUMCO018Component implements OnInit {
 
   validarCamposVacios2(): any {
     for (var _i = 0; _i < this.dataTable2.length; _i++) {
-      if (this.dataTable2[_i].descripcion.trim() === '') {
-        const error = this.translate.instant('CUMCO018.MENSAJES.campoFilaVacioError',
-                          { filaVacia: String(_i + 1), 
-                            campoVacio: this.translate.instant('CUMCO018.TABLA2.headerTabla3') });
-        this.showMessage('error', error, '');
-        return false;
-      }
-      else if (this.dataTable2[_i].dependencia.id === '' || this.dataTable2[_i].dependencia.id === undefined){
+      if (this.dataTable2[_i].dependencia.id === '' || this.dataTable2[_i].dependencia.id === undefined){
         const error = this.translate.instant('CUMCO018.MENSAJES.campoFilaVacioError',
                           { filaVacia: String(_i + 1), 
                             campoVacio: this.translate.instant('CUMCO018.TABLA2.headerTabla2') });
+        this.showMessage('error', error, '');
+        return false;
+      }
+      else if (this.dataTable2[_i].funcionario.id === '' || this.dataTable2[_i].funcionario.id === undefined) {
+        const error = this.translate.instant('CUMCO018.MENSAJES.campoFilaVacioError',
+                          { filaVacia: String(_i + 1), 
+                            campoVacio: this.translate.instant('CUMCO018.TABLA2.headerTabla3') });
         this.showMessage('error', error, '');
         return false;
       }
@@ -811,12 +851,12 @@ export class CUMCO018Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable2.length; _i++) {
       for (var _k = _i + 1; _k < this.dataTable2.length; _k++) {
-        if (this.dataTable2[_k].descripcion.toLowerCase().trim() === this.dataTable2[_i].descripcion.toLowerCase().trim() && 
+        if (this.dataTable2[_k].funcionario.id === this.dataTable2[_i].funcionario.id && 
             this.dataTable2[_i].state !== 'delete' && this.dataTable2[_k].state !== 'delete') {
           const error = this.translate.instant('CUMCO018.MENSAJES.campoMensajeroRepetidoError',
             {
               filaRep1: String(_i + 1), filaRep2: String(_k + 1),
-              mensajero: this.dataTable2[_k].descripcion
+              mensajero: this.dataTable2[_k].funcionario.codigoNombre
             });
           this.showMessage('error', error, '');
           return false;
@@ -844,12 +884,12 @@ export class CUMCO018Component implements OnInit {
 
           if (this.dataTable2[_i].state !== 'delete') {
 
-            if (filteredInitialData[_k].descripcion.toLowerCase().trim() === this.dataTable2[_i].descripcion.toLowerCase().trim()) {
+            if (filteredInitialData[_k].funcionario.id  === this.dataTable2[_i].funcionario.id ) {
 
               const error = this.translate.instant('CUMCO018.MENSAJES.campoMensajeroRepetidoFiltroError',
                 {
                   filaRep1: String(_i + 1),
-                  mensajero: this.dataTable2[_i].descripcion
+                  mensajero: this.dataTable2[_i].funcionario.codigoNombre
                 });
               this.showMessage("error", error, '');
               return false;
@@ -1018,7 +1058,7 @@ export class CUMCO018Component implements OnInit {
       if (data2.state !== 'noedit'){
         dataSend.push( {
           id: data2.id,
-          descripcion: data2.descripcion,
+          funcionario: {id: data2.funcionario.id} ,
           dependencia: data2.dependencia,
           codigo: data2.codigo,
           activo: data2.activo,

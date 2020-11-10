@@ -21,7 +21,7 @@
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
           <p-autoComplete [dropdown]="true" placeholder="{{ 'CUMCO019.FILTROS.filtroCargoPlaceHolder' | translate }}"
             (completeMethod)="searchCargoFirmanteTabla2($event)" field="codigoNombreGuion"
-            (onSelect)="selectFilter2($event)" (focusout)="focusOutCargoFilter()" [(ngModel)]="selectedCargoFilter"
+            (onSelect)="selectFilter2($event)" (focusout)="focusOutCargoFilter('')" [(ngModel)]="selectedCargoFilter"
             [suggestions]="suggestionsCargoFirmanteTabla2">
           </p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClickBorrarCargoFilter()"></p-button>
@@ -98,13 +98,13 @@
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
             <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
-              style="float:left; margin-left: 2px;" (click)="agregarClick()"
+              class="table_button" (click)="agregarClick()"
               [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
             <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
-              style="float:left; margin-left: 2px;" (click)="eliminarClick()"
+              class="table_button" (click)="eliminarClick()"
               [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
             <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left"
-              style="float:left; margin-left: 2px;" (click)="onGuardar()"
+              class="table_button" (click)="onGuardar()"
               [disabled]="rowSelected1 === undefined|| rowSelected1 === null"></p-button>
           </div>
         </div>
@@ -113,7 +113,16 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">
-            {{col.header}}
+            <div *ngIf="col.required; else loggedOut">
+              <B>
+                <FONT COLOR="red">*</FONT>
+              </B>
+              {{col.header}}
+            </div>
+
+            <ng-template #loggedOut>
+              {{col.header}}
+            </ng-template>
           </th>
         </tr>
       </ng-template>

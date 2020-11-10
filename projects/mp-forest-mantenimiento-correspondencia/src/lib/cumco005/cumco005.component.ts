@@ -84,8 +84,8 @@ export class Cumco005Component implements OnInit {
 
       this.cols = [
         { field: 'id', header: this.translate.instant('CUMCO005.TABLA1.headerTabla0') },
-        { field: 'claseAnexo.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla1') },
-        { field: 'tipoAnexoFisico.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla2') },
+        { field: 'claseAnexo.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla1'), required: true },
+        { field: 'tipoAnexoFisico.descripcion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla2'), required: true },
         { field: 'observacion', header: this.translate.instant('CUMCO005.TABLA1.headerTabla3') },
         { field: 'isCarpeta', header: this.translate.instant('CUMCO005.TABLA1.headerTabla4') }
       ];
@@ -348,10 +348,21 @@ export class Cumco005Component implements OnInit {
         return;
     } 
     else {
-      this.subcribeRecorridoRepartoFisico(this.buildJson());
+      let entro = false;
+      for (const data of this.rows){
+        if (data.state !== 'noedit' ){
+          entro = true;
+        }
+      }
+      if (entro){
+        this.subcribeRecorridoRepartoFisico(this.buildJson());
+      }
+      else{
+        this.showMessage(this.translate.instant('CUMCO017.MENSAJES.exitoGuardar'), 'success');
+      }
     }
   }
-  
+
 
   // Eventos CHECHBOX de los CHECHBOX -- Eventos CHECHBOX de los CHECHBOX
   // Eventos CHECHBOX de los CHECHBOX -- Eventos CHECHBOX de los CHECHBOX
@@ -657,7 +668,7 @@ export class Cumco005Component implements OnInit {
     ];
     let features = [];
     this.rows.forEach(row => {
-      if (row.state !== 'new') {
+      if (row.state === 'edit' || row.state === 'delete') {
         features.push({
           "attributes": {
             "id": row.id,
@@ -672,7 +683,7 @@ export class Cumco005Component implements OnInit {
           },
           "state": row.state
         })
-      } else {
+      } else if (row.state === 'new') {
         features.push({
           "attributes": {
             "id": '',

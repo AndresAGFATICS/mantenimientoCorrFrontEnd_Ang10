@@ -24,7 +24,7 @@ export class CUMCO019Component implements OnInit {
   selectedtipoComunicacion: any;
 
   cargoSuggestionsFilter: any[];
-  selectedCargoFilter: any;
+  selectedCargoFilter: any; 
 
   cols1: any[];
   dataTable1: any[];
@@ -77,7 +77,7 @@ export class CUMCO019Component implements OnInit {
       this.cols2 = [
         { field: 'rowIndex', header: '' },
         { field: 'codEsp', header: this.translate.instant('CUMCO019.TABLA2.headerTabla1') },
-        { field: 'cargo.codigoNombreGuion', header: this.translate.instant('CUMCO019.TABLA2.headerTabla2') }
+        { field: 'cargo.codigoNombreGuion', header: this.translate.instant('CUMCO019.TABLA2.headerTabla2'), required: true }
       ];
     });
   }
@@ -469,42 +469,24 @@ export class CUMCO019Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
-  buildJsonRelacionTipoComunicacionCargo(): any {
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idCargo",
-        "type": "input",
-        "required": "true"
-      },
-      {
-        "name": "idTipoComunicacion",
-        "type": "input",
-        "required": "false"
-      }
-    ];
-    let features = [];
-    this.dataTable2.forEach(data => {
-      features.push({
-        "attributes": {
-          "id": data.id,
-          "idCargo": data.cargo.id,
-          "idTipoComunicacion": data.tipoComunicacion.id
-        },
-        "state": data.state
-      })
-    })
 
-    return {
-      "grd_RelacionTipoComunicacionCargo": JSON.stringify({
-        fields,
-        features
-      })
-    };
+  buildJsonRelacionTipoComunicacionCargo(): any {
+    var dataSend = [];
+    for(var data2 of this.dataTable2){
+      if (data2.state !== 'noedit'){
+        dataSend.push( {
+          id: data2.id,
+          idCargo: data2.cargo.id,
+          idTipoComunicacion: data2.tipoComunicacion.id,
+          state: data2.state
+        });
+
+      }
+    }
+
+    return(dataSend);
   }
+
+
 
 }

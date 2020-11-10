@@ -148,43 +148,43 @@ export class CUMCO013Component implements OnInit {
 
         this.cols1 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA1.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA1.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA1.headerTabla2') }
         ];
         this.cols2 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA2.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA2.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA2.headerTabla2') }
         ];
         this.cols3 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA3.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA3.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA3.headerTabla2') }
         ];
         this.cols4 = [
           { field: 'rowIndex', header: '' },
-          { field: 'codigo', header: this.translate.instant('CUMCO013.TABLA4.headerTabla0') },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA4.headerTabla1') },
+          { field: 'codigo', header: this.translate.instant('CUMCO013.TABLA4.headerTabla0'), required: true },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA4.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA4.headerTabla2') }
         ];
         this.cols5 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA5.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA5.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA5.headerTabla2') }
         ];
         this.cols6 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA6.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA6.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA6.headerTabla2') }
         ];
         this.cols7 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA7.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA7.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA7.headerTabla2') }
         ];
         this.cols8 = [
           { field: 'rowIndex', header: '' },
-          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA8.headerTabla1') },
+          { field: 'descripcion', header: this.translate.instant('CUMCO013.TABLA8.headerTabla1'), required: true },
           { field: 'activo', header: this.translate.instant('CUMCO013.TABLA8.headerTabla2') }
         ];
       });
@@ -612,7 +612,13 @@ export class CUMCO013Component implements OnInit {
 
   onClickEliminar1(){
     
-    if (this.selectedRowTable1 && this.selectedRowTable1.state !== 'new'){
+    if (this.selectedRowTable1 && this.selectedRowTable1.isTercero === 1){
+      const error = this.translate.instant('CUMCO013.MENSAJES.eliminarCAracteristicaTerceroError',
+                          { pestaña: this.translate.instant('CUMCO013.titulo'),
+                            caracteristica: this.selectedRowTable1.descripcion });
+        this.showMessage('error', error, '');
+    }
+    else if (this.selectedRowTable1 && this.selectedRowTable1.state !== 'new'){
       this.dataTable1.find(row => row === this.selectedRowTable1).state = this.selectedRowTable1.state === 'delete' ? 'edit' : 'delete';
       this.editedTable1('');
     }
@@ -769,8 +775,14 @@ export class CUMCO013Component implements OnInit {
   }
 
   onClickEliminar4(){
-    
-    if (this.selectedRowTable4 && this.selectedRowTable4.state !== 'new'){
+
+    if (this.selectedRowTable4 && this.selectedRowTable4.isTercero === 1){
+      const error = this.translate.instant('CUMCO013.MENSAJES.eliminarCAracteristicaTerceroError',
+                          { pestaña: this.translate.instant('CUMCO013.pestana21'),
+                            caracteristica: this.selectedRowTable4.descripcion });
+        this.showMessage('error', error, '');
+    }
+    else if (this.selectedRowTable4 && this.selectedRowTable4.state !== 'new'){
       this.dataTable4.find(row => row === this.selectedRowTable4).state = this.selectedRowTable4.state === 'delete' ? 'edit' : 'delete';
       this.editedTable4('');
     }
@@ -1112,7 +1124,7 @@ export class CUMCO013Component implements OnInit {
           const error = this.translate.instant('CUMCO013.MENSAJES.campoActividadEconomicaRepetidoError',
             {
               filaRep1: String(_i + 1), filaRep2: String(_k + 1),
-              calsificacion: this.dataTable3[_k].descripcion
+              actividad: this.dataTable3[_k].descripcion
             });
           this.showMessage('error', error, '');
           return false;

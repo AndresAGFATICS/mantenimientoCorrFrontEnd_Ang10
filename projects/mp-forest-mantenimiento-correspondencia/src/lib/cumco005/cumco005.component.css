@@ -1,6 +1,17 @@
 .ui-fieldset-legend {
     font-weight: bold;
   }
-  .red{
+
+.red{
 background-color:red;
+}
+
+
+.ui-table {
+  overflow-wrap: break-word
+}
+
+.table_button {
+  float:left;
+  margin-left: 2px;
 }

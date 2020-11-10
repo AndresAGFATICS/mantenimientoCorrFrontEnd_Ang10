@@ -89,14 +89,14 @@ export class CUMCO009Component implements OnInit {
       this.columnasAdjuntos = [
         { field: 'rowIndex', header: this.translate.instant('CUMCO009.TABLA1.headerTabla0') },
         { field: 'codigo', header: this.translate.instant('CUMCO009.TABLA1.headerTabla1') },
-        { field: 'nombreTipoPersona', header: this.translate.instant('CUMCO009.TABLA1.headerTabla2') },
+        { field: 'nombreTipoPersona', header: this.translate.instant('CUMCO009.TABLA1.headerTabla2'), required: true },
         { field: 'descripcion', header: this.translate.instant('CUMCO009.TABLA1.headerTabla3') }
       ];
       this.columnasAdjuntosComunicacion = [
         { field: 'rowIndex', header: this.translate.instant('CUMCO009.TABLA2.headerTabla0') },
         { field: 'tipoPersona.nombreTipoPersona', header: this.translate.instant('CUMCO009.TABLA2.headerTabla1') },
         { field: 'id', header: this.translate.instant('CUMCO009.TABLA2.headerTabla2') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO009.TABLA2.headerTabla3') }
+        { field: 'descripcion', header: this.translate.instant('CUMCO009.TABLA2.headerTabla3'), required: true }
       ];
 
     });
@@ -793,6 +793,7 @@ export class CUMCO009Component implements OnInit {
     ];
     let features = [];
     this.tablaPersonas.forEach(persona => {
+    
       features.push({
         "attributes": {
           "id": persona.id,
@@ -802,6 +803,7 @@ export class CUMCO009Component implements OnInit {
         },
         "state": persona.state
       })
+  
     })
     return {
       "grd_tipos_persona": JSON.stringify({

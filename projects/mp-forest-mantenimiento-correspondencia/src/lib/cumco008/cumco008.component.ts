@@ -85,8 +85,8 @@ export class Cumco008Component implements OnInit {
     this.translate.get(['']).subscribe(translations => {
       this.cols1 = [
         { field: 'rowIndex', header: this.translate.instant('CUMCO008.TABLA1.headerTabla0') },
-        { field: 'codigo', header: this.translate.instant('CUMCO008.TABLA1.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO008.TABLA1.headerTabla2') },
+        { field: 'codigo', header: this.translate.instant('CUMCO008.TABLA1.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO008.TABLA1.headerTabla2'), required: true  },
         { field: 'activo', header: this.translate.instant('CUMCO008.TABLA1.headerTabla3') },
         { field: 'virtual', header: this.translate.instant('CUMCO008.TABLA1.headerTabla4') },
         { field: 'presencial', header: this.translate.instant('CUMCO008.TABLA1.headerTabla5') },
@@ -95,9 +95,9 @@ export class Cumco008Component implements OnInit {
 
       this.cols2 = [
         { field: 'rowIndex', header: this.translate.instant('CUMCO008.TABLA2.headerTabla0') },
-        { field: 'medio_de_envio', header: this.translate.instant('CUMCO008.TABLA2.headerTabla1') },
-        { field: 'fuente', header: this.translate.instant('CUMCO008.TABLA2.headerTabla2') },
-        { field: 'ventanilla_virtual', header: this.translate.instant('CUMCO008.TABLA2.headerTabla3')}
+        { field: 'medioEnvio.descripcion', header: this.translate.instant('CUMCO008.TABLA2.headerTabla1'), required: true  },
+        { field: 'medioEnvio.fuente.codigo', header: this.translate.instant('CUMCO008.TABLA2.headerTabla2') },
+        { field: 'virtual', header: this.translate.instant('CUMCO008.TABLA2.headerTabla3')}
       ];
     });
   }
@@ -251,6 +251,30 @@ export class Cumco008Component implements OnInit {
 
   }
 
+
+  subcribePostAsociacionMedioCanal2(body: any){
+    let respuestaPost;
+    this.cumco008Service.postAsociacionMedioCanal2(body).subscribe(
+      (getRes: any) => {     // Inicio del suscribe
+        respuestaPost = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        const error = this.translate.instant('CUMCO008.MENSAJES.falloGuardar');
+        this.showMessage2(error, "error");
+      },
+      () => {                 // Fin del suscribe
+
+          this.selectionFilterMedioEnvio = undefined;
+          this.initialStateTablae2 = true,
+          this.onClicBorrarSelectedMedioEnvioFilter();
+          this.showMessage2(respuestaPost.message, "success");
+
+      });
+
+  }
+
   subcribeGetRadicadoMedioEnvio(parameters: any){
     
     var responseData: any[]; 
@@ -266,7 +290,7 @@ export class Cumco008Component implements OnInit {
 
         if(responseData.length !== 0){
           const error = this.translate.instant('CUMCO008.MENSAJES.medioEnvioAsociadoRadicadodoError',
-                        {medioEnvio: this.selectionTable2.medioEnvio.descripcion , canal: this.selectionTable2.canalEnvio.descripcion  });
+                        {medioEnvio: this.selectionTable2.medioEnvio.descripcion , canal: this.selectionTable1.codigo + ' - '  +  this.selectionTable1.descripcion  });
           this.showMessage2(error, "error");
         }
         else{
@@ -444,7 +468,7 @@ export class Cumco008Component implements OnInit {
   onClickEliminar2(){
 
     if (this.selectionTable2 && this.selectionTable2.state !== 'new') {
-      this.subcribeGetRadicadoMedioEnvio('?page=1&size=1&anulado=0&medioEnvio=' + String(this.selectionTable2.medioEnvio.id) ); // ?page=1&size=1&medioEnvio=1
+      this.subcribeGetRadicadoMedioEnvio('?activos=1&page=1&size=1&idCanalEnvio=' + String(this.selectionTable1.id) + '&idMedioEnvio=' + String(this.selectionTable2.medioEnvio.id) ); // ?activos=1&page=1&size=1&idCanalEnvio=1&idMedioEnvio=3
     } else if (this.selectionTable2 && this.selectionTable2.state === 'new') {
       let index = this.dataTable2.indexOf(this.selectionTable2);
       this.dataTable2 = this.dataTable2.filter((val, i) => i !== index);
@@ -464,7 +488,8 @@ export class Cumco008Component implements OnInit {
       return;
     }
     else{
-      this.subcribePostAsociacionMedioCanal(this.buildJson2());
+      //this.subcribePostAsociacionMedioCanal(this.buildJson2());
+      this.subcribePostAsociacionMedioCanal2(this.buildJson22());
     }
   }
 
@@ -814,7 +839,31 @@ export class Cumco008Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
 
-  buildJson1(): any{
+  buildJson1(){
+    var dataSend = [];
+    for(const data1 of this.dataTable1){
+      if (data1.state !== 'noedit'){
+        dataSend.push( {
+          id: data1.id,
+          descripcion: data1.descripcion,
+          codigo: data1.codigo,
+          activo: data1.activo,
+
+          pqr: data1.pqr,
+          presencial: data1.presencial,
+          telefonico: data1.telefonico,
+          virtual: data1.virtual,
+
+          state: data1.state
+        });
+
+      }
+    }
+
+    return(dataSend);
+  }
+
+  buildJson11(): any{
 
     let fields = [
         {
@@ -928,5 +977,23 @@ export class Cumco008Component implements OnInit {
 
   }
 
-}
+  buildJson22(){
 
+    let dataSend = [];
+    for(const data2 of this.dataTable2){
+      if (data2.state !== 'noedit'){
+        dataSend.push( {
+          id: data2.id,
+          idCanalEnvio: this.selectionTable1.id,
+          idMedioEnvio: data2.medioEnvio.id,
+          virtual: data2.virtual,
+          state: data2.state
+        });
+
+      }
+    }
+
+    return(dataSend);
+  }
+
+}

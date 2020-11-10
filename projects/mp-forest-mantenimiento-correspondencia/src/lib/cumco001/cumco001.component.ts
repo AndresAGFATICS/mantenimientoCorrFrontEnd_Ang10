@@ -252,13 +252,13 @@ export class CUMCO001Component implements OnInit {
   subcribeSetColumnsTraslations(){
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
-        { field: 'rowIndex', header: this.translate.instant('CUMCO001.TABLA1.headerTabla0') },
-        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla1') },
-        { field: 'tramiteTipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla2') },
-        { field: 'dependencia.nombreCodigo', header: this.translate.instant('CUMCO001.TABLA1.headerTabla3') },
+        { field: 'rowIndex', header: this.translate.instant('CUMCO001.TABLA1.headerTabla0')},
+        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla1'), required: true  },
+        { field: 'tramiteTipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO001.TABLA1.headerTabla2'), required: true  },
+        { field: 'dependencia.nombreCodigo', header: this.translate.instant('CUMCO001.TABLA1.headerTabla3'), required: true  },
         { field: 'atiendeDependencia', header: this.translate.instant('CUMCO001.TABLA1.headerTabla4') },
         { field: 'atiendeResponsable', header: this.translate.instant('CUMCO001.TABLA1.headerTabla5') },
-        { field: 'funcionario.codigoNombre', header:  this.translate.instant('CUMCO001.TABLA1.headerTabla6') }
+        { field: 'funcionario.codigoNombre', header:  this.translate.instant('CUMCO001.TABLA1.headerTabla6'), required: true  }
       ];
     });
 
@@ -955,6 +955,7 @@ export class CUMCO001Component implements OnInit {
     let features = [];
 
     this.asignarResponsableData.forEach(element => {
+      
       features.push({
         "attributes": {
           "id": element.id,
@@ -1028,8 +1029,11 @@ export class CUMCO001Component implements OnInit {
 
       });
 
+  
+
     });
 
+    
     return {
       "grd_responsableSubtipoRadicado": JSON.stringify({
         fields,
@@ -1167,7 +1171,6 @@ export class CUMCO001Component implements OnInit {
         else{
           this.asignarResponsableData[_i].postState = "edit";
         }
-        
       }
     }
   }

@@ -3,7 +3,7 @@
   <p-toast position="top-center"></p-toast>
   <p-fieldset legend="{{ 'CUMCO012.titulo' | translate }}">
 
-      <p>{{ 'CUMCO012.FILTROS.filtroOrganizmo' | translate }}</p>
+      <p><B><FONT COLOR="red">*</FONT></B>{{ 'CUMCO012.FILTROS.filtroOrganizmo' | translate }}</p>
 
       <div class="ui-g">
           <div class="ui-g-12">
@@ -38,9 +38,9 @@
                   <div class="ui-helper-clearfix menu-sup-grid">
                       <!-- Buttons -->
                       <div class="button-sup-grid">
-                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onClicAgregar()"></p-button>
-                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onClicEliminar()"></p-button>
-                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" style="float:left; margin-left: 2px;" (onClick)="onGuardarColumna()"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" class="table_button" (onClick)="onClicAgregar()"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" class="table_button" (onClick)="onClicEliminar()"></p-button>
+                          <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" [disabled]="!this.textAutoComlpeteOrganismoConfigurar" iconPos="left" class="table_button" (onClick)="onGuardarColumna()"></p-button>
                       </div>
                   </div>
               </ng-template>
@@ -49,7 +49,16 @@
               <ng-template pTemplate="header" let-columns>
                   <tr>
                       <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                          {{col.header}}
+                        <div *ngIf="col.required; else loggedOut">
+                            <B>
+                              <FONT COLOR="red">*</FONT>
+                            </B>
+                            {{col.header}}
+                          </div>
+              
+                          <ng-template #loggedOut>
+                            {{col.header}}
+                          </ng-template>
                           <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                       </th>
                   </tr>

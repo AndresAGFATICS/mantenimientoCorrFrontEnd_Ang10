@@ -6,7 +6,7 @@
 
     <!-- Start Table -->
     <p-table #dt [columns]="cols" [value]="rows" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1" 
-    [totalRecords]="rows.length" [loading]="loading"
+    [totalRecords]="rows.length" [loading]="loading" (sortFunction)="customSort(rows, $event)" [customSort]="true"
     [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRows">
     <!-- [lazy]="true" [loading]="loading" [totalRecords]="rows.length" (onLazyLoad)="loadCustomers($event)"  -->
 
@@ -15,9 +15,9 @@
         <div class="ui-helper-clearfix menu-sup-grid">
           <!-- Buttons -->
           <div class="button-sup-grid">
-            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
-            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
-            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"  (click)="onClicGuardar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClicAgregar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClicEliminar()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" class="table_button"  (click)="onClicGuardar()"></p-button>
           </div>
         </div>
       </ng-template>
@@ -26,14 +26,23 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-            {{col.header}}
+            <div *ngIf="col.required; else loggedOut">
+              <B>
+                <FONT COLOR="red">*</FONT>
+              </B>
+              {{col.header}}
+            </div>
+
+            <ng-template #loggedOut>
+              {{col.header}}
+            </ng-template>
             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
             </p-sortIcon>
           </th>
         </tr>
         <tr>
           <th *ngFor="let col of columns">
-            <input pInputText type="text" placeholder="{{ 'CUMCO016.FILTROS.filtroPlaceHolder' | translate }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')" [style]="{'width':'100%', 'height':'100%'}">
+            <input *ngIf="col.header !== 'Activo' " type="text" placeholder="{{ 'CUMCO016.FILTROS.filtroPlaceHolder' | translate }} {{col.header}}" (input)="dt.filter($event.target.value, col.field, 'contains')" [style]="{'width':'100%', 'height':'100%'}">
           </th>
         </tr>
       </ng-template>
@@ -79,7 +88,7 @@
       <div class="p-col-12 p-md-4">
         
         <ng-template pTemplate="header" let-columns> </ng-template>
-        <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" style="float:left; margin-left: 2px;"  
+        <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left" class="table_button"  
         [disabled]="this.selectedFile === undefined"  (click)="onClicGuarda2()"></p-button>
         <br>
         <br>
@@ -91,14 +100,14 @@
       <div class="p-col-12 p-md-8">
 
         <p-pickList id="plt"[source]="sourceRows" [target]="targetRows" sourceHeader="{{ 'CUMCO016.FILTROS.ejes' | translate }}" (onTargetSelect)="onTargetSelect($event)" [showSourceControls]="false" [showTargetControls]="false"
-          targetHeader="{{ 'CUMCO016.FILTROS.ejesOrganismo' | translate }}" [responsive]="true" filterBy="ejeTematico.descripcion" dragdrop="true"
+          targetHeader="{{ 'CUMCO016.FILTROS.ejesOrg' | translate }}" [responsive]="true" filterBy="ejeTematico.descripcion" dragdrop="true"
           [disabled]="this.selectedFile === undefined" (onMoveToSource)="onMoveToSource($event)"
           sourceFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" targetFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
 
           <ng-template let-row pTemplate="item">
             <div class="ui-helper-clearfix" style="text-align: center">
 
-              <b *ngIf="row.id !== '' && (row.ejeTematico.isBorrador || row.ejeTematico.isRadicado); else elseBlock" style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.ejeTematico.descripcion}}</b>
+              <b *ngIf="row.id !== '' && (row.isEjeDependenciaRadicado || row.isEjeDependenciaBorrador); else elseBlock" style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.ejeTematico.descripcion}}</b>
               <ng-template #elseBlock>
                 <p style="font-size:14px;text-align: center;margin:15px 5px 0 0">{{row.ejeTematico.descripcion}}</p> 
               </ng-template>

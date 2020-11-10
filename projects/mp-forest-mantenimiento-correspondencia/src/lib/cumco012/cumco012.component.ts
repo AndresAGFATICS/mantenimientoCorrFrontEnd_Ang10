@@ -105,9 +105,9 @@ export class CUMCO012Component implements OnInit {
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
         { field: 'id', header: this.translate.instant('CUMCO012.TABLA1.headerTabla0') },
-        { field: 'nombreRecorrido', header: this.translate.instant('CUMCO012.TABLA1.headerTabla1') },
-        { field: 'horaInicio', header: this.translate.instant('CUMCO012.TABLA1.headerTabla2') },
-        { field: 'horaFin', header: this.translate.instant('CUMCO012.TABLA1.headerTabla3') },
+        { field: 'nombreRecorrido', header: this.translate.instant('CUMCO012.TABLA1.headerTabla1'), required: true },
+        { field: 'horaInicio', header: this.translate.instant('CUMCO012.TABLA1.headerTabla2'), required: true },
+        { field: 'horaFin', header: this.translate.instant('CUMCO012.TABLA1.headerTabla3'), required: true },
         { field: 'activo', header: this.translate.instant('CUMCO012.TABLA1.headerTabla4') },
       ];
     });
@@ -387,7 +387,7 @@ export class CUMCO012Component implements OnInit {
     for (var _i = 0; _i < this.rows.length;_i++){
       if (!this.rows[_i].nombreRecorrido || this.rows[_i].nombreRecorrido === ''){
         const error = this.translate.instant('CUMCO012.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO012.TABLA2.headerTabla1') });
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO012.TABLA1.headerTabla1') });
         this.showMessage(error, "error");
         return false;
       }
@@ -495,7 +495,7 @@ export class CUMCO012Component implements OnInit {
     let features = []
 
     this.rows.forEach(row => {
-      if (row.state === 'new' || row.state === 'edit' || row.state === 'delete') {
+    
         features.push({
           "attributes": {
             "nombreRecorrido": row.nombreRecorrido,
@@ -519,7 +519,7 @@ export class CUMCO012Component implements OnInit {
 
         })
 
-      }
+      
     })
 
     if (features.length === 0) {
@@ -629,4 +629,4 @@ export class CUMCO012Component implements OnInit {
 }
 
 
-//document.getElementsByName('groupname')[0].hidden = false
+// document.getElementsByName('groupname')[0].hidden = false

@@ -6,32 +6,33 @@
   },
   
   "CUMCO001": {
-      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicadooo",
-      "TipoRadicado": "Tipo de Radicado",
+      "titulo2": "Asignar Responsable para Atención Directa de Tipo de radicado",
+      "TipoRadicado": "Tipo de radicado",
       "FILTROS": {
-          "filtroTipoRadicado": "Tipo de Radicado",
-          "filtroTipoRadicadoPlaceHolder": "Ingrese aquí el tipo de radicado a filtrar",
-          "filtroOrganismoDependencia": "Organismo o Dependencia",
-          "filtroOrganismoDependenciaPlaceHolder": "Ingrese aquí el organismo o dependencia a filtrar"
+          "filtroTipoRadicadoPfield": "Tipo de radicado",
+          "filtro2": "Tipo de radicado",
+          "filtroTipoRadicadoPH": "Ingrese aquí el tipo de radicado a filtrar",
+          "filtroOrgDep": "Organismo o Dependencia",
+          "filtroOrgDepPH": "Ingrese aquí el organismo o dependencia a filtrar"
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
-          "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+          "tipoRadicadoError": "Error al realizar la consulta de Tipos de radicado",
           "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
-          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de radicado",
           "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
           "guardarError" : "Error al guardar",
           "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
           "responsableCDCError" : "Fila {{filaVacia}}: Se debe marcar una de los campos \"CDC\" o \"Responsable\"",
-          "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
-          "repetidoSubtipoRadicadoFiltroError": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
-          "repetidoSubtipoRadicadoFiltroError2": "El Subtipo de Radicado \"{{descripcion}}\" se encuentra repetido en los registros filtrados, porfavor validar"
+          "repetidoSubtipoRadicadoError" : "Filas {{filaRep1}} y {{filaRep2}} : El Subtipo de radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
+          "repetidoSubtipoRadicadoFiltroError": "El Subtipo de radicado \"{{descripcion}}\" se encuentra repetido, porfavor validar",
+          "repetidoSubtipoRadicadoFiltroError2": "El Subtipo de radicado \"{{descripcion}}\" se encuentra repetido en los registros filtrados, porfavor validar"
       },
       "TABLA1": {
           "headerTabla0": "",
-          "headerTabla1": "Tipo de Radicado",
+          "headerTabla1": "Tipo de radicado",
           "headerTabla2": "Subtipo de radicado",
           "headerTabla3": "Organismo o Dependencia",
           "headerTabla4": "CDC",
@@ -42,7 +43,7 @@
   
   "CUMCO003": {
       "titulo": "Configurar Plantillas",
-      "TipoRadicado": "Tipo de Radicado:",
+      "TipoRadicado": "Tipo de radicado:",
       "pestana1": "Plantillas",
       "pestana2": "Tipo Comunicación Oficial",
       "aceptarBoton": "SI",
@@ -50,7 +51,7 @@
       "FILTROS": {
           "filtroPlantilla": "Plantilla:",
           "filtroPlantillaPlaceHolder": "Ingresar aquí plantilla a filtrar",
-          "filtroTipoRadicado": "Tipo de Radicado:",
+          "filtroTipoRadicado": "Tipo de radicado:",
           "filtroTipoRadicadoPlaceHolder" : "Ingrese aquí el tipo de radicado a filtrar",
           "filtroClaseDocumental": "Clase Documental:",
           "filtroClaseDocumentalPlaceHolder": "Seleccione la clase documental"
@@ -58,11 +59,11 @@
       "MENSAJES": {
           "guardar":"Guardar",
           "error":"Error",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "asignarResponsableError": "Error al realizar la consulta de Asignar Responsable",
-          "tipoRadicadoError": "Error al realizar la consulta de Tipos de Radicado",
+          "tipoRadicadoError": "Error al realizar la consulta de Tipos de radicado",
           "organismoDependenciaError": "Error al realizar la consulta de Organismo o Dependencia",
-          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de Radicado",
+          "subtipoRadicadoError" : "Error al realizar la consulta de Subtipo de radicado",
           "FuncionarioSuplenteError" : "Error al realizar la consulta de Funcionarios Sumplentes",
           "guardarError" : "Error al guardar",
           "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
@@ -97,8 +98,8 @@
       "TABLA1": {
           "headerTabla0": "",
           "headerTabla1": "Plantilla",
-          "headerTabla2": "Tipo Radicado",
-          "headerTabla3": "Subtipo Radicado",
+          "headerTabla2": "Tipo radicado",
+          "headerTabla3": "Subtipo radicado",
           "headerTabla4": "Tipo Documental",
           "headerTabla5": "Clase Documental",
           "headerTabla6": "Términos Requerimiento",
@@ -120,7 +121,7 @@
   
   "CUMCO004": {
       "titulo": "Definir Acciones para los Tipos Documentales",
-      "TipoRadicado": "Tipo de Radicado:",
+      "TipoRadicado": "Tipo de radicado:",
       "pestana1": "Plantillas",
       "pestana2": "Tipo Comunicación Ofcicial",
       "FILTROS": {
@@ -129,7 +130,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales"
   
@@ -155,7 +156,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
           "repetidosTipoAnexoFisicoError": "Filas {{filaRep1}} y {{filaRep2}}: Existen registros repetidos para Tipo de Anexo \"{{tipoAnexo}}\" y el Anexo Físico \"{{anexoFisico}}\"",
@@ -176,7 +177,7 @@
   
   "CUMCO006": {
       "titulo": "Configurar Horario Ventanilla Entrada",
-      "tituloTablaFestivos": "Configurar Anexos Físicos",
+      "tituloTablaFestivos": "Configurar Festivos Para Radicación",
       "FILTROS": {
           "filtroCanalConfigurar": "Canal a Configurar",
           "filtroCanalConfigurarPlaceHolder": "Seleccione un filtro",
@@ -186,7 +187,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
           "repetidos": "Existen registros repetidos para Tipo de Anexo y Anexo Físico",
@@ -221,7 +222,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
           "identificacionRepetida": "El tipo de identificación, se encuentra repetido, por favor validar",
@@ -266,7 +267,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "errorCampoVacio": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
           "errorGuardarCampo": "Diligenciar todos los campos requeridos",
@@ -300,7 +301,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "errorGuardar": "Diligenciar todos los campos requeridos",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
@@ -325,7 +326,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "errorGuardar": "Diligenciar todos los campos requeridos",
           "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
@@ -356,7 +357,7 @@
       "pestana11" : "Configurar Características Personas Jurídicas",
       "pestana12" : "Configurar Características Personas Naturales",
       "pestana21" : "Grupo Étnico",
-      "pestana22" : "Nivel de Ecolaridad",
+      "pestana22" : "Nivel de Escolaridad",
       "pestana23" : "Sexo",
       "pestana24" : "Estado Civil",
       "pestana25" : "Categoría de Discapacidad",
@@ -367,7 +368,7 @@
       },
       "MENSAJES": {
           "guardar":"Guardar",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "errorGuardar": "Diligenciar todos los campos requeridos",
           "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
@@ -375,7 +376,7 @@
           "campoCalsificacionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Calsificación de la Organización\" \"{{calsificacion}}\" se encuentra repetida, porfavor validar",
           "campoActividadEconomicaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Actividad Economica\" \"{{actividad}}\" se encuentra repetida, porfavor validar",
           "campoGrupoEtnicoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El \"Grupo Étnico\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
-            "campoGrupoEtnicoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código \"{{codigo}}\" en \"Grupo Étnico\" se encuentra repetido, porfavor validar",
+          "campoGrupoEtnicoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código \"{{codigo}}\" en \"Grupo Étnico\" se encuentra repetido, porfavor validar",
           "campoNivelEscolaridadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Nivel de Escolaridad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoSexoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Sexo\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoEstadoCivilRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Estado Civil\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
@@ -419,29 +420,29 @@
   },
   
   "CUMCO014": {
-    "titulo": "Configurar Tipos de Radicado",
-    "titulo3": "Configurar Categorías del Radicado",
+    "titulo": "Configurar Tipos de radicado",
+    "titulo3": "Configurar Categorías del radicado",
     "titulo5": "Asociar Lista de Requisitos",
-    "pestana1": "Tipos de Radicado",
-    "pestana2": "Categoria del Radicado",
+    "pestana1": "Tipos de radicado",
+    "pestana2": "Categoria del radicado",
     "pestana3": "Lista de requisitos",
     "pestana31": "Parametrizar Lista de Requisitos",
-    "pestana32": "Asociar Tipo de Radicado con Requisitos",
+    "pestana32": "Asociar Tipo de radicado con Requisitos",
     "clasificacionOrg": "Clasificación de la Organización",
     "actividadEconomica": "Actividad Económica de la Organización",
-    "titulo2": "Configurar Tipos de Radicado con Subtipos y Trámite",
+    "titulo2": "Configurar Tipos de radicado con Subtipos y Trámite",
     "FILTROS": {
-        "filtroRadicado": "Filtar por Tipo Radicado",
-        "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+        "filtroRadicado": "Filtar por Tipo radicado",
+        "subRadicado": "Filtar por Descripción (Subtipo de radicado)",
         "tituloTabla": "Recorridos de Reparto Documentos Físicos",
-        "filotrRadicado": "Tipo de Radicado",
-        "filotrSubRadicado": "Subtipo Radicado",
+        "filotrRadicado": "Tipo de radicado",
+        "filotrSubRadicado": "Subtipo radicado",
         "placeHolderFiltroRadicado" : "Ingrese aquí el Radicado a filtrar",
         "placeHolderFiltroSubradicado": "Ingrese aquí el Subtipo de radicado a filtrar"
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
+        "exito":"Operación  ejecutada con éxito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
@@ -464,19 +465,20 @@
         "requisitoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El requisito  \"{{descripcion}}\" ya se encuentra creado",
         "requisitoRadicadoAsociado": "No se puede modificar el requisito \"{{requisito}}\" ya que se encuentra asociado al tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\", los cuales están vinculados a un documento radicado",
         "requisitoRadicadoAsociado2": "No es posible eliminar el requisito \"{{requisito}}\"  ya que está asociado a un tipo y subtipo de radicado y/o se encuentra asociado a un documento radicado en el sistema",
-        "requisitoRadicadoAsociado3": "No es posible eliminar la relación del requisito \"{{requisito}}\" con el tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\" porque existen documentos radicados asociados a esta configuración"
-  
+        "requisitoRadicadoAsociado3": "No es posible eliminar la relación del requisito \"{{requisito}}\" con el tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\" porque existen documentos radicados asociados a esta configuración",
+        "campoArchivoVacioError": "Fila {{filaVacia}}: El formulario del requisito \"{{requisito}}\" que está intentando subir no corresponde al formato configurado para el mismo \"{{formato}}\", por favor vuelva a intentarlo",    
+        "fileExtVacio": "Para el requisito \"{{requisito}}\" es requerido que ingrese un formato de archivo, antes de cargar el formulario correspondiente al requisito, por favor vuelva a intentarlo"
     },
     "TABLA1": {
         "headerTabla0": "",
         "headerTabla1": "Código",
-        "headerTabla2": "Descripción Tipo Radicado",
+        "headerTabla2": "Descripción Tipo radicado",
         "headerTabla3": "Categoría",
         "headerTabla4": "Activo"
     },
     "TABLA2": {
-        "headerTabla1": "Código Tipo Radicado",
-        "headerTabla2": "Descripción (Subtipo de Radicado)",
+        "headerTabla1": "Código Tipo radicado",
+        "headerTabla2": "Descripción (Subtipo de radicado)",
         "headerTabla3": "Trámite",
         "headerTabla4": "Días Término",
         "headerTabla5": "Días Hábiles",
@@ -500,7 +502,8 @@
       "headerTabla2": "Descripcion",
       "headerTabla3": "Activo",
       "headerTabla4": "Requerido",
-      "headerTabla5": "Cargar Formulario (Ventanilla Virtual)"
+      "headerTabla5": "Formato de Archivo (Ventanilla Virtual)",
+      "headerTabla6": "Cargar Formulario (Ventanilla Virtual)"
     },
     "TABLA5": {
       "headerTabla0": "Requisito"
@@ -514,14 +517,14 @@
     "FILTROS": {
       "filtroPlaceHolder": "Buscar por",
         "organismos": "Organismos o Dependencias",
-        "subRadicado": "Filtar por Descripción (Subtipo de Radicado)",
+        "subRadicado": "Filtar por Descripción (Subtipo de radicado)",
         "ejes": "Ejes Temáticos",
-        "ejesOrganismo": "Ejes Temáticos del Organismo o Dependencia",
+        "ejesOrg": "Ejes Temáticos del Organismo o Dependencia",
         "placeHolderEjes": "Buscar por Ejes"
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
+        "exito":"Operación  ejecutada con éxito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "falloObtenerAcionesDocumentales":"Error al obtener las Acciones Documentales",
@@ -547,7 +550,7 @@
   },
   
   "CUMCO017": {
-    "titulo": "Configurar Tipos de Radicado",
+    "titulo": "Configurar Tipos de radicado",
     "pestana1": "Grupos de Seguridad",
     "pestana2": "Funcionarios Asociados",
     "FILTROS": {
@@ -557,19 +560,25 @@
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "exitoGuardar":"Operación de guardar ejecutada con exito",
+        "exitoGuardar":"Operación ejecutada con éxito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "campoEliminarGrupoSeguridadError": "No es posible eliminar el registro \"{{descripcion}}\"",
         "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
-        "campoCodigoClasificacionRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{descripcion}}\" y \"{{nombre}}\", se encuentra repetido",
+        "campoCodigoClasificacionRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El código y/o clasificación de la información  \"{{codigo}} - {{descripcion}}\", se encuentra repetido",
+        "campoClasificacionRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El grupo del sistema \"{{grupo}}\" ya se encuentra asociado a la clasificación de la información  \"{{clasificacion}}\" ",    
         "selecionarDependencia": "Se debe seleccionar una dependencia, para poder obtener los funcionarios asociados",
-        "camposDependenciaFuncionarioRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{dependencia}}\" con el funcionario \"{{funcionario}}\", se encuentra repetido"   
+        "camposDependenciaFuncionarioRepetido": "Filas {{filaRep1}} y {{filaRep2}}: El registro  \"{{dependencia}}\" con el funcionario \"{{funcionario}}\", se encuentra repetido",
+        "malExpresionCodigoError": "El código de la clasificación de la información ingresado \"{{codigo}}\" no es válido: deber tener un tamaño máximo de 10 caracteres y estar compuesto únicamente por letras mayúsculas, números y/o el símbolo '_' ",
+        "guardarGrupoSeguridadMesagge" : "Se ha asociado el grupo \"{{descripcion}}\" a la clasificación de la información \"{{clasificacion}}\" exitosamente",
+        "guardarFuncionariosesagge" : "Se actualizaron exitosamente los funcionarios asociados al radicado",
+        "borrarGrupoSeguridadError": "No es posible eliminar el registro \"{{grupoSeguridad}}\", debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema"         
     },
     "TABLA1": {
-        "headerTabla0": "Clasificación de la Información",
-        "headerTabla1": "Asociar Grupo Sistema",
-        "headerTabla2": "Observaciones"
+        "headerTabla1": "Código",
+        "headerTabla2": "Clasificación de la Información",
+        "headerTabla3": "Asociar Grupo Sistema",
+        "headerTabla4": "Observaciones"
     },
     "TABLA2": {
         "headerTabla0": "Organismo o Dependencia",
@@ -593,7 +602,8 @@
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
+        "exito":"Operación ejecutada con éxito",
+        "exitoGuardar":"Operación Ejecutada con éxito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "eliminarRutaError": "La ruta \"{{ruta}}\" ya se encuentra asociado, no puede ser eliminado: debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema",
@@ -631,7 +641,7 @@
   
   "CUMCO019": {
     "titulo": "Filtros",
-    "tipoComunicacion": "Tipos de Comuniación Oficial",
+    "tipoComunicacion": "Tipos de Comunicación Oficial",
     "configurarFirmantes": "Configurar firmantes por tipo de Comunicación",
     "FILTROS": {
       "filtroComunicacion": "Tipo de comunicación Oficial:",
@@ -642,7 +652,7 @@
     },
     "MENSAJES": {
         "guardar":"Guardar",
-        "exito":"Operación de guardar ejecutada con exito",
+        "exito":"Operación  ejecutada con éxito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
@@ -665,23 +675,24 @@
   
   "CUMCO020": {
       "pField1": "Configurar Procesos",
-      "pField2": "Configurar Procedimientos de Procesos",
+      "pField2": "Configurar Subprocesos/Procedimientos de Procesos",
       "pField3": "Asociar Procesos a Dependencias",
-      "pField4": "Asociar Procedimientos a Dependencias",
-      "pestana1": "Configurar Procesos y Procedimientos",
-      "pestana2": "Asociar Procesos y Procedimientos a Dependencias",
+      "pField4": "Asociar Subprocesos/Procedimientos a Dependencias",
+      "pestana1": "Configurar Procesos y Subprocesos/Procedimientos",
+      "pestana2": "Asociar Procesos y Subprocesos/Procedimientos a Dependencias",
       "FILTROS": {
           "filtroProceso": "Filtrar por Proceso:",
           "filtroProcesoPlaceHolder": "Ingresar aquí el Proceso a Filtrar",
-          "filtroProcedimiento": "Filtrar por Procedimiento:",
-          "filtroProcedimientoPlaceHolder": "Ingresar aquí el Procedimiento a Filtrar",
+          "filtroProcedimiento": "Filtrar por Subproceso/Procedimiento:",
+          "filtroProcedimientoPlaceHolder": "Ingresar aquí el Subproceso/Procedimiento a Filtrar",
           "filtroDependencia": "Organismo o Dependencia a Configurar",
           "filtroDependenciaPlaceHolder": "Ingresar aquí el Organismo o Dependencia a Selecionar"
+          
       },
       "MENSAJES": {
           "guardar":"Guardar",
           "error":"Error",
-          "exito":"Operación de guardar ejecutada con exito",
+          "exito":"Operación  ejecutada con éxito",
           "falloGuardar":"Se ha presentado un error al guardar",
           "campoFilaVacioError": "Fila {{filaVacia}}: El campo \"{{campoVacio}}\" no puede estar vacío",
           "campoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El proceso \"{{codigoNombre}}\", se encuentra repetido, por favor validar",
@@ -707,8 +718,8 @@
       },
       "TABLA2": {
           "headerTabla1": "Proceso",
-          "headerTabla2": "Código Procedimiento",
-          "headerTabla3": "Nombre Procedimiento Documental",
+          "headerTabla2": "Código Subproceso/Procedimiento",
+          "headerTabla3": "Nombre Subproceso/Procedimiento",
           "headerTabla4": "Descripción",
           "headerTabla5": "Activo"
       },
@@ -716,7 +727,7 @@
         "headerTabla1": "Proceso"
       },
       "TABLA4": {
-        "headerTabla1": "Procedimiento"
+        "headerTabla1": "Subproceso/Procedimiento"
       }
     
     }

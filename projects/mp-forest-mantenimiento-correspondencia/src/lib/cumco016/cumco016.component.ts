@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { LazyLoadEvent } from 'primeng/api';
 
+import { SortEvent } from 'primeng/api';
 
 // Importacion Modulo de Mensajes
 import { Message } from 'primeng//api';
@@ -46,6 +47,7 @@ export class Cumco016Component implements OnInit {
 
   initialData2: any[];
   initialState2 = true;
+  sortEvent: SortEvent;
 
 
   // Variables para los mensajes
@@ -93,7 +95,7 @@ export class Cumco016Component implements OnInit {
 
       this.cols = [
         { field: 'codigo', header: this.translate.instant('CUMCO016.TABLA1.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO016.TABLA1.headerTabla2') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO016.TABLA1.headerTabla2'), required: true },
         { field: 'activo', header: this.translate.instant('CUMCO016.TABLA1.headerTabla3') }
       ];
 
@@ -122,7 +124,9 @@ export class Cumco016Component implements OnInit {
             this.targetRows.push({
               id: iniData.id,
               dependencia: { id: this.selectedFile.data },
-              ejeTematico: isData[0]
+              ejeTematico: isData[0],
+              isEjeDependenciaRadicado: iniData.isEjeDependenciaRadicado,
+              isEjeDependenciaBorrador: iniData.isEjeDependenciaBorrador
             }
             );
           }
@@ -411,7 +415,7 @@ export class Cumco016Component implements OnInit {
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
 
   onClicAgregar() {
-    let rows = [...this.rows];
+    const rows = [...this.rows];
 
     rows.push({
       rowId: this.rowId,
@@ -420,12 +424,20 @@ export class Cumco016Component implements OnInit {
       descripcion: '',
       activo: '1',
       state: 'new'
-    })
+    });
 
     this.rows = rows;
+    if (this.sortEvent){
+      this.customSort(this.rows, this.sortEvent);
+    }
+
+    const index = this.rows.findIndex(x => x.rowId === this.rowId);
     this.rowId = this.rowId + 1;
 
-    const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+
+
+    //const newPage = Math.trunc(this.rows.length/this.nRowsTable1) * this.nRowsTable1;
+    const newPage = Math.trunc(index / this.nRowsTable1) * this.nRowsTable1;
     this.pageTable1 = newPage;
   }
 
@@ -641,8 +653,28 @@ export class Cumco016Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
-
   buildJsonEjeTematico(): any {
+
+    var dataSend = [];
+    for(var data of this.rows){
+      if (data.state !== 'noedit'){
+        dataSend.push( {
+          id: data.id,
+          descripcion: data.descripcion,
+          codigo: data.codigo,
+          activo: data.activo,
+          state: data.state
+        });
+
+      }
+    }
+
+    return(dataSend);
+
+
+  }
+
+  buildJsonEjeTematico2(): any {
 
     let fields = [
       {
@@ -669,7 +701,7 @@ export class Cumco016Component implements OnInit {
     let features = [];
 
     this.rows.forEach(tipo => {
-      if (tipo.state === 'edit' || tipo.state == 'new' || tipo.state == 'delete' ) {
+      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete' ) {
 
         features.push({
           attributes: {
@@ -705,10 +737,10 @@ export class Cumco016Component implements OnInit {
       let isData = [];
       isData = this.initialData2.filter(data => data.id === newData.id);
       if (isData.length === 0) {
-        dataSent.push({ id: newData.id, idEje: newData.ejeTematico.id, idDependencia: this.selectedFile.data, state: 'new' });
-      }
-      else {
-        dataSent.push({ id: newData.id, idEje: newData.ejeTematico.id, idDependencia: this.selectedFile.data, state: 'noedit' });
+        dataSent.push({ id: newData.id, 
+                        ejeTematico: {id: newData.ejeTematico.id},
+                        dependencia: { id: this.selectedFile.data},
+                        state: 'new' });
       }
     }
 
@@ -716,49 +748,15 @@ export class Cumco016Component implements OnInit {
       let isData = [];
       isData = this.targetRows.filter(data => data.id === delData.id);
       if (isData.length === 0) {
-        dataSent.push({ id: delData.id, idEje: delData.ejeTematico.id, idDependencia: this.selectedFile.data, state: 'delete' });
+        dataSent.push({ id: delData.id, 
+          ejeTematico: {id: delData.ejeTematico.id},
+          dependencia: { id: this.selectedFile.data},
+          state: 'delete' });
       }
     }
 
-    //console.log(dataSent);
 
-
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": false
-      },
-      {
-        "name": "ejeTematico.id",
-        "type": "input",
-        "required": false
-      },
-      {
-        "name": "dependencia.id",
-        "type": "input",
-        "required": false
-      }
-    ];
-    let features = [];
-
-    dataSent.forEach(tipo => {
-      features.push({
-        attributes: {
-          "id": tipo.id,
-          "ejeTematico.id": tipo.idEje,
-          "dependencia.id": tipo.idDependencia
-        },
-        "state": tipo.state
-      })
-
-    })
-    return {
-      "grd_RelacionEjeTematicoDependencia": JSON.stringify({
-        fields,
-        features
-      })
-    };
+    return(dataSent);
 
 
   }
@@ -820,7 +818,8 @@ export class Cumco016Component implements OnInit {
         }
       }
       else {
-        codigoStr = (arrayCod.length + 1).toString();
+        // codigoStr = (arrayCod.length + 1).toString();
+        codigoStr = (arrayCod[arrayCod.length - 1] + 1).toString();
         while (codigoStr.length < 5) {
           codigoStr = '0' + codigoStr;
         }
@@ -839,7 +838,7 @@ export class Cumco016Component implements OnInit {
 
     var entro = false;
     for (var item of event.items) {
-      if (item.ejeTematico.isBorrador || item.ejeTematico.isRadicado) {
+      if (item.isEjeDependenciaRadicado || item.isEjeDependenciaBorrador) {
         entro = true;
         break;
       }
@@ -863,7 +862,7 @@ export class Cumco016Component implements OnInit {
 
     var entro = false;
     for (var item of event.items) {
-      if (item.ejeTematico.isBorrador || item.ejeTematico.isRadicado && item.id !== '') {
+      if (item.isEjeDependenciaBorrador || item.isEjeDependenciaRadicado && item.id !== '') {
         entro = true;
         break;
       }
@@ -881,7 +880,7 @@ export class Cumco016Component implements OnInit {
 
   onMoveToTarget(event) {
     for (var item of event.items) {
-      if (item.ejeTematico.isBorrador || item.ejeTematico.isRadicado) {
+      if (item.isEjeDependenciaBorrador || item.isEjeDependenciaRadicado) {
         this.sourceRows.push(item);
       }
     }
@@ -892,7 +891,7 @@ export class Cumco016Component implements OnInit {
       var element = this.targetRows.find(data => data.ejeTematico.id === item.ejeTematico.id)
 
       if (!element) {
-        if (item.id !== '' && (item.ejeTematico.isBorrador == 1 || item.ejeTematico.isRadicado == 1)) {
+        if (item.id !== '' && (item.isEjeDependenciaBorrador == 1 || item.isEjeDependenciaRadicado == 1)) {
           this.targetRows.push(item);
           let index = this.sourceRows.indexOf(item);
           if (index !== -1) {
@@ -916,6 +915,39 @@ export class Cumco016Component implements OnInit {
     }, 5000);
   }
 
+
+  customSort( data: any[], event ?: SortEvent){
+
+    let sortData: any[];
+
+    if ( event === undefined ){
+      sortData = data.sort(function (a, b) {
+      if ( a.id < b.id ) {
+        return -1;
+      }
+      if ( a.id > b.id ){
+        return 1;
+      }
+      return 0;
+    });
+    }
+    else{
+      sortData = data.sort(function (a, b) {
+        if( a[event.field] < b[event.field] ) {
+          return -1 * event.order;
+        }
+        if( a[event.field] > b[event.field] ){
+          return 1 * event.order;
+        }
+        return 0;
+      });
+    }
+
+
+    data = sortData;
+    this.sortEvent = event;
+
+  }
 
 }
 

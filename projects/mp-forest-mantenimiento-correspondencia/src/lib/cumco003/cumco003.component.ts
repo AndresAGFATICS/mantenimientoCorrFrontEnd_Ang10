@@ -123,10 +123,10 @@ export class Cumco003Component implements OnInit {
       this.cols = [
         { field: 'ID', header: this.translate.instant('CUMCO003.TABLA1.headerTabla0') },
         { field: 'plantilla.codigo', header: this.translate.instant('CUMCO003.TABLA1.headerTabla1') },
-        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla2') },
-        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla3') },
-        { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla4') },
-        { field: 'claseDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla5') },
+        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla2'), required: true },
+        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla3'), required: true },
+        { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla4'), required: true },
+        { field: 'claseDocumental.codigoDescripcion', header: this.translate.instant('CUMCO003.TABLA1.headerTabla5'), required: true },
         { field: 'terminoRequerimiento', header: this.translate.instant('CUMCO003.TABLA1.headerTabla6') },
         { field: 'diasRequerimiento', header: this.translate.instant('CUMCO003.TABLA1.headerTabla7') },
         { field: 'prorrogaEntidad', header: this.translate.instant('CUMCO003.TABLA1.headerTabla8') },
@@ -137,9 +137,9 @@ export class Cumco003Component implements OnInit {
 
       this.cols2 = [
         { field: 'RowIndex', header: ''},
-        { field: 'codigo', header: this.translate.instant('CUMCO003.TABLA2.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2') },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla3') }
+        { field: 'codigo', header: this.translate.instant('CUMCO003.TABLA2.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla2'),  required: true },
+        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO003.TABLA2.headerTabla3'),  required: true }
       ];
     });
 
@@ -275,7 +275,7 @@ export class Cumco003Component implements OnInit {
           }
 
           if (res.tipoDocumental){
-            res.tipoDocumental = {... res.tipoDocumental, codigoDescripcion: res.tipoDocumental.codigo + ' ' + res.tipoDocumental.detido};
+            res.tipoDocumental = {... res.tipoDocumental, codigoDescripcion: res.tipoDocumental.codigo + ' ' + res.tipoDocumental.descripcion};
           }
           else{
             res.tipoDocumental = { "id": '', "codigoDescripcion": '' };
@@ -1814,7 +1814,7 @@ export class Cumco003Component implements OnInit {
     ];
     let features = [];
     this.tablaDocumentos.forEach(element => {
-      if (element.state !== 'new') {
+      if (element.state === 'edit' || element.state === 'delete') {
         features.push({
           "attributes": {
             "id": element.id,
@@ -1830,7 +1830,7 @@ export class Cumco003Component implements OnInit {
           },
           "state": element.state
         })
-      } else {
+      } else if (element.state === 'new') {
         features.push({
           "attributes": {
             "id": '',

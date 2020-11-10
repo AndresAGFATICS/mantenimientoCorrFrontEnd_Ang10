@@ -13,7 +13,8 @@ export class Cumco017Service extends GeneralService {
 
   // Table 1 Services
   public getGrupoSeguridad(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/grupoSeguridad' + parameters);
+    return this.get('/mnt-corr/1.0.0/grupoSeguridad' + parameters);
+    // return this.get('/forest/documentos/1.0.0/grupoSeguridad' + parameters);
   }
 
   public getClasificacionInformacion(parameters: string) {
@@ -47,7 +48,7 @@ export class Cumco017Service extends GeneralService {
   }
 
   public postRelacionGrupoSeguridadRadicado(body: any) {
-      return this.post('/mnt-corr/1.0.0/RelacionGrupoSeguridadRadicado/guardar_grid',body);
+      return this.post('/mnt-corr/1.0.0/RelacionGrupoSeguridadRadicado/guardar',body);
   }
 
 

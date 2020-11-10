@@ -34,11 +34,15 @@ export class Cumco008Service extends GeneralService {
   }
 
   public postAsociacionMedioCanal(body: any) {
-    return this.post('/forest/documentos/1.0.0/asociacionCanalMedioEnvio', body); 
+    return this.post('/forest/documentos/1.0.0/asociacionCanalMedioEnvio', body);
+  }
+
+  public postAsociacionMedioCanal2(body: any) {
+    return this.post('/mnt-corr/1.0.0/RelacionMedioCanalEnvio/guardar', body);
   }
 
   public getRadicadoMedioEnvio(parameters: string) {
-    return this.get('/forest/documentos/1.0.0/radicado' + parameters); // ?medioEnvio=1&page=1&size=20
+    return this.get('/mnt-corr/1.0.0/RadicadoBorrador' + parameters); // ?activos=1&page=1&size=1&idCanalEnvio=1&idMedioEnvio=3
   }
 
 

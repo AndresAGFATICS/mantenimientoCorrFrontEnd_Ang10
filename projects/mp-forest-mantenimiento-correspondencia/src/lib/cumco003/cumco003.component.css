@@ -1,6 +1,10 @@
 .ui-fieldset-legend {
     font-weight: bold;
   }
-  .ui-table {
-    overflow-wrap: break-word
-  }
+.ui-table {
+  overflow-wrap: break-word
+}
+.table_button {
+  float:left;
+  margin-left: 2px;
+}

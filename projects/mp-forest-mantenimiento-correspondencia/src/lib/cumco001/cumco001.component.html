@@ -1,18 +1,17 @@
-<div class="ui-fluid p-grid forms-grid" id="mantenimiento-correspondencia-conenido">
-    <!-- <p-checkbox name="groupname" [binary]="true" [(ngModel)]="lang" (onChange)="changeLanguage()"> </p-checkbox> -->
+<div class="p-col-12 p-md-12">
+    <div class="card card-w-title">
+        <div class="ui-fluid">
 
-    <div class="p-col-12 p-md-12">
-        <div class="card card-w-title">
-            <p-fieldset legend="{{ 'CUMCO001.titulo' | translate }}">
+            <p-fieldset legend="{{ 'CUMCO001.titulo2' | translate }}">
 
-                <p>{{ 'CUMCO001.FILTROS.filtroTipoRadicado' | translate }}</p>
+                <p>{{ 'CUMCO001.FILTROS.filtro2' | translate }}</p>
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="ui-inputgroup">
                             <span class="ui-inputgroup-addon"><i class="pi pi-search"
                                     style="line-height: 1;"></i></span>
                             <p-autoComplete [dropdown]="true" [forceSelection]="true"
-                                placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPlaceHolder' | translate }}"
+                                placeholder="{{ 'CUMCO001.FILTROS.filtroTipoRadicadoPH' | translate }}"
                                 [(ngModel)]="textAutoCompleteTipoRadicado"
                                 [suggestions]="suggestionsAutoCompleteTipoRadicado"
                                 (completeMethod)="searchFilterTipoRadicado($event)"
@@ -24,7 +23,7 @@
                     </div>
                 </div>
 
-                <p>{{ 'CUMCO001.FILTROS.filtroOrganismoDependencia' | translate }}</p>
+                <p>{{ 'CUMCO001.FILTROS.filtroOrgDep' | translate }}</p>
 
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -32,7 +31,7 @@
                             <span class="ui-inputgroup-addon"><i class="pi pi-search"
                                     style="line-height: 1;"></i></span>
                             <p-autoComplete [dropdown]="true" [forceSelection]="true"
-                                placeholder="{{ 'CUMCO001.FILTROS.filtroOrganismoDependenciaPlaceHolder' | translate }}"
+                                placeholder="{{ 'CUMCO001.FILTROS.filtroOrgDepPH' | translate }}"
                                 [(ngModel)]="textAutoCompleteOrganismoDependencia"
                                 [suggestions]="suggestionsAutoCompleteOrganismoDependencia"
                                 (completeMethod)="searchFilterOrganismoDependencia($event)"
@@ -51,9 +50,9 @@
 
                     <p-messages [(value)]="msgs"></p-messages>
                     <!-- Start Table -->
-                    <p-table [columns]="cols" [value]="asignarResponsableData" editMode="row" [paginator]="true" [(first)]="pageTable1"
-                        [(rows)]="nRows" [rowsPerPageOptions]="nRowsOptions" selectionMode="single"
-                        [(selection)]="selectedRow">
+                    <p-table [columns]="cols" [value]="asignarResponsableData" editMode="row" [paginator]="true"
+                        [(first)]="pageTable1" [(rows)]="nRows" [rowsPerPageOptions]="nRowsOptions"
+                        selectionMode="single" [(selection)]="selectedRow">
                         <!--(onRowSelect)="onRowSelect($event, selectedRow)"> -->
                         <!-- [scrollable]="true" scrollHeight="500px"> -->
 
@@ -69,14 +68,14 @@
                             <div class="ui-helper-clearfix menu-sup-grid">
                                 <!-- Buttons -->
                                 <div class="button-sup-grid">
-                                    <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus"
-                                        iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar()">
+                                    <p-button class="table_button" label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus"
+                                        iconPos="left"  (click)="onClicAgregar()">
                                     </p-button>
-                                    <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus"
-                                        iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar()">
+                                    <p-button class="table_button" label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus"
+                                        iconPos="left"  (click)="onClicEliminar()">
                                     </p-button>
-                                    <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save"
-                                        iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar()"
+                                    <p-button  class="table_button" label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save"
+                                        iconPos="left"  (click)="onClicGuardar()"
                                         id="buttonGuardar"></p-button>
                                 </div>
                             </div>
@@ -86,10 +85,22 @@
                         <ng-template pTemplate="header" let-columns>
                             <tr>
                                 <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                    {{col.header}}
+
+                                    <div *ngIf="col.required; else loggedOut">
+                                        <B>
+                                            <FONT COLOR="red">*</FONT>
+                                        </B>
+                                        {{col.header}}
+                                    </div>
+
+                                    <ng-template #loggedOut>
+                                        {{col.header}}
+                                    </ng-template>
+
                                     <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                                         ariaLabelDesc="Activate to sort in descending order"
-                                        ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                        ariaLabelAsc="Activate to sort in ascending order">
+                                    </p-sortIcon>
                                 </th>
                             </tr>
                         </ng-template>
@@ -211,20 +222,20 @@
 
 
             </p-fieldset>
+
         </div>
     </div>
-
-    <!-- Partes Externa de la vista -- Partes Externa de la vista -->
-
-    <!-- Confirmation Dialog Box -->
-    <p-confirmDialog #cd [style]="{width: '20%'}">
-        <p-footer>
-            <button type="button" pButton icon="pi pi-check" label="Si" (click)="cd.accept()"></button>
-            <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
-        </p-footer>
-    </p-confirmDialog>
-
-    <!-- Notification Message -->
-    <!--  <p-toast position="top-center" key="topMessage"></p-toast> -->
-
 </div>
+
+<!-- Partes Externa de la vista -- Partes Externa de la vista -->
+
+<!-- Confirmation Dialog Box -->
+<p-confirmDialog #cd [style]="{width: '20%'}">
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" label="Si" (click)="cd.accept()"></button>
+        <button type="button" pButton icon="pi pi-times" label="No" (click)="cd.reject()"></button>
+    </p-footer>
+</p-confirmDialog>
+
+<!-- Notification Message -->
+<!--  <p-toast position="top-center" key="topMessage"></p-toast> -->

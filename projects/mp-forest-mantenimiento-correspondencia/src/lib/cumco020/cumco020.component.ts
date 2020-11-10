@@ -92,6 +92,7 @@ export class Cumco020Component implements OnInit {
   nRowsTable3 = 5;
   idRow3 = 0;
   pageTable3 = 0;
+  entrarMensaje = true;
 
   //TABLA 4
   cols4: any[];
@@ -103,6 +104,7 @@ export class Cumco020Component implements OnInit {
   nRowsTable4 = 5;
   idRow4 = 0;
   pageTable4 = 0;
+  allSelect = false;
 
 
 
@@ -121,7 +123,7 @@ export class Cumco020Component implements OnInit {
 
 
   }
-
+ 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
@@ -131,24 +133,24 @@ export class Cumco020Component implements OnInit {
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
         { field: 'ID', header: this.translate.instant('CUMCO020.TABLA1.headerTabla0') },
-        { field: 'plantilla.codigo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1') },
-        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2') },
-        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3') },
+        { field: 'plantilla.codigo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1'), required: true  },
+        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2'), required: true },
+        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3'), required: true },
         { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla4') },
       ];
 
       this.cols2 = [
         { field: 'RowIndex', header: '' },
         { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2') },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3') },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2'), required: true },
+        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3'), required: true },
+        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4'), required: true },
         { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla5') }
       ];
 
       this.cols3 = [
         { field: 'RowIndex', header: '' },
-        { field: 'codigoNombre', header: this.translate.instant('CUMCO020.TABLA3.headerTabla1') }
+        { field: 'codigoNombre', header: this.translate.instant('CUMCO020.TABLA3.headerTabla1'), required: true }
       ];
 
       this.cols4 = [
@@ -427,6 +429,7 @@ export class Cumco020Component implements OnInit {
   subscribeGetRelacionProcedimientoDependencia2(parameters: string) {
 
     let response: any[];
+    this.allSelect = false;
     this.cumco020Service.getRelacionProcedimientoDependencia(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         response = getRes;
@@ -446,17 +449,29 @@ export class Cumco020Component implements OnInit {
           }
         }
 
+        this.allSelect = false;
+        let entroProcedimiento = false
         for (var res of response) {
           for (var data4 of this.dataTable4) {
             if (data4.porcedimiento.id == res.idProcedimiento) {
               data4.rel = 1;
               data4.id = res.id;
               data4.response = res;
+              entroProcedimiento = true;
             }
           }
         }
 
+        if (!entroProcedimiento){
+          this.allSelect = true;
+          for (var data4 of this.dataTable4) {
+            data4.rel = 1;
+            data4.state = 'new';
+          }
+        }
 
+
+        this.dataTable4 = [... this.dataTable4];
         if (this.initialStateDataTable4) {
           this.initialDataTable4 = [];
           for (const data of this.dataTable4) {
@@ -919,7 +934,7 @@ export class Cumco020Component implements OnInit {
       }
 
       for (var data4 of this.initialDataTable4) {
-        if (data4.rel === 1) {
+        if (data4.rel === 1 && data4.state !== 'new') {
           const error = this.translate.instant('CUMCO020.MENSAJES.eliminarProcesoDependenciaError3',
             {
               proceso: this.selectedRowTable3.proceso.codigoNombre,
@@ -982,22 +997,27 @@ export class Cumco020Component implements OnInit {
   }
 
   rowSelectTable3() {
-    if (this.selectedRowTable3.state === 'new') {
+    if (this.selectedRowTable3.state === 'new' && this.selectedRowTable3.proceso.id !== '' && this.entrarMensaje) {
 
       const error = this.translate.instant('CUMCO020.MENSAJES.requerirGuardarRelacion',
         {
-          proceso: this.selectedRowTable3.codigoNombre,
+          proceso: this.selectedRowTable3.proceso.codigoNombre,
           organismo: this.seleccionDependenciaFilter.nombreCodigoGuion
         })
       this.showMessage("error", error, '');
-
     }
-    if (this.selectedRowTable3 && this.selectedRowTable3.state !== 'new') {
+    if (this.selectedRowTable3 && this.selectedRowTable3.state !== 'new' && this.selectedRowTable3.state !== 'edit') {
       this.initialStateDataTable4 = true;
       this.subscribeGetRelacionProcedimientoDependencia2('?idDependencia=' + String(this.seleccionDependenciaFilter.id));
     } else {
       this.dataTable4 = [];
     }
+    this.entrarMensaje = true;
+  }
+
+  pruebaOnselect(){
+    this.entrarMensaje = false;
+    this.editedTable3('');
   }
 
   // Eventos ONCHANGE en CHECKBOX -- Eventos ONCHANGE en CHECKBOX
@@ -1026,7 +1046,7 @@ export class Cumco020Component implements OnInit {
     else {
       var names = ''
       for (var data of this.dataTable4) {
-        if (data.response.isDependenciaRadciado === 1 && data.response.isProcedimientoRadciado === 1) {
+        if (data.response.isRelProcDepRadciado === 1 || data.response.isProcedimientoRadciado === 1) {
           names = names + "\" " + data.porcedimiento.codigoNombre + "\", "
         }
         else {
@@ -1053,10 +1073,11 @@ export class Cumco020Component implements OnInit {
   }
 
   onChageProcesoRow(rowIndex) {
-    if (this.dataTable4[rowIndex].response.isDependenciaRadciado === 1 && this.dataTable4[rowIndex].response.isProcedimientoRadciado === 1) {
+    if (this.dataTable4[rowIndex].response.isRelProcDepRadciado === 1 || this.dataTable4[rowIndex].response.isRelProcDepBorrador === 1) {
 
       this.dataTable4[rowIndex].rel = 1;
       this.dataTable4[rowIndex].rel = true;
+
       this.dataTable4[rowIndex].state = 'noedit';
       const error = this.translate.instant('CUMCO020.MENSAJES.eliminarProcedimientoDependenciaError2',
         {
@@ -1064,6 +1085,7 @@ export class Cumco020Component implements OnInit {
           organismo: this.seleccionDependenciaFilter.nombreCodigoGuion
         })
       this.showMessage2("error", error, '');
+      this.dataTable4 = [...this.dataTable4];
 
     }
     else if (this.dataTable4[rowIndex].rel === 1 && this.dataTable4[rowIndex].id == '') {
@@ -1077,6 +1099,10 @@ export class Cumco020Component implements OnInit {
     }
     else if (this.dataTable4[rowIndex].rel === 1 && this.dataTable4[rowIndex].id !== '') {
       this.dataTable4[rowIndex].state = 'noedit';
+    }
+
+    if(this.dataTable4[rowIndex].rel === 0){
+      this.allSelect = false;
     }
 
     //this.editedTable4('');
@@ -1100,6 +1126,12 @@ export class Cumco020Component implements OnInit {
       else if (this.dataTable1[_i].nombre.trim() === '') {
         const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
           { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO020.TABLA1.headerTabla2') });
+        this.showMessage('error', error, '');
+        return false;
+      }
+      else if (this.dataTable1[_i].descripcion.trim() === '') {
+        const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO020.TABLA1.headerTabla3') });
         this.showMessage('error', error, '');
         return false;
       }
@@ -1180,6 +1212,12 @@ export class Cumco020Component implements OnInit {
       else if (this.dataTable2[_i].nombre.trim() === '') {
         const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
           { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO020.TABLA2.headerTabla3') });
+        this.showMessage2('error', error, '');
+        return false;
+      }
+      else if (this.dataTable2[_i].descripcion.trim() === '') {
+        const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO020.TABLA2.headerTabla4') });
         this.showMessage2('error', error, '');
         return false;
       }
@@ -1379,209 +1417,91 @@ export class Cumco020Component implements OnInit {
 
   buildJson1(): any {
 
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "codigo",
-        "type": "input",
-        "required": "true"
-      },
-      {
-        "name": "nombre",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "descripcion",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "activo",
-        "type": "input",
-        "required": "false"
+    var dataSend = [];
+    for(var data1 of this.dataTable1){
+      if (data1.state !== 'noedit'){
+        dataSend.push( {
+          id: data1.id,
+          descripcion: data1.descripcion,
+          codigo: data1.codigo,
+          activo: data1.activo,
+          nombre: data1.nombre,
+          state: data1.state
+        });
+
       }
-    ];
-    let features = [];
+    }
 
-    this.dataTable1.forEach(data => {
-      features.push({
-        attributes: {
-          "id": data.id,
-          "codigo": data.codigo,
-          "nombre": data.nombre,
-          "descripcion": data.descripcion,
-          "activo": data.activo
-        },
-        "state": data.state
-      })
-
-    })
-    return {
-      "grd_ProcesoSGS": JSON.stringify({
-        fields,
-        features
-      })
-    };
+    return(dataSend);
 
 
   }
 
+
   buildJson2(): any {
 
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idProceso",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "codigo",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "nombre",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "descripcion",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "activo",
-        "type": "input",
-        "required": "false"
+    var dataSend = [];
+    for(var data2 of this.dataTable2){
+      if (data2.state !== 'noedit'){
+        dataSend.push( {
+          id: data2.id,
+          descripcion: data2.descripcion,
+          codigo: data2.codigo,
+          activo: data2.activo,
+          nombre: data2.nombre,
+          idProceso: data2.idProceso,
+          state: data2.state
+        });
+
       }
-    ];
-    let features = [];
+    }
 
-    this.dataTable2.forEach(data => {
-      features.push({
-        attributes: {
-          "id": data.id,
-          "idProceso": data.idProceso,
-          "codigo": data.codigo,
-          "nombre": data.nombre,
-          "descripcion": data.descripcion,
-          "activo": data.activo
-        },
-        "state": data.state
-      })
-
-    })
-    return {
-      "grd_ProcedimientoSGC": JSON.stringify({
-        fields,
-        features
-      })
-    };
+    return(dataSend);
 
 
   }
 
   buildJson3(): any {
 
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idProceso",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idDependencia",
-        "type": "input",
-        "required": "false"
+    var dataSend = [];
+    for(var data3 of this.dataTable3){
+      if (data3.state !== 'noedit'){
+        dataSend.push( {
+          id: data3.id,
+          idProceso: data3.proceso.id,
+          dependencia: {id: this.seleccionDependenciaFilter.id},
+          state: data3.state
+        });
+
       }
-    ];
-    let features = [];
+    }
 
-    this.dataTable3.forEach(data => {
-      features.push({
-        attributes: {
-          "id": data.id,
-          "idProceso": data.proceso.id,
-          "idDependencia": this.seleccionDependenciaFilter.id
-        },
-        "state": data.state
-      })
-
-    })
-    return {
-      "grd_RelacionProcesoDependencia": JSON.stringify({
-        fields,
-        features
-      })
-    };
+    return(dataSend);
 
 
   }
 
   buildJson4(): any {
 
-    var insertData = [];
+    var dataSend = [];
+    for(var data4 of this.dataTable4){
+      if (data4.state !== 'noedit'){
+        dataSend.push( {
+          id: data4.id,
+          idProcedimiento: data4.porcedimiento.id,
+          dependencia: {id: this.seleccionDependenciaFilter.id},
+          state: data4.state
+        });
 
-    for (var data4 of this.dataTable4) {
-      if (data4.state !== 'noedit') {
-        insertData.push(data4);
       }
     }
 
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idProceso",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "idDependencia",
-        "type": "input",
-        "required": "false"
-      }
-    ];
-    let features = [];
-
-    insertData.forEach(data => {
-      features.push({
-        attributes: {
-          "id": data.id,
-          "idProceso": data.porcedimiento.id, // se dejo como proceso
-          "idDependencia": this.seleccionDependenciaFilter.id
-        },
-        "state": data.state
-      })
-
-    })
-    return {
-      "grd_RelacionProcedimientoDependencia": JSON.stringify({
-        fields,
-        features
-      })
-    };
+    return(dataSend);
 
 
   }
+
+
 
   // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado
   // Metodos DETERMIANR COLOR FILA deacuerdo al estado -- Metodos DETERMIANR COLOR FILA deacuerdo al estado

@@ -68,6 +68,10 @@ export class Cumco017Component implements OnInit {
   nRowsTable2 = 15;
   pageTable2 = 0;
 
+  user: string;
+
+
+  re = RegExp("^([A-Z0-9_]{1,})$");
 
   ngOnInit() {
 
@@ -84,25 +88,34 @@ export class Cumco017Component implements OnInit {
 
     this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
 
+    if (JSON.parse(sessionStorage.getItem('session')) !== null){
+      this.user = JSON.parse(sessionStorage.getItem('session')).userInfo.CODFUN;
+      console.log('USER: ' + this.user);
+    }
+    else{
+      this.user = '';
+    }
+
   }
 
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
-
+ 
   subcribeSetColumns() {
     this.translate.get(['']).subscribe(translations => {
 
       this.cols1 = [
-        { field: 'rowIndex', header: '' },
-        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla0') },
-        { field: 'clasificacionInformacion.codigoNombre', header: this.translate.instant('CUMCO017.TABLA1.headerTabla1') },
-        { field: 'observacion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla2') }
+        { field: 'id', header: '' },
+        { field: 'codigo', header: this.translate.instant('CUMCO017.TABLA1.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla2'), required: true },
+        { field: 'clasificacionInformacion.codigoNombre', header: this.translate.instant('CUMCO017.TABLA1.headerTabla3'), required: true },
+        { field: 'observacion', header: this.translate.instant('CUMCO017.TABLA1.headerTabla4') }
       ];
 
       this.cols2 = [
-        { field: 'rowIndex', header: '' },
-        { field: 'codigo_tipo_radicado', header: this.translate.instant('CUMCO017.TABLA2.headerTabla0') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA2.headerTabla1') }
+        { field: 'id', header: '' },
+        { field: 'codigo_tipo_radicado', header: this.translate.instant('CUMCO017.TABLA2.headerTabla0'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO017.TABLA2.headerTabla1'), required: true }
       ];
     });
   }
@@ -186,9 +199,23 @@ export class Cumco017Component implements OnInit {
           this.showMessage(error, "error");
         }
         else{
-          this.initialStateTablae1 = true,
+          this.initialStateTablae1 = true;
+          let entro = false;
+          for (let data of this.dataTable1){
+            if (data.state === 'new' || data.state === 'edit'){
+              const error = this.translate.instant('CUMCO017.MENSAJES.guardarGrupoSeguridadMesagge',
+                      {descripcion: data.descripcion, clasificacion: data.clasificacionInformacion.codigoNombre });
+              this.showMessage(error, "success");
+              entro = true;
+              break;
+            }
+          }
+
+          if (!entro){
+            this.showMessage(this.translate.instant('CUMCO017.MENSAJES.exitoGuardar'), "success");
+          }
+
           this.subscribeGetGrupoSeguridad('');
-          this.showMessage(respuestaPost.message, "success");
           this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
         }
         
@@ -312,7 +339,7 @@ export class Cumco017Component implements OnInit {
       () => {                 // Fin del suscribe
         this.initialStateTablae2 = true,
         this.selectRadciadoFilter();
-        this.showMessage2(respuestaPost.message, "success");
+        this.showMessage2(this.translate.instant('CUMCO017.MENSAJES.guardarFuncionariosesagge'), "success");
         this.subscribeGetForestPropiedades('?nombre=corr.HabilitarEdicionClasifSeg');
       });
 
@@ -482,6 +509,11 @@ export class Cumco017Component implements OnInit {
                       {descripcion: this.selectionTable1.descripcion });
         this.showMessage(error, "error");
     }
+    else if (this.selectionTable1.isBorrador === 1 || this.selectionTable1.isBorrador === 1 ) {
+      const error = this.translate.instant('CUMCO017.MENSAJES.borrarGrupoSeguridadError',
+                      {grupoSeguridad: this.selectionTable1.descripcion });
+        this.showMessage(error, "error");
+    }
     else if (this.selectionTable1 && this.selectionTable1.state !== 'new') {
       this.dataTable1.find(row => row === this.selectionTable1).state = this.selectionTable1.state === 'delete' ? 'edit' : 'delete';
       this.editedTable1();
@@ -502,14 +534,14 @@ export class Cumco017Component implements OnInit {
       return
     }
     else{
-      this.subcribePostAsociarGrupoSeguridad(this.buildJson1());
+      //this.subcribePostAsociarGrupoSeguridad(this.buildJson1());
+      this.subcribePostAsociarGrupoSeguridad(this.buildJsonGS1());
     }
-    
   }
 
   onClickElminiarSelected1() {
     this.selectionTable1 = undefined;
-  } 
+  }
 
 
   onClickAgregar2() {
@@ -569,20 +601,33 @@ export class Cumco017Component implements OnInit {
   validarCamposVacios1(): any{
 
     for (var _i = 0; _i < this.dataTable1.length;_i++){
-
-      if (!this.dataTable1[_i].descripcion && this.dataTable1[_i].editable){
-        const error = this.translate.instant('CUMCO017.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO017.TABLA1.headerTabla0') });
-        this.showMessage(error, "error");
-        return false;
-      }
-      else if(!this.dataTable1[_i].clasificacionInformacion.id && this.dataTable1[_i].editable){
+      if(!this.dataTable1[_i].codigo){
         const error = this.translate.instant('CUMCO017.MENSAJES.campoFilaVacioError',
                       {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO017.TABLA1.headerTabla1') });
         this.showMessage(error, "error");
         return false;
       }
-      
+      else if (!this.dataTable1[_i].descripcion && this.dataTable1[_i].editable){
+        const error = this.translate.instant('CUMCO017.MENSAJES.campoFilaVacioError',
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO017.TABLA1.headerTabla2') });
+        this.showMessage(error, "error");
+        return false;
+      }
+      else if( (this.dataTable1[_i].clasificacionInformacion.id === undefined ||
+        this.dataTable1[_i].clasificacionInformacion.id === '')
+          && this.dataTable1[_i].editable !== 0){
+        const error = this.translate.instant('CUMCO017.MENSAJES.campoFilaVacioError',
+                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO017.TABLA1.headerTabla3') });
+        this.showMessage(error, "error");
+        return false;
+      }
+      else if (!this.re.test(this.dataTable1[_i].codigo) && this.dataTable1[_i].editable === 1 ){
+        const error = this.translate.instant('CUMCO017.MENSAJES.malExpresionCodigoError',
+                          { filaVacia: String(_i + 1),
+                            codigo: this.dataTable1[_i].codigo });
+        this.showMessage(error, "error");
+        return false;
+      }
     }
 
     return true;
@@ -593,10 +638,21 @@ export class Cumco017Component implements OnInit {
 
     for (var _i = 0; _i < this.dataTable1.length; _i++){
       for (var _k = _i+1; _k < this.dataTable1.length; _k++){
-        if (this.dataTable1[_k].descripcion.trim() === this.dataTable1[_i].descripcion.trim() &&
-          this.dataTable1[_k].clasificacionInformacion.id === this.dataTable1[_i].clasificacionInformacion.id){
+        if (this.dataTable1[_k].codigo.trim() === this.dataTable1[_i].codigo.trim() ||
+          this.dataTable1[_k].descripcion === this.dataTable1[_i].descripcion){
           const error = this.translate.instant('CUMCO017.MENSAJES.campoCodigoClasificacionRepetido',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable1[_k].descripcion, nombre: this.dataTable1[_k].clasificacionInformacion.nombre });
+                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), codigo: this.dataTable1[_k].codigo, descripcion: this.dataTable1[_k].descripcion });
+                      this.showMessage(error, "error");
+          return false;
+        }
+        else if (this.dataTable1[_k].clasificacionInformacion.id === this.dataTable1[_i].clasificacionInformacion.id &&
+          this.dataTable1[_k].clasificacionInformacion.id !== undefined && this.dataTable1[_i].clasificacionInformacion.id !== undefined &&
+          this.dataTable1[_k].clasificacionInformacion.id !== '' && this.dataTable1[_i].clasificacionInformacion.id !== '' &&
+          this.dataTable1[_i].state !== 'delete' && this.dataTable1[_k].state !== 'delete'){
+          const error = this.translate.instant('CUMCO017.MENSAJES.campoClasificacionRepetido',
+                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1),
+                        grupo: this.dataTable1[_k].clasificacionInformacion.codigoNombre ? this.dataTable1[_k].clasificacionInformacion.codigoNombre: '', 
+                        clasificacion: this.dataTable1[_i].descripcion });
                       this.showMessage(error, "error");
           return false;
         }
@@ -768,74 +824,49 @@ export class Cumco017Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
+  buildJsonGS1(){
+    var dataSend = [];
+    for(var data1 of this.dataTable1){
+      if (data1.state !== 'noedit'){
+        dataSend.push( {
+          id: data1.id,
+          descripcion: data1.descripcion,
+          codigo: data1.codigo,
+          clasificacionInformacion: data1.clasificacionInformacion,
+          observacion: data1.observacion,
+          usuario: this.user,
+          state: data1.state
+        });
 
-  buildJson1(): any{
-
-    let fields = [
-      {
-        "name": "id",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "codigo",
-        "type": "input",
-        "required": "true"
-      },
-      {
-        "name": "descripcion",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "id_grupo",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "observacion",
-        "type": "input",
-        "required": "false"
-      },
-      {
-        "name": "activo",
-        "type": "input",
-        "required": "true"
-      },
-      {
-        "name": "editable",
-        "type": "input",
-        "required": "false"
       }
-    ];
-    let features = [];
+    }
 
-    this.dataTable1.forEach(tipo => {
-      features.push( {
-        attributes: {
-          "id": tipo.id,
-          "codigo": this.generateCodigo(tipo.descripcion),
-          "descripcion": tipo.descripcion,
-          "id_grupo": tipo.clasificacionInformacion.id,
-          "observacion": tipo.observacion,
-          "activo": tipo.activo,
-          "editable": tipo.editable
-        },
-        "state": tipo.state
-      })
+    return(dataSend);
+  }
 
-    })
-    return {
-      "grd_grupoSeguridad": JSON.stringify({
-        fields,
-        features
-      })
-    };
 
+  buildJson2(): any{
+    var dataSend = [];
+    for(var data2 of this.dataTable2){
+      if (data2.state !== 'noedit'){
+        dataSend.push( {
+          id: data2.id,
+          idDependencia: data2.dependencia.id,
+          idFuncionario: data2.funcionario.id,
+          idGrupoSeguridad: data2.grupoSeguridad.id,
+          idRadicado: data2.radicado.id,
+
+          state: data2.state
+        });
+
+      }
+    }
+
+    return(dataSend);
 
   }
 
-  buildJson2(): any{
+  buildJson22(): any{
 
     let fields = [
       {

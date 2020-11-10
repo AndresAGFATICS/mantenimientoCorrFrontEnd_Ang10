@@ -2,7 +2,7 @@
     font-weight: bold;
   }
 
-  p-cellEditor {
+.p-cellEditor {
     word-break: break-all;
   }
 
@@ -10,3 +10,13 @@
   .ui-picklist-source-controls {
     display: none !important;
   }
+
+  .ui-table {
+    overflow-wrap: break-word
+  }
+
+  .table_button {
+    float:left;
+    margin-left: 2px;
+  }
+  

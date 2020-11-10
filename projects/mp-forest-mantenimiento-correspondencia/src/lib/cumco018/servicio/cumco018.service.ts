@@ -34,6 +34,9 @@ export class Cumco018Service extends GeneralService {
     return this.get('/forest/documentos/1.0.0/dependencia/lista' + getParameters);
   }
 
+  public getFuncionarioSuplente(getParameters: string) {
+    return this.get('/forest/sistema/1.0.0/funcionarios/dependenciaAsociados' + getParameters);
+  }
 
   public getEmpresaMensajeria(getParameters: string) {
     return this.get('/mnt-corr/1.0.0/EmpresaMensajeria' + getParameters);

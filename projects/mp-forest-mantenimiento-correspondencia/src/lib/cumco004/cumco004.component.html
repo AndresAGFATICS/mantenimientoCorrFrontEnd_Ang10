@@ -8,7 +8,7 @@
       <div class="ui-g-12">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon"><i class="pi pi-search" style="line-height: 1;"></i></span>
-          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field="codigoDescripcion" (focusout)="focusOutCargoFilter()" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
+          <p-autoComplete [(ngModel)]="textAutocompleteTipoDocumental" field="codigoDescripcion" (focusout)="focusOutCargoFilter('')" [suggestions]="codigoDescripcionList" (completeMethod)="search($event)"
            [dropdown]="true" placeholder="{{ 'CUMCO004.FILTROS.filtroTipoDocumentalPlaceHolder' | translate }}" ></p-autoComplete>
           <p-button icon="pi pi-times" (click)="onClicBorrarAutoComplete()"></p-button>
         </div>
@@ -18,7 +18,7 @@
     <p-messages [(value)]="msgs"></p-messages>
     
     <!-- Start Table -->
-    <p-table [columns]="cols" [value]="rows"
+    <p-table [columns]="cols" [value]="rows" [loading]="loading"
     [paginator]="true" [(rows)]="nRows" [rowsPerPageOptions]="nRowsOptions" [(first)]="pageTable1"
     selectionMode="single" [(selection)]="selectedRows" sortField="tipo_documental" >
     <!-- [scrollable]="true" scrollHeight="500px" > -->
@@ -35,7 +35,7 @@
         <div class="ui-helper-clearfix menu-sup-grid">
       <!-- Buttons -->
           <div class="button-sup-grid">
-            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarColumna()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onGuardarColumna()"></p-button>
           </div>
         </div>
       </ng-template>

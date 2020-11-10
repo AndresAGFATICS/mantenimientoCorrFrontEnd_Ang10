@@ -62,7 +62,7 @@ export class CUMCO010Component implements OnInit {
 
       this.columnasAdjuntos = [
         { field: 'rowIndex', header: this.translate.instant('CUMCO010.TABLA1.headerTabla0') },
-        { field: 'descripcion', header:this.translate.instant('CUMCO010.TABLA1.headerTabla1') },
+        { field: 'descripcion', header:this.translate.instant('CUMCO010.TABLA1.headerTabla1'), required: true },
         { field: 'activo', header:this.translate.instant('CUMCO010.TABLA1.headerTabla2') }
       ];
     });
@@ -366,6 +366,7 @@ export class CUMCO010Component implements OnInit {
     ];
     let features = [];
     this.rows.forEach(row => {
+      
       features.push({
         "attributes": {
           "descripcion": row.descripcion,
@@ -374,6 +375,7 @@ export class CUMCO010Component implements OnInit {
         },
         "state": row.state
       })
+    
     });
     return {
       "grd_motivos": JSON.stringify({

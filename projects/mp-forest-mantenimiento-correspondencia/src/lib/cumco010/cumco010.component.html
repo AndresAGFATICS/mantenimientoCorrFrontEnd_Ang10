@@ -35,9 +35,9 @@
       <ng-template pTemplate="caption">
         <div class="ui-helper-clearfix menu-sup-grid">
           <div class="button-sup-grid">
-            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="agregarClick()"></p-button>
-            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="eliminarClick()"></p-button>
-            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onGuardarConfiguracion()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="agregarClick()"></p-button>
+            <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="eliminarClick()"></p-button>
+            <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onGuardarConfiguracion()"></p-button>
           </div>
         </div>
       </ng-template>
@@ -46,7 +46,18 @@
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-            {{col.header}}
+            
+            <div *ngIf="col.required; else loggedOut">
+              <B>
+                <FONT COLOR="red">*</FONT>
+              </B>
+              {{col.header}}
+            </div>
+
+            <ng-template #loggedOut>
+              {{col.header}}
+            </ng-template>
+
             <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
           </th>
         </tr>

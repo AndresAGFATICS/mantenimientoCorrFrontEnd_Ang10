@@ -97,11 +97,11 @@
                   <!-- Buttons -->
                   <div class="button-sup-grid">
                     <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
-                      style="float:left; margin-left: 2px;" (click)="onClicAgregar()"></p-button>
+                      class="table_button" (click)="onClicAgregar()"></p-button>
                     <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
-                      style="float:left; margin-left: 2px;" (click)="onClicEliminar()"></p-button>
+                      class="table_button" (click)="onClicEliminar()"></p-button>
                     <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
-                      style="float:left; margin-left: 2px;" (click)="onClicGuardar()"></p-button>
+                      class="table_button" (click)="onClicGuardar()"></p-button>
                   </div>
                 </div>
               </ng-template>
@@ -110,7 +110,19 @@
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                    {{col.header}}
+
+                    <div *ngIf="col.required && !habilitarPlantilla; else loggedOut">
+                      <B>
+                        <FONT COLOR="red">*</FONT>
+                      </B>
+                      {{col.header}}
+                    </div>
+
+                    <ng-template #loggedOut>
+                      {{col.header}}
+                    </ng-template>
+
+
                     <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -289,8 +301,9 @@
           <p-messages [(value)]="msgs"></p-messages>
 
           <!-- Start Table 2 -->
-          <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true" [(rows)]="nRowsTable2" [(first)]="pageTable2"
-            [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowDocument">
+          <p-table [columns]="cols2" [value]="tablaDocumentos" [paginator]="true" [(rows)]="nRowsTable2"
+            [(first)]="pageTable2" [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single"
+            [(selection)]="selectedRowDocument">
 
             <!-- Table Caption 2 -->
             <ng-template pTemplate="caption">
@@ -298,11 +311,11 @@
                 <!-- Buttons 2 -->
                 <div class="button-sup-grid">
                   <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left"
-                    style="float:left; margin-left: 2px;" (click)="onClicAgregarComunicacion()"></p-button>
+                    class="table_button" (click)="onClicAgregarComunicacion()"></p-button>
                   <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left"
-                    style="float:left; margin-left: 2px;" (click)="onClicEliminarComunicacion()"></p-button>
+                    class="table_button" (click)="onClicEliminarComunicacion()"></p-button>
                   <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" iconPos="left"
-                    style="float:left; margin-left: 2px;" (click)="onClicGuardarComuniacion()"></p-button>
+                    class="table_button" (click)="onClicGuardarComuniacion()"></p-button>
                 </div>
               </div>
             </ng-template>
@@ -317,7 +330,19 @@
             <ng-template pTemplate="header" let-columns>
               <tr>
                 <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                  {{col.header}}
+
+                  <div *ngIf="col.required; else loggedOut">
+                    <B>
+                      <FONT COLOR="red">*</FONT>
+                    </B>
+                    {{col.header}}
+                  </div>
+
+                  <ng-template #loggedOut>
+                    {{col.header}}
+                  </ng-template>
+
+
                   <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                     ariaLabelDesc="Activate to sort in descending order"
                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -335,7 +360,7 @@
 
                     <div *ngSwitchCase="0"> {{rowIndex + 1}}</div>
 
-                    <div *ngSwitchCase="1">
+                    <div *ngSwitchCase="1" style="text-align: center">
                       <p-cellEditor style="text-align: center">
                         <ng-template pTemplate="input" style="text-align: center">
                           <input type="number" style="text-align: center" [(ngModel)]="row.codigo"

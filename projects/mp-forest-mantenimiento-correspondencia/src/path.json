@@ -4,7 +4,7 @@
         "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICUMCO001Module)"
     },
     {
-        "path": "mant-corr/configurar-plantillas", 
+        "path": "mant-corr/configurar-plantillas",
         "loadChildren": "() => import('../core/verdaccio-config.module').then(mod => mod.ICumco003Module)"
     },
     {

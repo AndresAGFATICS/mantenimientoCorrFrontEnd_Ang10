@@ -48,13 +48,13 @@
                             <!-- Buttons 1 -->
                             <div class="button-sup-grid">
                                 <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar1()">
+                                    iconPos="left" class="table_button" (click)="onClicAgregar1()">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar1()">
+                                    iconPos="left" class="table_button" (click)="onClicEliminar1()">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar1()">
+                                    iconPos="left" class="table_button" (click)="onClicGuardar1()">
                                 </p-button>
                             </div>
                         </div>
@@ -64,7 +64,16 @@
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}
+                                <div *ngIf="col.required; else loggedOut">
+                                    <B>
+                                      <FONT COLOR="red">*</FONT>
+                                    </B>
+                                    {{col.header}}
+                                  </div>
+                      
+                                  <ng-template #loggedOut>
+                                    {{col.header}}
+                                  </ng-template>
                                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                                     ariaLabelDesc="Activate to sort in descending order"
                                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -98,7 +107,7 @@
                                         <p-cellEditor>
                                           <ng-template pTemplate="input">
                                             <input type="text" [(ngModel)]="row.nombre" [disabled]="row.state === 'delete'"
-                                              (focusout)="editedTable1()" (keydown.enter)="editedTable1(rowIndex)" [maxlength]="100">
+                                              (focusout)="editedTable1()" (keydown.enter)="editedTable1(rowIndex)" [maxlength]="300">
                                           </ng-template>
                                           <ng-template pTemplate="output">
                                             {{row.nombre}}
@@ -184,13 +193,13 @@
                             <!-- Buttons 2 -->
                             <div class="button-sup-grid">
                                 <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar2()" [disabled]="selectedRowTable1 === undefined">
+                                    iconPos="left" class="table_button" (click)="onClicAgregar2()" [disabled]="selectedRowTable1 === undefined">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar2()" [disabled]="selectedRowTable1 === undefined">
+                                    iconPos="left" class="table_button" (click)="onClicEliminar2()" [disabled]="selectedRowTable1 === undefined">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar2()" [disabled]="selectedRowTable1 === undefined">
+                                    iconPos="left" class="table_button" (click)="onClicGuardar2()" [disabled]="selectedRowTable1 === undefined">
                                 </p-button>
                             </div>
                         </div>
@@ -200,7 +209,16 @@
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}
+                                <div *ngIf="col.required; else loggedOut">
+                                    <B>
+                                      <FONT COLOR="red">*</FONT>
+                                    </B>
+                                    {{col.header}}
+                                  </div>
+                      
+                                  <ng-template #loggedOut>
+                                    {{col.header}}
+                                  </ng-template>
                                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                                     ariaLabelDesc="Activate to sort in descending order"
                                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -241,7 +259,7 @@
                                         <p-cellEditor>
                                           <ng-template pTemplate="input">
                                             <input type="text" [(ngModel)]="row.nombre" [disabled]="row.state === 'delete'"
-                                              (focusout)="editedTable2()" (keydown.enter)="editedTable2(rowIndex)" [maxlength]="100">
+                                              (focusout)="editedTable2()" (keydown.enter)="editedTable2(rowIndex)" [maxlength]="300">
                                           </ng-template>
                                           <ng-template pTemplate="output">
                                             {{row.nombre}}
@@ -292,7 +310,7 @@
 
             <p-fieldset legend="{{ 'CUMCO020.pField3' | translate }}">
 
-                <p>{{ 'CUMCO020.FILTROS.filtroDependencia' | translate }}</p>
+                <p><FONT COLOR="red">*</FONT>{{ 'CUMCO020.FILTROS.filtroDependencia' | translate }}</p>
 
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -332,13 +350,13 @@
                             <!-- Buttons 3 -->
                             <div class="button-sup-grid">
                                 <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicAgregar3()" [disabled]="!seleccionDependenciaFilter">
+                                    iconPos="left" class="table_button" (click)="onClicAgregar3()" [disabled]="!seleccionDependenciaFilter">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicEliminar3()" [disabled]="!seleccionDependenciaFilter">
+                                    iconPos="left" class="table_button" (click)="onClicEliminar3()" [disabled]="!seleccionDependenciaFilter">
                                 </p-button>
                                 <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save"
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar3()" [disabled]="!seleccionDependenciaFilter">
+                                    iconPos="left" class="table_button" (click)="onClicGuardar3()" [disabled]="!seleccionDependenciaFilter">
                                 </p-button>
                             </div>
                         </div>
@@ -348,7 +366,16 @@
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                {{col.header}}
+                                <div *ngIf="col.required; else loggedOut">
+                                    <B>
+                                      <FONT COLOR="red">*</FONT>
+                                    </B>
+                                    {{col.header}}
+                                  </div>
+                      
+                                  <ng-template #loggedOut>
+                                    {{col.header}}
+                                  </ng-template>
                                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
                                     ariaLabelDesc="Activate to sort in descending order"
                                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
@@ -369,7 +396,7 @@
                                     <div *ngSwitchCase="1">
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
-                                                <p-autoComplete field="codigoNombre" (onSelect)="editedTable3(rowIndex)" (click)="onClickElminiarSelected3()"
+                                                <p-autoComplete field="codigoNombre" (onSelect)="pruebaOnselect(rowIndex)" (click)="onClickElminiarSelected3()"
                                                   [(ngModel)]="row.proceso" (focusout)="focusOutTablaProcesoTabla3(rowIndex)"
                                                   [suggestions]="suggestionsProcesoFilter" (completeMethod)="searchProcesoFilter($event)" [dropdown]="true" >
                                                 </p-autoComplete>
@@ -408,7 +435,7 @@
                                 [suggestions]="suggestionsProcedimientoFilter2" (completeMethod)="searchProcedimientoFilter2($event)"
                                 [dropdown]="true" (focusout)="focusOutProcedimientoFilter2()"
                                 (onSelect)="selectProcedimientoFilter2($event)"
-                                placeholder="{{ 'CUMCO020.FILTROS.filtroProcesoPlaceHolder' | translate }}">
+                                placeholder="{{ 'CUMCO020.FILTROS.filtroProcedimientoPlaceHolder' | translate }}">
                             </p-autoComplete>
                             <p-button icon="pi pi-times" (click)="onClicBorrarProcedimientoFilter2()"></p-button>
                         </div>
@@ -431,7 +458,7 @@
                             <!-- Buttons 4 -->
                             <div class="button-sup-grid">
                                 <p-button label="{{ 'BOTONESTABLA.guardar' | translate }}" icon="pi pi-save" 
-                                    iconPos="left" style="float:left; margin-left: 2px;" (click)="onClicGuardar4()" [disabled]="!selectedRowTable3 || selectedRowTable3.state === 'new'">
+                                    iconPos="left" class="table_button" (click)="onClicGuardar4()" [disabled]="!selectedRowTable3 || selectedRowTable3.state === 'new'">
                                 </p-button>
                             </div>
                         </div>
@@ -441,7 +468,7 @@
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th style="width: 3rem">
-                                <p-checkbox  (onChange)="onChageAll($event)"></p-checkbox>
+                                <p-checkbox  [(ngModel)]="allSelect" [binary]="true" (onChange)="onChageAll($event)"></p-checkbox>
                             </th>
                             <th> {{ 'CUMCO020.TABLA4.headerTabla1' | translate }} </th>
                         </tr>
@@ -456,15 +483,15 @@
                                 <div [ngSwitch]="i">
 
                                     <div *ngSwitchCase="0" style="text-align: center"> 
-                                        <p-checkbox name="groupname" [(ngModel)]="row.rel" [binary]="true" (ngModelChange)="row.rel = $event ? 1 : 0"
-                                        (onChange)="onChageProcesoRow(rowIndex)" ></p-checkbox>
-                                        
-                                        
+                                        <p-checkbox  [(ngModel)]="row.rel" 
+                                        [binary]="true" (ngModelChange)="row.rel = $event ? 1 : 0"
+                                        (onChange)="onChageProcesoRow(rowIndex)" >
+                                        </p-checkbox>
                                     </div>
 
                                     <div *ngSwitchCase="1">
 
-                                        <b *ngIf="row.response.isProcedimientoRadciado === 1 && row.response.isDependenciaRadciado === 1; else elseBlock" style="font-size:14px">{{row.porcedimiento.codigoNombre}}</b>
+                                        <b *ngIf="row.response.isRelProcDepBorrador === 1 || row.response.isRelProcDepRadciado === 1; else elseBlock" style="font-size:14px">{{row.porcedimiento.codigoNombre}}</b>
                                         <ng-template #elseBlock>
                                             {{row.porcedimiento.codigoNombre}}
                                         </ng-template>

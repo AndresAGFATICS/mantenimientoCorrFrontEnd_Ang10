@@ -27,9 +27,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 1 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar1()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar1()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar1()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar1()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar1()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar1()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -39,7 +39,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -109,9 +118,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 2 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar2()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar2()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar2()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar2()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar2()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar2()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -121,7 +130,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -192,9 +210,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 3 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar3()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar3()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar3()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar3()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar3()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar3()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -204,7 +222,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -282,9 +309,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 4 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar4()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar4()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar4()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar4()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar4()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar4()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -294,7 +321,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -378,9 +414,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 5 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar5()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar5()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar5()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar5()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar5()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar5()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -390,7 +426,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -460,9 +505,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 6 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar6()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar6()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar6()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar6()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar6()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar6()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -472,7 +517,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -542,9 +596,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 7 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar7()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar7()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar7()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar7()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar7()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar7()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -554,7 +608,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>
@@ -623,9 +686,9 @@
             <div class="ui-helper-clearfix menu-sup-grid">
               <!-- Buttons 8 -->
               <div class="button-sup-grid">
-                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickAgregar8()"></p-button>
-                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickEliminar8()"></p-button>
-                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" style="float:left; margin-left: 2px;" (click)="onClickGuardar8()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.agregar' | translate }}" icon="pi pi-plus" iconPos="left" class="table_button" (click)="onClickAgregar8()"></p-button>
+                <p-button label="{{ 'BOTONESTABLA.eliminar' | translate }}" icon="pi pi-minus" iconPos="left" class="table_button" (click)="onClickEliminar8()"></p-button>
+                <p-button icon="pi pi-save" label="{{ 'BOTONESTABLA.guardar' | translate }}" iconPos="left" class="table_button" (click)="onClickGuardar8()"></p-button>
               </div>
             </div>
           </ng-template>
@@ -635,7 +698,16 @@
           <ng-template pTemplate="header" let-columns>
             <tr>
               <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                {{col.header}}
+                <div *ngIf="col.required; else loggedOut">
+                  <B>
+                    <FONT COLOR="red">*</FONT>
+                  </B>
+                  {{col.header}}
+                </div>
+    
+                <ng-template #loggedOut>
+                  {{col.header}}
+                </ng-template>
                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
               </th>
             </tr>

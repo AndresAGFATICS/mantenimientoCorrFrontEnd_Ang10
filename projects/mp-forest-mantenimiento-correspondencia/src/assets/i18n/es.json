@@ -6,7 +6,7 @@
   },
   
   "CUMCO001": {
-      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicadooo",
+      "titulo": "Asignar Responsable para Atención Directa de Tipo de Radicado",
       "TipoRadicado": "Tipo de Radicado",
       "FILTROS": {
           "filtroTipoRadicado": "Tipo de Radicado",
@@ -176,7 +176,7 @@
   
   "CUMCO006": {
       "titulo": "Configurar Horario Ventanilla Entrada",
-      "tituloTablaFestivos": "Configurar Anexos Físicos",
+      "tituloTablaFestivos": "Configurar Festivos Para Radicación",
       "FILTROS": {
           "filtroCanalConfigurar": "Canal a Configurar",
           "filtroCanalConfigurarPlaceHolder": "Seleccione un filtro",
@@ -356,7 +356,7 @@
       "pestana11" : "Configurar Características Personas Jurídicas",
       "pestana12" : "Configurar Características Personas Naturales",
       "pestana21" : "Grupo Étnico",
-      "pestana22" : "Nivel de Ecolaridad",
+      "pestana22" : "Nivel de Escolaridad",
       "pestana23" : "Sexo",
       "pestana24" : "Estado Civil",
       "pestana25" : "Categoría de Discapacidad",
@@ -375,7 +375,7 @@
           "campoCalsificacionRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Calsificación de la Organización\" \"{{calsificacion}}\" se encuentra repetida, porfavor validar",
           "campoActividadEconomicaRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Actividad Economica\" \"{{actividad}}\" se encuentra repetida, porfavor validar",
           "campoGrupoEtnicoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El \"Grupo Étnico\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
-            "campoGrupoEtnicoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código \"{{codigo}}\" en \"Grupo Étnico\" se encuentra repetido, porfavor validar",
+          "campoGrupoEtnicoCodigoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El código \"{{codigo}}\" en \"Grupo Étnico\" se encuentra repetido, porfavor validar",
           "campoNivelEscolaridadRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Nivel de Escolaridad\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoSexoRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Sexo\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
           "campoEstadoCivilRepetidoError": "Filas {{filaRep1}} y {{filaRep2}}: El (la) característica \"Estado Civil\" \"{{caracteristica}}\" se encuentra repetida, porfavor validar",
@@ -464,8 +464,9 @@
         "requisitoRepetidosError": "Filas {{filaRep1}} y {{filaRep2}}: El requisito  \"{{descripcion}}\" ya se encuentra creado",
         "requisitoRadicadoAsociado": "No se puede modificar el requisito \"{{requisito}}\" ya que se encuentra asociado al tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\", los cuales están vinculados a un documento radicado",
         "requisitoRadicadoAsociado2": "No es posible eliminar el requisito \"{{requisito}}\"  ya que está asociado a un tipo y subtipo de radicado y/o se encuentra asociado a un documento radicado en el sistema",
-        "requisitoRadicadoAsociado3": "No es posible eliminar la relación del requisito \"{{requisito}}\" con el tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\" porque existen documentos radicados asociados a esta configuración"
-  
+        "requisitoRadicadoAsociado3": "No es posible eliminar la relación del requisito \"{{requisito}}\" con el tipo de radicado \"{{tipoRadicado}}\" y subtipo de radicado \"{{subRadicado}}\" porque existen documentos radicados asociados a esta configuración",
+        "campoArchivoVacioError": "Fila {{filaVacia}}: El formulario del requisito \"{{requisito}}\" que está intentando subir no corresponde al formato configurado para el mismo \"{{formato}}\", por favor vuelva a intentarlo",    
+        "fileExtVacio": "Para el requisito \"{{requisito}}\" es requerido que ingrese un formato de archivo, antes de cargar el formulario correspondiente al requisito, por favor vuelva a intentarlo"
     },
     "TABLA1": {
         "headerTabla0": "",
@@ -500,7 +501,8 @@
       "headerTabla2": "Descripcion",
       "headerTabla3": "Activo",
       "headerTabla4": "Requerido",
-      "headerTabla5": "Cargar Formulario (Ventanilla Virtual)"
+      "headerTabla5": "Formato de Archivo (Ventanilla Virtual)",
+      "headerTabla6": "Cargar Formulario (Ventanilla Virtual)"
     },
     "TABLA5": {
       "headerTabla0": "Requisito"
@@ -594,6 +596,7 @@
     "MENSAJES": {
         "guardar":"Guardar",
         "exito":"Operación de guardar ejecutada con exito",
+        "exitoGuardar":"Operación Ejecutada con exito",
         "falloGuardar":"Se ha presentado un error al guardar",
         "errorGuardar": "Diligenciar todos los campos requeridos",
         "eliminarRutaError": "La ruta \"{{ruta}}\" ya se encuentra asociado, no puede ser eliminado: debido a que se encuentra asociada a uno o más borradores y/o radicados en el sistema",
@@ -631,7 +634,7 @@
   
   "CUMCO019": {
     "titulo": "Filtros",
-    "tipoComunicacion": "Tipos de Comuniación Oficial",
+    "tipoComunicacion": "Tipos de Comunicación Oficial",
     "configurarFirmantes": "Configurar firmantes por tipo de Comunicación",
     "FILTROS": {
       "filtroComunicacion": "Tipo de comunicación Oficial:",
@@ -708,7 +711,7 @@
       "TABLA2": {
           "headerTabla1": "Proceso",
           "headerTabla2": "Código Procedimiento",
-          "headerTabla3": "Nombre Procedimiento Documental",
+          "headerTabla3": "Nombre Procedimiento",
           "headerTabla4": "Descripción",
           "headerTabla5": "Activo"
       },

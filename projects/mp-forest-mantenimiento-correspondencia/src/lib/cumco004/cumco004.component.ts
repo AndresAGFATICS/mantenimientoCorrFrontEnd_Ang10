@@ -35,6 +35,7 @@ export class CUMCO004Component implements OnInit {
   nRows = 15;
   rowInd = 0;
   pageTable1 = 0;
+  loading: boolean;
 
   // Headers de la tabla
   cols: any[];
@@ -49,6 +50,9 @@ export class CUMCO004Component implements OnInit {
 
    // Variables para los mensajes
    msgs: Message[] = [];
+
+   page = 1;
+   size = 250;
 
   constructor(private codigoDescripcionService: CodigoDescripcionService,
     private messageService: MessageService,
@@ -67,7 +71,7 @@ export class CUMCO004Component implements OnInit {
     this.translate.setDefaultLang('es');
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumns();
-    this.subscribeDependenciaTabla();
+    this.subscribeDependenciaTabla('?activo=1&page=' + String(this.page) + '&size=' + String(this.size));
     this.subscribeAccionDocumental();
   }
 
@@ -103,10 +107,14 @@ export class CUMCO004Component implements OnInit {
       });
   }
 
-  subscribeDependenciaTabla() {
+  subscribeDependenciaTabla(parameters) {
+    if (this.page === 1) {
+      this.rows = [];
+      this.informacionTabla = [];
+    }
+    this.loading = true;
     let response: any[];
-    
-    this.codigoDescripcionService.getConfigurarAccionTipoDocumental().subscribe(
+    this.codigoDescripcionService.getConfigurarAccionTipoDocumental(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         response = getRes;
         return getRes;
@@ -115,9 +123,7 @@ export class CUMCO004Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        this.rows = [];
-        this.dataFilter = [];
-        this.rowInd = 0;
+
         for (const data of response) {
           if (data.id !== undefined){
             if (data.accionDocumental === undefined){
@@ -126,20 +132,33 @@ export class CUMCO004Component implements OnInit {
             else{
               this.rows.push({ ...data, state: 'noedit'} );
             }
-              
-            this.dataFilter.push(data.tipoDocumental);
           }
         }
 
-        if (this.initiaLState){
-          this.informacionTabla = [];
-          for (const data of this.rows) {
-            this.informacionTabla.push(JSON.parse(JSON.stringify(data)));
-          }
-          this.initiaLState = false;
+        if (response.length >= this.size) {
+          this.page = this.page + 1;
+          //if (parameters === '') {
+            this.subscribeDependenciaTabla('?activo=1&page=' + String(this.page) + '&size=' + String(this.size));
+          //}
+          //else {
+          //  this.subcribeServiceEjeTematico(parameters + '&page=' + String(this.page) + '&size=' + String(this.size));
+          //}
+        } else {
+            if (this.initiaLState){
+              this.informacionTabla = [];
+              for (const data of this.rows) {
+                this.informacionTabla.push(JSON.parse(JSON.stringify(data)));
+              }
+              this.initiaLState = false;
+            }
+          this.page = 1;
+          this.rows = [...this.rows];
+          this.loading = false
+          return;
         }
 
-        console.log(this.rows);
+
+
 
     })
 
@@ -161,7 +180,7 @@ export class CUMCO004Component implements OnInit {
       () => {                 // Fin del suscribe
         const exito = this.translate.instant('CUMCO004.MENSAJES.exito');
         this.initiaLState = true;
-        this.subscribeDependenciaTabla();
+        this.subscribeDependenciaTabla('?activo=1&page=' + String(this.page) + '&size=' + String(this.size));
         this.showMessage(exito, "success");
 
       });
@@ -184,10 +203,10 @@ export class CUMCO004Component implements OnInit {
         listaAcciones2 = [];
 
         for(var accion of this.listaAcciones){
-          if(accion.accion == 'Reactivar Términos Trámite' ||
-             accion.accion == 'Suspender Términos Trámite' ||
-             accion.accion == 'Finalizar Trámite' ||
-             accion.accion == 'Trasladar'){
+          if(accion.codigo == 'REA' ||
+             accion.codigo == 'SUS' ||
+             accion.codigo == 'FIN' ||
+             accion.codigo == 'TRA'){
 
               listaAcciones2.push(accion);
 
@@ -198,6 +217,22 @@ export class CUMCO004Component implements OnInit {
       });
   }
 
+  subscribeGetTiopoDocumental(getParameters = '') {
+    this.codigoDescripcionService.getTipoDocumental(getParameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        this.codigoDescripcionList = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        const error = this.translate.instant('CUMCO004.MENSAJES.falloObtenerAcionesDocumentales');
+        this.showMessage(error, "error");
+      },
+      () => {                 // Fin del suscribe
+      });
+  }
+
   
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
@@ -205,16 +240,7 @@ export class CUMCO004Component implements OnInit {
   search(event) {
     //this.subscribeDependenciaLista(event.query, '1'); 
 
-    let filtered: any[] = [];
-    let query = event.query;
-    for (let i = 0; i < this.dataFilter.length; i++) {
-      let data = this.dataFilter[i];
-      if (data.codigoDescripcion.toLowerCase().search(query.toLowerCase()) !== -1) {
-        filtered.push(data);
-      }
-    }
-
-    this.codigoDescripcionList = filtered;
+    this.subscribeGetTiopoDocumental('?activo=1&codigoDescripcion=' + event.query);
 
   }
 
@@ -388,7 +414,8 @@ export class CUMCO004Component implements OnInit {
   buildJson(): any {
     let features = []
     this.rows.forEach(row => {
-      // 'accionDocumental.id': row.accion.id
+      if (row.state === 'edit' || row.state === 'new' || row.state === 'delete' ) {
+
       let ans = {
         attributes: {
           'id': row.id,
@@ -418,6 +445,7 @@ export class CUMCO004Component implements OnInit {
       }
 
       features.push(ans);
+    }
 
     })
 

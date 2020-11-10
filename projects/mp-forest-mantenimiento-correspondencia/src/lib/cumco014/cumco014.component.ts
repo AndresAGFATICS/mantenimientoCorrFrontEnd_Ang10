@@ -97,6 +97,8 @@ export class CUMCO014Component implements OnInit {
   rowIndexFile: number;
   nombreInicial: string;
   pageTable4 = 0;
+  fileExtesionsData: any[];
+  suggestionsFileExtesionsData: any[];
   
 
 
@@ -140,10 +142,12 @@ export class CUMCO014Component implements OnInit {
     this.initialDataTable4=[];
     this.page = 1;
     this.subscribeGetRequisito('');
+
+    this.subscribeGetFileExtension('?activo=1');
   }
 
   
-
+  
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
@@ -153,15 +157,15 @@ export class CUMCO014Component implements OnInit {
     this.cols = [
       { field: 'id', header: this.translate.instant('CUMCO014.TABLA1.headerTabla0') },
       { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla1') },
-      { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla2') },
-      { field: 'categoria.codigoDescripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla3') },
+      { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla2'), required: true },
+      { field: 'categoria.codigoDescripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla3'), required: true },
       { field: 'activo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla4') }
     ];
     this.cols2 = [
       { field: 'id', header: this.translate.instant('CUMCO014.TABLA2.headerTabla1') },
       { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA2.headerTabla2') },
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA2.headerTabla3') },
-      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA2.headerTabla4') },
+      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA2.headerTabla3'), required: true },
+      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA2.headerTabla4'), required: true },
       { field: 'item_4', header: this.translate.instant('CUMCO014.TABLA2.headerTabla5') },
       { field: 'item_5', header: this.translate.instant('CUMCO014.TABLA2.headerTabla6') },
       { field: 'item_6', header: this.translate.instant('CUMCO014.TABLA2.headerTabla7') },
@@ -173,21 +177,22 @@ export class CUMCO014Component implements OnInit {
     ];
     this.cols3 = [
       { field: 'rowIndex', header: this.translate.instant('CUMCO014.TABLA3.headerTabla0')},
-      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA3.headerTabla1') },
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA3.headerTabla2') },
+      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA3.headerTabla1'), required: true },
+      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA3.headerTabla2'), required: true },
       { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA3.headerTabla3') }
     ];
     this.cols4 = [
       { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla0')},
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA4.headerTabla1') },
+      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA4.headerTabla1'), required: true },
       { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA4.headerTabla2') },
       { field: 'activo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla3') },
       { field: 'requerido', header: this.translate.instant('CUMCO014.TABLA4.headerTabla4') },
-      { field: 'idArchivo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla5') }
+      { field: 'fileExtension.codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla5') },
+      { field: 'idArchivo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla6') }
     ];
     this.cols5 = [
       { field: 'rowIdenx', header: ''},
-      { field: 'requisito.nombre', header: this.translate.instant('CUMCO014.TABLA5.headerTabla0')}
+      { field: 'requisito.nombre', header: this.translate.instant('CUMCO014.TABLA5.headerTabla0'), required: true}
     ];
 
     });
@@ -503,7 +508,7 @@ export class CUMCO014Component implements OnInit {
   subscribeGetRequisito(parameters: any) {
     if (this.page === 1) {
       this.dataTable4 = [];
-      this.initialData1 = [];
+      this.initialDataTable4 = [];
     }
     this.loading = true;
     var responseData: any[]; 
@@ -522,12 +527,12 @@ export class CUMCO014Component implements OnInit {
         
         for (var data4 of responseData){
           if(data4.idArchivo){
-            this.dataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre } );
-            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre } );
+            this.dataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''} } );
+            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''} } );
           }
           else{
-            this.dataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre} );
-            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre} );
+            this.dataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''}, nombreArchivo: '' } );
+            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''}, nombreArchivo: ''} );
           }
         }
   
@@ -679,6 +684,7 @@ export class CUMCO014Component implements OnInit {
         this.showMessage(respuesta.message, "success");
         this.page = 1;
         this.subscribeGetRequisito('');
+        this.subscribeGetFileExtension('?activo=1');
         
       });
 
@@ -769,6 +775,22 @@ export class CUMCO014Component implements OnInit {
   }
 
 
+  subscribeGetFileExtension(parameters: any) {
+    var responseData: any[]; 
+    this.cumco014Service.getFileExtension(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        this.fileExtesionsData = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        
+      });
+  }
+
+
 
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
   // Eventos SEARCH de los autocompletables -- Eventos SEARCH de los autocompletables
@@ -792,6 +814,22 @@ export class CUMCO014Component implements OnInit {
     this.seleccionTablaSubRadicado = undefined;
     this.subscribeGetTramite('?activo=1' + '&codigoDescripcion=' + event.query);
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
+  }
+
+
+  searchFileExtension4(event) {
+    this.selectionTable4 = undefined;
+
+    let filtered: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.fileExtesionsData.length; i++) {
+      let data = this.fileExtesionsData[i];
+      if (data.codigo.toLowerCase().search(query.toLowerCase()) !== -1) {
+        filtered.push(data);
+      }
+    }
+
+    this.suggestionsFileExtesionsData = filtered;
   }
 
   searchSubRadicado5(event) {
@@ -1014,6 +1052,10 @@ export class CUMCO014Component implements OnInit {
     this.seleccionTablaSubRadicado = undefined;
   }
 
+  onClickElminiarSelected4(event) {
+    this.selectionTable4 = undefined;
+  }
+
 
 
   onClicAgregar3(){
@@ -1074,6 +1116,7 @@ export class CUMCO014Component implements OnInit {
       activo: 1,
       requisitos: 0,
       state: 'new',
+      fileExtension: {id: ''},
       token: '',
       nombreInicial: ''
     }
@@ -1172,6 +1215,8 @@ export class CUMCO014Component implements OnInit {
     this.seleccionSubRadicado5 = undefined;
     this.dataTable5 = [];
   }
+
+
 
   // Metodos Para VALIDACIONES -- Metodos Para VALIDACIONES
   // Metodos Para VALIDACIONES -- Metodos Para VALIDACIONES
@@ -1323,7 +1368,17 @@ export class CUMCO014Component implements OnInit {
                       {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA4.headerTabla1') });
         this.showMessage(error, "error");
         return false;
-      }      
+      }
+      if(this.dataTable4[_i].fileExtension.id !== undefined && this.dataTable4[_i].fileExtension.id !== ''){
+        if( this.dataTable4[_i].nombreArchivo.search('.' + this.dataTable4[_i].fileExtension.codigo) === -1 && this.dataTable4[_i].nombreArchivo !== '' && this.dataTable4[_i].nombreArchivo !== undefined){
+          const error = this.translate.instant('CUMCO014.MENSAJES.campoArchivoVacioError',
+                      {filaVacia: String(_i + 1), requisito: this.dataTable4[_i].nombre ? this.dataTable4[_i].nombre: '',
+                      formato: this.dataTable4[_i].fileExtension.codigo  });
+          this.showMessage(error, "error");
+          return false;
+        }
+
+      } 
     }
     return true;
   }
@@ -1468,6 +1523,7 @@ export class CUMCO014Component implements OnInit {
     ];
     let features = [];
     this.tablaTipoRadicado.forEach(tipo => {
+      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete' ) {
       features.push( {
         attributes: {
          "id": tipo.id,
@@ -1488,6 +1544,7 @@ export class CUMCO014Component implements OnInit {
        },
        "state": tipo.state
       })
+    }
 
     })
     return {
@@ -1666,6 +1723,26 @@ export class CUMCO014Component implements OnInit {
   }
 
   buildJsonTabla3(){
+    var dataSend = [];
+    for(var data3 of this.dataTable3){
+      if (data3.state !== 'noedit'){
+        dataSend.push( {
+          id: data3.id,
+          descripcion: data3.descripcion,
+          codigo: data3.codigo,
+          activo: data3.activo,
+          requisitos: data3.requisitos,
+          editable: data3.editable,
+          state: data3.state
+        });
+
+      }
+    }
+
+    return(dataSend);
+  }
+
+  buildJsonTabla33(){
 
     let fields = [
         {
@@ -1789,6 +1866,7 @@ export class CUMCO014Component implements OnInit {
           codigo: data4.codigo,
           state: data4.state,
           token: data4.token,
+          idFileExt: data4.fileExtension.id ? data4.fileExtension.id: 0,
           codfile: data4.idArchivo
         });
 
@@ -2012,8 +2090,37 @@ export class CUMCO014Component implements OnInit {
 
   // Subir archivo
 
+  revizarExt4(rowIndex){
+    if(this.dataTable4[rowIndex].fileExtension.codigo === '' || this.dataTable4[rowIndex].fileExtension.codigo === undefined){
+      this.dataTable4[rowIndex].fileExtension = {id: ''}
+      this.dataTable4[rowIndex].nombreArchivo = ''
+      this.dataTable4[rowIndex].idArchivo = 0
+      this.dataTable4[rowIndex].token = ''
+    }
+    this.editedTable4();
+   
+  }
+
+  VerificarFileExt(row){
+    if(row.fileExtension.id === '' || row.fileExtension.id === undefined){
+      const error = this.translate.instant('CUMCO014.MENSAJES.fileExtVacio', 
+                                            {requisito: row.nombre ? row.nombre : ''});
+      this.showMessage(error, "error");
+
+    }
+  }
 
   cargarArchivo(event,rowIndex){
+    if(event.target.files[0].name.search('.' + this.dataTable4[rowIndex].fileExtension.codigo) === -1){
+
+      const error = this.translate.instant('CUMCO014.MENSAJES.campoArchivoVacioError',
+                      {filaVacia: String(rowIndex + 1), requisito: this.dataTable4[rowIndex].nombre ? this.dataTable4[rowIndex].nombre: '',
+                      formato: this.dataTable4[rowIndex].fileExtension.codigo  });
+      this.showMessage(error, "error");
+
+      return;
+
+    }
 
     this.file = event.target.files[0];
 

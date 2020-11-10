@@ -105,4 +105,9 @@ export class Cumco014Service extends GeneralService {
   }
 
 
+  // Table 4 Services
+  public getFileExtension(parameters: string) {
+    return this.get('/forest/documentos/1.0.0/extensionFile' + parameters ); // ?page=1&size=1&idRequisito=41&idSubRadicado=2'
+  }
+
 }
