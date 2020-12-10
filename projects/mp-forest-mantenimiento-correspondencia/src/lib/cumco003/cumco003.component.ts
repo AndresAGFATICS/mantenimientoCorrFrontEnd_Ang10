@@ -224,8 +224,16 @@ export class Cumco003Component implements OnInit {
       (getRes: any[]) => {     // Inicio del suscribe
         this.tablaDocumentos = [];
         getRes.forEach(res => {
-          this.tablaDocumentos.push(res);
+          if (res.claseDocumental !== undefined){
+            this.tablaDocumentos.push(res);
+          }
+          else{
+            this.tablaDocumentos.push({...res, claseDocumental: {descripcion: ''} });
+          }
+          
         })
+
+
         this.tablaDocumentos.forEach(documento => {
           documento.state = 'noedit'
         })
@@ -311,7 +319,6 @@ export class Cumco003Component implements OnInit {
           this.initialStateRows = false;
         }
       });
-      
   }
 
   subscribeClaseDocumental(codigo: any) {
@@ -973,7 +980,8 @@ export class Cumco003Component implements OnInit {
 
     for (var _i = 0; _i < this.tablaDocumentos.length; _i++) {
 
-      if (this.tablaDocumentos[_i].codigo === '' || this.tablaDocumentos[_i].codigo === String.fromCharCode(127)) {
+      if (this.tablaDocumentos[_i].codigo === '' || this.tablaDocumentos[_i].codigo === null
+          || this.tablaDocumentos[_i].codigo === undefined || this.tablaDocumentos[_i].codigo === String.fromCharCode(127)) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           {
             filaVacia: String(_i + 1),
@@ -985,7 +993,7 @@ export class Cumco003Component implements OnInit {
       else if (this.tablaDocumentos[_i].descripcion === '') {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           {
-            filaRep1: String(_i + 1),
+            filaVacia: String(_i + 1),
             campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla2')
           });
         this.showMessage("error", error, '');
@@ -994,7 +1002,7 @@ export class Cumco003Component implements OnInit {
       else if (this.tablaDocumentos[_i].claseDocumental.id === '' || this.tablaDocumentos[_i].claseDocumental.id === undefined) {
         const error = this.translate.instant('CUMCO003.MENSAJES.campoFilaVacioError',
           {
-            filaRep1: String(_i + 1),
+            filaVacia: String(_i + 1),
             campoVacio: this.translate.instant('CUMCO003.TABLA2.headerTabla3')
           });
         this.showMessage("error", error, '');

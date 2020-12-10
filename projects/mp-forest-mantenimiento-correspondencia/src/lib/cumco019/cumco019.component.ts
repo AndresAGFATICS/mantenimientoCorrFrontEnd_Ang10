@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { HostListener } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'app-cumco019',
   templateUrl: './cumco019.component.html',
   styleUrls: ['./cumco019.component.css'],
@@ -24,7 +25,7 @@ export class CUMCO019Component implements OnInit {
   selectedtipoComunicacion: any;
 
   cargoSuggestionsFilter: any[];
-  selectedCargoFilter: any; 
+  selectedCargoFilter: any;
 
   cols1: any[];
   dataTable1: any[];
@@ -46,7 +47,6 @@ export class CUMCO019Component implements OnInit {
   pageTable2 = 0;
 
 
-  
 
   constructor(private cumco019Service: Cumco019Service,
               private translate: TranslateService,
@@ -83,16 +83,27 @@ export class CUMCO019Component implements OnInit {
   }
 
   subscribeTablaDocumento(parameters: string) {
+    let getResponse;
     this.cumco019Service.getTablaDocumento(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
-        this.dataTable1 = getRes;
+        getResponse = getRes;
         return getRes;
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
+        this.dataTable1 = [];
+        for (const data of getResponse) {
+          if (data.claseDocumental){
+            this.dataTable1.push( data );
+          }
+          else{
+            this.dataTable1.push( { ...data, claseDocumental: {descripcion: ''} } );
+          }
+        }
+
         this.tipoComunicacionOptions = [];
         for (const data of this.dataTable1) {
           this.tipoComunicacionOptions.push(JSON.parse(JSON.stringify(data)));
@@ -172,7 +183,6 @@ export class CUMCO019Component implements OnInit {
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 
-  
 
   selectCargoFirmanteTabla2($event, rowIndex){
     this.dataTable1[rowIndex].cargo = event; 
@@ -220,7 +230,6 @@ export class CUMCO019Component implements OnInit {
     }
   }
 
- 
 
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
   // Eventos CLICK en Botones -- Eventos de CLICK en Botones
@@ -271,7 +280,6 @@ export class CUMCO019Component implements OnInit {
     else{
       this.subscribePostRelacionGrupoSeguridadRadicado(this.buildJsonRelacionTipoComunicacionCargo());
     }
-    
   }
 
   onClickElminiarSelected2(){

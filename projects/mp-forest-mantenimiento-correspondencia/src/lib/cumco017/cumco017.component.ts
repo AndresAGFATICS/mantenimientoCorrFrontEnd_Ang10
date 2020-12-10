@@ -175,7 +175,7 @@ export class Cumco017Component implements OnInit {
   subcribePostAsociarGrupoSeguridad(body: any){
     var respuestaPost
     this.cumco017Service.postAsociarGrupoSeguridad(body).subscribe(
-      
+
       (getRes: any) => {     // Inicio del suscribe
         respuestaPost = getRes;
         return getRes;
@@ -187,7 +187,7 @@ export class Cumco017Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         if (respuestaPost.message == 'La relación del medio de envío null con el canal null no puede ser eliminada: Se encuentra asociada a uno o más borradores y/o radicados en el sistema' ){
-          var detelteData: any;
+          let detelteData: any;
           this.dataTable2.forEach(element => {
             if (element.state === 'delete'){
               detelteData = element;
@@ -825,8 +825,8 @@ export class Cumco017Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
   buildJsonGS1(){
-    var dataSend = [];
-    for(var data1 of this.dataTable1){
+    let dataSend = [];
+    for(const data1 of this.dataTable1){
       if (data1.state !== 'noedit'){
         dataSend.push( {
           id: data1.id,
@@ -834,6 +834,7 @@ export class Cumco017Component implements OnInit {
           codigo: data1.codigo,
           clasificacionInformacion: data1.clasificacionInformacion,
           observacion: data1.observacion,
+          activo: data1.activo,
           usuario: this.user,
           state: data1.state
         });

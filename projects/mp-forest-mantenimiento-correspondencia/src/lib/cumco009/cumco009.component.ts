@@ -58,6 +58,9 @@ export class CUMCO009Component implements OnInit {
   pageTable2 = 0;
 
 
+  newCod = '';
+  codigos = [];
+
 
 
   constructor(private cumco009Service: Cumco009Service,
@@ -124,7 +127,7 @@ export class CUMCO009Component implements OnInit {
         this.showMessage(getError.error.message, "error");
       },
       () => {                 // Fin del suscribe
-        
+
         if (this.initialStateData1) {
           this.initialData1 = [];
           for (const data of this.tablaPersonas) {
@@ -153,6 +156,10 @@ export class CUMCO009Component implements OnInit {
         this.showMessage(getError.error.message, "error");
       },
       () => {                 // Fin del suscribe
+
+        if (this.seleccionPersona) {
+          this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
+        }
         // this.updateTablePersona();
       });
   }
@@ -192,7 +199,7 @@ export class CUMCO009Component implements OnInit {
         this.rows = [];
         getRes.forEach(res => {
 
-          const codigoIentif = this.tablaIdentificacion.filter(iden => iden.id === res.id )
+          const codigoIentif = this.tablaIdentificacion.filter(iden => iden.id === res.id );
 
           this.rows.push({
             idRow: '',
@@ -274,9 +281,9 @@ export class CUMCO009Component implements OnInit {
           this.filtroTipoIdentificacion = undefined;
           this.subscribePersona();
           this.subscribeIdentficacion('');
-          if (this.seleccionPersona) {
-            this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
-          }
+          // if (this.seleccionPersona) {
+          //  this.subscribeConfigurarPersona(this.seleccionPersona ? this.seleccionPersona.id : '', '');
+          // }
           this.showMessage2(this.responseGuardar.message, "success");
           this.showMessage2(exito, "success");
         }
@@ -462,7 +469,24 @@ export class CUMCO009Component implements OnInit {
           return;
       } 
       else {
-        this.subcribeGuardarIdentificacion(this.buildJsonConfiguracion());
+
+        let entro = false;
+        for ( const row of this.rows){
+          if (row.state !== 'noedit'){
+            entro = true;
+            break;
+          }
+
+        }
+
+        if (entro){
+          this.subcribeGuardarIdentificacion(this.buildJsonConfiguracion());
+        }
+        else{
+          const exito = this.translate.instant('CUMCO009.MENSAJES.exito');
+          this.showMessage2(exito, "success");
+        }
+
       }
     }
 
@@ -529,9 +553,9 @@ export class CUMCO009Component implements OnInit {
     for (var _i = 0; _i < this.rows.length; _i++) {
       for (var _k = _i + 1; _k < this.rows.length; _k++) {
         if (this.rows[_k].descripcion.toLowerCase().trim() === this.rows[_i].descripcion.toLowerCase().trim() && this.rows[_i].state !== 'delete' && this.rows[_k].state !== 'delete') {
-          const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida2', 
+          const error = this.translate.instant('CUMCO009.MENSAJES.identificacionRepetida2',
                               {filaRep1: String(_i + 1), filaRep2: String(_k + 1),
-                               tipoIdentificacion: this.rows[_k].tipoIdentificacion})
+                               tipoIdentificacion: this.rows[_k].descripcion});
           this.showMessage2(error, "error");
           return false;
         }
@@ -644,7 +668,7 @@ export class CUMCO009Component implements OnInit {
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
-   
+
   // Metodos para Mostrar MENSAJES
   showMessage(sum: string, sev: string) {
     this.msgs = [];
@@ -742,23 +766,41 @@ export class CUMCO009Component implements OnInit {
       }
     ];
     let features = [];
+
+
     this.rows.forEach(row => {
-      features.push({
-        "attributes": {
-          "tipoPersona.nombreTipoPersona": row.tipoPersona.nombreTipoPersona,
-          "id": row.id,
-          "tipoIdentificacion.id": "",
-          "descripcion": row.descripcion,
-          "tipoIdentificacion.idDescripcion": "",
-          "tipoPersona.descripcion": "",
-          "tipoPersona.id": row.tipoPersona.id,
-          "tipoPersona.idDescripcion": "",
-          "editable": row.state === 'new' ? row.editable.toString() : row.editable,
-          "codigo": this.generateCodigo(row.descripcion)
-        },
-        "state": row.state
-      })
-    })
+
+      if (row.state !== 'noedit'){
+
+        let insertCod = '';
+        if (row.codigo === undefined || row.codigo === '' || row.codigo === null || row.codigo.trim() === ''){
+          insertCod = this.generateCodigo(row.descripcion);
+          // row.codigo = insertCod;
+        }
+        else{
+          insertCod = row.codigo;
+        }
+
+        features.push({
+          "attributes": {
+            "tipoPersona.nombreTipoPersona": row.tipoPersona.nombreTipoPersona,
+            "id": row.id,
+            "tipoIdentificacion.id": "",
+            "descripcion": row.descripcion,
+            "tipoIdentificacion.idDescripcion": "",
+            "tipoPersona.descripcion": "",
+            "tipoPersona.id": row.tipoPersona.id,
+            "tipoPersona.idDescripcion": "",
+            "editable": row.state === 'new' ? row.editable.toString() : row.editable,
+            "codigo": insertCod
+          },
+          "state": row.state
+        });
+      }
+
+    });
+
+
 
     return {
       "grd_tipos_identif": JSON.stringify({
@@ -817,18 +859,19 @@ export class CUMCO009Component implements OnInit {
   // Metodos para Generar el campo CODIGO para Guardar -- Metodos para Generar el campo CODIGO para Guardar
 
   generateCodigo(stringName: string): string {
-    var codigo: string;
-    const upperCase = stringName.toLocaleUpperCase();
-    var splitted = upperCase.split(" ");
+    let codigo: string;
+    const upperCase = this.normalize(stringName.toLocaleUpperCase());
+    const splitted = upperCase.split(' ');
+
     if (splitted.length >= 4){
-      codigo = splitted[0] + splitted[1] + splitted[2] + splitted[3];
+      codigo = splitted[0].substr(0, 1)  + splitted[1].substr(0, 1)  + splitted[2].substr(0, 1)  + splitted[3].substr(0, 1);
     }
     else if (splitted.length === 3){
       if (splitted[0].length >= 2){
-        codigo = splitted[0].substr(0, 2) + splitted[1] + splitted[2];
+        codigo = splitted[0].substr(0, 2) + splitted[1].substr(0, 1)  + splitted[2].substr(0, 1);
       }
       else{
-        codigo = splitted[0] + splitted[1] + splitted[2];
+        codigo = splitted[0].substr(0, 1)  + splitted[1].substr(0, 1)  + splitted[2].substr(0, 1);
       }
     }
     else if (splitted.length === 2){
@@ -836,10 +879,10 @@ export class CUMCO009Component implements OnInit {
         codigo = splitted[0].substr(0, 2) + splitted[1].substr(0, 2);
       }
       else if(splitted[0].length >= 3){
-        codigo = splitted[0].substr(0, 3) + splitted[1];
+        codigo = splitted[0].substr(0, 3) + splitted[1].substr(0, 1) ;
       }
       else{
-        codigo = splitted[0] + splitted[1];
+        codigo = splitted[0].substr(0, 2)  + splitted[1].substr(0, 2);
       }
     }
     else{
@@ -850,11 +893,74 @@ export class CUMCO009Component implements OnInit {
         codigo = splitted[0];
       }
     }
-    return codigo;
+
+    //console.log(codigo);
+
+    this.revCodigoRep(codigo, 1);
+    let finalCod = this.newCod;
+
+    return finalCod;
 
   }
 
+
+  revCodigoRep(codigo: string, n: number){
+    let isRep = false;
+    this.newCod = '';
+    if (n <= 1){
+      this.newCod = codigo;
+    }
+    else if( n >= 100){
+      return;
+    }
+    else{
+      this.newCod = codigo + String(n);
+    }
+
+    // console.log(this.newCod);
+    // console.log(this.codigos);
+
+
+    for (const row of this.tablaIdentificacion) {
+      if (this.newCod === row.codigo){
+        isRep = true;
+        break;
+      }
+    }
+
+    for (const row2 of this.tablaPersonas) {
+      if (this.newCod === row2.codigo){
+        isRep = true;
+        break;
+      }
+    }
+
+    for (const row3 of this.codigos) {
+      if (this.newCod === row3){
+        isRep = true;
+        break;
+      }
+    }
+
+
+    if (isRep){
+      this.revCodigoRep( codigo, n + 1);
+    }
+    else{
+      this.codigos.push(this.newCod);
+      return;
+      //console.log('holaa ' + this.newCod);
+    }
+
+  }
+
+  normalize(stringName: string): string {
+    return stringName.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
 }
+
+
 
 export interface Row {
   idRow: any;
