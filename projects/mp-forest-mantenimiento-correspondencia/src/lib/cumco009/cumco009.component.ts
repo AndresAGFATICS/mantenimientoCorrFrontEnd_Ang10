@@ -40,6 +40,7 @@ export class CUMCO009Component implements OnInit {
   tipoIdentificacion: any[];
   filtroTipoIdentificacion: any;
   responseGuardar: any;
+  loading1: boolean;
 
 
  
@@ -56,6 +57,7 @@ export class CUMCO009Component implements OnInit {
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 10;
   pageTable2 = 0;
+  loading2: boolean;
 
 
   newCod = '';
@@ -106,6 +108,7 @@ export class CUMCO009Component implements OnInit {
   }
 
   subscribePersona() {
+    this.loading1 = true;
     this.cumco009Service.getPersona().subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         this.tablaPersonas = [];
@@ -125,6 +128,7 @@ export class CUMCO009Component implements OnInit {
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
         this.showMessage(getError.error.message, "error");
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -136,7 +140,7 @@ export class CUMCO009Component implements OnInit {
           this.initialStateData1 = false;
         }
 
-
+        this.loading1 = false;
       });
   }
 
@@ -193,6 +197,7 @@ export class CUMCO009Component implements OnInit {
 
 
   subscribeConfigurarPersona(clase: any, tipo: any) {
+    this.loading2 = true;
     this.cumco009Service.getConfigurarPersona(clase, tipo).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -218,6 +223,7 @@ export class CUMCO009Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         if (this.initialStateData2) {
@@ -227,6 +233,7 @@ export class CUMCO009Component implements OnInit {
           }
           this.initialStateData2 = false;
         }
+        this.loading2 = false;
       });
   }
 

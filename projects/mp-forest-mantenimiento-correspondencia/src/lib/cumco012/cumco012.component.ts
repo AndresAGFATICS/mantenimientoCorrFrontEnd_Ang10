@@ -71,6 +71,7 @@ export class CUMCO012Component implements OnInit {
   pageTable1 = 0;
 
   Idindex = 0;
+  loading1: boolean;
 
   constructor(
     private territorialActivaService: TerritorialActivaService,
@@ -177,6 +178,7 @@ export class CUMCO012Component implements OnInit {
   }
 
   subcribeServiceReparto(parameters) {
+    this.loading1 = true;
     let getResponse: any[];
     this.territorialActivaService.getRecorridoRepartoFisico(parameters).subscribe(
 
@@ -186,6 +188,7 @@ export class CUMCO012Component implements OnInit {
         },
         getError => {           // Error del suscribe
           console.log('GET call in error', getError);
+          this.loading1 = false;
         },
         () => {                // Fin del suscribe
           //this.updateTable(this.responseRecorridos);
@@ -203,7 +206,7 @@ export class CUMCO012Component implements OnInit {
             }
             this.initialDataStateTable1 = false;
           }
-
+          this.loading1 = false;
 
         });
   }

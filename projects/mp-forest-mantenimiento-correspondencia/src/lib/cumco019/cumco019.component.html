@@ -36,7 +36,7 @@
     <!-- Start Table 1 -->
     <p-table [columns]="cols1" [value]="dataTable1" [(selection)]="rowSelected1" [paginator]="true"
       [rowsPerPageOptions]="nRowsOptionsTable1" [(rows)]="nRowsTable1"  selectionMode="single" 
-      (onRowSelect)="onRowTable1Select($event, rowSelected1)">
+      (onRowSelect)="onRowTable1Select($event, rowSelected1)" [loading]="loading1">
 
       <ng-template pTemplate="header" let-columns>
         <tr>
@@ -84,7 +84,7 @@
 
     <!-- Start Table 2 -->
     <p-table [columns]="cols2" [value]="dataTable2" [(selection)]="rowSelected2" [paginator]="true"
-      [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single">
+      [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single" [loading]="loading2">
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>

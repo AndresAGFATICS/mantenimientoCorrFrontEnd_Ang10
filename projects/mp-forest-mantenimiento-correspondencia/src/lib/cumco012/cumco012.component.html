@@ -23,7 +23,7 @@
           <!-- Start Table -->
           <p-table [columns]="cols" [value]="rows"
           [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1" [rowsPerPageOptions]="nRowsOptionsTable1"
-          selectionMode="single" [(selection)]="selectedRow">
+          selectionMode="single" [(selection)]="selectedRow" [loading]="loading1">
           
           <!-- Table Column Width -->
         <ng-template pTemplate="colgroup" let-columns>

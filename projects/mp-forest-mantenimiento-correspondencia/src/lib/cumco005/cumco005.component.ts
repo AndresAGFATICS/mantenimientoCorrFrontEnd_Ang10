@@ -57,6 +57,8 @@ export class Cumco005Component implements OnInit {
 
   tipoDeRadicado: any[];
 
+  loading1: boolean;
+
 
   constructor(private anexosFisicosClaseService: AnexosFisicosClaseService,
     private messageService: MessageService,
@@ -162,6 +164,7 @@ export class Cumco005Component implements OnInit {
   }
 
   subscribeCodigoDescripcion(clase: any, tipo: any) {
+    this.loading1 = true;
     let response: any[];
     this.anexosFisicosClaseService.getCodigoDescripcion(clase, tipo).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -170,6 +173,7 @@ export class Cumco005Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {   // Fin del suscribe
         this.rows = [];
@@ -185,6 +189,7 @@ export class Cumco005Component implements OnInit {
           }
           this.initialStateData1 = false;
         }
+        this.loading1 = false;
 
       });
 

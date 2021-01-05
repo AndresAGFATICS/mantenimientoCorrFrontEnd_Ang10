@@ -39,7 +39,7 @@
 
     <p-table [columns]="columnasAdjuntos" [value]="tablaPersonas" [paginator]="true" [(rows)]="nRowsTable1"
       [rowsPerPageOptions]="nRowsOptionsTable1" [(selection)]="seleccionPersona" selectionMode="single"
-      (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()">
+      (onRowSelect)="rowSelect()" (onRowUnselect)="rowSelect()" [loading]="loading1"> 
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>
@@ -141,7 +141,7 @@
 
     <p-table [columns]="columnasAdjuntosComunicacion" [value]="rows" [(selection)]="seleccionConfiguracion"
       [paginator]="true" [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2"
-      selectionMode="single">
+      selectionMode="single" [loading]="loading2">
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>

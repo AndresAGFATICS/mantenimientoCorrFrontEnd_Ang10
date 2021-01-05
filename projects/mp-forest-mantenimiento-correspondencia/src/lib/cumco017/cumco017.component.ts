@@ -44,6 +44,7 @@ export class Cumco017Component implements OnInit {
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 15;
   pageTable1 = 0;
+  loading1: boolean;
 
 
   // Variables Filtro 2
@@ -67,6 +68,7 @@ export class Cumco017Component implements OnInit {
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 15;
   pageTable2 = 0;
+  loading2: boolean;
 
   user: string;
 
@@ -121,6 +123,7 @@ export class Cumco017Component implements OnInit {
   }
 
   subscribeGetGrupoSeguridad(parameters: any) {
+    this.loading1 = true;
     this.cumco017Service.getGrupoSeguridad(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -132,6 +135,7 @@ export class Cumco017Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         this.initialDataTable1.forEach(data => data.state = 'noedit');
@@ -152,6 +156,8 @@ export class Cumco017Component implements OnInit {
           }
           this.initialStateTablae1 = false;
         }
+
+        this.loading1 = false;
       });
   }
 
@@ -255,6 +261,7 @@ export class Cumco017Component implements OnInit {
   }
 
   subcribeGetRadicadoFuncionarioAsociado(parameters: any) {
+    this.loading2 = true;
     this.grupoSeguridadSelected = undefined;
     this.grupoAsociadoText = '';
     this.cumco017Service.getRadicadoFuncionarioAsociado(parameters).subscribe(
@@ -268,6 +275,7 @@ export class Cumco017Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -286,6 +294,7 @@ export class Cumco017Component implements OnInit {
           this.initialStateTablae2 = false;
         }
 
+        this.loading2 = false;
       });
   }
 
@@ -371,6 +380,34 @@ export class Cumco017Component implements OnInit {
         else{
           this.habilitarPestana2 = true;
         }
+      });
+  }
+
+
+  subscribeGetRadicadoBorrador(parameters: string) {
+    var response : any[];
+    this.cumco017Service.getRadicadoBorrador(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+        
+        if(response.length !== 0){
+          const error = this.translate.instant('CUMCO017.MENSAJES.borrarGrupoSeguridadError',
+                      {grupoSeguridad: this.selectionTable1.descripcion });
+          this.showMessage(error, "error");
+        }
+        else{
+          this.dataTable1.find(row => row === this.selectionTable1).state = this.selectionTable1.state === 'delete' ? 'edit' : 'delete';
+          this.editedTable1();
+        }
+
+
       });
   }
 
@@ -515,8 +552,7 @@ export class Cumco017Component implements OnInit {
         this.showMessage(error, "error");
     }
     else if (this.selectionTable1 && this.selectionTable1.state !== 'new') {
-      this.dataTable1.find(row => row === this.selectionTable1).state = this.selectionTable1.state === 'delete' ? 'edit' : 'delete';
-      this.editedTable1();
+      this.subscribeGetRadicadoBorrador('?activos=1&page=1&size=1&idGrupoSeguridad=' + String(this.selectionTable1.id));
     } else if (this.selectionTable1 && this.selectionTable1.state === 'new') {
       let index = this.dataTable1.indexOf(this.selectionTable1);
       this.dataTable1 = this.dataTable1.filter((val, i) => i !== index);

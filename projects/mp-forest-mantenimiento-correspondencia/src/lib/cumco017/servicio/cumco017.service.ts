@@ -51,5 +51,9 @@ export class Cumco017Service extends GeneralService {
       return this.post('/mnt-corr/1.0.0/RelacionGrupoSeguridadRadicado/guardar',body);
   }
 
+  public getRadicadoBorrador(parameters: string) {
+    return this.get('/mnt-corr/1.0.0/RadicadoBorrador' + parameters); //?activos=1&idGrupoSeguridad=22&page=1&size=1
+  }
+
 
 }

@@ -37,6 +37,8 @@ export class CUMCO010Component implements OnInit {
   columnasAdjuntos: any[];
   idRow: number;
 
+  loading1: boolean;
+
   constructor(private cumco010Service: Cumco010Service,
     private messageService: MessageService,
     private translate: TranslateService) {
@@ -69,6 +71,7 @@ export class CUMCO010Component implements OnInit {
   }
 
   subscribePersona() {
+    this.loading1 = true;
     this.cumco010Service.getMotivoDevolucion().subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         this.tablaDevolucion = [];
@@ -85,6 +88,7 @@ export class CUMCO010Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -95,7 +99,7 @@ export class CUMCO010Component implements OnInit {
           }
           this.initialStateData1 = false;
         }
-
+        this.loading1 = false;
       });
   }
 

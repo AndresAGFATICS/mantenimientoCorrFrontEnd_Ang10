@@ -59,6 +59,8 @@ export class Cumco016Component implements OnInit {
 
   customers: any[];
 
+  loading2: boolean;
+
   constructor(private ejeTematicoService: EjeTematicoService,
     private messageService: MessageService,
     private translate: TranslateService) {
@@ -103,6 +105,7 @@ export class Cumco016Component implements OnInit {
   }
 
   subscribeEjeTematicoDependencia(idDependencia: string) {
+    this.loading2 = true;
     var response: any[];
     this.ejeTematicoService.getEjeTematicoDependencia(idDependencia).subscribe(
 
@@ -112,6 +115,7 @@ export class Cumco016Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -158,6 +162,7 @@ export class Cumco016Component implements OnInit {
           this.initialState2 = false;
         }
 
+        this.loading2 = false;
         //this.subscribeEjesDisponiobles();
 
         //this.updateEjeTematicoDependencia(this.ejetematicoDependenciaLista);

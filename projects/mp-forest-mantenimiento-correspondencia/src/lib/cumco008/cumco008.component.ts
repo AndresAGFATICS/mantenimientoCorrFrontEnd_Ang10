@@ -49,6 +49,7 @@ export class Cumco008Component implements OnInit {
  nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
  nRowsTable1 = 10;
  pageTable1 = 0;
+ loading1: boolean;
 
 
 //Variables Tabla 2
@@ -61,6 +62,7 @@ export class Cumco008Component implements OnInit {
  nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
  nRowsTable2 = 5;
  pageTable2 = 0;
+ loading2: boolean;
 
 
   ngOnInit() {
@@ -103,6 +105,7 @@ export class Cumco008Component implements OnInit {
   }
 
   subscribeGetCanalEnvio(parameters: any) {
+    this.loading1 = true;
     this.cumco008Service.getCanalEnvio(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -114,6 +117,7 @@ export class Cumco008Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable1.forEach(data => data.state = 'noedit' );
@@ -125,6 +129,7 @@ export class Cumco008Component implements OnInit {
           }
           this.initialStateTablae1 = false;
         }
+        this.loading1 = false;
       });
   }
   
@@ -166,6 +171,7 @@ export class Cumco008Component implements OnInit {
   }
 
   suscribeGetMedioCanalEnvio(parameters: any) {
+    this.loading2 = true;
     this.cumco008Service.getMedioCanalEnvio(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -177,6 +183,7 @@ export class Cumco008Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable2.forEach(data => data.state = 'noedit' );
@@ -194,6 +201,7 @@ export class Cumco008Component implements OnInit {
           }
           this.initialStateTablae2 = false;
         }
+        this.loading2 = false;
       });
   }
 

@@ -45,6 +45,7 @@ export class CUMCO018Component implements OnInit {
   nRowsTable1 = 20;
   idRow1 = 0;
   pageTable1 = 0;
+  loading1: boolean;
 
   //TABLA 2
   cols2: any[];
@@ -59,6 +60,7 @@ export class CUMCO018Component implements OnInit {
   suggestionsDependenciaTabla2: any[];
   suggestionsFuncionarioTabla2: any[];
   pageTable2 = 0;
+  loading2: boolean;
 
   //TABLA 3
   cols3: any[];
@@ -70,6 +72,7 @@ export class CUMCO018Component implements OnInit {
   nRowsTable3 = 20;
   idRow3 = 0;
   pageTable3 = 0;
+  loading3: boolean;
 
   constructor(private translate: TranslateService,
               private cumco018Service: Cumco018Service,
@@ -123,7 +126,7 @@ export class CUMCO018Component implements OnInit {
 
 
   subscribeGetRutas(parameters: string) {
-
+    this.loading1 = true;
     let response: any[];
     this.cumco018Service.getRutas(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -132,6 +135,7 @@ export class CUMCO018Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable1 = [];
@@ -148,7 +152,7 @@ export class CUMCO018Component implements OnInit {
           }
           this.initialStateDataTable1 = false;
         }
-
+        this.loading1 = false;
       })
 
   }
@@ -178,7 +182,7 @@ export class CUMCO018Component implements OnInit {
 
 
   subscribeGetMensajero(parameters: string) {
-
+    this.loading2 = true;
     let response: any[];
     this.cumco018Service.getMensajero(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -187,6 +191,7 @@ export class CUMCO018Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable2 = [];
@@ -204,7 +209,7 @@ export class CUMCO018Component implements OnInit {
           }
           this.initialStateDataTable2 = false;
         }
-
+        this.loading2 = false;
       })
 
   }
@@ -266,7 +271,7 @@ export class CUMCO018Component implements OnInit {
 
 
   subscribeGetEmpresaMensajeria(parameters: string) {
-
+    this.loading3 = true;
     let response: any[];
     this.cumco018Service.getEmpresaMensajeria(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -275,6 +280,7 @@ export class CUMCO018Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading3 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable3 = [];
@@ -291,7 +297,7 @@ export class CUMCO018Component implements OnInit {
           }
           this.initialStateDataTable3 = false;
         }
-
+        this.loading3 = false;
       })
 
   }

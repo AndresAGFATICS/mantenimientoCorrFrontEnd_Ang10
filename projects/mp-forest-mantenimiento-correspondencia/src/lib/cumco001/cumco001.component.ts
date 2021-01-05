@@ -54,6 +54,7 @@ export class CUMCO001Component implements OnInit {
   nRowsOptions = [1,5,10,15,20,25,50];
   nRows = 15;
   pageTable1 = 0;
+  loading1: boolean;
 
 
   // Variables de los servicios de subcripcion
@@ -117,11 +118,13 @@ export class CUMCO001Component implements OnInit {
 
   // SUSCRIBIRSE a '/documentos/1.0.0/asignarResponsableSubtipoRadicado/grid' (Valores Tabla)
   subcribeServiceAsignarResponsable(getParameters: string) {
+    this.loading1 = true;
     this.asignarResponsableService.getAsignarResponsableSubtipoRadicadoGrid(getParameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
         this.responseAsignarResponsable = getRes;
         return getRes;
+        this.loading1 = false;
       },
       getError => {           // Error del suscribe
           this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.asignarResponsableError'), getError.error.message); 
@@ -147,6 +150,7 @@ export class CUMCO001Component implements OnInit {
           }
           this.initiaLState = false;
         }
+        this.loading1 = false;
     });
   }
 

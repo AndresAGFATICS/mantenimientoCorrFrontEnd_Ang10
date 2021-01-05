@@ -32,7 +32,7 @@
 
                 <!-- Start Table 1 -->
                 <p-table [columns]="cols" [value]="dataTable1" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1" (onRowSelect)="rowSelectTable1()"
-                    [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRowTable1">
+                    [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="selectedRowTable1" [loading]="loading1">
 
                     <!-- Table Column Width 1 -->
                     <ng-template pTemplate="colgroup" let-columns>
@@ -177,7 +177,7 @@
 
                 <!-- Start Table 2 -->
                 <p-table [columns]="cols2" [value]="dataTable2" [paginator]="true" [(rows)]="nRowsTable2" [(first)]="pageTable2"
-                    [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowTable2">
+                    [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="selectedRowTable2" [loading]="loading2">
 
                     <!-- Table Column Width 2 -->
                     <ng-template pTemplate="colgroup" let-columns>
@@ -334,7 +334,7 @@
 
                 <!-- Start Table 3 -->
                 <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [(rows)]="nRowsTable3" [(first)]="pageTable3" (onRowSelect)="rowSelectTable3()"
-                    [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectedRowTable3" >
+                    [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectedRowTable3" [loading]="loading3">
 
                     <!-- Table Column Width 3 -->
                     <ng-template pTemplate="colgroup" let-columns>
@@ -448,7 +448,7 @@
 
                 <!-- Start Table 4 -->
                 <p-table [columns]="cols4" [value]="dataTable4" [paginator]="true" [(rows)]="nRowsTable4" [(first)]="pageTable4" 
-                    [rowsPerPageOptions]="nRowsOptionsTable4">
+                    [rowsPerPageOptions]="nRowsOptionsTable4" [loading]="loading4">
 
 
 

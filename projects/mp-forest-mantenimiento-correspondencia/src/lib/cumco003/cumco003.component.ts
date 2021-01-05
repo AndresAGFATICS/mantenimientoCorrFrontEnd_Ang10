@@ -71,6 +71,7 @@ export class Cumco003Component implements OnInit {
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 10;
   pageTable1 = 0;
+  
 
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 10;
@@ -94,6 +95,9 @@ export class Cumco003Component implements OnInit {
   // Variables para los mensajes
   msgs: Message[] = [];
   msgs2: Message[] = [];
+
+  loading1: boolean;
+  loading2: boolean;
 
 
 
@@ -219,6 +223,7 @@ export class Cumco003Component implements OnInit {
   }
 
   subscribeTablaDocumento() {
+    this.loading2 = true;
     this.cumco003Service.getTablaDocumento().subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -241,6 +246,7 @@ export class Cumco003Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -252,10 +258,12 @@ export class Cumco003Component implements OnInit {
           }
           this.initialStatetablaDocumentos = false;
         }
+        this.loading2 = false;
       });
   }
 
   subscribeTablaPlantilla(parameters: string) {
+    this.loading1 = true;
     this.cumco003Service.getTablaPlantilla(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -309,6 +317,7 @@ export class Cumco003Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         if (this.initialStateRows) {
@@ -318,6 +327,7 @@ export class Cumco003Component implements OnInit {
           }
           this.initialStateRows = false;
         }
+        this.loading1 = false;
       });
   }
 

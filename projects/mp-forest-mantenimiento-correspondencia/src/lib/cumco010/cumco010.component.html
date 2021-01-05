@@ -22,7 +22,7 @@
     <p-messages [(value)]="msgs"></p-messages>
 
     <p-table [columns]="columnasAdjuntos" [value]="rows" [(selection)]="seleccionDevolucion" [paginator]="true" [rowsPerPageOptions]="nRowsOptionsTable1" 
-    [(rows)]="nRowsTable1" [(first)]="pageTable1" selectionMode="single">
+    [(rows)]="nRowsTable1" [(first)]="pageTable1" selectionMode="single" [loading]="loading1">
 
       <!-- Table Column Width -->
       <ng-template pTemplate="colgroup" let-columns>

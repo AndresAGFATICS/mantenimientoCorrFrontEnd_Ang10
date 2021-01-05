@@ -30,7 +30,7 @@
         <!-- Start Table -->
         <p-table [columns]="cols" [value]="tablaTipoRadicado" [paginator]="true" [(rows)]="nRowsTable1" [(first)]="pageTable1"
           [rowsPerPageOptions]="nRowsOptionsTable1" selectionMode="single" [(selection)]="seleccionTablaRadicado"
-          (onRowSelect)="onRowSelect($event, seleccionTablaRadicado)">
+          (onRowSelect)="onRowSelect($event, seleccionTablaRadicado)" [loading]="loading1">
 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
@@ -158,7 +158,7 @@
         <p-messages [(value)]="msgs2"></p-messages>
         <!-- Start Table 2 -->
         <p-table [columns]="cols2" [value]="listaSubRadicado" [paginator]="true" [(rows)]="nRowsTable2" [(first)]="pageTable2"
-          [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="seleccionTablaSubRadicado">
+          [rowsPerPageOptions]="nRowsOptionsTable2" selectionMode="single" [(selection)]="seleccionTablaSubRadicado" [loading]="loading2">
 
           <!-- Table Caption 2 -->
           <ng-template pTemplate="caption">
@@ -321,7 +321,7 @@
 
         <!-- Start Table 3 -->
         <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [(rows)]="nRowsTable3" [(first)]="pageTable3"
-          [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectionTable3">
+          [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectionTable3" [loading]="loading3">
 
           <ng-template pTemplate="colgroup" let-columns>
             <colgroup>
@@ -434,7 +434,7 @@
           <!-- Start Table 4 -->
           <p-table [columns]="cols4" [value]="dataTable4" [paginator]="true"  [(first)]="pageTable4"
           [(rows)]="nRowsTable4" [totalRecords]="dataTable4.length" [loading]="loading"
-            [rowsPerPageOptions]="nRowsOptionsTable4" selectionMode="single" [(selection)]="selectionTable4">
+            [rowsPerPageOptions]="nRowsOptionsTable4" selectionMode="single" [(selection)]="selectionTable4" [loading]="loading4">
 
             <!-- Table Caption 4 -->
             <ng-template pTemplate="caption">
@@ -639,7 +639,7 @@
 
           <!-- Start Table 5 -->
           <p-table [columns]="cols5" [value]="dataTable5" [paginator]="true" [(rows)]="nRowsTable5" [(first)]="pageTable5"
-            [rowsPerPageOptions]="nRowsOptionsTable5" selectionMode="single" [(selection)]="selectionTable5">
+            [rowsPerPageOptions]="nRowsOptionsTable5" selectionMode="single" [(selection)]="selectionTable5" [loading]="loading5">
 
             <ng-template pTemplate="colgroup" let-columns>
               <colgroup>

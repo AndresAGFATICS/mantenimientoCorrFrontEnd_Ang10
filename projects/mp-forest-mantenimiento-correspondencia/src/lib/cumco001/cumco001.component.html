@@ -52,7 +52,7 @@
                     <!-- Start Table -->
                     <p-table [columns]="cols" [value]="asignarResponsableData" editMode="row" [paginator]="true"
                         [(first)]="pageTable1" [(rows)]="nRows" [rowsPerPageOptions]="nRowsOptions"
-                        selectionMode="single" [(selection)]="selectedRow">
+                        selectionMode="single" [(selection)]="selectedRow" [loading]="loading1">
                         <!--(onRowSelect)="onRowSelect($event, selectedRow)"> -->
                         <!-- [scrollable]="true" scrollHeight="500px"> -->
 

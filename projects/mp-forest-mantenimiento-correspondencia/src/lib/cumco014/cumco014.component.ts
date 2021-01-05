@@ -44,6 +44,7 @@ export class CUMCO014Component implements OnInit {
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 5;
   pageTable1 = 0;
+  loading1: boolean;
 
   cols2: any[];
   seleccionSubRadicado: any;
@@ -53,6 +54,7 @@ export class CUMCO014Component implements OnInit {
   initialData2: any[];
   initialDataTable2 = true;
   pageTable2 = 0;
+  loading2: boolean;
 
   seleccionCategoria: any;
   listadoCategoria: any[];
@@ -84,6 +86,7 @@ export class CUMCO014Component implements OnInit {
   nRowsOptionsTable3 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable3 = 20;
   pageTable3 = 0;
+  loading3: boolean;
 
   //Variables Tabla 4
   dataTable4: any[] = [];
@@ -99,6 +102,7 @@ export class CUMCO014Component implements OnInit {
   pageTable4 = 0;
   fileExtesionsData: any[];
   suggestionsFileExtesionsData: any[];
+  loading4: boolean;
   
 
 
@@ -116,6 +120,7 @@ export class CUMCO014Component implements OnInit {
   nRowsOptionsTable5 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable5 = 15;
   pageTable5 = 0;
+  loading5: boolean;
 
   page = 1;
   size = 250;
@@ -237,6 +242,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeTablaRadicado(codigo: any) {
+    this.loading1 = true;
     this.cumco014Service.getTablaTipoRadicado(codigo).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -268,6 +274,7 @@ export class CUMCO014Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -278,7 +285,7 @@ export class CUMCO014Component implements OnInit {
           }
           this.initialStateTabla1 = false;
         }
-
+        this.loading1 = false;
       });
   }
 
@@ -306,6 +313,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeSubRadicado(parameters: any) {
+    this.loading2 = true;
     this.cumco014Service.getSubTipoRadicado(parameters).subscribe( //?idTipo=81&codigoTramiteDescripcion=&activo=1
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -314,6 +322,7 @@ export class CUMCO014Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         this.listaSubRadicado.forEach(data => data.state = 'noedit');
@@ -329,6 +338,7 @@ export class CUMCO014Component implements OnInit {
           }
           this.initialDataTable2 = false;
         }
+        this.loading2 = false;
        
       });
   }
@@ -409,6 +419,7 @@ export class CUMCO014Component implements OnInit {
 
 
   subscribeCategoria2(codigo: any) {
+    this.loading3 = true;
     this.cumco014Service.getCategoriaRadicado2(codigo).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -420,6 +431,7 @@ export class CUMCO014Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading3 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable3.forEach(data => data.state = 'noedit' );
@@ -431,6 +443,7 @@ export class CUMCO014Component implements OnInit {
           }
           this.initialStateTablae3 = false;
         }
+        this.loading3 = false;
       });
   } 
 
@@ -556,6 +569,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeGetRequisitosAsociadoRadicado(parameters: any) {
+    this.loading5 = true;
     var responseData: any[]; 
     this.cumco014Service.getRequisitosAsociadoRadicado(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -564,6 +578,7 @@ export class CUMCO014Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading5 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -581,7 +596,7 @@ export class CUMCO014Component implements OnInit {
           }
           this.initialStateTablae5 = false;
         }
-        
+        this.loading5 = false;
         //this.dataTable5 = responseData;
       });
   }

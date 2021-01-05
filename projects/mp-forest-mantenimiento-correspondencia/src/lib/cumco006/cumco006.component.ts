@@ -68,6 +68,8 @@ export class Cumco006Component implements OnInit {
 
   horaCof: any;
 
+  loading1: boolean;
+
   // Variables para los mensajes
   msgs: Message[] = [];
 
@@ -150,6 +152,7 @@ export class Cumco006Component implements OnInit {
   }
 
   subscribeFestivo() {
+    this.loading1 = true;
     this.cumco006Service.getFestivo().subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -169,6 +172,7 @@ export class Cumco006Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {
         // Fin del suscribe
@@ -179,6 +183,7 @@ export class Cumco006Component implements OnInit {
           }
           this.initialDataState = false;
         }
+        this.loading1 = false;
       });
   }
 

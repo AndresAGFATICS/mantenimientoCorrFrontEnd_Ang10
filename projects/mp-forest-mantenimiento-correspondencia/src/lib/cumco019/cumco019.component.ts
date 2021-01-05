@@ -32,6 +32,7 @@ export class CUMCO019Component implements OnInit {
   rowSelected1: any;
   nRowsOptionsTable1 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable1 = 10;
+  loading1: boolean;
 
   cols2: any[];
   dataTable2: any[];
@@ -41,6 +42,7 @@ export class CUMCO019Component implements OnInit {
   suggestionsCargoFirmanteTabla2: any[];
   cargos: any[];
   idRow2 = 0;
+  loading2: boolean;
 
   nRowsOptionsTable2 = [1, 5, 10, 15, 20, 25, 50];
   nRowsTable2 = 5;
@@ -83,6 +85,7 @@ export class CUMCO019Component implements OnInit {
   }
 
   subscribeTablaDocumento(parameters: string) {
+    this.loading1 = true;
     let getResponse;
     this.cumco019Service.getTablaDocumento(parameters).subscribe(
 
@@ -92,6 +95,7 @@ export class CUMCO019Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable1 = [];
@@ -108,10 +112,12 @@ export class CUMCO019Component implements OnInit {
         for (const data of this.dataTable1) {
           this.tipoComunicacionOptions.push(JSON.parse(JSON.stringify(data)));
         }
+        this.loading1 = false;
       });
   }
 
   subscribeGetRelacionTipoComunicacionCargo(parameters: string) {
+    this.loading2 = true;
     this.cumco019Service.getRelacionTipoComunicacionCargo(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -120,6 +126,7 @@ export class CUMCO019Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable2.forEach(data => data.state = 'noedit' );
@@ -132,7 +139,7 @@ export class CUMCO019Component implements OnInit {
           this.initialDataSate2 = false;
         }
 
-
+        this.loading2 = false;
       });
   }
 

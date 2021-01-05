@@ -25,7 +25,7 @@
 
         <!-- Start Table 1 -->
         <p-table [columns]="cols1" [value]="dataTable1" [(selection)]="selectedRowTable1" [paginator]="true" 
-        [rowsPerPageOptions]="nRowsOptionsTable1" [(rows)]="nRowsTable1" [(first)]="pageTable1" selectionMode="single" >
+        [rowsPerPageOptions]="nRowsOptionsTable1" [(rows)]="nRowsTable1" [(first)]="pageTable1" selectionMode="single" [loading]="loading1">
 
 
           <!-- Table Column Width -->
@@ -142,7 +142,7 @@
 
         <!-- Start Table 2 -->
         <p-table [columns]="cols2" [value]="dataTable2" [(selection)]="selectedRowTable2" [paginator]="true" 
-        [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single" >
+        [rowsPerPageOptions]="nRowsOptionsTable2" [(rows)]="nRowsTable2" [(first)]="pageTable2" selectionMode="single"[loading]="loading2">
 
 
           <!-- Table Column Width -->
@@ -275,7 +275,7 @@
 
         <!-- Start Table 3 -->
         <p-table [columns]="cols3" [value]="dataTable3" [(selection)]="selectedRowTable3" [paginator]="true" 
-        [rowsPerPageOptions]="nRowsOptionsTable3" [(rows)]="nRowsTable3" [(first)]="pageTable3" selectionMode="single" >
+        [rowsPerPageOptions]="nRowsOptionsTable3" [(rows)]="nRowsTable3" [(first)]="pageTable3" selectionMode="single" [loading]="loading3">
 
 
           <!-- Table Column Width -->

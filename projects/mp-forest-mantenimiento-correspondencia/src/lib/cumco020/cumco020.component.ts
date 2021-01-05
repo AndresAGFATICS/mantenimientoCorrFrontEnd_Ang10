@@ -69,6 +69,7 @@ export class Cumco020Component implements OnInit {
   nRowsTable1 = 5;
   idRow1 = 0;
   pageTable1 = 0;
+  loading1: boolean;
 
   //TABLA 2
   cols2: any[];
@@ -81,6 +82,7 @@ export class Cumco020Component implements OnInit {
   idRow2 = 0;
   allProcedimientosRelacionados: any[];
   pageTable2 = 0;
+  loading2: boolean;
 
   //TABLA 3
   cols3: any[];
@@ -93,6 +95,7 @@ export class Cumco020Component implements OnInit {
   idRow3 = 0;
   pageTable3 = 0;
   entrarMensaje = true;
+  loading3: boolean;
 
   //TABLA 4
   cols4: any[];
@@ -105,6 +108,7 @@ export class Cumco020Component implements OnInit {
   idRow4 = 0;
   pageTable4 = 0;
   allSelect = false;
+  loading4: boolean;
 
 
 
@@ -163,7 +167,7 @@ export class Cumco020Component implements OnInit {
   }
 
   subscribeGetProcesoSGS(parameters: string) {
-
+    this.loading1 = true;
     let response: any[];
     this.cumco020Service.getProcesoSGS(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -172,6 +176,7 @@ export class Cumco020Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading1 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable1 = [];
@@ -188,7 +193,7 @@ export class Cumco020Component implements OnInit {
           }
           this.initialStateDataTable1 = false;
         }
-
+        this.loading1 = false;
       })
 
   }
@@ -257,7 +262,7 @@ export class Cumco020Component implements OnInit {
 
 
   subscribeGetProcedimientoSGS(parameters: string) {
-
+    this.loading2 = true;
     let response: any[];
     this.cumco020Service.getProcedimientoSGS(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -266,6 +271,7 @@ export class Cumco020Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading2 = false;
       },
       () => {                 // Fin del suscribe
         this.dataTable2 = [];
@@ -282,7 +288,7 @@ export class Cumco020Component implements OnInit {
           }
           this.initialStateDataTable2 = false;
         }
-
+        this.loading2 = false;
       })
 
   }
@@ -380,7 +386,7 @@ export class Cumco020Component implements OnInit {
 
 
   subscribeGetRelacionProcesoDependencia3(parameters: string) {
-
+    this.loading3 = true;
     let response: any[];
     this.cumco020Service.getRelacionProcesoDependencia(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
@@ -389,6 +395,7 @@ export class Cumco020Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading3 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -405,7 +412,7 @@ export class Cumco020Component implements OnInit {
           }
           this.initialStateDataTable3 = false;
         }
-
+        this.loading3 = false;
       })
 
   }
@@ -427,7 +434,7 @@ export class Cumco020Component implements OnInit {
 
 
   subscribeGetRelacionProcedimientoDependencia2(parameters: string) {
-
+    this.loading4 = true;
     let response: any[];
     this.allSelect = false;
     this.cumco020Service.getRelacionProcedimientoDependencia(parameters).subscribe(
@@ -437,6 +444,7 @@ export class Cumco020Component implements OnInit {
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
+        this.loading4 = false;
       },
       () => {                 // Fin del suscribe
 
@@ -479,7 +487,7 @@ export class Cumco020Component implements OnInit {
           }
           this.initialStateDataTable4 = false;
         }
-
+        this.loading4 = false;
       })
 
   }
