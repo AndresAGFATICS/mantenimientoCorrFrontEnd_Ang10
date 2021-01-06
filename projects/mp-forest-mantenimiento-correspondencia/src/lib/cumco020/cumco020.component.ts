@@ -136,20 +136,20 @@ export class Cumco020Component implements OnInit {
 
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
-        { field: 'ID', header: this.translate.instant('CUMCO020.TABLA1.headerTabla0') },
-        { field: 'plantilla.codigo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1'), required: true  },
-        { field: 'tipoRadicado.codigoDescripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2'), required: true },
-        { field: 'tramiteTipoRadicado.descripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3'), required: true },
-        { field: 'tipoDocumental.codigoDescripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla4') },
+        { field: 'id', header: this.translate.instant('CUMCO020.TABLA1.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1'), required: true  },
+        { field: 'nombre', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3'), required: true },
+        { field: 'activo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla4') },
       ];
 
       this.cols2 = [
-        { field: 'RowIndex', header: '' },
-        { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla1') },
-        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2'), required: true },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3'), required: true },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4'), required: true },
-        { field: 'claseDocumental.descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla5') }
+        { field: 'id', header: '' },
+        { field: 'idProceso', header: this.translate.instant('CUMCO020.TABLA2.headerTabla1') },
+        { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2'), required: true },
+        { field: 'nombre', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4'), required: true },
+        { field: 'activo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla5') }
       ];
 
       this.cols3 = [
@@ -822,8 +822,12 @@ export class Cumco020Component implements OnInit {
     this.dataTable1 = [...this.dataTable1, newElement];
     this.idRow1 += 1;
 
-    const newPage = Math.trunc(this.dataTable1.length/this.nRowsTable1) * this.nRowsTable1;
+    const index = this.dataTable1.findIndex(x => x.rowId === this.idRow1);
+
+    const newPage = Math.trunc(index / this.nRowsTable1) * this.nRowsTable1;
     this.pageTable1 = newPage;
+
+    
   }
 
   onClicEliminar1() {
