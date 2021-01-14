@@ -333,8 +333,9 @@
                 <p-messages [(value)]="msgs"></p-messages>
 
                 <!-- Start Table 3 -->
-                <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [(rows)]="nRowsTable3" [(first)]="pageTable3" (onRowSelect)="rowSelectTable3()"
-                    [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectedRowTable3" [loading]="loading3">
+                <p-table [columns]="cols3" [value]="dataTable3" [paginator]="true" [(rows)]="nRowsTable3" [(first)]="startRegisterTable3"  (onRowSelect)="rowSelectTable3()"
+                    [rowsPerPageOptions]="nRowsOptionsTable3" selectionMode="single" [(selection)]="selectedRowTable3" 
+                    [loading]="loading3" [lazy]="true" [totalRecords]="totalRecords3" (onLazyLoad)="loadDataTable3($event)">
 
                     <!-- Table Column Width 3 -->
                     <ng-template pTemplate="colgroup" let-columns>

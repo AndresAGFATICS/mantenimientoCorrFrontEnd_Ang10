@@ -139,4 +139,27 @@ export class GeneralService {
       return session.access_token;
     }
   }
+
+
+  public createParameters(jasonParameters: any): string {
+    let stringParameters = '';
+    const keys = Object.keys(jasonParameters);
+    let parameter = '';
+    for (let i = 0; i < keys.length; i++) {
+      if (typeof jasonParameters[keys[i]] !== 'string'){
+        parameter = String(jasonParameters[keys[i]]);
+      }
+      else{
+        parameter = jasonParameters[keys[i]]
+      }
+
+      if (i === 0){
+        stringParameters = '?' + keys[i] + '=' + parameter;
+      }
+      else{
+        stringParameters = stringParameters + '&' + keys[i] + '=' + parameter;
+      }
+    }
+    return stringParameters;
+  }
 }

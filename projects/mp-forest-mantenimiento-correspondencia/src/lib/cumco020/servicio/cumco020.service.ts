@@ -17,8 +17,8 @@ export class Cumco020Service extends GeneralService{
     return this.get('/mnt-corr/1.0.0/ProcesoSGS' + parameters);
   }
 
-  public getRelacionProcesoDependencia(parameters: string) {
-    return this.get('/mnt-corr/1.0.0/RelacionProcesoDependencia' + parameters); // ?idProceso=3
+  public getRelacionProcesoDependencia(parameters : any) {
+    return this.get('/mnt-corr/1.0.0/RelacionProcesoDependencia'  + this.createParameters(parameters) ); // ?idProceso=3
   }
 
   public postProcesoSGS(body: any) {
@@ -47,6 +47,10 @@ export class Cumco020Service extends GeneralService{
 
   public postRelacionProcedimientoDependencia(body: any) {
     return this.post('/mnt-corr/1.0.0/RelacionProcedimientoDependencia/guardarGrid', body);
+  }
+
+  public getTotalRelacionProcedimientoDependencia( getParameters: any = '' ): any {
+    return this.get('/mnt-corr/1.0.0/RelacionProcedimientoDependencia/Total' + getParameters );
   }
 
 }

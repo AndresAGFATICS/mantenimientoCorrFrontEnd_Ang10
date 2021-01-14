@@ -96,6 +96,8 @@ export class Cumco020Component implements OnInit {
   pageTable3 = 0;
   entrarMensaje = true;
   loading3: boolean;
+  totalRecords3 = 5;
+  startRegisterTable3 = 0;
 
   //TABLA 4
   cols4: any[];
@@ -127,7 +129,7 @@ export class Cumco020Component implements OnInit {
 
 
   }
- 
+
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
@@ -136,20 +138,20 @@ export class Cumco020Component implements OnInit {
 
     this.translate.get(['']).subscribe(translations => {
       this.cols = [
-        { field: 'id', header: this.translate.instant('CUMCO020.TABLA1.headerTabla0') },
-        { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1'), required: true  },
-        { field: 'nombre', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2'), required: true },
-        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3'), required: true },
-        { field: 'activo', header: this.translate.instant('CUMCO020.TABLA1.headerTabla4') },
+        { field: '0', header: this.translate.instant('CUMCO020.TABLA1.headerTabla0') },
+        { field: '1', header: this.translate.instant('CUMCO020.TABLA1.headerTabla1'), required: true },
+        { field: '2', header: this.translate.instant('CUMCO020.TABLA1.headerTabla2'), required: true },
+        { field: '3', header: this.translate.instant('CUMCO020.TABLA1.headerTabla3'), required: true },
+        { field: '4', header: this.translate.instant('CUMCO020.TABLA1.headerTabla4') },
       ];
 
       this.cols2 = [
-        { field: 'id', header: '' },
-        { field: 'idProceso', header: this.translate.instant('CUMCO020.TABLA2.headerTabla1') },
-        { field: 'codigo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2'), required: true },
-        { field: 'nombre', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3'), required: true },
-        { field: 'descripcion', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4'), required: true },
-        { field: 'activo', header: this.translate.instant('CUMCO020.TABLA2.headerTabla5') }
+        { field: '0', header: '' },
+        { field: '1', header: this.translate.instant('CUMCO020.TABLA2.headerTabla1') },
+        { field: '2', header: this.translate.instant('CUMCO020.TABLA2.headerTabla2'), required: true },
+        { field: '3', header: this.translate.instant('CUMCO020.TABLA2.headerTabla3'), required: true },
+        { field: '4', header: this.translate.instant('CUMCO020.TABLA2.headerTabla4'), required: true },
+        { field: '5', header: this.translate.instant('CUMCO020.TABLA2.headerTabla5') }
       ];
 
       this.cols3 = [
@@ -199,7 +201,7 @@ export class Cumco020Component implements OnInit {
   }
 
 
-  subscribeGetRelacionProcesoDependencia(parameters: string) {
+  subscribeGetRelacionProcesoDependencia(parameters: any) {
 
     let response: any[];
     this.cumco020Service.getRelacionProcesoDependencia(parameters).subscribe(
@@ -385,7 +387,7 @@ export class Cumco020Component implements OnInit {
   }
 
 
-  subscribeGetRelacionProcesoDependencia3(parameters: string) {
+  subscribeGetRelacionProcesoDependencia3(parameters: any) {
     this.loading3 = true;
     let response: any[];
     this.cumco020Service.getRelacionProcesoDependencia(parameters).subscribe(
@@ -470,7 +472,7 @@ export class Cumco020Component implements OnInit {
           }
         }
 
-        if (!entroProcedimiento){
+        if (!entroProcedimiento) {
           this.allSelect = true;
           for (var data4 of this.dataTable4) {
             data4.rel = 1;
@@ -507,11 +509,28 @@ export class Cumco020Component implements OnInit {
         this.showMessage("error", error, '');
       },
       () => {                 // Fin del suscribe
-        this.seleccionProcedimientoFilter2 = undefined;
-        this.dataTable4 = [];
-        this.initialStateDataTable3 = true,
-          this.showMessage("success", this.translate.instant('CUMCO020.MENSAJES.exito'), '');
-        this.selectDependenciaFilter('');
+
+        if (respuestaPost.status === false) {
+          if (respuestaPost.message === 'error-repetido'){
+
+            let repitedRegister = this.dataTable3.find(row => row.proceso.id === respuestaPost.data.idProceso);
+
+            const error = this.translate.instant('CUMCO020.MENSAJES.campoCodigoRepetidoError2',
+            {
+              codigoNombre: repitedRegister.proceso.codigoNombre
+            });
+          this.showMessage('error', error, '');
+
+          }
+        }
+        else {
+          this.seleccionProcedimientoFilter2 = undefined;
+          this.dataTable4 = [];
+          this.initialStateDataTable3 = true,
+            this.showMessage("success", this.translate.instant('CUMCO020.MENSAJES.exito'), '');
+          this.selectDependenciaFilter('');
+        }
+
       });
 
   }
@@ -536,6 +555,29 @@ export class Cumco020Component implements OnInit {
         this.rowSelectTable3();
       });
 
+  }
+
+
+  subcribeGetTotalRelacionProcesoDependencia(getParameters: string = ''): any {
+    let getResponse: any[];
+    this.cumco020Service.getTotalRelacionProcedimientoDependencia(getParameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        getResponse = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log(getError);
+        // this.showMessage('error', this.translate.instant('MENSAJES_GENRICOS.consultarGetError'), getError.error.message);
+      },
+      () => {                 // Fin del suscribe
+        if (getResponse.length > 0) {
+          this.totalRecords3 = getResponse[0].numeroRegistros;
+        }
+
+      }
+
+    );
   }
 
 
@@ -666,7 +708,8 @@ export class Cumco020Component implements OnInit {
     this.seleccionProcedimientoFilter2 = undefined;
 
     this.initialStateDataTable3 = true;
-    this.subscribeGetRelacionProcesoDependencia3('?idDependencia=' + String(this.seleccionDependenciaFilter.id));
+    //this.subscribeGetRelacionProcesoDependencia3('?idDependencia=' + String(this.seleccionDependenciaFilter.id));
+    this.loadDataTable3();
 
   }
 
@@ -753,14 +796,26 @@ export class Cumco020Component implements OnInit {
   }
 
   focusOutTablaProcesoTabla3(rowIndex) {
-    if (this.dataTable3[rowIndex].proceso) {
-      if (this.dataTable3[rowIndex].proceso.id === undefined || this.dataTable3[rowIndex].proceso.id === '') {
-        this.dataTable3[rowIndex].proceso = { id: '' };
+    const rowInd = rowIndex - this.startRegisterTable3;
+
+
+
+    if (this.dataTable3[rowInd].state === 'new') {
+      return;
+    }
+
+    if (this.dataTable3[rowInd].proceso) {
+      if (this.dataTable3[rowInd].proceso.id === undefined || this.dataTable3[rowInd].proceso.id === '') {
+        this.dataTable3[rowInd].proceso = { id: '' };
         this.editedTable3('');
       }
     }
-    else if (this.dataTable3[rowIndex].proceso === '') {
-      this.dataTable3[rowIndex].proceso = { id: '' };
+    else if (this.dataTable3[rowInd].proceso === '') {
+      if (this.dataTable3[rowInd].proceso.state === 'new') {
+        return;
+      }
+
+      this.dataTable3[rowInd].proceso = { id: '' };
       this.editedTable3('')
     }
   }
@@ -820,18 +875,21 @@ export class Cumco020Component implements OnInit {
       state: 'new',
     }
     this.dataTable1 = [...this.dataTable1, newElement];
-    this.idRow1 += 1;
 
-    const index = this.dataTable1.findIndex(x => x.rowId === this.idRow1);
+    const index = this.dataTable1.findIndex(x => x.idRow1 === this.idRow1);
+
+    console.log(index);
 
     const newPage = Math.trunc(index / this.nRowsTable1) * this.nRowsTable1;
     this.pageTable1 = newPage;
 
-    
+    this.idRow1 += 1;
+
+
   }
 
   onClicEliminar1() {
-    if (this.selectedRowTable1 && this.initialDataTable2.length !== 0 && this.selectedRowTable1.state !== 'new') {
+    if (this.selectedRowTable1 && this.selectedRowTable1.state !== 'new' && this.initialDataTable2.length !== 0) {
       const error = this.translate.instant('CUMCO020.MENSAJES.eliminarProcesoProcedimientoError',
         { proceso: this.selectedRowTable1.codigo + ' - ' + this.selectedRowTable1.nombre });
       this.showMessage("error", error, '');
@@ -839,7 +897,11 @@ export class Cumco020Component implements OnInit {
       return;
     }
     else if (this.selectedRowTable1 && this.selectedRowTable1.state !== 'new') {
-      this.subscribeGetRelacionProcesoDependencia('?idProceso=' + String(this.selectedRowTable1.id));
+      let getParameters = {};
+
+      getParameters = { ...getParameters, idProceso: this.selectedRowTable1.id };
+
+      this.subscribeGetRelacionProcesoDependencia(getParameters);
 
     } else if (this.selectedRowTable1 && this.selectedRowTable1.state === 'new') {
       let index = this.dataTable1.indexOf(this.selectedRowTable1);
@@ -876,10 +938,12 @@ export class Cumco020Component implements OnInit {
       state: 'new',
     }
     this.dataTable2 = [...this.dataTable2, newElement];
-    this.idRow2 += 1;
 
-    const newPage = Math.trunc(this.dataTable2.length/this.nRowsTable2) * this.nRowsTable2;
+
+    const newPage = Math.trunc(this.dataTable2.length / this.nRowsTable2) * this.nRowsTable2;
     this.pageTable2 = newPage;
+
+    this.idRow2 += 1;
   }
 
   onClicEliminar2() {
@@ -922,8 +986,8 @@ export class Cumco020Component implements OnInit {
     this.dataTable3 = [...this.dataTable3, newElement];
     this.idRow3 += 1;
 
-    const newPage = Math.trunc(this.dataTable3.length/this.nRowsTable3) * this.nRowsTable3;
-    this.pageTable3 = newPage;
+    //const newPage = Math.trunc(this.dataTable3.length/this.nRowsTable3) * this.nRowsTable3;
+    //this.pageTable3 = newPage;
 
   }
 
@@ -1027,7 +1091,7 @@ export class Cumco020Component implements OnInit {
     this.entrarMensaje = true;
   }
 
-  pruebaOnselect(){
+  pruebaOnselect() {
     this.entrarMensaje = false;
     this.editedTable3('');
   }
@@ -1113,7 +1177,7 @@ export class Cumco020Component implements OnInit {
       this.dataTable4[rowIndex].state = 'noedit';
     }
 
-    if(this.dataTable4[rowIndex].rel === 0){
+    if (this.dataTable4[rowIndex].rel === 0) {
       this.allSelect = false;
     }
 
@@ -1391,14 +1455,17 @@ export class Cumco020Component implements OnInit {
 
   compareInitialData(currentData: any[], initialData: any[]) {
 
-    for (var _i = 0; _i < currentData.length; _i++) {
+    for (let _i = 0; _i < currentData.length; _i++) {
 
       if (currentData[_i].state === "edit" || currentData[_i].state === "noedit") {
-        var keys = Object.keys(currentData[_i]);
-        var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
-        var areEqual = true;
+
+        let keys = Object.keys(currentData[_i]);
+        let initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
+        let areEqual = true;
         for (const key of keys) {
-          if (typeof currentData[_i][key] === "object") {
+          if (typeof currentData[_i][key] === "object" &&
+            currentData[_i][key] !== null &&
+            initialDataValue[0][key] !== null) {
 
             if (currentData[_i][key].id !== initialDataValue[0][key].id) {
               areEqual = false;
@@ -1424,15 +1491,16 @@ export class Cumco020Component implements OnInit {
   }
 
 
+
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
   buildJson1(): any {
 
     var dataSend = [];
-    for(var data1 of this.dataTable1){
-      if (data1.state !== 'noedit'){
-        dataSend.push( {
+    for (var data1 of this.dataTable1) {
+      if (data1.state !== 'noedit') {
+        dataSend.push({
           id: data1.id,
           descripcion: data1.descripcion,
           codigo: data1.codigo,
@@ -1444,7 +1512,7 @@ export class Cumco020Component implements OnInit {
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
   }
@@ -1453,9 +1521,9 @@ export class Cumco020Component implements OnInit {
   buildJson2(): any {
 
     var dataSend = [];
-    for(var data2 of this.dataTable2){
-      if (data2.state !== 'noedit'){
-        dataSend.push( {
+    for (var data2 of this.dataTable2) {
+      if (data2.state !== 'noedit') {
+        dataSend.push({
           id: data2.id,
           descripcion: data2.descripcion,
           codigo: data2.codigo,
@@ -1468,7 +1536,7 @@ export class Cumco020Component implements OnInit {
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
   }
@@ -1476,19 +1544,19 @@ export class Cumco020Component implements OnInit {
   buildJson3(): any {
 
     var dataSend = [];
-    for(var data3 of this.dataTable3){
-      if (data3.state !== 'noedit'){
-        dataSend.push( {
+    for (var data3 of this.dataTable3) {
+      if (data3.state !== 'noedit') {
+        dataSend.push({
           id: data3.id,
           idProceso: data3.proceso.id,
-          dependencia: {id: this.seleccionDependenciaFilter.id},
+          dependencia: { id: this.seleccionDependenciaFilter.id },
           state: data3.state
         });
 
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
   }
@@ -1496,19 +1564,19 @@ export class Cumco020Component implements OnInit {
   buildJson4(): any {
 
     var dataSend = [];
-    for(var data4 of this.dataTable4){
-      if (data4.state !== 'noedit'){
-        dataSend.push( {
+    for (var data4 of this.dataTable4) {
+      if (data4.state !== 'noedit') {
+        dataSend.push({
           id: data4.id,
           idProcedimiento: data4.porcedimiento.id,
-          dependencia: {id: this.seleccionDependenciaFilter.id},
+          dependencia: { id: this.seleccionDependenciaFilter.id },
           state: data4.state
         });
 
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
   }
@@ -1588,6 +1656,48 @@ export class Cumco020Component implements OnInit {
   // Metodos para Generar los JSON para Guardar -- Metodos para Generar los JSON para Guardar
 
 
+  loadDataTable3(event?): boolean {
+
+    let getParameters: any;
+
+    getParameters = {};
+
+    if (this.seleccionDependenciaFilter !== undefined) {
+      getParameters = { ...getParameters, idDependencia: this.seleccionDependenciaFilter.id };
+      this.subcribeGetTotalRelacionProcesoDependencia('?idDependencia=' + String(this.seleccionDependenciaFilter.id));
+    }
+    else {
+      return false;
+    }
+
+
+    if (event !== undefined) {
+      if (event.first !== undefined) {
+        getParameters = { ...getParameters, page: Math.trunc(event.first / event.rows) + 1 };
+      }
+
+      if (event.rows !== undefined) {
+        getParameters = { ...getParameters, size: event.rows };
+      }
+
+      if (event.sortField !== undefined) {
+        getParameters = { ...getParameters, sortField: event.sortField };
+      }
+
+      if (event.sortOrder !== undefined && event.sortField !== undefined) {
+        getParameters = { ...getParameters, sortOrder: event.sortOrder };
+      }
+    }
+    else {
+      this.startRegisterTable3 = 0;
+      getParameters = { ...getParameters, page: 1, size: this.nRowsTable3 };
+    }
+
+    this.initialStateDataTable3 = true;
+    this.subscribeGetRelacionProcesoDependencia3(getParameters);
+
+    return true;
+  }
 
 }
 
