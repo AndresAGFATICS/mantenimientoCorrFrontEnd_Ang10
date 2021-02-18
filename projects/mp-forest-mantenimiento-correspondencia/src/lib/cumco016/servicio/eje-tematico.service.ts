@@ -17,8 +17,8 @@ export class EjeTematicoService extends GeneralService{
     return this.get('/mnt-corr/1.0.0/ejeTematico' + parameters);
   }
 
-  public getDependenciaLista(codNombre: string, activo: string) {
-    return this.get("/forest/documentos/1.0.0/dependencia/lista?activo=" + activo + "&codigoNombre=" + codNombre);
+  public getDependenciaLista(parameters: string) {
+    return this.get("/forest/documentos/1.0.0/dependencia/lista" + parameters);
   }
 
   public getEjeTematicoDependencia(idDependencia: string) {

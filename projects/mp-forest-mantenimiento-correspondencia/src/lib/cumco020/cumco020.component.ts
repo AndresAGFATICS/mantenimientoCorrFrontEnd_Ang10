@@ -57,7 +57,8 @@ export class Cumco020Component implements OnInit {
   dataProcedimientoFilter2: any[];
   suggestionsProcedimientoFilter2: any[];
 
-
+  size = this.cumco020Service.generalSize;
+  
 
   //TABLA 1
   cols: any[];
@@ -70,6 +71,8 @@ export class Cumco020Component implements OnInit {
   idRow1 = 0;
   pageTable1 = 0;
   loading1: boolean;
+  pagePro = 1;
+  
 
   //TABLA 2
   cols2: any[];
@@ -99,6 +102,8 @@ export class Cumco020Component implements OnInit {
   totalRecords3 = 5;
   startRegisterTable3 = 0;
 
+  pageDep = 1;
+
   //TABLA 4
   cols4: any[];
   dataTable4: any[];
@@ -111,6 +116,7 @@ export class Cumco020Component implements OnInit {
   pageTable4 = 0;
   allSelect = false;
   loading4: boolean;
+  pageProce = 1;
 
 
 
@@ -121,11 +127,11 @@ export class Cumco020Component implements OnInit {
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumnsTraslations();
 
-    this.subscribeGetProcesoSGS('');
+    this.subscribeGetProcesoSGS2('?page=' + String(this.pagePro) + '&size=' + String(this.size));
 
-    this.subscribeGetProcedimientoSGS2('');
+    this.subscribeGetProcedimientoSGS2('?page=' + String(this.pageProce) + '&size=' + String(this.size));
 
-    this.subcribeGetOrganismoDependencia('');
+    this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
 
 
   }
@@ -196,6 +202,55 @@ export class Cumco020Component implements OnInit {
           this.initialStateDataTable1 = false;
         }
         this.loading1 = false;
+      })
+
+  }
+
+
+  subscribeGetProcesoSGS2(parameters: string) {
+
+    if (this.pagePro === 1) {
+      this.dataTable1 = [];
+      this.initialDataTable1 = [];
+      this.dataProcesoFilter = [];
+    }
+    this.loading1 = true;
+    let response: any[];
+    this.cumco020Service.getProcesoSGS(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        this.loading1 = false;
+      },
+      () => {                 // Fin del suscribe
+        
+        for (const data of response) {
+          this.dataTable1.push({ ...data, state: 'noedit' });
+          this.dataProcesoFilter.push({ ...data, codigoNombre: data.codigo + ' - ' + data.nombre });
+        }
+
+        if (response.length >= this.size) {
+          this.pagePro = this.pagePro + 1;
+          
+          this.subscribeGetProcesoSGS2('?page=' + String(this.pagePro) + '&size=' + String(this.size));
+    
+        } else {
+          this.dataTable1 = [...this.dataTable1];
+          this.pagePro = 1;
+          if (this.initialStateDataTable1) {
+            this.initialDataTable1 = [];
+            for (const data of this.dataTable1) {
+              this.initialDataTable1.push(JSON.parse(JSON.stringify(data)));
+            }
+            this.initialStateDataTable1 = false;
+          }
+          this.loading1 = false;
+        }
+
+        
       })
 
   }
@@ -297,16 +352,42 @@ export class Cumco020Component implements OnInit {
 
 
   subscribeGetProcedimientoSGS2(parameters: string) {
-
-    this.cumco020Service.getProcedimientoSGS('').subscribe(
+    if (this.pageProce === 1) {
+      this.allProcedimientosRelacionados = [];
+    }
+    this.loading4 = true;
+    let responseData: any[];
+    this.cumco020Service.getProcedimientoSGS(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
-        this.allProcedimientosRelacionados = getRes;
+        responseData = getRes;
         return getRes;
       },
       getError => {           // Error del suscribe
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
+
+        for (var respData of responseData) {
+          this.allProcedimientosRelacionados.push({ ...respData });
+        }
+
+        if (responseData.length >= this.size) {
+          this.pageProce = this.pageProce + 1;
+          //if (parameters === '') {
+            this.subscribeGetProcedimientoSGS2('?page=' + String(this.pageProce) + '&size=' + String(this.size));
+          //}
+          //else {
+          //  this.subcribeServiceEjeTematico(parameters + '&page=' + String(this.page) + '&size=' + String(this.size));
+          //}
+        } else {
+          this.pageProce = 1;
+          this.allProcedimientosRelacionados = [...this.allProcedimientosRelacionados];
+          this.loading4 = false
+          return;
+        }
+
+
+
       })
 
   }
@@ -431,6 +512,40 @@ export class Cumco020Component implements OnInit {
         this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.organismoDependenciaError'), getError.error.message);
       },
       () => {                 // Fin del suscribe
+      });
+  }
+
+
+  subcribeGetOrganismoDependencia2(getParameters: string) {
+    if (this.pageDep === 1) {
+      this.dataDependenciFilter = [];
+    }
+    let responseData: any[];
+    this.cumco020Service.getOrganismoDependencia(getParameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        responseData = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.organismoDependenciaError'), getError.error.message);
+      },
+      () => {                 // Fin del suscribe
+
+        for (var respData of responseData) {
+          this.dataDependenciFilter.push({ ...respData });
+        }
+
+        if (responseData.length >= this.size) {
+          this.pageDep = this.pageDep + 1;
+            this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
+        } else {
+          this.dataDependenciFilter = [...this.dataDependenciFilter];
+          this.pageDep = 1;
+          return;
+        }
+
+
       });
   }
 

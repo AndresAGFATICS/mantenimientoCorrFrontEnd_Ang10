@@ -52,7 +52,7 @@ export class CUMCO004Component implements OnInit {
    msgs: Message[] = [];
 
    page = 1;
-   size = 250;
+   size = this.codigoDescripcionService.generalSize;
 
   constructor(private codigoDescripcionService: CodigoDescripcionService,
     private messageService: MessageService,

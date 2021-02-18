@@ -8,6 +8,8 @@ import { catchError } from 'rxjs/operators';
 })
 export class GeneralService {
 
+  generalSize = 100;
+
   //_API_ENDPOINT_GATEWAY = '';
   //_URL_SERVICE = "/sistema/1.0.0/"
   _API_ENDPOINT_GATEWAY = "https://alcaldiadevcaliforest5.forestbpms.co/forestWS/forest";

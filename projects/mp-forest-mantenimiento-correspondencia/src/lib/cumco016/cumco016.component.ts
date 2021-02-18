@@ -55,7 +55,9 @@ export class Cumco016Component implements OnInit {
   msgs2: Message[] = [];
 
   page = 1;
-  size = 250;
+  size = this.ejeTematicoService.generalSize;
+  //size = 2;
+  pageDep = 1;
 
   customers: any[];
 
@@ -80,7 +82,7 @@ export class Cumco016Component implements OnInit {
 
     this.page = 1;
     this.subcribeServiceEjeTematico('');
-    this.subscribeDependenciaLista('', '1');
+    this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) +  "&activo=1");
 
     //this.subscribeEjesDisponiobles();
   }
@@ -169,8 +171,8 @@ export class Cumco016Component implements OnInit {
       });
   }
 
-  subscribeDependenciaLista(descripcion: string, activo: string): any {
-    this.ejeTematicoService.getDependenciaLista(descripcion, activo).subscribe(
+  subscribeDependenciaLista(parameters: string): any {
+    this.ejeTematicoService.getDependenciaLista(parameters).subscribe( // ?activo=" + activo + "&codigoNombre=" + codNombre
 
       (getRes: any[]) => {     // Inicio del suscribe
         this.dependenciaLista = getRes;
@@ -185,6 +187,45 @@ export class Cumco016Component implements OnInit {
         this.files = this.createTree(newLIst);
         //console.log(this.files);
         //this.updateDependencias(this.dependenciaLista);
+      });
+  }
+
+
+ 
+
+  subscribeDependenciaLista2(parameters) {
+    if (this.pageDep === 1) {
+      this.dependenciaLista = [];
+    }
+    let responseData: any[];
+    this.ejeTematicoService.getDependenciaLista(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        responseData = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.organismoDependenciaError'), getError.error.message);
+      },
+      () => {                 // Fin del suscribe
+
+        for (var respData of responseData) {
+          this.dependenciaLista.push({ ...respData });
+        }
+
+        if (responseData.length >= this.size) {
+          this.pageDep = this.pageDep + 1;
+            this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) +  "&activo=1");
+        } else {
+          this.dependenciaLista = [...this.dependenciaLista];
+          this.pageDep = 1;
+          var newLIst = this.createArray(this.dependenciaLista);
+          //console.log(newLIst);
+          this.files = this.createTree(newLIst);
+          return;
+        }
+
+
       });
   }
 
@@ -230,7 +271,8 @@ export class Cumco016Component implements OnInit {
           //}
         } else {
           this.rows = [...this.rows];
-          this.loading = false
+          this.loading = false;
+          this.page = 1;
           return;
         }
 
