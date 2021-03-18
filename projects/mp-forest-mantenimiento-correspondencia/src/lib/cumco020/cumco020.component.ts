@@ -58,7 +58,7 @@ export class Cumco020Component implements OnInit {
   suggestionsProcedimientoFilter2: any[];
 
   size = this.cumco020Service.generalSize;
-  
+
 
   //TABLA 1
   cols: any[];
@@ -72,7 +72,7 @@ export class Cumco020Component implements OnInit {
   pageTable1 = 0;
   loading1: boolean;
   pagePro = 1;
-  
+
 
   //TABLA 2
   cols2: any[];
@@ -86,6 +86,7 @@ export class Cumco020Component implements OnInit {
   allProcedimientosRelacionados: any[];
   pageTable2 = 0;
   loading2: boolean;
+  pageProced = 1;
 
   //TABLA 3
   cols3: any[];
@@ -226,7 +227,7 @@ export class Cumco020Component implements OnInit {
         this.loading1 = false;
       },
       () => {                 // Fin del suscribe
-        
+
         for (const data of response) {
           this.dataTable1.push({ ...data, state: 'noedit' });
           this.dataProcesoFilter.push({ ...data, codigoNombre: data.codigo + ' - ' + data.nombre });
@@ -234,9 +235,9 @@ export class Cumco020Component implements OnInit {
 
         if (response.length >= this.size) {
           this.pagePro = this.pagePro + 1;
-          
+
           this.subscribeGetProcesoSGS2('?page=' + String(this.pagePro) + '&size=' + String(this.size));
-    
+
         } else {
           this.dataTable1 = [...this.dataTable1];
           this.pagePro = 1;
@@ -250,7 +251,7 @@ export class Cumco020Component implements OnInit {
           this.loading1 = false;
         }
 
-        
+
       })
 
   }
@@ -312,7 +313,9 @@ export class Cumco020Component implements OnInit {
         this.dataTable2 = [];
         this.initialStateDataTable1 = true,
           this.showMessage("success", this.translate.instant('CUMCO020.MENSAJES.exito'), '');
-        this.subscribeGetProcesoSGS('');
+        //this.subscribeGetProcesoSGS('');
+        this.pagePro = 1;
+        this.subscribeGetProcesoSGS2('?page=' + String(this.pagePro) + '&size=' + String(this.size));
       });
 
   }
@@ -350,6 +353,53 @@ export class Cumco020Component implements OnInit {
 
   }
 
+  subscribeGetProcedimientoSGS_nuevo(parameters: string) {
+    if (this.pageProced === 1) {
+      this.dataTable2 = [];
+      this.dataProcedimientoFilter = [];
+      this.initialDataTable2 = [];
+    }
+    this.loading2 = true;
+    let response: any[];
+    this.cumco020Service.getProcedimientoSGS(parameters).subscribe(
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        this.loading2 = false;
+      },
+      () => {                 // Fin del suscribe
+
+        for (const data of response) {
+          this.dataTable2.push({ ...data, state: 'noedit', codigoNombreProceso: this.selectedRowTable1.codigo + ' - ' + this.selectedRowTable1.nombre });
+          this.dataProcedimientoFilter.push({ ...data, codigoNombre: data.codigo + ' - ' + data.nombre });
+        }
+
+        if (response.length >= this.size) {
+          this.pageProced = this.pageProced + 1;
+
+          this.subscribeGetProcedimientoSGS_nuevo('?page=' + String(this.pageProced) + '&size=' + String(this.size) + "&idProceso=" + this.selectedRowTable1.id);
+
+        } else {
+
+          this.dataTable2 = [...this.dataTable2];
+          this.pageProced = 1;
+          if (this.initialStateDataTable2) {
+            this.initialDataTable2 = [];
+            for (const data of this.dataTable2) {
+              this.initialDataTable2.push(JSON.parse(JSON.stringify(data)));
+            }
+            this.initialStateDataTable2 = false;
+          }
+          this.loading2 = false;
+
+        }
+      })
+
+  }
+
 
   subscribeGetProcedimientoSGS2(parameters: string) {
     if (this.pageProce === 1) {
@@ -374,7 +424,7 @@ export class Cumco020Component implements OnInit {
         if (responseData.length >= this.size) {
           this.pageProce = this.pageProce + 1;
           //if (parameters === '') {
-            this.subscribeGetProcedimientoSGS2('?page=' + String(this.pageProce) + '&size=' + String(this.size));
+          this.subscribeGetProcedimientoSGS2('?page=' + String(this.pageProce) + '&size=' + String(this.size));
           //}
           //else {
           //  this.subcribeServiceEjeTematico(parameters + '&page=' + String(this.page) + '&size=' + String(this.size));
@@ -421,8 +471,29 @@ export class Cumco020Component implements OnInit {
           return;
         }
         else {
-          if (this.selectedRowTable2.isRadicado || this.selectedRowTable2.isBorrador) {
+          this.subscribegetProcedimientoRadicadoBorrador( String(this.selectedRowTable2.id) );
+        }
 
+      })
+
+  }
+
+
+  subscribegetProcedimientoRadicadoBorrador(parameters: string) {
+    var response: any[];
+    this.cumco020Service.getProcedimientoRadicadoBorrador(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+
+        if (response.length !== 0) {
+          if (response[0].isRadicado !== 0 || response[0].isBorrador !== 0) {
             const error = this.translate.instant('CUMCO020.MENSAJES.eliminarProcedimientoRadicadoError',
               {
                 procedimiento: this.selectedRowTable2.codigo + ' - ' + this.selectedRowTable2.nombre,
@@ -430,17 +501,19 @@ export class Cumco020Component implements OnInit {
               });
             this.showMessage2("error", error, '');
             return;
-
           }
           else {
             this.dataTable2.find(row => row === this.selectedRowTable2).state = this.selectedRowTable2.state === 'delete' ? 'edit' : 'delete';
             this.editedTable2('');
           }
-
+        }
+        else {
+          this.dataTable2.find(row => row === this.selectedRowTable2).state = this.selectedRowTable2.state === 'delete' ? 'edit' : 'delete';
+          this.editedTable2('');
         }
 
-      })
 
+      });
   }
 
   subcribePostProcedimientoSGS(body: any) {
@@ -538,7 +611,7 @@ export class Cumco020Component implements OnInit {
 
         if (responseData.length >= this.size) {
           this.pageDep = this.pageDep + 1;
-            this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
+          this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
         } else {
           this.dataDependenciFilter = [...this.dataDependenciFilter];
           this.pageDep = 1;
@@ -626,15 +699,15 @@ export class Cumco020Component implements OnInit {
       () => {                 // Fin del suscribe
 
         if (respuestaPost.status === false) {
-          if (respuestaPost.message === 'error-repetido'){
+          if (respuestaPost.message === 'error-repetido') {
 
             let repitedRegister = this.dataTable3.find(row => row.proceso.id === respuestaPost.data.idProceso);
 
             const error = this.translate.instant('CUMCO020.MENSAJES.campoCodigoRepetidoError2',
-            {
-              codigoNombre: repitedRegister.proceso.codigoNombre
-            });
-          this.showMessage('error', error, '');
+              {
+                codigoNombre: repitedRegister.proceso.codigoNombre
+              });
+            this.showMessage('error', error, '');
 
           }
         }
@@ -1180,7 +1253,8 @@ export class Cumco020Component implements OnInit {
     if (this.selectedRowTable1 && this.selectedRowTable1.state !== 'new') {
       this.seleccionProcedimientoFilter = undefined;
       this.initialStateDataTable2 = true;
-      this.subscribeGetProcedimientoSGS('?idProceso=' + this.selectedRowTable1.id);
+      //this.subscribeGetProcedimientoSGS('?idProceso=' + this.selectedRowTable1.id);
+      this.subscribeGetProcedimientoSGS_nuevo('?page=' + String(this.pageProced) + '&size=' + String(this.size) + "&idProceso=" + this.selectedRowTable1.id);
     } else {
       this.dataTable2 = [];
     }

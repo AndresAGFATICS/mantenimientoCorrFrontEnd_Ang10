@@ -55,6 +55,7 @@ export class Cumco016Component implements OnInit {
   msgs2: Message[] = [];
 
   page = 1;
+  page2 = 1;
   size = this.ejeTematicoService.generalSize;
   //size = 2;
   pageDep = 1;
@@ -81,8 +82,8 @@ export class Cumco016Component implements OnInit {
     this.subcribeSetColumns();
 
     this.page = 1;
-    this.subcribeServiceEjeTematico('');
-    this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) +  "&activo=1");
+    this.subcribeServiceEjeTematico('?page=' + String(this.page) + '&size=' + String(this.size));
+    this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) + "&activo=1");
 
     //this.subscribeEjesDisponiobles();
   }
@@ -106,10 +107,15 @@ export class Cumco016Component implements OnInit {
     });
   }
 
-  subscribeEjeTematicoDependencia(idDependencia: string) {
-    this.loading2 = true;
-    var response: any[];
-    this.ejeTematicoService.getEjeTematicoDependencia(idDependencia).subscribe(
+  subscribeEjeTematicoDependencia(page: any, size: any, idDependencia: string) {
+    if (this.page2 === 1) {
+      this.loading2 = true;
+      var response: any[];
+      this.targetRows = [];
+      this.sourceRows = [];
+    }
+
+    this.ejeTematicoService.getEjeTematicoDependencia(page, size, idDependencia).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
         response = getRes;
@@ -122,7 +128,7 @@ export class Cumco016Component implements OnInit {
       () => {                 // Fin del suscribe
 
 
-        this.targetRows = [];
+
         for (const iniData of response) {
           let isData = [];
           isData = this.initialData1.filter(data => data.id === iniData.ejeTematico.id);
@@ -139,32 +145,41 @@ export class Cumco016Component implements OnInit {
         }
 
 
-        this.sourceRows = [];
-        for (const iniData of this.initialData1) {
-          if (iniData.state !== 'new') {
-            let isData = [];
-            isData = this.targetRows.filter(data => data.ejeTematico.id === iniData.id);
-            if (isData.length === 0) {
-              this.sourceRows.push({
-                id: '',
-                dependencia: { id: this.selectedFile.data },
-                ejeTematico: iniData
-              });
+
+        if (response.length >= this.size) {
+          this.page2 = this.page2 + 1;
+          this.subscribeEjeTematicoDependencia(this.page2, this.size, this.selectedFile.data);
+        }
+        else {
+
+          for (const iniData of this.initialData1) {
+            if (iniData.state !== 'new') {
+              let isData = [];
+              isData = this.targetRows.filter(data => data.ejeTematico.id === iniData.id);
+              if (isData.length === 0) {
+                this.sourceRows.push({
+                  id: '',
+                  dependencia: { id: this.selectedFile.data },
+                  ejeTematico: iniData
+                });
+              }
             }
           }
-        }
 
-
-
-        if (this.initialState2) {
-          this.initialData2 = [];
-          for (const data of this.targetRows) {
-            this.initialData2.push(JSON.parse(JSON.stringify(data)));
+          if (this.initialState2) {
+            this.initialData2 = [];
+            for (const data of this.targetRows) {
+              this.initialData2.push(JSON.parse(JSON.stringify(data)));
+            }
+            this.initialState2 = false;
           }
-          this.initialState2 = false;
+
+          this.loading2 = false;
         }
 
-        this.loading2 = false;
+
+
+
         //this.subscribeEjesDisponiobles();
 
         //this.updateEjeTematicoDependencia(this.ejetematicoDependenciaLista);
@@ -191,7 +206,7 @@ export class Cumco016Component implements OnInit {
   }
 
 
- 
+
 
   subscribeDependenciaLista2(parameters) {
     if (this.pageDep === 1) {
@@ -215,7 +230,7 @@ export class Cumco016Component implements OnInit {
 
         if (responseData.length >= this.size) {
           this.pageDep = this.pageDep + 1;
-            this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) +  "&activo=1");
+          this.subscribeDependenciaLista2('?page=' + String(this.pageDep) + '&size=' + String(this.size) + "&activo=1");
         } else {
           this.dependenciaLista = [...this.dependenciaLista];
           this.pageDep = 1;
@@ -264,7 +279,7 @@ export class Cumco016Component implements OnInit {
         if (responseData.length >= this.size) {
           this.page = this.page + 1;
           //if (parameters === '') {
-            this.subcribeServiceEjeTematico('?page=' + String(this.page) + '&size=' + String(this.size));
+          this.subcribeServiceEjeTematico('?page=' + String(this.page) + '&size=' + String(this.size));
           //}
           //else {
           //  this.subcribeServiceEjeTematico(parameters + '&page=' + String(this.page) + '&size=' + String(this.size));
@@ -299,7 +314,7 @@ export class Cumco016Component implements OnInit {
       () => {                 // Fin del suscribe
         this.initialState1 = true;
         this.page = 1;
-        this.subcribeServiceEjeTematico('');
+        this.subcribeServiceEjeTematico('?page=' + String(this.page) + '&size=' + String(this.size));
         this.selectedFile = undefined;
         this.targetRows = [];
         this.sourceRows = [];
@@ -310,7 +325,7 @@ export class Cumco016Component implements OnInit {
 
   subscribeEjesDisponiobles() {
     let response: any[];
-    this.ejeTematicoService.getEjeTematicoDependencia('').subscribe(
+    this.ejeTematicoService.getEjeTematicoDependencia('', '', '').subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         response = getRes;
         return getRes;
@@ -389,6 +404,38 @@ export class Cumco016Component implements OnInit {
         this.onNodeSelect('');
         const meesage = this.translate.instant('CUMCO016.MENSAJES.guradarRelacionEjesDependenciaExito', { dependencia: this.selectedFile.label });
         this.showMessage2('success', meesage, '');
+      });
+  }
+
+  getEjeTematicoRadicadoBorrador(parameters: string) {
+    var response: any[];
+    this.ejeTematicoService.getEjeTematicoRadicadoBorrador(parameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        response = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+      },
+      () => {                 // Fin del suscribe
+
+        if (response.length !== 0) {
+          if (response[0].isRadicado !== 0 || response[0].isBorrador !== 0) {
+            const error = this.translate.instant('CUMCO016.MENSAJES.ejeAsociadoRadicadoError', { eje: this.selectedRows.descripcion });
+            this.showMessage("error", error, '');
+          }
+          else {
+            //this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+            this.subscribeEjesRelacionados(this.selectedRows.id)
+          }
+        }
+        else {
+          //this.rows.find(row => row === this.selectedRows).state = this.selectedRows.state === 'delete' ? 'edit' : 'delete';
+          this.subscribeEjesRelacionados(this.selectedRows.id)
+        }
+
+
       });
   }
 
@@ -474,7 +521,7 @@ export class Cumco016Component implements OnInit {
     });
 
     this.rows = rows;
-    if (this.sortEvent){
+    if (this.sortEvent) {
       this.customSort(this.rows, this.sortEvent);
     }
 
@@ -489,12 +536,14 @@ export class Cumco016Component implements OnInit {
   }
 
   onClicEliminar() {
-    if (this.selectedRows.isRadicado || this.selectedRows.isBorrador) {
-      const error = this.translate.instant('CUMCO016.MENSAJES.ejeAsociadoRadicadoError', { eje: this.selectedRows.descripcion });
-      this.showMessage("error", error, '');
-    }
-    else if (this.selectedRows && this.selectedRows.state !== 'new') {
-      this.subscribeEjesRelacionados(this.selectedRows.id);
+    //if (this.selectedRows.isRadicado || this.selectedRows.isBorrador) {
+    //const error = this.translate.instant('CUMCO016.MENSAJES.ejeAsociadoRadicadoError', { eje: this.selectedRows.descripcion });
+    //this.showMessage("error", error, '');
+
+    //}
+    if (this.selectedRows && this.selectedRows.state !== 'new') {
+      this.getEjeTematicoRadicadoBorrador('?page=1&size=1&id=' + String(this.selectedRows.id));
+      //this.subscribeEjesRelacionados(this.selectedRows.id);
     } else if (this.selectedRows && this.selectedRows.state === 'new') {
       let index = this.rows.indexOf(this.selectedRows);
       this.rows = this.rows.filter((val, i) => i !== index);
@@ -522,6 +571,7 @@ export class Cumco016Component implements OnInit {
   onClicGuarda2() {
     if (this.selectedFile) {
       if (this.selectedFile.data !== undefined) {
+        this.loading2 = true;
         this.subcribePostRelacionEjeTematicoDependencia(this.buildJsonRelacionEjeTematicoDependencia());
       }
     }
@@ -579,7 +629,8 @@ export class Cumco016Component implements OnInit {
   onNodeSelect($event) {
     if (this.selectedFile) {
       this.initialState2 = true;
-      this.subscribeEjeTematicoDependencia(this.selectedFile.data);
+      this.page2 = 1;
+      this.subscribeEjeTematicoDependencia(this.page2, this.size, this.selectedFile.data);
     }
   }
 
@@ -703,9 +754,9 @@ export class Cumco016Component implements OnInit {
   buildJsonEjeTematico(): any {
 
     var dataSend = [];
-    for(var data of this.rows){
-      if (data.state !== 'noedit'){
-        dataSend.push( {
+    for (var data of this.rows) {
+      if (data.state !== 'noedit') {
+        dataSend.push({
           id: data.id,
           descripcion: data.descripcion,
           codigo: data.codigo,
@@ -716,7 +767,7 @@ export class Cumco016Component implements OnInit {
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
   }
@@ -748,7 +799,7 @@ export class Cumco016Component implements OnInit {
     let features = [];
 
     this.rows.forEach(tipo => {
-      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete' ) {
+      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete') {
 
         features.push({
           attributes: {
@@ -778,16 +829,17 @@ export class Cumco016Component implements OnInit {
 
     var dataSent = [];
 
-    var filteredInitialData = [];
 
     for (const newData of this.targetRows) {
       let isData = [];
       isData = this.initialData2.filter(data => data.id === newData.id);
       if (isData.length === 0) {
-        dataSent.push({ id: newData.id, 
-                        ejeTematico: {id: newData.ejeTematico.id},
-                        dependencia: { id: this.selectedFile.data},
-                        state: 'new' });
+        dataSent.push({
+          id: newData.id,
+          ejeTematico: { id: newData.ejeTematico.id },
+          dependencia: { id: this.selectedFile.data },
+          state: 'new'
+        });
       }
     }
 
@@ -795,15 +847,17 @@ export class Cumco016Component implements OnInit {
       let isData = [];
       isData = this.targetRows.filter(data => data.id === delData.id);
       if (isData.length === 0) {
-        dataSent.push({ id: delData.id, 
-          ejeTematico: {id: delData.ejeTematico.id},
-          dependencia: { id: this.selectedFile.data},
-          state: 'delete' });
+        dataSent.push({
+          id: delData.id,
+          ejeTematico: { id: delData.ejeTematico.id },
+          dependencia: { id: this.selectedFile.data },
+          state: 'delete'
+        });
       }
     }
 
 
-    return(dataSent);
+    return (dataSent);
 
 
   }
@@ -926,19 +980,22 @@ export class Cumco016Component implements OnInit {
   }
 
   onMoveToTarget(event) {
+    this.loading2 = true;
     for (var item of event.items) {
       if (item.isEjeDependenciaBorrador || item.isEjeDependenciaRadicado) {
         this.sourceRows.push(item);
       }
     }
+    this.loading2 = false;
   }
 
   onMoveToSource(event) {
+    this.loading2 = true;
     for (var item of event.items) {
       var element = this.targetRows.find(data => data.ejeTematico.id === item.ejeTematico.id)
 
       if (!element) {
-        if (item.id !== '' && (item.isEjeDependenciaBorrador == 1 || item.isEjeDependenciaRadicado == 1)) {
+        if (item.id !== '' && (item.isEjeDependenciaBorrador >= 1 || item.isEjeDependenciaRadicado >= 1)) {
           this.targetRows.push(item);
           let index = this.sourceRows.indexOf(item);
           if (index !== -1) {
@@ -948,6 +1005,7 @@ export class Cumco016Component implements OnInit {
 
       }
     }
+    this.loading2 = false;
   }
 
 
@@ -963,27 +1021,27 @@ export class Cumco016Component implements OnInit {
   }
 
 
-  customSort( data: any[], event ?: SortEvent){
+  customSort(data: any[], event?: SortEvent) {
 
     let sortData: any[];
 
-    if ( event === undefined ){
+    if (event === undefined) {
       sortData = data.sort(function (a, b) {
-      if ( a.id < b.id ) {
-        return -1;
-      }
-      if ( a.id > b.id ){
-        return 1;
-      }
-      return 0;
-    });
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      });
     }
-    else{
+    else {
       sortData = data.sort(function (a, b) {
-        if( a[event.field] < b[event.field] ) {
+        if (a[event.field] < b[event.field]) {
           return -1 * event.order;
         }
-        if( a[event.field] > b[event.field] ){
+        if (a[event.field] > b[event.field]) {
           return 1 * event.order;
         }
         return 0;

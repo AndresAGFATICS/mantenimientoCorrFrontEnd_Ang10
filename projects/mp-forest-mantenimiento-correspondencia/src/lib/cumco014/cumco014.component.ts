@@ -55,6 +55,7 @@ export class CUMCO014Component implements OnInit {
   initialDataTable2 = true;
   pageTable2 = 0;
   loading2: boolean;
+  copy_listaSubRadicado: any[];
 
   seleccionCategoria: any;
   listadoCategoria: any[];
@@ -62,7 +63,7 @@ export class CUMCO014Component implements OnInit {
   tablaTipoRadicado: Radicado[];
   seleccionTablaRadicado: any;
   initialData1: any[];
-  initialStateTabla1= true;
+  initialStateTabla1 = true;
   idRow: number;
   idRow2: number;
 
@@ -103,7 +104,7 @@ export class CUMCO014Component implements OnInit {
   fileExtesionsData: any[];
   suggestionsFileExtesionsData: any[];
   loading4: boolean;
-  
+
 
 
   //Variables Tabla 5
@@ -122,8 +123,9 @@ export class CUMCO014Component implements OnInit {
   pageTable5 = 0;
   loading5: boolean;
 
+  page2 = 1;
   page = 1;
-  size = 250;
+  size = this.cumco014Service.generalSize;
   loading: boolean;
 
 
@@ -132,7 +134,7 @@ export class CUMCO014Component implements OnInit {
   ngOnInit() {
     // Setting lenguaje por defecto
     this.translate.setDefaultLang('es');
-
+    this.page2 = 1;
     // Nombrar las columnas de la primera tabla
     this.subcribeSetColumns();
 
@@ -143,62 +145,64 @@ export class CUMCO014Component implements OnInit {
 
     this.subscribeCategoria2('');
 
-    this.dataTable4=[];
-    this.initialDataTable4=[];
+    this.dataTable4 = [];
+    this.initialDataTable4 = [];
     this.page = 1;
     this.subscribeGetRequisito('');
+
+    //this.seleccionSubRadicado = this.seleccionSubRadicado;
 
     this.subscribeGetFileExtension('?activo=1');
   }
 
-  
-  
+
+
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
   // Metodos para SUSCRIBIRSE a los SERVICIOS -- Metodo para SUSCRIBIRSE a los SERVICIOS
 
   subcribeSetColumns() {
 
     this.translate.get(['']).subscribe(translations => {
-    this.cols = [
-      { field: 'id', header: this.translate.instant('CUMCO014.TABLA1.headerTabla0') },
-      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla1') },
-      { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla2'), required: true },
-      { field: 'categoria.codigoDescripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla3'), required: true },
-      { field: 'activo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla4') }
-    ];
-    this.cols2 = [
-      { field: 'id', header: this.translate.instant('CUMCO014.TABLA2.headerTabla1') },
-      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA2.headerTabla2') },
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA2.headerTabla3'), required: true },
-      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA2.headerTabla4'), required: true },
-      { field: 'item_4', header: this.translate.instant('CUMCO014.TABLA2.headerTabla5') },
-      { field: 'item_5', header: this.translate.instant('CUMCO014.TABLA2.headerTabla6') },
-      { field: 'item_6', header: this.translate.instant('CUMCO014.TABLA2.headerTabla7') },
-      { field: 'item_7', header: this.translate.instant('CUMCO014.TABLA2.headerTabla8') },
-      { field: 'item_8', header: this.translate.instant('CUMCO014.TABLA2.headerTabla9') },
-      { field: 'item_9', header: this.translate.instant('CUMCO014.TABLA2.headerTabla10') },
-      { field: 'item_10', header: this.translate.instant('CUMCO014.TABLA2.headerTabla11') },
-      { field: 'item_11', header: this.translate.instant('CUMCO014.TABLA2.headerTabla12') }
-    ];
-    this.cols3 = [
-      { field: 'rowIndex', header: this.translate.instant('CUMCO014.TABLA3.headerTabla0')},
-      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA3.headerTabla1'), required: true },
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA3.headerTabla2'), required: true },
-      { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA3.headerTabla3') }
-    ];
-    this.cols4 = [
-      { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla0')},
-      { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA4.headerTabla1'), required: true },
-      { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA4.headerTabla2') },
-      { field: 'activo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla3') },
-      { field: 'requerido', header: this.translate.instant('CUMCO014.TABLA4.headerTabla4') },
-      { field: 'fileExtension.codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla5') },
-      { field: 'idArchivo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla6') }
-    ];
-    this.cols5 = [
-      { field: 'rowIdenx', header: ''},
-      { field: 'requisito.nombre', header: this.translate.instant('CUMCO014.TABLA5.headerTabla0'), required: true}
-    ];
+      this.cols = [
+        { field: 'id', header: this.translate.instant('CUMCO014.TABLA1.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla1') },
+        { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla2'), required: true },
+        { field: 'categoria.codigoDescripcion', header: this.translate.instant('CUMCO014.TABLA1.headerTabla3'), required: true },
+        { field: 'activo', header: this.translate.instant('CUMCO014.TABLA1.headerTabla4') }
+      ];
+      this.cols2 = [
+        { field: 'id', header: this.translate.instant('CUMCO014.TABLA2.headerTabla1') },
+        { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA2.headerTabla2') },
+        { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA2.headerTabla3'), required: true },
+        { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA2.headerTabla4'), required: true },
+        { field: 'item_4', header: this.translate.instant('CUMCO014.TABLA2.headerTabla5') },
+        { field: 'item_5', header: this.translate.instant('CUMCO014.TABLA2.headerTabla6') },
+        { field: 'item_6', header: this.translate.instant('CUMCO014.TABLA2.headerTabla7') },
+        { field: 'item_7', header: this.translate.instant('CUMCO014.TABLA2.headerTabla8') },
+        { field: 'item_8', header: this.translate.instant('CUMCO014.TABLA2.headerTabla9') },
+        { field: 'item_9', header: this.translate.instant('CUMCO014.TABLA2.headerTabla10') },
+        { field: 'item_10', header: this.translate.instant('CUMCO014.TABLA2.headerTabla11') },
+        { field: 'item_11', header: this.translate.instant('CUMCO014.TABLA2.headerTabla12') }
+      ];
+      this.cols3 = [
+        { field: 'rowIndex', header: this.translate.instant('CUMCO014.TABLA3.headerTabla0') },
+        { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA3.headerTabla1'), required: true },
+        { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA3.headerTabla2'), required: true },
+        { field: 'clase_documental', header: this.translate.instant('CUMCO014.TABLA3.headerTabla3') }
+      ];
+      this.cols4 = [
+        { field: 'codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla0') },
+        { field: 'nombre', header: this.translate.instant('CUMCO014.TABLA4.headerTabla1'), required: true },
+        { field: 'descripcion', header: this.translate.instant('CUMCO014.TABLA4.headerTabla2') },
+        { field: 'activo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla3') },
+        { field: 'requerido', header: this.translate.instant('CUMCO014.TABLA4.headerTabla4') },
+        { field: 'fileExtension.codigo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla5') },
+        { field: 'idArchivo', header: this.translate.instant('CUMCO014.TABLA4.headerTabla6') }
+      ];
+      this.cols5 = [
+        { field: 'rowIdenx', header: '' },
+        { field: 'requisito.nombre', header: this.translate.instant('CUMCO014.TABLA5.headerTabla0'), required: true }
+      ];
 
     });
 
@@ -250,24 +254,24 @@ export class CUMCO014Component implements OnInit {
         getRes.forEach(res => {
 
           this.tablaTipoRadicado.push({
-              idRow: '',
-              id: res.id,
-              codigo: res.codigo,
-              descripcion: res.descripcion,
-              codigoDescripcion: res.codigoDescripcion,
-              codigoDescripcionGuion: res.codigoDescripcionGuion,
-              categoria: {
-                id: res.categoria.id,
-                codigo: res.categoria.codigo,
-                descripcion: res.categoria.descripcion,
-                codigoDescripcion: res.categoria.codigoDescripcion,
-                codigoDescripcionGuion: res.categoria.codigoDescripcionGuion,
-                requisitos: res.categoria.requisitos,
-                editable: res.categoria.editable,
-                activo: res.categoria.activo
-              },
-              activo: res.activo,
-              state: 'noedit'
+            idRow: '',
+            id: res.id,
+            codigo: res.codigo,
+            descripcion: res.descripcion,
+            codigoDescripcion: res.codigoDescripcion,
+            codigoDescripcionGuion: res.codigoDescripcionGuion,
+            categoria: {
+              id: res.categoria.id,
+              codigo: res.categoria.codigo,
+              descripcion: res.categoria.descripcion,
+              codigoDescripcion: res.categoria.codigoDescripcion,
+              codigoDescripcionGuion: res.categoria.codigoDescripcionGuion,
+              requisitos: res.categoria.requisitos,
+              editable: res.categoria.editable,
+              activo: res.categoria.activo
+            },
+            activo: res.activo,
+            state: 'noedit'
           });
         })
         return getRes;
@@ -313,11 +317,17 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeSubRadicado(parameters: any) {
+    if (this.page2 === 1) {
+      this.initialData2 = [];
+      this.listaSubRadicado = [];
+      this.copy_listaSubRadicado = [];
+    }
+    var response: any[];
     this.loading2 = true;
     this.cumco014Service.getSubTipoRadicado(parameters).subscribe( //?idTipo=81&codigoTramiteDescripcion=&activo=1
 
       (getRes: any[]) => {     // Inicio del suscribe
-        this.listaSubRadicado = getRes;
+        response = getRes;
         return getRes;
       },
       getError => {           // Error del suscribe
@@ -325,25 +335,69 @@ export class CUMCO014Component implements OnInit {
         this.loading2 = false;
       },
       () => {                 // Fin del suscribe
-        this.listaSubRadicado.forEach(data => data.state = 'noedit');
-        this.suggestionsAutoCompleteSubTipoRadicado = [];
-        for (var subRad of this.listaSubRadicado){
-          this.suggestionsAutoCompleteSubTipoRadicado.push(subRad.descripcion);
+        //this.listaSubRadicado.forEach(data => data.state = 'noedit');
+        //this.suggestionsAutoCompleteSubTipoRadicado = [];
+        //for (var subRad of this.listaSubRadicado){
+        //  this.suggestionsAutoCompleteSubTipoRadicado.push(subRad);
+        //}
+
+        for (var respData of response) {
+          this.copy_listaSubRadicado.push({ ...respData, state: 'noedit' });
         }
 
-        if (this.initialDataTable2) {
-          this.initialData2 = [];
+        if (response.length >= this.size) {
+         
+          this.page2 = this.page2 + 1;
+          if (this.seleccionSubRadicado) {
+            //this.listaSubRadicado = [...this.listaSubRadicado];
+            this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id, idRelacion: this.seleccionSubRadicado.id ? this.seleccionSubRadicado.id : "" });
+          }
+          else {
+            //this.listaSubRadicado = [...this.listaSubRadicado];
+            this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id });
+          }
+
+        }
+        else {
+          //this.listaSubRadicado = [...this.listaSubRadicado];
+          this.copy_listaSubRadicado = [...this.copy_listaSubRadicado];
+          this.listaSubRadicado = this.copy_listaSubRadicado;
+          this.page2 = 1;
+
+
           for (const data of this.listaSubRadicado) {
             this.initialData2.push(JSON.parse(JSON.stringify(data)));
           }
-          this.initialDataTable2 = false;
+
+
+          this.loading2 = false;
+          
         }
-        this.loading2 = false;
-       
+
+        
+
+
       });
   }
 
-  subcribeServiceSubTipoRadicado(getParameters: string) {
+  subscribeSubRadicado_2search(parameters: any) {
+    //this.suggestionsAutoCompleteSubTipoRadicado = [];
+    this.cumco014Service.getSubTipoRadicado(parameters).subscribe( //?idTipo=81&codigoTramiteDescripcion=&activo=1
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        this.suggestionsAutoCompleteSubTipoRadicado = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        console.log('GET call in error', getError);
+        this.loading2 = false;
+      },
+      () => {                 // Fin del suscribe
+
+      });
+  }
+
+  subcribeServiceSubTipoRadicado(getParameters: any) {
     this.cumco014Service.getSubTipoRadicado(getParameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -351,20 +405,20 @@ export class CUMCO014Component implements OnInit {
         return getRes;
       },
       getError => {           // Error del suscribe
-          console.log('GET call in subcribeServiceSubTipoRadicado: ', getError);
-          this.messageService.add({key: 'topMessage', severity:'error', summary: 'Error al obtener Subtipos de Radicados', detail: getError.error.message});
+        console.log('GET call in subcribeServiceSubTipoRadicado: ', getError);
+        this.messageService.add({ key: 'topMessage', severity: 'error', summary: 'Error al obtener Subtipos de Radicados', detail: getError.error.message });
       },
       () => {                 // Fin del suscribe
-        
+
         this.suggestionsAutoCompleteSubTipoRadicado = [];
-        for (var subRad of this.respSubtipoRadicado){
+        for (var subRad of this.respSubtipoRadicado) {
           this.suggestionsAutoCompleteSubTipoRadicado.push(subRad);
         }
-    });
+      });
   }
 
   subscribeGetTramite(parameters: any) {
-    this.cumco014Service.getTramiteActivo(parameters).subscribe( 
+    this.cumco014Service.getTramiteActivo(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         this.response = getRes;
         return getRes;
@@ -374,10 +428,10 @@ export class CUMCO014Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         this.suggestionsAutoCompleteTramite = [];
-        for (var data of this.response){
+        for (var data of this.response) {
           this.suggestionsAutoCompleteTramite.push(data);
         }
-       
+
       });
   }
 
@@ -396,24 +450,30 @@ export class CUMCO014Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         // const exito = this.varText.default.MENSAJES.exitoGuardar;
-        if (this.respuestaGuardarRadicado.message === 'La descripció  no puede eliminarse porque tiene radicados asociados'){
+        if (this.respuestaGuardarRadicado.message === 'La descripció  no puede eliminarse porque tiene radicados asociados') {
           const eliminarSubRadicado = this.listaSubRadicado.filter(data => data.state === 'delete')
-          const error = this.translate.instant('CUMCO014.MENSAJES.elminarSubtipoRadicadoError', 
-                                                {descripcion: eliminarSubRadicado[0].descripcion});
+          const error = this.translate.instant('CUMCO014.MENSAJES.elminarSubtipoRadicadoError',
+            { descripcion: eliminarSubRadicado[0].descripcion });
           this.showMessage2(error, "error");
         }
-        else if( !this.respuestaGuardarRadicado.status ){
+        else if (!this.respuestaGuardarRadicado.status) {
           this.showMessage2(this.respuestaGuardarRadicado.message, "error");
         }
 
-        else{
+        else {
           this.initialDataTable2 = true;
           this.seleccionSubRadicado = undefined;
-          this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id);
+          //this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id);
+          this.page2 = 1;
+          //this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id });
+          this.initialData2 = [];
+          this.listaSubRadicado = [];
+          this.ngOnInit();
+          this.onClicBorrarAutoCompleteSubRadicado();
           this.showMessage2(this.respuestaGuardarRadicado.message, "success");
         }
-        
-        
+
+
       });
   }
 
@@ -434,9 +494,9 @@ export class CUMCO014Component implements OnInit {
         this.loading3 = false;
       },
       () => {                 // Fin del suscribe
-        this.dataTable3.forEach(data => data.state = 'noedit' );
+        this.dataTable3.forEach(data => data.state = 'noedit');
 
-        if (this.initialStateTablae3){
+        if (this.initialStateTablae3) {
           this.initialDataTable3 = [];
           for (const data of this.dataTable3) {
             this.initialDataTable3.push(JSON.parse(JSON.stringify(data)));
@@ -445,9 +505,9 @@ export class CUMCO014Component implements OnInit {
         }
         this.loading3 = false;
       });
-  } 
+  }
 
-  subscribeRevisarRelacionCategoriaTipoRadicado(): any{
+  subscribeRevisarRelacionCategoriaTipoRadicado(): any {
     var reviRelacionCargoriaTiporadicago: any[];
     var notRelated = true;
     this.cumco014Service.getTipoRadicado('').subscribe(
@@ -460,17 +520,17 @@ export class CUMCO014Component implements OnInit {
         this.showMessage2(error, "error");
       },
       () => {                 // Fin del suscribe
-        for(var _i = 0; _i < reviRelacionCargoriaTiporadicago.length; _i++){
-          if(reviRelacionCargoriaTiporadicago[_i].categoria.id === this.selectionTable3.id){
+        for (var _i = 0; _i < reviRelacionCargoriaTiporadicago.length; _i++) {
+          if (reviRelacionCargoriaTiporadicago[_i].categoria.id === this.selectionTable3.id) {
             notRelated = false;
             const error = this.translate.instant('CUMCO014.MENSAJES.elminarCategoriaError',
-                                        {descripcion: this.selectionTable3.codigoDescripcionGuion });
+              { descripcion: this.selectionTable3.codigoDescripcionGuion });
             this.showMessage(error, "error");
             return;
           }
         }
 
-        if(notRelated){
+        if (notRelated) {
           if (this.selectionTable3 && this.selectionTable3.state !== 'new') {
             this.dataTable3.find(row => row === this.selectionTable3).state = this.selectionTable3.state === 'delete' ? 'edit' : 'delete';
           } else if (this.selectionTable3 && this.selectionTable3.state === 'new') {
@@ -479,13 +539,13 @@ export class CUMCO014Component implements OnInit {
             this.selectionTable3 = undefined;
           }
         }
-        
+
       });
     return notRelated;
   }
 
-  subcribePostCategoriaRadicado(body: any){
-    
+  subcribePostCategoriaRadicado(body: any) {
+
     this.cumco014Service.postCategoriaRadicado(body).subscribe(
 
       (getRes: any) => {     // Inicio del suscribe
@@ -499,19 +559,19 @@ export class CUMCO014Component implements OnInit {
       },
       () => {                 // Fin del suscribe
         // const exito = this.varText.default.MENSAJES.exitoGuardar;
-        if (this.respuestaGuardarRadicado.message === 'La descripció  no puede eliminarse porque tiene radicados asociados'){
+        if (this.respuestaGuardarRadicado.message === 'La descripció  no puede eliminarse porque tiene radicados asociados') {
           const eliminarSubRadicado = this.listaSubRadicado.filter(data => data.state === 'delete')
-          const error = this.translate.instant('CUMCO014.MENSAJES.elminarSubtipoRadicadoError', 
-                                                {descripcion: eliminarSubRadicado[0].descripcion});
+          const error = this.translate.instant('CUMCO014.MENSAJES.elminarSubtipoRadicadoError',
+            { descripcion: eliminarSubRadicado[0].descripcion });
           this.showMessage(error, "error");
         }
-        else{
+        else {
           this.initialStateTablae3 = true,
-          this.subscribeCategoria2('');
+            this.subscribeCategoria2('');
           this.showMessage(this.respuestaGuardarRadicado.message, "success");
         }
-        
-        
+
+
       });
 
   }
@@ -524,7 +584,7 @@ export class CUMCO014Component implements OnInit {
       this.initialDataTable4 = [];
     }
     this.loading = true;
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitos(parameters).subscribe(
 
       (getRes: any[]) => {     // Inicio del suscribe
@@ -537,23 +597,23 @@ export class CUMCO014Component implements OnInit {
       },
       () => {                 // Fin del suscribe
 
-        
-        for (var data4 of responseData){
-          if(data4.idArchivo){
-            this.dataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''} } );
-            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''} } );
+
+        for (var data4 of responseData) {
+          if (data4.idArchivo) {
+            this.dataTable4.push({ ...data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : { id: '' } });
+            this.initialDataTable4.push({ ...data4, state: 'noedit', token: '', nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : { id: '' } });
           }
-          else{
-            this.dataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''}, nombreArchivo: '' } );
-            this.initialDataTable4.push( {... data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : {id: ''}, nombreArchivo: ''} );
+          else {
+            this.dataTable4.push({ ...data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : { id: '' }, nombreArchivo: '' });
+            this.initialDataTable4.push({ ...data4, state: 'noedit', token: '', idArchivo: 0, nombreInicial: data4.nombre, fileExtension: data4.fileExtension ? data4.fileExtension : { id: '' }, nombreArchivo: '' });
           }
         }
-  
+
 
         if (responseData.length >= this.size) {
           this.page = this.page + 1;
           //if (parameters === '') {
-            this.subscribeGetRequisito('?page=' + String(this.page) + '&size=' + String(this.size));
+          this.subscribeGetRequisito('?page=' + String(this.page) + '&size=' + String(this.size));
           //}
           //else {
           //  this.subscribeGetRequisito(parameters + '&page=' + String(this.page) + '&size=' + String(this.size));
@@ -564,13 +624,13 @@ export class CUMCO014Component implements OnInit {
           return;
         }
 
-        
+
       });
   }
 
   subscribeGetRequisitosAsociadoRadicado(parameters: any) {
     this.loading5 = true;
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitosAsociadoRadicado(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         responseData = getRes;
@@ -583,12 +643,12 @@ export class CUMCO014Component implements OnInit {
       () => {                 // Fin del suscribe
 
         this.dataTable5 = [];
-        for (var data of responseData){
-          this.dataTable5.push( {...data, state: 'noedit'} );
+        for (var data of responseData) {
+          this.dataTable5.push({ ...data, state: 'noedit' });
         }
-        
 
-        
+
+
         if (this.initialStateTablae5) {
           this.initialDataTable5 = [];
           for (const data of this.dataTable5) {
@@ -617,7 +677,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeGetRequisito5(parameters: any) {
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitos(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         responseData = getRes;
@@ -635,8 +695,8 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  subcribePostRelacionRequisitoSubRadicado(body: any){
-    
+  subcribePostRelacionRequisitoSubRadicado(body: any) {
+
     let respuesta: any;
     this.cumco014Service.postRelacionRequisitoSubRadicado(body).subscribe(
 
@@ -650,16 +710,16 @@ export class CUMCO014Component implements OnInit {
         this.showMessage(error, "error");
       },
       () => {    // Fin del suscribe
-        
+
         this.showMessage(respuesta.message, "success");
         this.onSelectSubtipoRadicado5();
       });
 
   }
 
-  
-  subcribePostPrueba(body: any){
-    
+
+  subcribePostPrueba(body: any) {
+
     let respuesta: any;
     this.cumco014Service.postPrueba(body).subscribe(
       (getRes: any) => {     // Inicio del suscribe
@@ -672,15 +732,15 @@ export class CUMCO014Component implements OnInit {
         this.showMessage(error, "error");
       },
       () => {    // Fin del suscribe
-        
-        
+
+
       });
 
   }
 
 
-  subcribePostRequisito(body: any){
-    
+  subcribePostRequisito(body: any) {
+
     let respuesta: any;
     this.loading = true;
     this.cumco014Service.postReqisito(body).subscribe(
@@ -700,14 +760,14 @@ export class CUMCO014Component implements OnInit {
         this.page = 1;
         this.subscribeGetRequisito('');
         this.subscribeGetFileExtension('?activo=1');
-        
+
       });
 
   }
 
 
   subscribeGetRequisitoRadicadoAsociado(parameters: any, rowIndex) {
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitoRadicadoAsociado(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         responseData = getRes;
@@ -718,16 +778,18 @@ export class CUMCO014Component implements OnInit {
         this.dataTable4[rowIndex].nombre = this.dataTable4[rowIndex].nombreInicial
       },
       () => {                 // Fin del suscribe
-        if(responseData.length !== 0){
+        if (responseData.length !== 0) {
           const error = this.translate.instant('CUMCO014.MENSAJES.requisitoRadicadoAsociado',
-                    {requisito: responseData[0].nombreRequisito, 
-                      tipoRadicado: responseData[0].descripcionTipoRadicado, 
-                      subRadicado: responseData[0].descripcionSubRadicado });
+            {
+              requisito: responseData[0].nombreRequisito,
+              tipoRadicado: responseData[0].descripcionTipoRadicado,
+              subRadicado: responseData[0].descripcionSubRadicado
+            });
           this.showMessage(error, "error");
 
           this.dataTable4[rowIndex].nombre = this.dataTable4[rowIndex].nombreInicial;
         }
-        else{
+        else {
           this.dataTable4[rowIndex].nombreInicial = this.dataTable4[rowIndex].nombre;
           this.editedTable4();
         }
@@ -738,7 +800,7 @@ export class CUMCO014Component implements OnInit {
 
 
   subscribeGetRequisitoRadicadoAsociado2(parameters: any) {
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitoRadicadoAsociado(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         responseData = getRes;
@@ -748,12 +810,12 @@ export class CUMCO014Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        if(responseData.length !== 0){
+        if (responseData.length !== 0) {
           const error = this.translate.instant('CUMCO014.MENSAJES.requisitoRadicadoAsociado2',
-                    {requisito: responseData[0].nombreRequisito });
+            { requisito: responseData[0].nombreRequisito });
           this.showMessage(error, "error");
         }
-        else{
+        else {
           this.dataTable4.find(row => row === this.selectionTable4).state = this.selectionTable4.state === 'delete' ? 'edit' : 'delete';
           this.editedTable4();
         }
@@ -763,7 +825,7 @@ export class CUMCO014Component implements OnInit {
   }
 
   subscribeGetRequisitoSubtipoRadicadoAsociado(parameters: any) {
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getRequisitoRequisitoSubtipoRadicadoAsociado(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         responseData = getRes;
@@ -773,14 +835,16 @@ export class CUMCO014Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        if(responseData.length !== 0){
+        if (responseData.length !== 0) {
           const error = this.translate.instant('CUMCO014.MENSAJES.requisitoRadicadoAsociado2',
-          {requisito: responseData[0].nombreRequisito, 
-            tipoRadicado: this.seleccionRadicado5.descripcion,
-            subRadicado: responseData[0].descripcionSubRadicado });
+            {
+              requisito: responseData[0].nombreRequisito,
+              tipoRadicado: this.seleccionRadicado5.descripcion,
+              subRadicado: responseData[0].descripcionSubRadicado
+            });
           this.showMessage(error, "error");
         }
-        else{
+        else {
           this.dataTable5.find(row => row === this.selectionTable5).state = this.selectionTable5.state === 'delete' ? 'edit' : 'delete';
           this.editedTable5();
         }
@@ -791,7 +855,7 @@ export class CUMCO014Component implements OnInit {
 
 
   subscribeGetFileExtension(parameters: any) {
-    var responseData: any[]; 
+    var responseData: any[];
     this.cumco014Service.getFileExtension(parameters).subscribe(
       (getRes: any[]) => {     // Inicio del suscribe
         this.fileExtesionsData = getRes;
@@ -801,7 +865,7 @@ export class CUMCO014Component implements OnInit {
         console.log('GET call in error', getError);
       },
       () => {                 // Fin del suscribe
-        
+
       });
   }
 
@@ -815,7 +879,8 @@ export class CUMCO014Component implements OnInit {
   }
 
   searchSubRadicado(event) {
-    this.subcribeServiceSubTipoRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query); 
+    //this.subcribeServiceSubTipoRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query);
+    this.subscribeSubRadicado_2search({ idTipo: this.seleccionTablaRadicado.id, codigoTramiteDescripcion: event.query });
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.codigo); //?codigoDescripcion=' + event.query
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }
@@ -849,7 +914,7 @@ export class CUMCO014Component implements OnInit {
 
   searchSubRadicado5(event) {
     this.selectionTable5 = undefined;
-    this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query); 
+    this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query);
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.codigo); //?codigoDescripcion=' + event.query
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }
@@ -862,76 +927,81 @@ export class CUMCO014Component implements OnInit {
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
   // Eventos SELECT de los autocompletables -- Eventos SELECT de los autocompletables
 
-  onSelectSubtipoRadicado(){
-    this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&descripcion=' + this.seleccionSubRadicado.descripcion);
+  onSelectSubtipoRadicado() {
+    // this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id + '&idRelacion=' + this.seleccionSubRadicado.id);
+    this.initialDataTable2 = true;
+    this.page2 = 1;
+    this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id, idRelacion: this.seleccionSubRadicado.id });
     //this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.codigo + '&idTramite=' + this.seleccionSubRadicado.id ); // idTipo=2&idTramite=102
   }
 
 
-  onSelectTipoRadicado5(){
+  onSelectTipoRadicado5() {
     this.seleccionSubRadicado5 = undefined;
     this.dataTable5 = [];
   }
 
-  onSelectSubtipoRadicado5(){
+  onSelectSubtipoRadicado5() {
     this.initialStateTablae5 = true;
     this.subscribeGetRequisitosAsociadoRadicado('?idTramiteTipoRadicado=' + this.seleccionSubRadicado5.id); // ?idTramiteTipoRadicado=281
   }
 
-  onSelectTramite(rowData: any, rowIndex : any){
+  onSelectTramite(rowData: any, rowIndex: any) {
     this.editedSubTipoRadicado(rowIndex);
   }
 
   // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
   // Eventos FOCUSOUT de los autocompletables -- Eventos FOCUSOUT de los autocompletables
 
-  focusOutFiltroRadicado(){
-    if(this.seleccionRadicado){
-      if (this.seleccionRadicado.id === undefined || this.seleccionRadicado.id === ''){
+  focusOutFiltroRadicado() {
+    if (this.seleccionRadicado) {
+      if (this.seleccionRadicado.id === undefined || this.seleccionRadicado.id === '') {
         this.seleccionRadicado = undefined;
         this.onClicBorrarAutoCompleteRadicado();
       }
     }
-    else if (this.seleccionRadicado === '' || this.seleccionRadicado === null){
+    else if (this.seleccionRadicado === '' || this.seleccionRadicado === null) {
       this.seleccionRadicado = undefined;
       this.onClicBorrarAutoCompleteRadicado();
     }
   }
 
-  focusOutFiltroSubRadicado(){
-    if(this.seleccionSubRadicado){
-      if (this.seleccionSubRadicado.id === undefined || this.seleccionSubRadicado.id === ''){
-        this.seleccionSubRadicado = undefined;
-        this.onClicBorrarAutoCompleteSubRadicado();
-      }
+  focusOutFiltroSubRadicado() {
+
+    if (this.seleccionSubRadicado) {
+      //if (this.seleccionSubRadicado.id === undefined || this.seleccionSubRadicado.id === ''){
+      //  console.log("ASAA1");
+      //  this.seleccionSubRadicado = undefined;
+      //  this.onClicBorrarAutoCompleteSubRadicado();
+      //}
     }
-    else if (this.seleccionSubRadicado === '' || this.seleccionSubRadicado === null){
+    else if (this.seleccionSubRadicado === '' || this.seleccionSubRadicado === null) {
       this.seleccionSubRadicado = undefined;
       this.onClicBorrarAutoCompleteSubRadicado();
     }
   }
 
-  focusOutFiltroRadicado5(){
-    if(this.seleccionRadicado5){
-      if (this.seleccionRadicado5.id === undefined || this.seleccionRadicado5.id === ''){
+  focusOutFiltroRadicado5() {
+    if (this.seleccionRadicado5) {
+      if (this.seleccionRadicado5.id === undefined || this.seleccionRadicado5.id === '') {
         this.seleccionRadicado5 = undefined;
         this.onClicBorrarAutoCompleteRadicado5();
       }
     }
-    else if (this.seleccionRadicado5 === '' || this.seleccionRadicado5 === null){
+    else if (this.seleccionRadicado5 === '' || this.seleccionRadicado5 === null) {
       this.seleccionRadicado5 = undefined;
       this.onClicBorrarAutoCompleteRadicado5();
     }
   }
 
-  focusOutFiltroSubRadicado5(){
-    if(this.seleccionSubRadicado5){
-      if (this.seleccionSubRadicado5.id === undefined || this.seleccionSubRadicado5.id === ''){
+  focusOutFiltroSubRadicado5() {
+    if (this.seleccionSubRadicado5) {
+      if (this.seleccionSubRadicado5.id === undefined || this.seleccionSubRadicado5.id === '') {
         this.seleccionSubRadicado5 = undefined;
         this.onClicBorrarAutoCompleteSubRadicado5();
       }
     }
-    else if (this.seleccionSubRadicado5 === '' || this.seleccionSubRadicado5 === null){
+    else if (this.seleccionSubRadicado5 === '' || this.seleccionSubRadicado5 === null) {
       this.seleccionSubRadicado5 = undefined;
       this.onClicBorrarAutoCompleteSubRadicado5();
     }
@@ -970,17 +1040,17 @@ export class CUMCO014Component implements OnInit {
     this.tablaTipoRadicado = [...this.tablaTipoRadicado, element];
     this.idRow += 1;
 
-    const newPage = Math.trunc(this.tablaTipoRadicado.length/this.nRowsTable1) * this.nRowsTable1;
+    const newPage = Math.trunc(this.tablaTipoRadicado.length / this.nRowsTable1) * this.nRowsTable1;
     this.pageTable1 = newPage;
 
-    
+
   }
 
   onClicEliminarRadicado() {
-    if(this.seleccionTablaRadicado && this.listaSubRadicado.length !== 0 && this.seleccionTablaRadicado.state !== 'new'){
+    if (this.seleccionTablaRadicado && this.listaSubRadicado.length !== 0 && this.seleccionTablaRadicado.state !== 'new') {
       const error = this.translate.instant('CUMCO014.MENSAJES.elminarTipoRadicadoError',
-                      {descripcion: this.seleccionTablaRadicado.descripcion });
-                      this.showMessage(error, "error");
+        { descripcion: this.seleccionTablaRadicado.descripcion });
+      this.showMessage(error, "error");
       return;
     }
 
@@ -996,12 +1066,12 @@ export class CUMCO014Component implements OnInit {
   onClicGuardarRadicado() {
     if (!this.camposValidosRadicado()) {
       return;
-   } else if (!this.validarRepetidosRadicado()) {
-     return;
-   } else {
-     this.subcribeRecorridoRepartoFisico(this.buildJsonRadicado());
+    } else if (!this.validarRepetidosRadicado()) {
+      return;
+    } else {
+      this.subcribeRecorridoRepartoFisico(this.buildJsonRadicado());
     }
- }
+  }
 
 
 
@@ -1018,7 +1088,7 @@ export class CUMCO014Component implements OnInit {
       entrada: 0,
       modificarDiaTermino: 0,
       tipoRadicado: this.seleccionTablaRadicado,
-      tramite: {codigoDescripcion: '', diasTramite: ''},
+      tramite: { codigoDescripcion: '', diasTramite: '' },
       verbal: 0,
       webfile: 0,
       state: 'new',
@@ -1026,7 +1096,7 @@ export class CUMCO014Component implements OnInit {
     this.listaSubRadicado = [...this.listaSubRadicado, newElement];
     this.idRow2 += 1;
 
-    const newPage = Math.trunc(this.listaSubRadicado.length/this.nRowsTable2) * this.nRowsTable2;
+    const newPage = Math.trunc(this.listaSubRadicado.length / this.nRowsTable2) * this.nRowsTable2;
     this.pageTable2 = newPage;
   }
 
@@ -1042,21 +1112,37 @@ export class CUMCO014Component implements OnInit {
 
   onClicGuardarSubRadicado() {
 
-    if(!this.validarCamposVacios()){
+    if (!this.validarCamposVacios()) {
       return;
     }
-    else if(!this.validarCampoRepetido()){
+    else if (!this.validarCampoRepetido()) {
       return;
     }
 
-    this.subcribePostSubtipoRadicado(this.buildJsonSubtipoRadicado());
+    let entro = false;
+    for (let data2 of this.listaSubRadicado) {
+      if (data2.state != "noedit") {
+        entro = true;
+        break;
+      }
+    }
+
+    if (entro) {
+      this.subcribePostSubtipoRadicado(this.buildJsonSubtipoRadicado());
+    }
+    else {
+      this.showMessage2(this.translate.instant('CUMCO001.MENSAJES.exito'), "success");
+    }
+
   }
 
 
 
   onClicBorrarAutoCompleteSubRadicado() {
     this.seleccionSubRadicado = undefined;
-    this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id);
+    //this.subscribeSubRadicado('?idTipo=' + this.seleccionTablaRadicado.id);
+    this.page2 = 1;
+    this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id });
   }
 
   onClickElminiarSelected(event) {
@@ -1073,8 +1159,8 @@ export class CUMCO014Component implements OnInit {
 
 
 
-  onClicAgregar3(){
-    
+  onClicAgregar3() {
+
     let newElement = {
       idRow3: this.idRow3,
       id: '',
@@ -1090,15 +1176,15 @@ export class CUMCO014Component implements OnInit {
     this.dataTable3 = [...this.dataTable3, newElement];
     this.idRow3 += 1;
 
-    const newPage = Math.trunc(this.dataTable3.length/this.nRowsTable3) * this.nRowsTable3;
+    const newPage = Math.trunc(this.dataTable3.length / this.nRowsTable3) * this.nRowsTable3;
     this.pageTable3 = newPage;
 
   }
 
-  onClicEliminar3(){
-    if(!this.selectionTable3.editable){
+  onClicEliminar3() {
+    if (!this.selectionTable3.editable) {
       const error = this.translate.instant('CUMCO014.MENSAJES.elminarCategoriaPrecargadaError',
-                    {descripcion: this.selectionTable3.codigoDescripcionGuion });
+        { descripcion: this.selectionTable3.codigoDescripcionGuion });
       this.showMessage(error, "error");
 
       return;
@@ -1106,20 +1192,20 @@ export class CUMCO014Component implements OnInit {
     this.subscribeRevisarRelacionCategoriaTipoRadicado();
   }
 
-  onClicGuardar3(){
-    if (!this.validarCamposVaciosTabla3()){
+  onClicGuardar3() {
+    if (!this.validarCamposVaciosTabla3()) {
       return;
     }
-    else if (!this.validarCamposRepetidosTabla3()){
+    else if (!this.validarCamposRepetidosTabla3()) {
       return;
     }
-    else{
+    else {
       this.subcribePostCategoriaRadicado(this.buildJsonTabla3());
     }
   }
 
 
-  onClicAgregar4(){
+  onClicAgregar4() {
 
 
     let newElement = {
@@ -1131,7 +1217,7 @@ export class CUMCO014Component implements OnInit {
       activo: 1,
       requisitos: 0,
       state: 'new',
-      fileExtension: {id: ''},
+      fileExtension: { id: '' },
       token: '',
       nombreInicial: ''
     }
@@ -1139,18 +1225,18 @@ export class CUMCO014Component implements OnInit {
     this.initialDataTable4 = [...this.initialDataTable4, newElement];
     this.idRow4 += 1;
 
-    const newPage = Math.trunc(this.dataTable4.length/this.nRowsTable4) * this.nRowsTable4;
+    const newPage = Math.trunc(this.dataTable4.length / this.nRowsTable4) * this.nRowsTable4;
     this.pageTable4 = newPage;
 
-    
+
 
   }
 
-  onClicEliminar4(){
+  onClicEliminar4() {
     if (this.selectionTable4 && this.selectionTable4.state !== 'new') {
       //this.dataTable4.find(row => row === this.selectionTable4).state = this.selectionTable4.state === 'delete' ? 'edit' : 'delete';
-      this.subscribeGetRequisitoRadicadoAsociado2('?page=1&size=1&idRequisito=' + String(this.selectionTable4.id) );
-      
+      this.subscribeGetRequisitoRadicadoAsociado2('?page=1&size=1&idRequisito=' + String(this.selectionTable4.id));
+
     } else if (this.selectionTable4 && this.selectionTable4.state === 'new') {
       let index = this.dataTable4.indexOf(this.selectionTable4);
       this.dataTable4 = this.dataTable4.filter((val, i) => i !== index);
@@ -1159,27 +1245,27 @@ export class CUMCO014Component implements OnInit {
     }
   }
 
-  onClicGuardar4(){
-    if (!this.validarCamposVaciosTabla4()){
+  onClicGuardar4() {
+    if (!this.validarCamposVaciosTabla4()) {
       return;
     }
-    else if (!this.validarCamposRepetidosTabla4()){
+    else if (!this.validarCamposRepetidosTabla4()) {
       return;
     }
-    else{
+    else {
       this.subcribePostRequisito(this.buildJsonRequisito4());
     }
-    
+
   }
 
 
-  onClicAgregar5(){
+  onClicAgregar5() {
 
     let newElement = {
       idRow5: this.idRow5,
       id: '',
       requerido: 0,
-      requisito: {id: ''},
+      requisito: { id: '' },
       tipoRadicado: this.seleccionRadicado5,
       tramiteTipoRadicado: this.seleccionSubRadicado5,
       state: 'new',
@@ -1187,15 +1273,15 @@ export class CUMCO014Component implements OnInit {
     this.dataTable5 = [...this.dataTable5, newElement];
     this.idRow5 += 1;
 
-    const newPage = Math.trunc(this.dataTable5.length/this.nRowsTable5) * this.nRowsTable5;
+    const newPage = Math.trunc(this.dataTable5.length / this.nRowsTable5) * this.nRowsTable5;
     this.pageTable5 = newPage;
 
   }
 
-  onClicEliminar5(){
+  onClicEliminar5() {
     if (this.selectionTable5 && this.selectionTable5.state !== 'new') {
       //this.dataTable5.find(row => row === this.selectionTable5).state = this.selectionTable5.state === 'delete' ? 'edit' : 'delete';
-      this.subscribeGetRequisitoSubtipoRadicadoAsociado('?page=1&size=1&idRequisito=' + String(this.selectionTable5.requisito.id) + '&idSubRadicado=' + String(this.seleccionSubRadicado5.id) );
+      this.subscribeGetRequisitoSubtipoRadicadoAsociado('?page=1&size=1&idRequisito=' + String(this.selectionTable5.requisito.id) + '&idSubRadicado=' + String(this.seleccionSubRadicado5.id));
     } else if (this.selectionTable5 && this.selectionTable5.state === 'new') {
       let index = this.dataTable5.indexOf(this.selectionTable5);
       this.dataTable5 = this.dataTable5.filter((val, i) => i !== index);
@@ -1203,24 +1289,24 @@ export class CUMCO014Component implements OnInit {
     }
   }
 
-  onClicGuardar5(){
-    if(!this.validarVacios5()){
+  onClicGuardar5() {
+    if (!this.validarVacios5()) {
       return;
     }
-    else if(!this.validarRepetidos5()){
+    else if (!this.validarRepetidos5()) {
       return;
     }
-    else{
+    else {
       this.subcribePostRelacionRequisitoSubRadicado(this.buildJsonTabla5());
     }
-    
+
   }
 
-  onClickElminiarSelected5(){
+  onClickElminiarSelected5() {
     this.selectionTable5 = undefined;
   }
 
-  onClicBorrarAutoCompleteRadicado5(){
+  onClicBorrarAutoCompleteRadicado5() {
     this.seleccionRadicado5 = undefined;
     this.seleccionSubRadicado5 = undefined;
     this.dataTable5 = [];
@@ -1242,13 +1328,13 @@ export class CUMCO014Component implements OnInit {
       if (this.tablaTipoRadicado[_i].descripcion.trim() === '') {
         const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
           { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA1.headerTabla2') });
-          this.showMessage(error, "error");
+        this.showMessage(error, "error");
         return false;
       }
       else if (this.tablaTipoRadicado[_i].categoria.id === undefined || this.tablaTipoRadicado[_i].categoria.id === '') {
         const error = this.translate.instant('CUMCO020.MENSAJES.campoFilaVacioError',
           { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA1.headerTabla3') });
-          this.showMessage(error, "error");
+        this.showMessage(error, "error");
         return false;
       }
 
@@ -1258,13 +1344,13 @@ export class CUMCO014Component implements OnInit {
   }
 
   validarRepetidosRadicado(): any {
-    
-    for (var _i = 0; _i < this.tablaTipoRadicado.length; _i++){
-      for (var _k = _i+1; _k < this.tablaTipoRadicado.length; _k++){
-        if (this.tablaTipoRadicado[_k].descripcion.toLowerCase().trim() === this.tablaTipoRadicado[_i].descripcion.toLowerCase().trim()){
+
+    for (var _i = 0; _i < this.tablaTipoRadicado.length; _i++) {
+      for (var _k = _i + 1; _k < this.tablaTipoRadicado.length; _k++) {
+        if (this.tablaTipoRadicado[_k].descripcion.toLowerCase().trim() === this.tablaTipoRadicado[_i].descripcion.toLowerCase().trim()) {
           const error = this.translate.instant('CUMCO014.MENSAJES.tipoRadicadoRepetidosError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.tablaTipoRadicado[_k].descripcion });
-                      this.showMessage(error, "error");
+            { filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.tablaTipoRadicado[_k].descripcion });
+          this.showMessage(error, "error");
           return false;
         }
       }
@@ -1274,62 +1360,66 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  validarCamposVacios(): any{
+  validarCamposVacios(): any {
 
     var valiVirtual = false;
     var valiAnonimo = 0;
-    for (var _i = 0; _i < this.listaSubRadicado.length;_i++){
-      if (!this.listaSubRadicado[_i].descripcion){
+    for (var _i = 0; _i < this.listaSubRadicado.length; _i++) {
+      if (!this.listaSubRadicado[_i].descripcion) {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA2.headerTabla2') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA2.headerTabla2') });
         this.showMessage2(error, "error");
         return false;
       }
-      else if(!this.listaSubRadicado[_i].tramite.id){
+      else if (!this.listaSubRadicado[_i].tramite.id) {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA2.headerTabla3') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA2.headerTabla3') });
         this.showMessage2(error, "error");
         return false;
       }
-      else if(!this.listaSubRadicado[_i].entrada && !this.listaSubRadicado[_i].cof && !this.listaSubRadicado[_i].webfile){
+      else if (!this.listaSubRadicado[_i].entrada && !this.listaSubRadicado[_i].cof && !this.listaSubRadicado[_i].webfile) {
         const error = this.translate.instant('CUMCO014.MENSAJES.selcionCheckbosError',
-                      {filaVacia: String(_i + 1), descripcion: this.listaSubRadicado[_i].tipoRadicado.codigoDescripcionGuion, 
-                      descripcion2: this.listaSubRadicado[_i].descripcion });
+          {
+            filaVacia: String(_i + 1), descripcion: this.listaSubRadicado[_i].tipoRadicado.codigoDescripcionGuion,
+            descripcion2: this.listaSubRadicado[_i].descripcion
+          });
         this.showMessage2(error, "error");
         return false;
       }
 
-      if (this.listaSubRadicado[_i].webfile){
+      if (this.listaSubRadicado[_i].webfile) {
         valiVirtual = true;
-        if(this.listaSubRadicado[_i].anonimo && this.listaSubRadicado[_i].state !== 'delete'){
+        if (this.listaSubRadicado[_i].anonimo && this.listaSubRadicado[_i].state !== 'delete') {
           valiAnonimo += 1;
         }
 
       }
     }
 
-    if (valiVirtual){
-      if(valiAnonimo > 0){
+    //if (valiVirtual && (this.seleccionSubRadicado === undefined || this.seleccionSubRadicado.id === undefined || this.seleccionSubRadicado.id === "") ) {
+    //if (valiVirtual ) {
+    if (false) {
+      if (valiAnonimo > 0) {
         return true;
       }
-      else{
+      else {
         const error = this.translate.instant('CUMCO014.MENSAJES.selccionAnonimoError');
         this.showMessage2(error, "error");
       }
     }
-    else{
+    else {
       return true;
     }
   }
 
-  validarCampoRepetido(){
+  validarCampoRepetido() {
 
-    for (var _i = 0; _i < this.listaSubRadicado.length; _i++){
-      for (var _k = _i+1; _k < this.listaSubRadicado.length; _k++){
-        if (this.listaSubRadicado[_k].descripcion === this.listaSubRadicado[_i].descripcion){
+    for (var _i = 0; _i < this.listaSubRadicado.length; _i++) {
+      for (var _k = _i + 1; _k < this.listaSubRadicado.length; _k++) {
+        if (this.listaSubRadicado[_k].descripcion === this.listaSubRadicado[_i].descripcion) {
           const error = this.translate.instant('CUMCO014.MENSAJES.subtipoRadicadoRepedidoError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.listaSubRadicado[_k].descripcion });
-                      this.showMessage2(error, "error");
+            { filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.listaSubRadicado[_k].descripcion });
+          this.showMessage2(error, "error");
           return false;
         }
       }
@@ -1337,35 +1427,35 @@ export class CUMCO014Component implements OnInit {
     return true;
   }
 
-  validarCamposVaciosTabla3(): any{
+  validarCamposVaciosTabla3(): any {
 
-    for (var _i = 0; _i < this.dataTable3.length; _i++){
-     
-      if(!this.dataTable3[_i].codigo){
+    for (var _i = 0; _i < this.dataTable3.length; _i++) {
+
+      if (!this.dataTable3[_i].codigo) {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA3.headerTabla1') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA3.headerTabla1') });
         this.showMessage(error, "error");
         return false;
       }
-      else if(!this.dataTable3[_i].descripcion){
+      else if (!this.dataTable3[_i].descripcion) {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA3.headerTabla2') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA3.headerTabla2') });
         this.showMessage(error, "error");
         return false;
       }
-      
+
     }
     return true;
   }
 
-  validarCamposRepetidosTabla3(): any{
+  validarCamposRepetidosTabla3(): any {
 
-    for (var _i = 0; _i < this.dataTable3.length; _i++){
-      for (var _k = _i+1; _k < this.dataTable3.length; _k++){
-        if (this.dataTable3[_k].descripcion === this.dataTable3[_i].descripcion || this.dataTable3[_k].codigo === this.dataTable3[_i].codigo){
+    for (var _i = 0; _i < this.dataTable3.length; _i++) {
+      for (var _k = _i + 1; _k < this.dataTable3.length; _k++) {
+        if (this.dataTable3[_k].descripcion === this.dataTable3[_i].descripcion || this.dataTable3[_k].codigo === this.dataTable3[_i].codigo) {
           const error = this.translate.instant('CUMCO014.MENSAJES.campoRepetidoCategoriaRadicadoError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable3[_k].codigo + ' - ' + this.dataTable3[_k].descripcion });
-                      this.showMessage(error, "error");
+            { filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable3[_k].codigo + ' - ' + this.dataTable3[_k].descripcion });
+          this.showMessage(error, "error");
           return false;
         }
       }
@@ -1374,38 +1464,40 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  validarCamposVaciosTabla4(): any{
+  validarCamposVaciosTabla4(): any {
 
-    for (var _i = 0; _i < this.dataTable4.length; _i++){
-     
-      if(!this.dataTable4[_i].nombre){
+    for (var _i = 0; _i < this.dataTable4.length; _i++) {
+
+      if (!this.dataTable4[_i].nombre) {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA4.headerTabla1') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA4.headerTabla1') });
         this.showMessage(error, "error");
         return false;
       }
-      if(this.dataTable4[_i].fileExtension.id !== undefined && this.dataTable4[_i].fileExtension.id !== ''){
-        if( this.dataTable4[_i].nombreArchivo.search('.' + this.dataTable4[_i].fileExtension.codigo) === -1 && this.dataTable4[_i].nombreArchivo !== '' && this.dataTable4[_i].nombreArchivo !== undefined){
+      if (this.dataTable4[_i].fileExtension.id !== undefined && this.dataTable4[_i].fileExtension.id !== '') {
+        if (this.dataTable4[_i].nombreArchivo.search('.' + this.dataTable4[_i].fileExtension.codigo) === -1 && this.dataTable4[_i].nombreArchivo !== '' && this.dataTable4[_i].nombreArchivo !== undefined) {
           const error = this.translate.instant('CUMCO014.MENSAJES.campoArchivoVacioError',
-                      {filaVacia: String(_i + 1), requisito: this.dataTable4[_i].nombre ? this.dataTable4[_i].nombre: '',
-                      formato: this.dataTable4[_i].fileExtension.codigo  });
+            {
+              filaVacia: String(_i + 1), requisito: this.dataTable4[_i].nombre ? this.dataTable4[_i].nombre : '',
+              formato: this.dataTable4[_i].fileExtension.codigo
+            });
           this.showMessage(error, "error");
           return false;
         }
 
-      } 
+      }
     }
     return true;
   }
 
-  validarCamposRepetidosTabla4(): any{
+  validarCamposRepetidosTabla4(): any {
 
-    for (var _i = 0; _i < this.dataTable4.length; _i++){
-      for (var _k = _i+1; _k < this.dataTable4.length; _k++){
-        if (this.dataTable4[_k].nombre === this.dataTable4[_i].nombre || this.dataTable4[_k].nombre === this.dataTable4[_i].nombre){
+    for (var _i = 0; _i < this.dataTable4.length; _i++) {
+      for (var _k = _i + 1; _k < this.dataTable4.length; _k++) {
+        if (this.dataTable4[_k].nombre === this.dataTable4[_i].nombre || this.dataTable4[_k].nombre === this.dataTable4[_i].nombre) {
           const error = this.translate.instant('CUMCO014.MENSAJES.requisitoRepetidosError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable4[_k].nombre });
-                      this.showMessage(error, "error");
+            { filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable4[_k].nombre });
+          this.showMessage(error, "error");
           return false;
         }
       }
@@ -1416,11 +1508,11 @@ export class CUMCO014Component implements OnInit {
 
 
 
-  validarVacios5(): any{
-    for (var _i = 0; _i < this.dataTable5.length;_i++){
-      if (!this.dataTable5[_i].requisito.id || this.dataTable5[_i].requisito.id === ''){
+  validarVacios5(): any {
+    for (var _i = 0; _i < this.dataTable5.length; _i++) {
+      if (!this.dataTable5[_i].requisito.id || this.dataTable5[_i].requisito.id === '') {
         const error = this.translate.instant('CUMCO014.MENSAJES.campoFilaVacioError',
-                      {filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA5.headerTabla0') });
+          { filaVacia: String(_i + 1), campoVacio: this.translate.instant('CUMCO014.TABLA5.headerTabla0') });
         this.showMessage(error, "error");
         return false;
       }
@@ -1430,13 +1522,13 @@ export class CUMCO014Component implements OnInit {
 
 
   validarRepetidos5(): any {
-    
-    for (var _i = 0; _i < this.dataTable5.length; _i++){
-      for (var _k = _i+1; _k < this.dataTable5.length; _k++){
-        if (this.dataTable5[_k].requisito.id === this.dataTable5[_i].requisito.id){
+
+    for (var _i = 0; _i < this.dataTable5.length; _i++) {
+      for (var _k = _i + 1; _k < this.dataTable5.length; _k++) {
+        if (this.dataTable5[_k].requisito.id === this.dataTable5[_i].requisito.id) {
           const error = this.translate.instant('CUMCO014.MENSAJES.tipoRequisitoRepetidosError',
-                      {filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable5[_k].requisito.nombre });
-                      this.showMessage(error, "error");
+            { filaRep1: String(_i + 1), filaRep2: String(_k + 1), descripcion: this.dataTable5[_k].requisito.nombre });
+          this.showMessage(error, "error");
           return false;
         }
       }
@@ -1451,7 +1543,7 @@ export class CUMCO014Component implements OnInit {
   // Metodos Para Actualizar Tablas -- Metodos Para Actualizar Tablas
 
   actualizarTablaRadicado() {
-    this.subscribeTablaRadicado(this.seleccionRadicado?this.seleccionRadicado.codigoDescripcion:'');
+    this.subscribeTablaRadicado(this.seleccionRadicado ? this.seleccionRadicado.codigoDescripcion : '');
   }
 
 
@@ -1538,28 +1630,28 @@ export class CUMCO014Component implements OnInit {
     ];
     let features = [];
     this.tablaTipoRadicado.forEach(tipo => {
-      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete' ) {
-      features.push( {
-        attributes: {
-         "id": tipo.id,
-         "codigo": tipo.codigo,
-         "descripcion": tipo.descripcion,
-         "codigoDescripcion": tipo.codigoDescripcion,
-         "categoria.descripcion": tipo.categoria.descripcion,
-         "categoria.codigo": tipo.categoria.codigo,
-         "categoria.requisitos": tipo.categoria.requisitos,
-         "categoria.editable": tipo.categoria.editable,
-         "categoria.codigoDescripcion": tipo.categoria.codigoDescripcion,
-         "categoria.id": tipo.categoria.id,
-         "categoria.activo": tipo.categoria.activo,
-         "activo": tipo.activo,
-         "ventanilla.entrada": false,
-         "cof": false,
-         "ventanilla.virtual": false
-       },
-       "state": tipo.state
-      })
-    }
+      if (tipo.state === 'edit' || tipo.state === 'new' || tipo.state === 'delete') {
+        features.push({
+          attributes: {
+            "id": tipo.id,
+            "codigo": tipo.codigo,
+            "descripcion": tipo.descripcion,
+            "codigoDescripcion": tipo.codigoDescripcion,
+            "categoria.descripcion": tipo.categoria.descripcion,
+            "categoria.codigo": tipo.categoria.codigo,
+            "categoria.requisitos": tipo.categoria.requisitos,
+            "categoria.editable": tipo.categoria.editable,
+            "categoria.codigoDescripcion": tipo.categoria.codigoDescripcion,
+            "categoria.id": tipo.categoria.id,
+            "categoria.activo": tipo.categoria.activo,
+            "activo": tipo.activo,
+            "ventanilla.entrada": false,
+            "cof": false,
+            "ventanilla.virtual": false
+          },
+          "state": tipo.state
+        })
+      }
 
     })
     return {
@@ -1697,51 +1789,56 @@ export class CUMCO014Component implements OnInit {
 
     let features = [];
     this.listaSubRadicado.forEach(data => {
-      features.push( {
-        attributes: {
-        "id": data.id,
-        "TipoPer": "",
-        "descripcion": data.descripcion,
-        "tipoRadicado.descripcion": data.tipoRadicado.descripcion ,
-        "tipoRadicado.codigo": data.tipoRadicado.codigo,
-        "tipoRadicado.codigoDescripcion": data.tipoRadicado.codigoDescripcionGuion,
-        "tipoRadicado.id": data.tipoRadicado.id,
-        "tipoRadicado.activo": data.tipoRadicado.activo,
-        "tramite.id": data.tramite.id,
-        "tramite.descripcion": data.tramite.descripcion,
-        "tramite.diasTramite": data.tramite.diasTramite,
-        "tramite.codigo": data.tramite.codigo,
-        "tramite.codigoDescripcion": data.tramite.codigoDescripcion,
-        "tramite.codigoDescripcionGuion": data.tramite.codigo + ' - ' +  data.tramite.descripcion,
-        "tramite.habil": data.tramite.habil ,
-        "modificarDiaTermino": data.modificarDiaTermino,
-        "tramite.modificable": data.tramite.modificable,
-        "tramite.activo": data.tramite.activo,
-        "activo": data.activo,
-        "entrada": data.entrada,
-        "verbal": data.verbal,
-        "cof": data.cof,
-        "webfile": data.webfile,
-        "anonimo": data.anonimo
-      },
-      "state": data.state
-      })
+
+      if (data.state != "noedit") {
+        features.push({
+          attributes: {
+            "id": data.id,
+            "TipoPer": "",
+            "descripcion": data.descripcion,
+            "tipoRadicado.descripcion": data.tipoRadicado.descripcion,
+            "tipoRadicado.codigo": data.tipoRadicado.codigo,
+            "tipoRadicado.codigoDescripcion": data.tipoRadicado.codigoDescripcionGuion,
+            "tipoRadicado.id": data.tipoRadicado.id,
+            "tipoRadicado.activo": data.tipoRadicado.activo,
+            "tramite.id": data.tramite.id,
+            "tramite.descripcion": data.tramite.descripcion,
+            "tramite.diasTramite": data.tramite.diasTramite,
+            "tramite.codigo": data.tramite.codigo,
+            "tramite.codigoDescripcion": data.tramite.codigoDescripcion,
+            "tramite.codigoDescripcionGuion": data.tramite.codigo + ' - ' + data.tramite.descripcion,
+            "tramite.habil": data.tramite.habil,
+            "modificarDiaTermino": data.modificarDiaTermino,
+            "tramite.modificable": data.tramite.modificable,
+            "tramite.activo": data.tramite.activo,
+            "activo": data.activo,
+            "entrada": data.entrada,
+            "verbal": data.verbal,
+            "cof": data.cof,
+            "webfile": data.webfile,
+            "anonimo": data.anonimo
+          },
+          "state": data.state
+        })
+      }
+
+
 
     })
     return {
       "grd_relacionTramiteTipoRadicado": JSON.stringify({
         fields,
         features
-      },),
+      }),
       "hid_idTipoRadicado": String(this.listaSubRadicado[0].tipoRadicado.id)
     };
   }
 
-  buildJsonTabla3(){
+  buildJsonTabla3() {
     var dataSend = [];
-    for(var data3 of this.dataTable3){
-      if (data3.state !== 'noedit'){
-        dataSend.push( {
+    for (var data3 of this.dataTable3) {
+      if (data3.state !== 'noedit') {
+        dataSend.push({
           id: data3.id,
           descripcion: data3.descripcion,
           codigo: data3.codigo,
@@ -1754,52 +1851,52 @@ export class CUMCO014Component implements OnInit {
       }
     }
 
-    return(dataSend);
+    return (dataSend);
   }
 
-  buildJsonTabla33(){
+  buildJsonTabla33() {
 
     let fields = [
-        {
-          "name": "id",
-          "type": "input",
-          "required": false
-        },
-        {
-          "name": "codigo",
-          "type": "input",
-          "required": true
-        },
-        {
-          "name": "descripcion",
-          "type": "input",
-          "required": true
-        },
-        {
-          "name": "requisitos",
-          "type": "checkbox",
-          "required": false
-        },
-        {
-          "name": "editable",
-          "type": "input",
-          "required": false
-        },
-        {
-          "name": "codigoDescripcion",
-          "type": "input",
-          "required": false
-        },
-        {
-          "name": "activo",
-          "type": "input",
-          "required": false
-        }
+      {
+        "name": "id",
+        "type": "input",
+        "required": false
+      },
+      {
+        "name": "codigo",
+        "type": "input",
+        "required": true
+      },
+      {
+        "name": "descripcion",
+        "type": "input",
+        "required": true
+      },
+      {
+        "name": "requisitos",
+        "type": "checkbox",
+        "required": false
+      },
+      {
+        "name": "editable",
+        "type": "input",
+        "required": false
+      },
+      {
+        "name": "codigoDescripcion",
+        "type": "input",
+        "required": false
+      },
+      {
+        "name": "activo",
+        "type": "input",
+        "required": false
+      }
     ];
 
     let features = [];
     this.dataTable3.forEach(data => {
-      features.push( {
+      features.push({
         attributes: {
           "id": data.id,
           "codigo": data.codigo,
@@ -1818,34 +1915,34 @@ export class CUMCO014Component implements OnInit {
       "grd_categoriaTipoRadicado": JSON.stringify({
         fields,
         features
-      },)
+      })
     };
 
   }
 
-  buildJsonTabla5(){
+  buildJsonTabla5() {
 
     let fields = [
-        {
-          "name": "id",
-          "type": "input",
-          "required": "false"
-        },
-        {
-          "name": "tramiteTipoRadicado.id",
-          "type": "input",
-          "required": "false"
-        },
-        {
-          "name": "requisito.id",
-          "type": "input",
-          "required": "false"
-        }
+      {
+        "name": "id",
+        "type": "input",
+        "required": "false"
+      },
+      {
+        "name": "tramiteTipoRadicado.id",
+        "type": "input",
+        "required": "false"
+      },
+      {
+        "name": "requisito.id",
+        "type": "input",
+        "required": "false"
+      }
     ];
 
     let features = [];
     this.dataTable5.forEach(data => {
-      features.push( {
+      features.push({
         attributes: {
           "id": data.id,
           "tramiteTipoRadicado.id": this.seleccionSubRadicado5.id,
@@ -1866,12 +1963,12 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  buildJsonRequisito4(){
+  buildJsonRequisito4() {
 
     var dataSend = [];
-    for(var data4 of this.dataTable4){
-      if (data4.state !== 'noedit'){
-        dataSend.push( {
+    for (var data4 of this.dataTable4) {
+      if (data4.state !== 'noedit') {
+        dataSend.push({
           id: data4.id,
           nombre: data4.nombre,
           descripcion: data4.descripcion,
@@ -1881,14 +1978,14 @@ export class CUMCO014Component implements OnInit {
           codigo: data4.codigo,
           state: data4.state,
           token: data4.token,
-          idFileExt: data4.fileExtension.id ? data4.fileExtension.id: 0,
+          idFileExt: data4.fileExtension.id ? data4.fileExtension.id : 0,
           codfile: data4.idArchivo
         });
 
       }
     }
 
-    return(dataSend);
+    return (dataSend);
 
 
 
@@ -1951,11 +2048,15 @@ export class CUMCO014Component implements OnInit {
   // Otros -- Otros
   // Otros -- Otros
 
-  onRowSelect(event, selected){
-    if(this.seleccionTablaRadicado && this.seleccionTablaRadicado.state !== 'new'){
-      this.listaSubRadicado = []; 
+  onRowSelect(event, selected) {
+    if (this.seleccionTablaRadicado && this.seleccionTablaRadicado.state !== 'new') {
+      this.listaSubRadicado = [];
       this.initialDataTable2 = true;
-      this.subscribeSubRadicado('?idTipo=' + selected.id); //?idTipo=81&codigoTramiteDescripcion=&activo=1
+      this.seleccionSubRadicado = undefined;
+      //this.subscribeSubRadicado('?idTipo=' + selected.id); //?idTipo=81&codigoTramiteDescripcion=&activo=1
+      //this.subscribeSubRadicado({ idTipo: this.seleccionTablaRadicado.id });
+      this.page2 = 1;
+      this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionTablaRadicado.id });
     }
   }
 
@@ -1965,12 +2066,12 @@ export class CUMCO014Component implements OnInit {
     this.compareInitialData(this.tablaTipoRadicado, this.initialData1);
   }
 
-  editedSubTipoRadicado(rowIndex){
-    if(!this.listaSubRadicado[rowIndex].entrada){
+  editedSubTipoRadicado(rowIndex) {
+    if (!this.listaSubRadicado[rowIndex].entrada) {
       this.listaSubRadicado[rowIndex].verbal = 0;
     }
 
-    if(!this.listaSubRadicado[rowIndex].webfile){
+    if (!this.listaSubRadicado[rowIndex].webfile) {
       this.listaSubRadicado[rowIndex].anonimo = 0;
     }
 
@@ -1978,57 +2079,57 @@ export class CUMCO014Component implements OnInit {
     //this.listaSubRadicado[rowIndex].state =  this.listaSubRadicado[rowIndex].state === 'new' ? 'new' : 'edit';
   }
 
-  edited(event){
+  edited(event) {
 
   }
 
-  editedTable3(){
+  editedTable3() {
     this.compareInitialData(this.dataTable3, this.initialDataTable3);
   }
 
-  editedTable4(){
+  editedTable4() {
     this.compareInitialData(this.dataTable4, this.initialDataTable4);
   }
 
-  editedTable5(){
+  editedTable5() {
     this.compareInitialData(this.dataTable5, this.initialDataTable5);
   }
 
 
-  editedRquisito(rowIndex){
-    if(this.dataTable4[rowIndex].nombreInicial !== this.dataTable4[rowIndex].nombre && this.dataTable4[rowIndex].state !== 'new' ){
-      this.subscribeGetRequisitoRadicadoAsociado('?page=1&size=1&idRequisito=' + String(this.dataTable4[rowIndex].id), rowIndex ); //?idRequisito=121&page=1&size=1
+  editedRquisito(rowIndex) {
+    if (this.dataTable4[rowIndex].nombreInicial !== this.dataTable4[rowIndex].nombre && this.dataTable4[rowIndex].state !== 'new') {
+      this.subscribeGetRequisitoRadicadoAsociado('?page=1&size=1&idRequisito=' + String(this.dataTable4[rowIndex].id), rowIndex); //?idRequisito=121&page=1&size=1
     }
   }
 
 
-  compareInitialData(currentData: any[], initialData: any[]){
+  compareInitialData(currentData: any[], initialData: any[]) {
 
-    for (var _i = 0; _i < currentData.length; _i++){
+    for (var _i = 0; _i < currentData.length; _i++) {
 
-      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit")  {
+      if (currentData[_i].state === "edit" || currentData[_i].state === "noedit") {
         var keys = Object.keys(currentData[_i]);
         var initialDataValue = initialData.filter(obj => obj.id === currentData[_i].id);
         var areEqual = true;
-        for (const key of keys){
-          if (typeof currentData[_i][key] === "object"){
+        for (const key of keys) {
+          if (typeof currentData[_i][key] === "object") {
 
-            if (currentData[_i][key].id !== initialDataValue[0][key].id){
+            if (currentData[_i][key].id !== initialDataValue[0][key].id) {
               areEqual = false;
             }
 
           }
-          else{
-            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state" ) {
+          else {
+            if (currentData[_i][key] !== initialDataValue[0][key] && key !== "state") {
               areEqual = false;
             }
           }
 
         }
-        if (areEqual){
+        if (areEqual) {
           currentData[_i].state = "noedit";
         }
-        else{
+        else {
           currentData[_i].state = "edit";
         }
 
@@ -2037,36 +2138,36 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  gteRowColorState(rowData: any){
+  gteRowColorState(rowData: any) {
 
-    switch(rowData.state) {
+    switch (rowData.state) {
       case 'new': {
-        return {'background-color': '#77DD77'};
+        return { 'background-color': '#77DD77' };
         break;
       }
       case 'delete': {
-        return {'background-color': '#D36E70'};
+        return { 'background-color': '#D36E70' };
         break;
       }
       case 'edit': {
-        return {'background-color': '#E3B778'};
+        return { 'background-color': '#E3B778' };
         break;
       }
       default: {
         return {};
         break;
       }
-   }
+    }
 
   }
 
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES
   // Metodos para Mostrar y Ocultar MENSAJES  -- Metodos para Mostrar y Ocultar MENSAJES  
-   
+
   // Metodos para Mostrar MENSAJES
   showMessage(sum: string, sev: string) {
     this.msgs = [];
-    this.msgs.push({severity: sev, summary: sum, detail: ''});
+    this.msgs.push({ severity: sev, summary: sum, detail: '' });
 
     (async () => {
       const waitTime = 5;
@@ -2077,7 +2178,7 @@ export class CUMCO014Component implements OnInit {
 
   showMessage2(sum: string, sev: string) {
     this.msgs2 = [];
-    this.msgs2.push({severity: sev, summary: sum, detail: ''});
+    this.msgs2.push({ severity: sev, summary: sum, detail: '' });
 
     (async () => {
       const waitTime = 5;
@@ -2105,32 +2206,34 @@ export class CUMCO014Component implements OnInit {
 
   // Subir archivo
 
-  revizarExt4(rowIndex){
-    if(this.dataTable4[rowIndex].fileExtension.codigo === '' || this.dataTable4[rowIndex].fileExtension.codigo === undefined){
-      this.dataTable4[rowIndex].fileExtension = {id: ''}
+  revizarExt4(rowIndex) {
+    if (this.dataTable4[rowIndex].fileExtension.codigo === '' || this.dataTable4[rowIndex].fileExtension.codigo === undefined) {
+      this.dataTable4[rowIndex].fileExtension = { id: '' }
       this.dataTable4[rowIndex].nombreArchivo = ''
       this.dataTable4[rowIndex].idArchivo = 0
       this.dataTable4[rowIndex].token = ''
     }
     this.editedTable4();
-   
+
   }
 
-  VerificarFileExt(row){
-    if(row.fileExtension.id === '' || row.fileExtension.id === undefined){
-      const error = this.translate.instant('CUMCO014.MENSAJES.fileExtVacio', 
-                                            {requisito: row.nombre ? row.nombre : ''});
+  VerificarFileExt(row) {
+    if (row.fileExtension.id === '' || row.fileExtension.id === undefined) {
+      const error = this.translate.instant('CUMCO014.MENSAJES.fileExtVacio',
+        { requisito: row.nombre ? row.nombre : '' });
       this.showMessage(error, "error");
 
     }
   }
 
-  cargarArchivo(event,rowIndex){
-    if(event.target.files[0].name.search('.' + this.dataTable4[rowIndex].fileExtension.codigo) === -1){
+  cargarArchivo(event, rowIndex) {
+    if (event.target.files[0].name.search('.' + this.dataTable4[rowIndex].fileExtension.codigo) === -1) {
 
       const error = this.translate.instant('CUMCO014.MENSAJES.campoArchivoVacioError',
-                      {filaVacia: String(rowIndex + 1), requisito: this.dataTable4[rowIndex].nombre ? this.dataTable4[rowIndex].nombre: '',
-                      formato: this.dataTable4[rowIndex].fileExtension.codigo  });
+        {
+          filaVacia: String(rowIndex + 1), requisito: this.dataTable4[rowIndex].nombre ? this.dataTable4[rowIndex].nombre : '',
+          formato: this.dataTable4[rowIndex].fileExtension.codigo
+        });
       this.showMessage(error, "error");
 
       return;
@@ -2146,7 +2249,7 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  subcribeGetFileToken(parameters: string){
+  subcribeGetFileToken(parameters: string) {
     let response: any;
     this.cumco014Service.getFileToken(parameters).subscribe(
 
@@ -2168,11 +2271,12 @@ export class CUMCO014Component implements OnInit {
         form.append('fileName', this.file.name);
         form.append('fileStream', this.file);
 
-        var fileData = {token: this.dataTable4[this.rowIndexFile].token,
-                        fileSize: String(this.file.size),
-                        fileName: this.file.name,
-                        fileStream: this.file
-                       }
+        var fileData = {
+          token: this.dataTable4[this.rowIndexFile].token,
+          fileSize: String(this.file.size),
+          fileName: this.file.name,
+          fileStream: this.file
+        }
 
         //this.subcribePostFileToken(fileData);
 
@@ -2190,7 +2294,7 @@ export class CUMCO014Component implements OnInit {
             console.log('GET call in error', getError);
           },
           () => {                 // Fin del suscribe
-            if(this.dataTable4[this.rowIndexFile].state !== 'new'){
+            if (this.dataTable4[this.rowIndexFile].state !== 'new') {
               this.dataTable4[this.rowIndexFile].state = 'edit';
             }
             this.dataTable4[this.rowIndexFile].nombreArchivo = this.file.name;
@@ -2205,7 +2309,7 @@ export class CUMCO014Component implements OnInit {
   }
 
 
-  subcribePostFileToken(body){
+  subcribePostFileToken(body) {
     var responsse: any;
     this.cumco014Service.postFileToken(body).subscribe(
 
@@ -2223,7 +2327,7 @@ export class CUMCO014Component implements OnInit {
 
       }
     )
-        
+
   }
 
 

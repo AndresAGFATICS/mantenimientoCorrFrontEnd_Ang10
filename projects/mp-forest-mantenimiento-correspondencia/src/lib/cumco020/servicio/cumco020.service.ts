@@ -53,4 +53,8 @@ export class Cumco020Service extends GeneralService{
     return this.get('/mnt-corr/1.0.0/RelacionProcedimientoDependencia/Total' + getParameters );
   }
 
+  public getProcedimientoRadicadoBorrador(idProcedimiento: string) {
+    return this.get('/mnt-corr/1.0.0/Procedimiento/RadicadoBorrador?id=' + idProcedimiento);
+  }
+
 }

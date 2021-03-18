@@ -100,7 +100,7 @@
       <div class="p-col-12 p-md-8">
 
         <p-pickList id="plt"[source]="sourceRows" [target]="targetRows" sourceHeader="{{ 'CUMCO016.FILTROS.ejes' | translate }}" (onTargetSelect)="onTargetSelect($event)" [showSourceControls]="false" [showTargetControls]="false"
-          targetHeader="{{ 'CUMCO016.FILTROS.ejesOrg' | translate }}" [responsive]="true" filterBy="ejeTematico.descripcion" dragdrop="true"
+          targetHeader="{{ 'CUMCO016.FILTROS.ejesOrg' | translate }}" [responsive]="true" filterBy="ejeTematico.descripcion" dragdrop="true" 
           [disabled]="this.selectedFile === undefined || this.loading2" (onMoveToSource)="onMoveToSource($event)"
           sourceFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" targetFilterPlaceholder="{{ 'CUMCO016.FILTROS.placeHolderEjes' | translate }}" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
 

@@ -18,8 +18,9 @@ export class Cumco014Service extends GeneralService {
   public getTablaTipoRadicado(codigo: any) {
     return this.get('/forest/documentos/1.0.0/tipoRadicado?&codigoDescripcion=' + codigo);
   }
-  public getSubTipoRadicado(getParameters: string) {
-    return this.get('/forest/documentos/1.0.0/tipoRadicadoTramite' + getParameters);
+  public getSubTipoRadicado(getParameters: any) {
+    //return this.get('/forest/documentos/1.0.0/tipoRadicadoTramite' + getParameters);
+    return this.get('/forest/documentos/1.0.0/tipoRadicadoTramite' + this.createParameters(getParameters) );
   }
   public getTramiteActivo(parameters: string) {
     return this.get('/forest/sistema/1.0.0/tramite/activo' + parameters ); // activo?=tr&activo=1&size=10&page=1'

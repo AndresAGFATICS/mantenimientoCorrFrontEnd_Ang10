@@ -17,12 +17,18 @@ export class EjeTematicoService extends GeneralService{
     return this.get('/mnt-corr/1.0.0/ejeTematico' + parameters);
   }
 
+
+  public getEjeTematicoRadicadoBorrador(parameters: string) {
+    return this.get('/mnt-corr/1.0.0/ejeTematico/RadicadoBorrador' + parameters); // ?id=26
+  }
+
   public getDependenciaLista(parameters: string) {
     return this.get("/forest/documentos/1.0.0/dependencia/lista" + parameters);
   }
 
-  public getEjeTematicoDependencia(idDependencia: string) {
-    return this.get('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia?idDependencia=' + idDependencia);
+  public getEjeTematicoDependencia(page: any, size: any, idDependencia: string) {
+    //return this.get('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia?idDependencia=' + idDependencia);
+    return this.get('/mnt-corr/1.0.0/RelacionEjeTematicoDependencia?page=' + String(page) + '&size=' + String(size) + '&idDependencia=' + idDependencia);
   }
 
 
