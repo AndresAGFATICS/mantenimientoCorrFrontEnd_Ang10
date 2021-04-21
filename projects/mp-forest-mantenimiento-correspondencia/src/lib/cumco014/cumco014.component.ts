@@ -914,7 +914,13 @@ export class CUMCO014Component implements OnInit {
 
   searchSubRadicado5(event) {
     this.selectionTable5 = undefined;
-    this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query);
+    //this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query);
+
+    //this.subscribeSubRadicado5('?idTipo=' + this.seleccionRadicado5.id + '&codigoTramiteDescripcion=' + event.query);
+
+    this.subscribeSubRadicado5({ idTipo: this.seleccionRadicado5.id, codigoTramiteDescripcion: event.query });
+
+    //this.subscribeSubRadicado({ page: this.page2, size: this.size, idTipo: this.seleccionRadicado5.id, idRelacion: this.seleccionSubRadicado.id ? this.seleccionSubRadicado.id : "" });
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.codigo); //?codigoDescripcion=' + event.query
     //this.subcribeServiceSubTipoRadicado('?idTipo=' + seleccionTablaRadicado.id + '&codigoTramiteDescripcion=' + event.query + '&activo=1'); //?idTipo=81&codigoTramiteDescripcion=&activo=1
   }

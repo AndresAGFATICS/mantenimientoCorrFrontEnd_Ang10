@@ -33,6 +33,10 @@ export class CUMCO018Component implements OnInit {
   dataEmpresaFilter: any[];
   suggestionsEmpresaFilter: any[];
 
+  size = this.cumco018Service.generalSize;
+  //size = 10;
+  pageDep = 1;
+
   
   
   //TABLA 1
@@ -90,7 +94,9 @@ export class CUMCO018Component implements OnInit {
 
     this.subscribeGetMensajero('');
 
-    this.subscribeGetDependencias('');
+    //this.subscribeGetDependencias('');
+
+    this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
 
     this.subscribeGetEmpresaMensajeria('');
 
@@ -232,6 +238,40 @@ export class CUMCO018Component implements OnInit {
         }
       });
 
+  }
+
+
+  subcribeGetOrganismoDependencia2(getParameters: string) {
+    if (this.pageDep === 1) {
+      this.dataDependenciaTabla2 = [];
+    }
+    let responseData: any[];
+    this.cumco018Service.getOrganismoDependencia(getParameters).subscribe(
+
+      (getRes: any[]) => {     // Inicio del suscribe
+        responseData = getRes;
+        return getRes;
+      },
+      getError => {           // Error del suscribe
+        this.showMessage('error', this.translate.instant('CUMCO001.MENSAJES.organismoDependenciaError'), getError.error.message);
+      },
+      () => {                 // Fin del suscribe
+
+        for (var respData of responseData) {
+          this.dataDependenciaTabla2.push({ ...respData });
+        }
+
+        if (responseData.length >= this.size) {
+          this.pageDep = this.pageDep + 1;
+          this.subcribeGetOrganismoDependencia2('?page=' + String(this.pageDep) + '&size=' + String(this.size));
+        } else {
+          this.dataDependenciaTabla2 = [...this.dataDependenciaTabla2];
+          this.pageDep = 1;
+          return;
+        }
+
+
+      });
   }
 
   subcribeServiceFuncionarioSuplente(getParameters: string) {
